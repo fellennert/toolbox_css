@@ -13,6 +13,9 @@ website:
         menu:
           - href: lectures-overview.qmd
           - href: week_1.qmd
+      - text: R Script
+        menu: 
+          - href: 0_r_index.qmd
 
 format:
   html:
