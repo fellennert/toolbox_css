@@ -1,0 +1,128 @@
+[
+  {
+    "objectID": "lectures-overview.html",
+    "href": "lectures-overview.html",
+    "title": "Lectures – Overview",
+    "section": "",
+    "text": "This lecture answers the following questions:\n\nWhat does the term CSS mean?\nWhich principles underly a new CSS?\nWhich methods does CSS encompass?"
+  },
+  {
+    "objectID": "lectures-overview.html#week-1-what-is-computational-social-science-css",
+    "href": "lectures-overview.html#week-1-what-is-computational-social-science-css",
+    "title": "Lectures – Overview",
+    "section": "",
+    "text": "This lecture answers the following questions:\n\nWhat does the term CSS mean?\nWhich principles underly a new CSS?\nWhich methods does CSS encompass?"
+  },
+  {
+    "objectID": "lectures-overview.html#week-2-new-possibilities",
+    "href": "lectures-overview.html#week-2-new-possibilities",
+    "title": "Lectures – Overview",
+    "section": "Week 2: New Possibilities",
+    "text": "Week 2: New Possibilities\nThis lecture answers the following questions:\n\nWhat are digital trace data?\nWhat are their advantages for our research?\nWhich examples of smart research exist?"
+  },
+  {
+    "objectID": "lectures-overview.html#week-3-data-acquisition-i",
+    "href": "lectures-overview.html#week-3-data-acquisition-i",
+    "title": "Lectures – Overview",
+    "section": "Week 3: Data Acquisition I",
+    "text": "Week 3: Data Acquisition I\nThis lecture answers the following questions:\n\nHow do we acquire digital trace data via web scraping?\nWhat are considerations in terms of law and ethics?"
+  },
+  {
+    "objectID": "lectures-overview.html#week-4-data-acquisition-ii",
+    "href": "lectures-overview.html#week-4-data-acquisition-ii",
+    "title": "Lectures – Overview",
+    "section": "Week 4: Data Acquisition II",
+    "text": "Week 4: Data Acquisition II\nThis lecture answers the following questions:\n\nHow do we digitize text?\nHow do we digitize speech?"
+  },
+  {
+    "objectID": "lectures-overview.html#week-5-text-as-data-i",
+    "href": "lectures-overview.html#week-5-text-as-data-i",
+    "title": "Lectures – Overview",
+    "section": "Week 5: Text as Data I",
+    "text": "Week 5: Text as Data I\nThis lecture answers the following questions:\n\nWhat do we mean by “text as data”?\nWhat do we mean by “bag of words”?\nWhich methods exist more generally?\n… and what do they measure?"
+  },
+  {
+    "objectID": "lectures-overview.html#week-6-text-as-data-ii",
+    "href": "lectures-overview.html#week-6-text-as-data-ii",
+    "title": "Lectures – Overview",
+    "section": "Week 6: Text as Data II",
+    "text": "Week 6: Text as Data II\nThis lecture answers the following questions:\n\nWhat is “Machine Learning”?\nWhat are use-cases for unsupervised and supervised ML?"
+  },
+  {
+    "objectID": "lectures-overview.html#week-7-text-as-data-iii",
+    "href": "lectures-overview.html#week-7-text-as-data-iii",
+    "title": "Lectures – Overview",
+    "section": "Week 7: Text as Data III",
+    "text": "Week 7: Text as Data III\nThis lecture answers the following questions:\n\nHow can we go beyond the “bag of words”?\nWhat does context tell us about words?\n… and how is it relevant for social scientists?"
+  },
+  {
+    "objectID": "lectures-overview.html#week-8-text-as-data-vi",
+    "href": "lectures-overview.html#week-8-text-as-data-vi",
+    "title": "Lectures – Overview",
+    "section": "Week 8: Text as Data VI",
+    "text": "Week 8: Text as Data VI\nThis lecture answers the following questions:\n\nWhat’s the latest and greatest in Natural Language Processing (NLP)?\nWhat do these new methods bring to the table?\nWhich requirements do they have?"
+  },
+  {
+    "objectID": "lectures-overview.html#week-9-geo-data-i",
+    "href": "lectures-overview.html#week-9-geo-data-i",
+    "title": "Lectures – Overview",
+    "section": "Week 9: Geo Data I",
+    "text": "Week 9: Geo Data I\nThis lecture answers the following questions:\n\nWhy shall we take spatial data into account?\nWhat does spatial data tell us about humans?\nWhat are the particularities of spatial data?\nHow have others done it?"
+  },
+  {
+    "objectID": "lectures-overview.html#week-10-geo-data-ii",
+    "href": "lectures-overview.html#week-10-geo-data-ii",
+    "title": "Lectures – Overview",
+    "section": "Week 10: Geo Data II",
+    "text": "Week 10: Geo Data II\nThis lecture answers the following questions:\n\nHow do we perform statistical inference on human behavior using spatial data?\nWhich ways exist to get around spatial autocorrelation?"
+  },
+  {
+    "objectID": "lectures-overview.html#week-11-simulation-i",
+    "href": "lectures-overview.html#week-11-simulation-i",
+    "title": "Lectures – Overview",
+    "section": "Week 11: Simulation I",
+    "text": "Week 11: Simulation I\nThis lecture answers the following questions:\n\nWhy shall we simulate human behavior in an agent-based fashion?\nWhat is its relationship with sociological theory?\nHow can we use it for mechanism-based explanations?"
+  },
+  {
+    "objectID": "lectures-overview.html#week-12-simulation-ii",
+    "href": "lectures-overview.html#week-12-simulation-ii",
+    "title": "Lectures – Overview",
+    "section": "Week 12: Simulation II",
+    "text": "Week 12: Simulation II\nThis lecture answers the following questions:\n\nHow can we get to reasonable assumptions for ABMs?\nWhere do these data come from?\nHow can we compare the model outcomes to the real world?"
+  },
+  {
+    "objectID": "lectures-overview.html#week-13-paper-presentations",
+    "href": "lectures-overview.html#week-13-paper-presentations",
+    "title": "Lectures – Overview",
+    "section": "Week 13: Paper Presentations",
+    "text": "Week 13: Paper Presentations\nNo slides for this lecture except for some housekeeping things. Students are supposed to present their progress."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Welcome",
+    "section": "",
+    "text": "This is a Quarto website for the “Forschungsseminar CSS” course at Leipzig University. It covers different techniques for the aspiring computational social scientist, hence I have dubbed it “Toolbox CSS.” You can reach me anytime at felix.lennert@uni-leipzig.de. If you’re interested in my academic work, you can visit my website.\nHere’s the official description:"
+  },
+  {
+    "objectID": "index.html#course-structure",
+    "href": "index.html#course-structure",
+    "title": "Welcome",
+    "section": "Course Structure",
+    "text": "Course Structure\nThe course consists of lectures introducing each week’s content and an R script that provides hands-on coding examples for the content, including videos of yours truly going through the content.\nAt the beginning of the course, students are encouraged to form groups based on research interests and general vibes. I require each student group to check in with me at the beginning of each week to report their progress (even if there’s nothing to report – no progress, no problem). This does not count towards any grade but rather serves the purpose of me receiving feedback on the learning experience (this is a new course!) – and will hopefully help me with providing more appropriate guidance.\nHere’s an overview of the topics covered:\n\n\n\n\n\n\n\n\n\nWEEK\nTITLE\nCONTENT\nINFORMAL TITLE\n\n\n\n\n1\nwhat is CSS?\nHousekeeping; Getting to know each other and your research interests\nWhatever you want to know about CSS\n\n\n2\nnew possibilities\nREGEX\nREGEXES - tame your data\n\n\n3\ndata acquisition I\nrvest (R); selenium (Python); APIs\nstealing data from websites without them noticing it\n\n\n4\ndata acquisition II\nOCR; OpenAI Whisper\nmaking the computer your transcription servant\n\n\n5\ntext as data I\nbag of words: dictionary, tfidf, ner/pos\nbasic text analysis\n\n\n6\ntext as data II\nsupervised + unsupervised ML\nadvanced text analysis\n\n\n7\ntext as data III\nvector space; embeddings\ncutting-edge text analysis\n\n\n8\ntext as data VI\nBERT/GPT/NLI\nholy shit…text analysis\n\n\n9\nadvanced techniques: geo data I\ngeo visualization\nmapping human behavior in space\n\n\n10\nadvanced techniques: geo data II\nweights, autocorrelation, regression\nchecking out what drives human behavior in space\n\n\n11\nadvanced techniques: simulation I\nABMs - setup\nsimulating human behavior\n\n\n12\nadvanced techniques: simulation II\nABMs - empirically calibrated\nsimulating human behavior - but with more empirical realism\n\n\n13\npaper presentations\npaper presentations\nshow me your work"
+  },
+  {
+    "objectID": "index.html#syllabus",
+    "href": "index.html#syllabus",
+    "title": "Welcome",
+    "section": "Syllabus",
+    "text": "Syllabus\nPlease click here to download the latest version of the syllabus.\n\n\n\nAlternatively, read it here (probably not the best if you’re visiting this page on a mobile device):"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site\n\n1 + 1\n\n[1] 2"
+  }
+]
