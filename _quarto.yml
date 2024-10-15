@@ -1,13 +1,18 @@
 project:
   type: website
+  output-dir: docs
 
 website:
-  title: "toolbox_css"
+  page-footer: "Copyright 2024, Felix Lennert ([felix.lennert@uni-leipzig.de](mailto:felix.lennert@uni-leipzig.de))" 
+  title: "Toolbox CSS"
   navbar:
     left:
       - href: index.qmd
         text: Home
       - about.qmd
+      - text: Lectures
+        menu:
+          - href: lectures-overview.qmd
 
 format:
   html:
