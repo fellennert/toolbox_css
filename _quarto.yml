@@ -9,10 +9,10 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - about.qmd
       - text: Lectures
         menu:
           - href: lectures-overview.qmd
+          - href: week_1.qmd
 
 format:
   html:
