@@ -9,7 +9,7 @@ syllabus:
 
 This is a Quarto website for the "Forschungsseminar CSS" course at Leipzig University. It covers different techniques for the aspiring computational social scientist, hence I have dubbed it "Toolbox CSS." You can reach me anytime at [felix.lennert@uni-leipzig.de](mailto:felix.lennert@uni-leipzig.de). If you're interested in my academic work, you can visit [my website](https://felix-lennert.netlify.app). 
 
-![In the field, harvesting some fresh raw material before transforming it to insights (&copy; Alexandra Gibbons)](images/data_pic.jpg)
+![In the field, harvesting some fresh raw material before transforming it to insights (&copy; Alexandra Gibbons)](figures/data_pic.jpg){width=300}
 
 Here's the official description:
 
@@ -19,7 +19,7 @@ The course structure consists of one lecture and one workshop per week, providin
 
 ## Course Structure
 
-The course consists of [lectures](lectures-overview.qmd) introducing each week's content and an [R script](0_r_index.qmd) that provides hands-on coding examples for the content, including videos of yours truly going through the content. 
+The course consists of [lectures](lectures-overview.qmd) introducing each week's content and an [R script](1_r_index.qmd) that provides hands-on coding examples for the content, including videos of yours truly going through the content. 
 
 At the beginning of the course, students are encouraged to form groups based on research interests and general vibes. I require each student group to check in with me at the beginning of each week to report their progress (even if there's nothing to report -- no progress, no problem). This does not count towards any grade but rather serves the purpose of me receiving feedback on the learning experience (this is a new course!) -- and will hopefully help me with providing more appropriate guidance.
 

@@ -15,7 +15,9 @@ website:
           - href: week_1.qmd
       - text: R Script
         menu: 
-          - href: 0_r_index.qmd
+          - href: 1_r_index.qmd
+          - href: 2_r_catch-up.qmd
+          - href: 3_stringr_regex.qmd
 
 format:
   html:
