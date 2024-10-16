@@ -111,8 +111,7 @@ No readings.
 
 ### Setting up your workstation (`r return_course_date(1, tuesday = FALSE)`)
 
-* Set up `reticulate` in RStudio
-* Acquire access to _[sc.uni-leipzig.de](www.sc.uni-leipzig.de)_ and set up environments
+* Acquire access to _[sc.uni-leipzig.de](www.sc.uni-leipzig.de)_
 * R recap (the corresponding chapters can be found in the R4DS book -- _[online](https://r4ds.hadley.nz)_
   + `RMarkdown`/`Quarto` -- chapters 28 & 29
   + `dplyr` -- chapter 4
@@ -142,6 +141,7 @@ No readings.
 
 ### `rvest`/`selenium` (`r return_course_date(3, tuesday = FALSE)`)
 
+* set up `reticulate` in RStudio -- _[online](https://rstudio.github.io/reticulate/)_
 * `httr2` documentation -- _[online](https://httr2.r-lib.org/articles/httr2.html)_
 * `rvest` Web scraping 101 -- _[online](https://rvest.tidyverse.org/articles/rvest.html)_
 * `selenium` documentation -- _[online](https://www.selenium.dev/documentation/webdriver/)_
@@ -221,6 +221,7 @@ No classes.
 
 ### BERT/GPT/NLI (`r return_course_date(9, tuesday = FALSE)`)
 
+* set up environments
 * Augmented Social Scientist tutorial --  _[online](https://colab.research.google.com/drive/132_oDik-SOWve31tZ8D1VOx1Sj_Cyzn7?usp=sharing)_
 * BERTopic -- _[online](https://maartengr.github.io/BERTopic/index.html)_
 * `gptstudio` plugin for RStudio -- _[online](https://github.com/MichelNivard/gptstudio)_ and `gpttools` plugin for RStudio -- _[online](https://jameshwade.github.io/gpttools/)_
