@@ -59,7 +59,7 @@ In the following, I will not provide you with an exhaustive introduction to RMar
 
 You create a Quarto document file by clicking `File >> New File >> Quarto Document`.... Then, a window pops up that looks like this:
 
-![New RMarkdown](figures/quarto_new.png)
+![New Quarto](figures/quarto_new.png)
 
 Note that you could also do a presentation (with the `beamer` package), a `shiny` app, or use templates. We will focus on simple Quarto documents. Here, you can type in a title, the name(s) of the author(s), and choose the default output format. For now you have to choose one, but later you can switch to one of the others whenever you want to.
 
@@ -106,6 +106,8 @@ twitter_edgelist <- read_csv("data/edgelist_sen_twitter.csv")#,
 If you encounter other data types, you just need to find the right `tidyverse` package to read the data in. Their syntax will be the same, it will just be the function names that differ.
 
 ### Further links
+
+-   the [section on reading in data in R4DS](https://r4ds.hadley.nz/data-import)
 
 ### Exercises
 
@@ -282,7 +284,7 @@ ger_car_manufacturer_longer_sep_cyl |>
   summary()
 ```
 
-As `|>` is a bit tedious to type, there exist shortcuts: shift-ctrl-m on a Mac, shift-strg-m on a Windows machine.
+As `|>` is a bit tedious to type, there exist shortcuts: `shift-ctrl-m`.
 
 ### Splitting and merging cells
 
@@ -1286,10 +1288,10 @@ raw_list <- list(first_element = 1:4, 4:6, 10:42)
 str(raw_list) # shows you the elements of the list
 
 map(raw_list, mean)
-map(raw_list, ~{mean(.x) %>% sqrt()})
+map(raw_list, ~{mean(.x) |> sqrt()})
 map_dbl(raw_list, mean) # by specifying the type of output, you can reduce the list
 
-raw_list %>% pluck(1) == raw_list %>% pluck("first_element")
+raw_list |> pluck(1) == raw_list |> pluck("first_element")
 ```
 
 This can also be achieved using a loop. Here, you use an index to loop over objects and do something to their elements. Typically, you create an empty list before and put the new output at the respective new position.
@@ -1538,7 +1540,7 @@ play_roulette_basic(number = 35)
 
 #### Functional programming with `tidyverse` functions
 
-The majority of `dplyr` verbs uses so-called tidy evaluation which is a framework for controlling how expressions and variables in your code are evaluated by the tidyverse functions. The two main things here are **data masking** and **tidy selection**. The former facilitates computing on values within the data set and refers to functions such as `filter()`, where you can just type in variable names instead of tediously typing `name_of_df$var_name`. The latter aims to facilitate working with the columns in the data set. It is provided by the `tidyselect` package and allows you, for instance, to work with code such as `tbl %>% select(starts_with("a"))`. More examples can be acquired using `?dplyr_tidy_select`.
+The majority of `dplyr` verbs uses so-called tidy evaluation which is a framework for controlling how expressions and variables in your code are evaluated by the tidyverse functions. The two main things here are **data masking** and **tidy selection**. The former facilitates computing on values within the data set and refers to functions such as `filter()`, where you can just type in variable names instead of tediously typing `name_of_df$var_name`. The latter aims to facilitate working with the columns in the data set. It is provided by the `tidyselect` package and allows you, for instance, to work with code such as `tbl |> select(starts_with("a"))`. More examples can be acquired using `?dplyr_tidy_select`.
 
 I will not go into detail here but rather stick to what implications this has to you. If you are interested in the theoretical underpinnings, read the chapter on "Metaprogramming" in [Advanced R by Hadley Wickham](http://adv-r.had.co.nz).
 
@@ -1546,7 +1548,7 @@ If your function takes a user-supplied variable as an argument, you need to cons
 
 ```{r}
 my_summary <- function(tbl, var) {
-  tbl %>% 
+  tbl |> 
     summarize(
       mean = mean({{ var }}),
       median = median({{ var }}),
@@ -1554,19 +1556,19 @@ my_summary <- function(tbl, var) {
     )
 }
 
-mtcars %>% my_summary(cyl) 
+mtcars |> my_summary(cyl) 
 ```
 
 If the variable names are supplied in a character vector, you need `all_of()`:
 
 ```{r}
 summarize_mean <- function(data, vars) {
-  data %>% summarize(n = n(), across({{ vars }}, mean))
+  data |> summarize(n = n(), across({{ vars }}, mean))
 }
 
-mtcars %>% 
-  group_by(cyl) %>% 
-  summarize_mean(all_of(c("hp", "mpg"))) %>% 
+mtcars |> 
+  group_by(cyl) |> 
+  summarize_mean(all_of(c("hp", "mpg"))) |> 
   glimpse()
 ```
 
@@ -1574,7 +1576,7 @@ Another handy thing is changing the variable names in the output depending on th
 
 ```{r}
 my_summary_w_names <- function(tbl, var){
-  tbl %>% 
+  tbl |> 
     summarize(
       "mean_{{ var }}" := mean({{ var }}),
       "median_{{ var }}" := median({{ var }}),
@@ -1582,7 +1584,7 @@ my_summary_w_names <- function(tbl, var){
     )
 }
 
-mtcars %>% my_summary_w_names(cyl)
+mtcars |> my_summary_w_names(cyl)
 ```
 
 Find more on programming with `dplyr` in [this vignette](https://cran.r-project.org/web/packages/dplyr/vignettes/programming.html).
@@ -1631,8 +1633,8 @@ print(example_strings[[1]])
 However, this course is about data analysis. So, I have a tibble with different cars and I want to perform some operations on some columns. In this case, I want the average value for every column where it makes sense.
 
 ```{r}
-cars_tbl <- mtcars %>% 
-  rownames_to_column(var = "model_name") %>% 
+cars_tbl <- mtcars |> 
+  rownames_to_column(var = "model_name") |> 
   select(mpg, cyl, disp, hp, gear)
 glimpse(cars_tbl)
 ```
@@ -1653,7 +1655,7 @@ If you wanted to loop over a tibble and just perform operations to certain varia
 relevant_columns <- c("mpg", "cyl", "disp", "hp", "gear")
 
 for (var in relevant_columns) {
-  mtcars %>% count(.data[[var]]) %>% print()
+  mtcars |> count(.data[[var]]) |> print()
 }
 ```
 
@@ -1687,7 +1689,7 @@ for (i in seq_along(cars_tbl)) {
 However, in this case it preserves the number of rows and changes all the values to the respective measure. Hence, I need to `slice()` it.
 
 ```{r}
-cars_tbl_sliced <- cars_tbl %>% 
+cars_tbl_sliced <- cars_tbl |> 
   slice(1)
 ```
 
@@ -1818,7 +1820,7 @@ map2(10, 1:5, sample, replace = TRUE)
 However, the `map2()` functions do not provide you with the possibility to control the type of output you get. You can take care of this using `flatten_*()`.
 
 ```{r}
-map2(10, 5, sample) %>% flatten_dbl()
+map2(10, 5, sample) |> flatten_dbl()
 ```
 
 If you provide it with a vector which is longer than 1, `map2()` will not perform the operation on every possible combination of the two vectors. Instead, it iterates over both vectors simultaneously, hence, the first iteration uses the first two values, the second iteration the second two values etc.
@@ -1836,7 +1838,7 @@ tibble(
   n = 10,
   mean = 1:10,
   sd = 0.5
-) %>% 
+) |> 
   pmap(rnorm)
 ```
 

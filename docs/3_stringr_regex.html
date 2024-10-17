@@ -544,23 +544,23 @@ Solution. Click to expand!
 <div class="cell">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view</span>(five_largest_cities, <span class="st">"stockholm"</span>, <span class="at">match =</span> <span class="cn">NA</span>, <span class="at">html =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="str_view html-widget html-fill-item" id="htmlwidget-a410139614d543f2bc62" style="width:960px;height:100%;"></div>
-<script type="application/json" data-for="htmlwidget-a410139614d543f2bc62">{"x":{"html":"<ul>\n  <li><pre>Stockholm<\/pre><\/li>\n  <li><pre>Göteborg<\/pre><\/li>\n  <li><pre>Malmö<\/pre><\/li>\n  <li><pre>Uppsala<\/pre><\/li>\n  <li><pre>Västerås<\/pre><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div class="str_view html-widget html-fill-item" id="htmlwidget-27c295488b6182124cd8" style="width:960px;height:100%;"></div>
+<script type="application/json" data-for="htmlwidget-27c295488b6182124cd8">{"x":{"html":"<ul>\n  <li><pre>Stockholm<\/pre><\/li>\n  <li><pre>Göteborg<\/pre><\/li>\n  <li><pre>Malmö<\/pre><\/li>\n  <li><pre>Uppsala<\/pre><\/li>\n  <li><pre>Västerås<\/pre><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view</span>(five_largest_cities, <span class="st">"Stockholm"</span>, <span class="at">match =</span> <span class="cn">NA</span>, <span class="at">html =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="str_view html-widget html-fill-item" id="htmlwidget-63646401da2eca00bcfb" style="width:960px;height:100%;"></div>
-<script type="application/json" data-for="htmlwidget-63646401da2eca00bcfb">{"x":{"html":"<ul>\n  <li><pre><span class='match'>Stockholm<\/span><\/pre><\/li>\n  <li><pre>Göteborg<\/pre><\/li>\n  <li><pre>Malmö<\/pre><\/li>\n  <li><pre>Uppsala<\/pre><\/li>\n  <li><pre>Västerås<\/pre><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div class="str_view html-widget html-fill-item" id="htmlwidget-d3c6c7c1150e407e6cf9" style="width:960px;height:100%;"></div>
+<script type="application/json" data-for="htmlwidget-d3c6c7c1150e407e6cf9">{"x":{"html":"<ul>\n  <li><pre><span class='match'>Stockholm<\/span><\/pre><\/li>\n  <li><pre>Göteborg<\/pre><\/li>\n  <li><pre>Malmö<\/pre><\/li>\n  <li><pre>Uppsala<\/pre><\/li>\n  <li><pre>Västerås<\/pre><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <p>They also match parts of words:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view</span>(five_largest_cities, <span class="st">"borg"</span>, <span class="at">match =</span> <span class="cn">NA</span>, <span class="at">html =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="str_view html-widget html-fill-item" id="htmlwidget-cb699e6684a701e4d910" style="width:960px;height:100%;"></div>
-<script type="application/json" data-for="htmlwidget-cb699e6684a701e4d910">{"x":{"html":"<ul>\n  <li><pre>Stockholm<\/pre><\/li>\n  <li><pre>Göte<span class='match'>borg<\/span><\/pre><\/li>\n  <li><pre>Malmö<\/pre><\/li>\n  <li><pre>Uppsala<\/pre><\/li>\n  <li><pre>Västerås<\/pre><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div class="str_view html-widget html-fill-item" id="htmlwidget-d4bf462ccff9b3c42b75" style="width:960px;height:100%;"></div>
+<script type="application/json" data-for="htmlwidget-d4bf462ccff9b3c42b75">{"x":{"html":"<ul>\n  <li><pre>Stockholm<\/pre><\/li>\n  <li><pre>Göte<span class='match'>borg<\/span><\/pre><\/li>\n  <li><pre>Malmö<\/pre><\/li>\n  <li><pre>Uppsala<\/pre><\/li>\n  <li><pre>Västerås<\/pre><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <p>Moreover, they are “greedy,” they only match the first occurrence. <code>str_locate()</code> locates the pattern. Look at Stockholm – we should have two matches here:</p>
@@ -599,8 +599,8 @@ Solution. Click to expand!
 <div class="cell">
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view</span>(five_largest_cities, <span class="st">"Stockholm|Göteborg"</span>, <span class="at">match =</span> <span class="cn">NA</span>, <span class="at">html =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="str_view html-widget html-fill-item" id="htmlwidget-df6fc36c985ef49484e3" style="width:960px;height:100%;"></div>
-<script type="application/json" data-for="htmlwidget-df6fc36c985ef49484e3">{"x":{"html":"<ul>\n  <li><pre><span class='match'>Stockholm<\/span><\/pre><\/li>\n  <li><pre><span class='match'>Göteborg<\/span><\/pre><\/li>\n  <li><pre>Malmö<\/pre><\/li>\n  <li><pre>Uppsala<\/pre><\/li>\n  <li><pre>Västerås<\/pre><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div class="str_view html-widget html-fill-item" id="htmlwidget-561d42d97404cab1e5b6" style="width:960px;height:100%;"></div>
+<script type="application/json" data-for="htmlwidget-561d42d97404cab1e5b6">{"x":{"html":"<ul>\n  <li><pre><span class='match'>Stockholm<\/span><\/pre><\/li>\n  <li><pre><span class='match'>Göteborg<\/span><\/pre><\/li>\n  <li><pre>Malmö<\/pre><\/li>\n  <li><pre>Uppsala<\/pre><\/li>\n  <li><pre>Västerås<\/pre><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <p>Every letter of the English alphabet (or number/or combination of those) can serve as a literal character. Those literal characters <em>match themselves</em>. This is, however, not the case with the other sort of characters, so-called meta characters.</p>
@@ -672,8 +672,8 @@ Solution. Click to expand!
 <span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view</span>(sp_ce, <span class="st">"sp[ai]ce"</span>, <span class="at">match =</span> <span class="cn">NA</span>, <span class="at">html =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="str_view html-widget html-fill-item" id="htmlwidget-dfb9d75dd1b9699408d6" style="width:960px;height:100%;"></div>
-<script type="application/json" data-for="htmlwidget-dfb9d75dd1b9699408d6">{"x":{"html":"<ul>\n  <li><pre><span class='match'>spice<\/span><\/pre><\/li>\n  <li><pre><span class='match'>space<\/span><\/pre><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div class="str_view html-widget html-fill-item" id="htmlwidget-5ea14df1a72d02e4400d" style="width:960px;height:100%;"></div>
+<script type="application/json" data-for="htmlwidget-5ea14df1a72d02e4400d">{"x":{"html":"<ul>\n  <li><pre><span class='match'>spice<\/span><\/pre><\/li>\n  <li><pre><span class='match'>space<\/span><\/pre><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <p>You can also define certain ranges of characters using the <code>-</code> metacharacter:</p>
@@ -683,8 +683,8 @@ Solution. Click to expand!
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view</span>(american_phone_number, <span class="st">"</span><span class="sc">\\</span><span class="st">([:digit:]{3}</span><span class="sc">\\</span><span class="st">) [0-9]{3}-[0-9]{4}"</span>, <span class="at">match =</span> <span class="cn">NA</span>, <span class="at">html =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="str_view html-widget html-fill-item" id="htmlwidget-d73eda015bc6d750f4c1" style="width:960px;height:100%;"></div>
-<script type="application/json" data-for="htmlwidget-d73eda015bc6d750f4c1">{"x":{"html":"<ul>\n  <li><pre><span class='match'>(555) 555-1234<\/span><\/pre><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div class="str_view html-widget html-fill-item" id="htmlwidget-7645abee9b3f56c654f6" style="width:960px;height:100%;"></div>
+<script type="application/json" data-for="htmlwidget-7645abee9b3f56c654f6">{"x":{"html":"<ul>\n  <li><pre><span class='match'>(555) 555-1234<\/span><\/pre><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <p>There are also predefined sets of characters, for instance, digits or letters, which are called <em>character classes</em>. You can find them on the <a href="https://github.com/rstudio/cheatsheets/blob/master/strings.pdf"><code>stringr</code> cheatsheet</a>.</p>
@@ -692,8 +692,8 @@ Solution. Click to expand!
 <div class="cell">
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view</span>(vector_of_strings, <span class="st">"[.]"</span>, <span class="at">match =</span> <span class="cn">NA</span>, <span class="at">html =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="str_view html-widget html-fill-item" id="htmlwidget-f289561a40f0e3e9f814" style="width:960px;height:100%;"></div>
-<script type="application/json" data-for="htmlwidget-f289561a40f0e3e9f814">{"x":{"html":"<ul>\n  <li><pre>Hi, how are you doing<span class='match'>.<\/span><\/pre><\/li>\n  <li><pre>I'm doing well, HBY<span class='match'>.<\/span><\/pre><\/li>\n  <li><pre>Me too, thanks for asking<span class='match'>.<\/span><\/pre><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div class="str_view html-widget html-fill-item" id="htmlwidget-75972bebb2ca1b08b894" style="width:960px;height:100%;"></div>
+<script type="application/json" data-for="htmlwidget-75972bebb2ca1b08b894">{"x":{"html":"<ul>\n  <li><pre>Hi, how are you doing<span class='match'>.<\/span><\/pre><\/li>\n  <li><pre>I'm doing well, HBY<span class='match'>.<\/span><\/pre><\/li>\n  <li><pre>Me too, thanks for asking<span class='match'>.<\/span><\/pre><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <section id="negating-sets-of-characters" class="level4">
@@ -702,8 +702,8 @@ Solution. Click to expand!
 <div class="cell">
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view</span>(sp_ce, <span class="st">"sp[^i]ce"</span>, <span class="at">match =</span> <span class="cn">NA</span>, <span class="at">html =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="str_view html-widget html-fill-item" id="htmlwidget-5bd4a4b95023abc1f31b" style="width:960px;height:100%;"></div>
-<script type="application/json" data-for="htmlwidget-5bd4a4b95023abc1f31b">{"x":{"html":"<ul>\n  <li><pre>spice<\/pre><\/li>\n  <li><pre><span class='match'>space<\/span><\/pre><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div class="str_view html-widget html-fill-item" id="htmlwidget-bb2ec047d792c9b39511" style="width:960px;height:100%;"></div>
+<script type="application/json" data-for="htmlwidget-bb2ec047d792c9b39511">{"x":{"html":"<ul>\n  <li><pre>spice<\/pre><\/li>\n  <li><pre><span class='match'>space<\/span><\/pre><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
@@ -716,16 +716,16 @@ Solution. Click to expand!
 <span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view</span>(shortened_sentences, <span class="st">"^The"</span>, <span class="at">match =</span> <span class="cn">NA</span>, <span class="at">html =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="str_view html-widget html-fill-item" id="htmlwidget-8076ab732bba038819a3" style="width:960px;height:100%;"></div>
-<script type="application/json" data-for="htmlwidget-8076ab732bba038819a3">{"x":{"html":"<ul>\n  <li><pre><span class='match'>The<\/span> birch canoe slid on the smooth planks.<\/pre><\/li>\n  <li><pre>Glue the sheet to the dark blue background.<\/pre><\/li>\n  <li><pre>It's easy to tell the depth of a well.<\/pre><\/li>\n  <li><pre><span class='match'>The<\/span>se days a chicken leg is a rare dish.<\/pre><\/li>\n  <li><pre>Rice is often served in round bowls.<\/pre><\/li>\n  <li><pre><span class='match'>The<\/span> juice of lemons makes fine punch.<\/pre><\/li>\n  <li><pre><span class='match'>The<\/span> box was thrown beside the parked truck.<\/pre><\/li>\n  <li><pre><span class='match'>The<\/span> hogs were fed chopped corn and garbage.<\/pre><\/li>\n  <li><pre>Four hours of steady work faced us.<\/pre><\/li>\n  <li><pre>A large size in stockings is hard to sell.<\/pre><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div class="str_view html-widget html-fill-item" id="htmlwidget-a267177214f739559b23" style="width:960px;height:100%;"></div>
+<script type="application/json" data-for="htmlwidget-a267177214f739559b23">{"x":{"html":"<ul>\n  <li><pre><span class='match'>The<\/span> birch canoe slid on the smooth planks.<\/pre><\/li>\n  <li><pre>Glue the sheet to the dark blue background.<\/pre><\/li>\n  <li><pre>It's easy to tell the depth of a well.<\/pre><\/li>\n  <li><pre><span class='match'>The<\/span>se days a chicken leg is a rare dish.<\/pre><\/li>\n  <li><pre>Rice is often served in round bowls.<\/pre><\/li>\n  <li><pre><span class='match'>The<\/span> juice of lemons makes fine punch.<\/pre><\/li>\n  <li><pre><span class='match'>The<\/span> box was thrown beside the parked truck.<\/pre><\/li>\n  <li><pre><span class='match'>The<\/span> hogs were fed chopped corn and garbage.<\/pre><\/li>\n  <li><pre>Four hours of steady work faced us.<\/pre><\/li>\n  <li><pre>A large size in stockings is hard to sell.<\/pre><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <p>If we wanted to know how many start with a “The” and end with a full stop, we could do this one:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view</span>(shortened_sentences, <span class="st">"^The.+</span><span class="sc">\\</span><span class="st">.$"</span>, <span class="at">match =</span> <span class="cn">NA</span>, <span class="at">html =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="str_view html-widget html-fill-item" id="htmlwidget-01c622c625498101558f" style="width:960px;height:100%;"></div>
-<script type="application/json" data-for="htmlwidget-01c622c625498101558f">{"x":{"html":"<ul>\n  <li><pre><span class='match'>The birch canoe slid on the smooth planks.<\/span><\/pre><\/li>\n  <li><pre>Glue the sheet to the dark blue background.<\/pre><\/li>\n  <li><pre>It's easy to tell the depth of a well.<\/pre><\/li>\n  <li><pre><span class='match'>These days a chicken leg is a rare dish.<\/span><\/pre><\/li>\n  <li><pre>Rice is often served in round bowls.<\/pre><\/li>\n  <li><pre><span class='match'>The juice of lemons makes fine punch.<\/span><\/pre><\/li>\n  <li><pre><span class='match'>The box was thrown beside the parked truck.<\/span><\/pre><\/li>\n  <li><pre><span class='match'>The hogs were fed chopped corn and garbage.<\/span><\/pre><\/li>\n  <li><pre>Four hours of steady work faced us.<\/pre><\/li>\n  <li><pre>A large size in stockings is hard to sell.<\/pre><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div class="str_view html-widget html-fill-item" id="htmlwidget-bea676b7073a1b516720" style="width:960px;height:100%;"></div>
+<script type="application/json" data-for="htmlwidget-bea676b7073a1b516720">{"x":{"html":"<ul>\n  <li><pre><span class='match'>The birch canoe slid on the smooth planks.<\/span><\/pre><\/li>\n  <li><pre>Glue the sheet to the dark blue background.<\/pre><\/li>\n  <li><pre>It's easy to tell the depth of a well.<\/pre><\/li>\n  <li><pre><span class='match'>These days a chicken leg is a rare dish.<\/span><\/pre><\/li>\n  <li><pre>Rice is often served in round bowls.<\/pre><\/li>\n  <li><pre><span class='match'>The juice of lemons makes fine punch.<\/span><\/pre><\/li>\n  <li><pre><span class='match'>The box was thrown beside the parked truck.<\/span><\/pre><\/li>\n  <li><pre><span class='match'>The hogs were fed chopped corn and garbage.<\/span><\/pre><\/li>\n  <li><pre>Four hours of steady work faced us.<\/pre><\/li>\n  <li><pre>A large size in stockings is hard to sell.<\/pre><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <section id="boundaries" class="level4">
@@ -735,13 +735,13 @@ Solution. Click to expand!
 <div class="cell">
 <div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view</span>(shortened_sentences, <span class="st">"^The</span><span class="sc">\\</span><span class="st">b.+</span><span class="sc">\\</span><span class="st">.$"</span>, <span class="at">match =</span> <span class="cn">NA</span>, <span class="at">html =</span> <span class="cn">TRUE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="str_view html-widget html-fill-item" id="htmlwidget-973cbf2f489dacb42bee" style="width:960px;height:100%;"></div>
-<script type="application/json" data-for="htmlwidget-973cbf2f489dacb42bee">{"x":{"html":"<ul>\n  <li><pre><span class='match'>The birch canoe slid on the smooth planks.<\/span><\/pre><\/li>\n  <li><pre>Glue the sheet to the dark blue background.<\/pre><\/li>\n  <li><pre>It's easy to tell the depth of a well.<\/pre><\/li>\n  <li><pre>These days a chicken leg is a rare dish.<\/pre><\/li>\n  <li><pre>Rice is often served in round bowls.<\/pre><\/li>\n  <li><pre><span class='match'>The juice of lemons makes fine punch.<\/span><\/pre><\/li>\n  <li><pre><span class='match'>The box was thrown beside the parked truck.<\/span><\/pre><\/li>\n  <li><pre><span class='match'>The hogs were fed chopped corn and garbage.<\/span><\/pre><\/li>\n  <li><pre>Four hours of steady work faced us.<\/pre><\/li>\n  <li><pre>A large size in stockings is hard to sell.<\/pre><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div class="str_view html-widget html-fill-item" id="htmlwidget-c72b69e50d02248beffa" style="width:960px;height:100%;"></div>
+<script type="application/json" data-for="htmlwidget-c72b69e50d02248beffa">{"x":{"html":"<ul>\n  <li><pre><span class='match'>The birch canoe slid on the smooth planks.<\/span><\/pre><\/li>\n  <li><pre>Glue the sheet to the dark blue background.<\/pre><\/li>\n  <li><pre>It's easy to tell the depth of a well.<\/pre><\/li>\n  <li><pre>These days a chicken leg is a rare dish.<\/pre><\/li>\n  <li><pre>Rice is often served in round bowls.<\/pre><\/li>\n  <li><pre><span class='match'>The juice of lemons makes fine punch.<\/span><\/pre><\/li>\n  <li><pre><span class='match'>The box was thrown beside the parked truck.<\/span><\/pre><\/li>\n  <li><pre><span class='match'>The hogs were fed chopped corn and garbage.<\/span><\/pre><\/li>\n  <li><pre>Four hours of steady work faced us.<\/pre><\/li>\n  <li><pre>A large size in stockings is hard to sell.<\/pre><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view</span>(shortened_sentences, <span class="st">"^The</span><span class="sc">\\</span><span class="st">B.+</span><span class="sc">\\</span><span class="st">.$"</span>, <span class="at">match =</span> <span class="cn">NA</span>, <span class="at">html =</span> <span class="cn">TRUE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="str_view html-widget html-fill-item" id="htmlwidget-345405b664610e0a6702" style="width:960px;height:100%;"></div>
-<script type="application/json" data-for="htmlwidget-345405b664610e0a6702">{"x":{"html":"<ul>\n  <li><pre>The birch canoe slid on the smooth planks.<\/pre><\/li>\n  <li><pre>Glue the sheet to the dark blue background.<\/pre><\/li>\n  <li><pre>It's easy to tell the depth of a well.<\/pre><\/li>\n  <li><pre><span class='match'>These days a chicken leg is a rare dish.<\/span><\/pre><\/li>\n  <li><pre>Rice is often served in round bowls.<\/pre><\/li>\n  <li><pre>The juice of lemons makes fine punch.<\/pre><\/li>\n  <li><pre>The box was thrown beside the parked truck.<\/pre><\/li>\n  <li><pre>The hogs were fed chopped corn and garbage.<\/pre><\/li>\n  <li><pre>Four hours of steady work faced us.<\/pre><\/li>\n  <li><pre>A large size in stockings is hard to sell.<\/pre><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div class="str_view html-widget html-fill-item" id="htmlwidget-34a51e5ea5ad2109839e" style="width:960px;height:100%;"></div>
+<script type="application/json" data-for="htmlwidget-34a51e5ea5ad2109839e">{"x":{"html":"<ul>\n  <li><pre>The birch canoe slid on the smooth planks.<\/pre><\/li>\n  <li><pre>Glue the sheet to the dark blue background.<\/pre><\/li>\n  <li><pre>It's easy to tell the depth of a well.<\/pre><\/li>\n  <li><pre><span class='match'>These days a chicken leg is a rare dish.<\/span><\/pre><\/li>\n  <li><pre>Rice is often served in round bowls.<\/pre><\/li>\n  <li><pre>The juice of lemons makes fine punch.<\/pre><\/li>\n  <li><pre>The box was thrown beside the parked truck.<\/pre><\/li>\n  <li><pre>The hogs were fed chopped corn and garbage.<\/pre><\/li>\n  <li><pre>Four hours of steady work faced us.<\/pre><\/li>\n  <li><pre>A large size in stockings is hard to sell.<\/pre><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
@@ -755,8 +755,8 @@ Solution. Click to expand!
 <div class="cell">
 <div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view</span>(heights, <span class="st">"[0-9]+(?=m)"</span>, <span class="at">match =</span> <span class="cn">NA</span>, <span class="at">html =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="str_view html-widget html-fill-item" id="htmlwidget-61c65217f45a9d2b6dd7" style="width:960px;height:100%;"></div>
-<script type="application/json" data-for="htmlwidget-61c65217f45a9d2b6dd7">{"x":{"html":"<ul>\n  <li><pre><span class='match'>1<\/span>m30cm<\/pre><\/li>\n  <li><pre><span class='match'>2<\/span>m01cm<\/pre><\/li>\n  <li><pre><span class='match'>3<\/span>m10cm<\/pre><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div class="str_view html-widget html-fill-item" id="htmlwidget-a46f62d458716993835f" style="width:960px;height:100%;"></div>
+<script type="application/json" data-for="htmlwidget-a46f62d458716993835f">{"x":{"html":"<ul>\n  <li><pre><span class='match'>1<\/span>m30cm<\/pre><\/li>\n  <li><pre><span class='match'>2<\/span>m01cm<\/pre><\/li>\n  <li><pre><span class='match'>3<\/span>m10cm<\/pre><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <p>The second step now is to identify the centimeters. This could of course be achieved using the same RegEx and replacing <code>m</code> with <code>cm</code>. However, we can also harness a so-called negative look ahead <code>A(?!pattern)</code>, a so-called look behind <code>(?&lt;=pattern)A</code>. The negative counterpart, the negative look behind <code>(?&lt;!pattern)A</code> could be used to extract the meters.</p>
@@ -765,15 +765,15 @@ Solution. Click to expand!
 <div class="cell">
 <div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view</span>(heights, <span class="st">"[0-9]+(?!m)"</span>, <span class="at">match =</span> <span class="cn">NA</span>, <span class="at">html =</span> <span class="cn">TRUE</span>) <span class="co"># negative look ahead</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="str_view html-widget html-fill-item" id="htmlwidget-70286db24e41edfb6bbf" style="width:960px;height:100%;"></div>
-<script type="application/json" data-for="htmlwidget-70286db24e41edfb6bbf">{"x":{"html":"<ul>\n  <li><pre>1m<span class='match'>30<\/span>cm<\/pre><\/li>\n  <li><pre>2m<span class='match'>01<\/span>cm<\/pre><\/li>\n  <li><pre>3m<span class='match'>10<\/span>cm<\/pre><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div class="str_view html-widget html-fill-item" id="htmlwidget-a2c64f18f7d0af9215bc" style="width:960px;height:100%;"></div>
+<script type="application/json" data-for="htmlwidget-a2c64f18f7d0af9215bc">{"x":{"html":"<ul>\n  <li><pre>1m<span class='match'>30<\/span>cm<\/pre><\/li>\n  <li><pre>2m<span class='match'>01<\/span>cm<\/pre><\/li>\n  <li><pre>3m<span class='match'>10<\/span>cm<\/pre><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_view</span>(heights, <span class="st">"(?&lt;=m)[0-9]+"</span>, <span class="at">match =</span> <span class="cn">NA</span>, <span class="at">html =</span> <span class="cn">TRUE</span>) <span class="co"># look behind</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="str_view html-widget html-fill-item" id="htmlwidget-1138855aff609ad3e358" style="width:960px;height:100%;"></div>
-<script type="application/json" data-for="htmlwidget-1138855aff609ad3e358">{"x":{"html":"<ul>\n  <li><pre>1m<span class='match'>30<\/span>cm<\/pre><\/li>\n  <li><pre>2m<span class='match'>01<\/span>cm<\/pre><\/li>\n  <li><pre>3m<span class='match'>10<\/span>cm<\/pre><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<div class="str_view html-widget html-fill-item" id="htmlwidget-b04fa4a4770729e532a0" style="width:960px;height:100%;"></div>
+<script type="application/json" data-for="htmlwidget-b04fa4a4770729e532a0">{"x":{"html":"<ul>\n  <li><pre>1m<span class='match'>30<\/span>cm<\/pre><\/li>\n  <li><pre>2m<span class='match'>01<\/span>cm<\/pre><\/li>\n  <li><pre>3m<span class='match'>10<\/span>cm<\/pre><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
