@@ -1,0 +1,101 @@
+---
+title: "Lectures -- Overview"
+---
+
+## Week 1: What Is Computational Social Science (CSS)?
+
+This lecture answers the following questions:
+
+- What does the term CSS mean?
+- Which principles underly a new CSS?
+- Which methods does CSS encompass?
+
+## Week 2: New Possibilities
+
+This lecture answers the following questions:
+
+- What are digital trace data?
+- What are their advantages for our research?
+- Which examples of smart research exist?
+
+## Week 3: Data Acquisition I
+
+This lecture answers the following questions:
+
+- How do we acquire digital trace data via web scraping?
+- What are considerations in terms of law and ethics?
+
+## Week 4: Data Acquisition II
+
+This lecture answers the following questions:
+
+- How do we digitize text?
+- How do we digitize speech?
+
+## Week 5: Text as Data I
+
+This lecture answers the following questions:
+
+- What do we mean by "text as data"?
+- What do we mean by "bag of words"?
+- Which methods exist more generally?
+- … and what do they measure?
+
+## Week 6: Text as Data II
+
+This lecture answers the following questions:
+
+- What is "Machine Learning"?
+- What are use-cases for unsupervised and supervised ML?
+
+## Week 7: Text as Data III
+
+This lecture answers the following questions:
+
+- How can we go beyond the "bag of words"?
+- What does context tell us about words?
+- … and how is it relevant for social scientists?
+
+## Week 8: Text as Data VI
+
+This lecture answers the following questions:
+
+- What's the latest and greatest in Natural Language Processing (NLP)?
+- What do these new methods bring to the table?
+- Which requirements do they have?
+
+## Week 9: Geo Data I
+
+This lecture answers the following questions:
+
+- Why shall we take spatial data into account?
+- What does spatial data tell us about humans?
+- What are the particularities of spatial data?
+- How have others done it?
+
+## Week 10: Geo Data II
+
+This lecture answers the following questions:
+
+- How do we perform statistical inference on human behavior using spatial data?
+- Which ways exist to get around spatial autocorrelation?
+
+## Week 11: Simulation I
+
+This lecture answers the following questions:
+
+- Why shall we simulate human behavior in an agent-based fashion?
+- What is its relationship with sociological theory?
+- How can we use it for mechanism-based explanations?
+
+## Week 12: Simulation II
+
+This lecture answers the following questions:
+
+- How can we get to reasonable assumptions for ABMs?
+- Where do these data come from?
+- How can we compare the model outcomes to the real world?
+
+## Week 13: Paper Presentations
+
+No slides for this lecture except for some housekeeping things. Students are supposed to present their progress.
