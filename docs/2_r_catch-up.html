@@ -88,10 +88,10 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -181,6 +181,10 @@ div.csl-indent {
         <li>
     <a class="dropdown-item" href="./3_stringr_regex.html">
  <span class="dropdown-text">Chapter 3: <code>stringr</code> and RegExes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./4_crawling.html">
+ <span class="dropdown-text">Chapter 4: Crawling the Web and Extracting Data</span></a>
   </li>  
     </ul>
   </li>
@@ -468,11 +472,11 @@ However, if you have ever worked on an R project with other people in a group an
 <pre><code># A tibble: 5 × 9
   manufacturer `3 cyl` `4 cyl` `5 cyl` `6 cyl` `8 cyl` `10 cyl` `12 cyl`
   &lt;chr&gt;          &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt;    &lt;int&gt;    &lt;int&gt;
-1 Audi               9      89       5      32      34        8       20
-2 BMW               18      61       4      33      29        4        9
-3 Mercedes           6      65       3      47      25        4       15
-4 Opel              13      78       5      34      21        5       18
-5 VW                17      66       4      42      29        3        1
+1 Audi               5      62       7      44      40        3        3
+2 BMW               20      85       4      48      23        3        8
+3 Mercedes           1      72       7      37      33        1        2
+4 Opel              15      90       1      43      30        4       19
+5 VW                14      71      10      40      40        8        3
 # ℹ 1 more variable: `16 cyl` &lt;dbl&gt;</code></pre>
 </div>
 </div>
@@ -486,16 +490,16 @@ However, if you have ever worked on an R project with other people in a group an
 <pre><code># A tibble: 40 × 3
    manufacturer cylinders frequency
    &lt;chr&gt;        &lt;chr&gt;         &lt;dbl&gt;
- 1 Audi         3 cyl             9
- 2 Audi         4 cyl            89
- 3 Audi         5 cyl             5
- 4 Audi         6 cyl            32
- 5 Audi         8 cyl            34
- 6 Audi         10 cyl            8
- 7 Audi         12 cyl           20
+ 1 Audi         3 cyl             5
+ 2 Audi         4 cyl            62
+ 3 Audi         5 cyl             7
+ 4 Audi         6 cyl            44
+ 5 Audi         8 cyl            40
+ 6 Audi         10 cyl            3
+ 7 Audi         12 cyl            3
  8 Audi         16 cyl            0
- 9 BMW          3 cyl            18
-10 BMW          4 cyl            61
+ 9 BMW          3 cyl            20
+10 BMW          4 cyl            85
 # ℹ 30 more rows</code></pre>
 </div>
 </div>
@@ -571,16 +575,16 @@ However, if you have ever worked on an R project with other people in a group an
 <pre><code># A tibble: 40 × 3
    manufacturer cylinders frequency
    &lt;chr&gt;            &lt;dbl&gt;     &lt;dbl&gt;
- 1 Audi                 3         9
- 2 BMW                  3        18
- 3 Mercedes             3         6
- 4 Opel                 3        13
- 5 VW                   3        17
- 6 Audi                 4        89
- 7 BMW                  4        61
- 8 Mercedes             4        65
- 9 Opel                 4        78
-10 VW                   4        66
+ 1 Audi                 3         5
+ 2 BMW                  3        20
+ 3 Mercedes             3         1
+ 4 Opel                 3        15
+ 5 VW                   3        14
+ 6 Audi                 4        62
+ 7 BMW                  4        85
+ 8 Mercedes             4        72
+ 9 Opel                 4        90
+10 VW                   4        71
 # ℹ 30 more rows</code></pre>
 </div>
 </div>
@@ -595,16 +599,16 @@ However, if you have ever worked on an R project with other people in a group an
 <pre><code># A tibble: 40 × 3
    manufacturer cylinders frequency
    &lt;chr&gt;            &lt;dbl&gt;     &lt;dbl&gt;
- 1 Audi                 3         9
- 2 BMW                  3        18
- 3 Mercedes             3         6
- 4 Opel                 3        13
- 5 VW                   3        17
- 6 Audi                 4        89
- 7 BMW                  4        61
- 8 Mercedes             4        65
- 9 Opel                 4        78
-10 VW                   4        66
+ 1 Audi                 3         5
+ 2 BMW                  3        20
+ 3 Mercedes             3         1
+ 4 Opel                 3        15
+ 5 VW                   3        14
+ 6 Audi                 4        62
+ 7 BMW                  4        85
+ 8 Mercedes             4        72
+ 9 Opel                 4        90
+10 VW                   4        71
 # ℹ 30 more rows</code></pre>
 </div>
 </div>
@@ -615,16 +619,16 @@ However, if you have ever worked on an R project with other people in a group an
 <pre><code># A tibble: 40 × 3
    manufacturer cylinders frequency
    &lt;chr&gt;            &lt;dbl&gt;     &lt;dbl&gt;
- 1 Audi                 3         9
- 2 BMW                  3        18
- 3 Mercedes             3         6
- 4 Opel                 3        13
- 5 VW                   3        17
- 6 Audi                 4        89
- 7 BMW                  4        61
- 8 Mercedes             4        65
- 9 Opel                 4        78
-10 VW                   4        66
+ 1 Audi                 3         5
+ 2 BMW                  3        20
+ 3 Mercedes             3         1
+ 4 Opel                 3        15
+ 5 VW                   3        14
+ 6 Audi                 4        62
+ 7 BMW                  4        85
+ 8 Mercedes             4        72
+ 9 Opel                 4        90
+10 VW                   4        71
 # ℹ 30 more rows</code></pre>
 </div>
 </div>
@@ -642,18 +646,18 @@ lm(formula = frequency ~ cylinders, data = ger_car_manufacturer_longer_sep_cyl)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--29.096 -13.965   0.513   7.600  56.643 
+-36.820 -15.879   1.436  12.182  55.264 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)  43.3130     7.0652   6.130 3.77e-07 ***
-cylinders    -2.7391     0.7838  -3.495  0.00122 ** 
+(Intercept)  47.0725     7.7023   6.111    4e-07 ***
+cylinders    -3.0841     0.8545  -3.609 0.000883 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 20.59 on 38 degrees of freedom
-Multiple R-squared:  0.2432,    Adjusted R-squared:  0.2233 
-F-statistic: 12.21 on 1 and 38 DF,  p-value: 0.001224</code></pre>
+Residual standard error: 22.45 on 38 degrees of freedom
+Multiple R-squared:  0.2553,    Adjusted R-squared:  0.2357 
+F-statistic: 13.03 on 1 and 38 DF,  p-value: 0.000883</code></pre>
 </div>
 </div>
 <p>As <code>|&gt;</code> is a bit tedious to type, there exist shortcuts: <code>shift-ctrl-m</code>.</p>
