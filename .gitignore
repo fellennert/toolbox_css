@@ -50,6 +50,5 @@ rsconnect/
 # Ignore specific folders
 5_apis_files/
 files/
-figures/
 _pyenv/
 temp/
