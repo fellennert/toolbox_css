@@ -1,0 +1,44 @@
+---
+title: "Week 7: Text as Data III"
+published-title: week_4
+engine: knitr
+freeze: false
+---
+
+This lecture answers the following questions:
+
+- How can we go beyond the "bag of words"?
+- What does context tell us about words?
+- … and how is it relevant for social scientists?
+
+## Slides 
+
+Please click [here to download the latest version of the slides](./slides/20241203-tad-III.pdf).
+
+```{css echo=FALSE}
+
+.embed-container {
+    position: relative;
+    padding-bottom: 129%;
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+.embed-container iframe,
+.embed-container object,
+.embed-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+```
+
+Alternatively, read it here (probably not the best if you're visiting this page on a mobile device):
+
+<div class="embed-container">
+  <iframe src="./slides/20241203-tad-III.pdf" style="border: 0.5px"></iframe>
+</div>
