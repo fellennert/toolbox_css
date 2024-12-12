@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Chapter 15: NLI using BERT – Toolbox CSS</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Toolbox CSS</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lectures" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lectures</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lectures">    
+        <li>
+    <a class="dropdown-item" href="./lectures-overview.html">
+ <span class="dropdown-text">Lectures – Overview</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week_1.html">
+ <span class="dropdown-text">Week 1: What Is Computational Social Science (CSS)?</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week_2.html">
+ <span class="dropdown-text">Week 2: New Possibilities</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week_3.html">
+ <span class="dropdown-text">Week 3: Data Acquisition I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week_4.html">
+ <span class="dropdown-text">Week 4: Data Acquisition II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week_5.html">
+ <span class="dropdown-text">Week 5: Text as Data I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week_6.html">
+ <span class="dropdown-text">Week 6: Text as Data II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week_7.html">
+ <span class="dropdown-text">Week 7: Text as Data III</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week_8.html">
+ <span class="dropdown-text">Week 8: Text as Data IV</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-r-script" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">R Script</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-r-script">    
+        <li>
+    <a class="dropdown-item" href="./1_r_index.html">
+ <span class="dropdown-text">Chapter 1: Preface</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./2_r_catch-up.html">
+ <span class="dropdown-text">Chapter 2: Brief R Recap</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./3_stringr_regex.html">
+ <span class="dropdown-text">Chapter 3: <code>stringr</code> and RegExes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./4_crawling.html">
+ <span class="dropdown-text">Chapter 4: Crawling the Web and Extracting Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./5_apis.html">
+ <span class="dropdown-text">Chapter 5: APIs</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./6_selenium.html">
+ <span class="dropdown-text">Chapter 6: <code>selenium</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./7_tesseract.html">
+ <span class="dropdown-text">Chapter 7: OCR with <code>tesseract</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./8_transcription.html">
+ <span class="dropdown-text">Chapter 8: <code>OpenAI whisper</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./9_text-preprocessing.html">
+ <span class="dropdown-text">Chapter 9: Text Preprocessing and Featurization</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./10_dictionary-based-analysis.html">
+ <span class="dropdown-text">Chapter 10: Dictionary-based Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./11_supervised_ml.html">
+ <span class="dropdown-text">Chapter 11: Supervised Classification</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./12_unsupervised_ml.html">
+ <span class="dropdown-text">Chapter 12: Unsupervised Machine Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./13_word_embeddings.html">
+ <span class="dropdown-text">Chapter 13: Word Embeddings</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./14_BERT.html">
+ <span class="dropdown-text">Chapter 14: Supervised Classification using <code>BERT</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./15_NLI.html">
+ <span class="dropdown-text">Chapter 15: NLI using BERT</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#set-up-python-and-classes" id="toc-set-up-python-and-classes" class="nav-link active" data-scroll-target="#set-up-python-and-classes">Set up Python and classes</a></li>
+  <li><a href="#training-and-evaluating-on-our-own-data" id="toc-training-and-evaluating-on-our-own-data" class="nav-link" data-scroll-target="#training-and-evaluating-on-our-own-data">Training and Evaluating on our own Data</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Chapter 15: NLI using BERT</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Natural Language Inference (NLI), sometimes called textual entailment, represents a fundamental task in Natural Language Processing. The goal is to determine the logical relationship between pairs of sentences – a premise and a hypothesis. Given these two pieces of text, models must decide whether the hypothesis is logically entailed by the premise, contradicts it, or is unrelated (neutral).</p>
+<p>For example, if our premise is “The cat is sleeping on the couch” and our hypothesis is “The cat is resting”, this would be considered entailment since sleeping logically implies resting. However, if the hypothesis were “The cat is playing,” this would be a contradiction. A hypothesis like “The cat has brown fur” would be neutral – we cannot determine its truth value from the premise alone.</p>
+<p>This task serves as an important benchmark for evaluating language understanding in AI systems. Unlike simpler tasks that can be solved through pattern matching or keyword detection, NLI requires deeper semantic comprehension. A model must understand context, implications, and common sense relationships between concepts.</p>
+<p>Pre-trained language models like BERT have shown remarkable capabilities in NLI tasks. Through their pre-training on vast amounts of text, they develop representations that capture subtle semantic relationships. We can fine-tune these models on NLI datasets to create powerful classifiers for textual relationships. <span class="citation" data-cites="laurer_less_2024">Laurer et al. (<a href="#ref-laurer_less_2024" role="doc-biblioref">2024</a>)</span> have suggested using NLI for classification tasks all together, as they might outperform fine-tuned classifiers for classification tasks.</p>
+<p>In the following sections, we will implement an NLI system using BERT. We’ll see how to prepare sentence pairs for the model, create an appropriate architecture for the task, and train the system to recognize these logical relationships. The same principles we explored in simpler text classification tasks will apply here, but with additional complexity in both the data preparation and model architecture. I aimed to prepare everything in such a way that you can copy-paste the code. In your own scripts, you will have to define the same classes and your annotated data should follow the same structure – i.e., have two list columns named “premise” and “hypothesis” and another column named “label.” The label column should be strings containing “contradiction,” “neutral,” or “entailment”. I highly suggest going with string labels to avoid confusion about the predictions.</p>
+<section id="set-up-python-and-classes" class="level2">
+<h2 class="anchored" data-anchor-id="set-up-python-and-classes">Set up Python and classes</h2>
+<p>In the first chunk, we set up our Python–R connection through the <code>reticulate</code> package and specify our virtual environment that we have set up before. It is important that it contains all the relevant packages. For reference on how to set up the venv, check chapter 14 on BERT.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(reticulate)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">use_virtualenv</span>(<span class="st">"_pyenv/transformer_env"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then, we import all necessary libraries and set up our device configuration. The device setup is particularly important as it allows our code to run efficiently on different hardware configurations – whether that’s a Silicon Mac using MPS (in my case), a machine with CUDA-enabled GPU, or a regular CPU. Depending on this, you might have to install the respective <code>torch</code> packages. We use <code>pandas</code> for data manipulation, <code>torch</code> (PyTorch) for deep learning operations, and the <code>transformers</code> library for access to pre-trained BERT models. Furthermore, we use an array of <code>sklearn</code> (scikit-learn) functions for train-test split creation and subsequent model evaluation.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.utils.data <span class="im">import</span> Dataset, DataLoader</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> BertTokenizer, BertModel</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.optim <span class="im">import</span> AdamW</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn.functional <span class="im">as</span> F</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score, classification_report, confusion_matrix</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm.auto <span class="im">import</span> tqdm</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># First set up the device</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_device():</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> torch.backends.mps.is_available():</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        device <span class="op">=</span> torch.device(<span class="st">"mps"</span>)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> torch.cuda.is_available():</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        device <span class="op">=</span> torch.device(<span class="st">"cuda"</span>)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        device <span class="op">=</span> torch.device(<span class="st">"cpu"</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> device</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>device <span class="op">=</span> get_device()</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Using device: </span><span class="sc">{</span>device<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Using device: mps</code></pre>
+</div>
+</div>
+<p>Next, we define our custom <code>NLIDataset</code> class that handles the specific requirements of Natural Language Inference data. Classes in Python provide a way to bundle data and functionality together. They act as blueprints for creating objects that share similar characteristics and behaviors. Think of a class like a template - it defines what type of data the object can store (through attributes) and what operations it can perform (through methods).</p>
+<p>Here, several things happen: first, Python creates a new object based on the NLIDataset template we define, the <code>__init__</code> method is used for constructing the set. Then, the object gets its own copy of the attributes. Finally, we can call methods on this object – e.g., dataset.get_text(0). Think of it as preprocessing.</p>
+<p>This class processes pairs of sentences (premises and hypotheses) along with their labels. It includes robust error handling for different label formats and converts all inputs into the tensor format required by <code>PyTorch</code>. The <code>max_length</code> parameter controls sequence length, with longer sequences being truncated and shorter ones padded.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the Dataset class</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> NLIDataset(Dataset):</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, df, tokenizer, max_length<span class="op">=</span><span class="dv">128</span>):</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.tokenizer <span class="op">=</span> tokenizer</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.premises <span class="op">=</span> df[<span class="st">'premise'</span>].tolist()</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.hypotheses <span class="op">=</span> df[<span class="st">'hypothesis'</span>].tolist()</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.max_length <span class="op">=</span> max_length</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span>:</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Try to convert to numeric and verify range</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>            numeric_labels <span class="op">=</span> pd.to_numeric(df[<span class="st">'label'</span>])</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="kw">not</span> <span class="bu">all</span>(numeric_labels.between(<span class="dv">0</span>, <span class="dv">2</span>)):</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>                <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"Numeric labels must be in range [0,2]"</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.labels <span class="op">=</span> numeric_labels.tolist()</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">except</span> <span class="pp">ValueError</span>:</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>            <span class="co"># If conversion to numeric fails, treat as string labels</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.label_map <span class="op">=</span> {<span class="st">'contradiction'</span>: <span class="dv">0</span>, <span class="st">'neutral'</span>: <span class="dv">1</span>, <span class="st">'entailment'</span>: <span class="dv">2</span>}</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>            <span class="cf">try</span>:</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.labels <span class="op">=</span> [<span class="va">self</span>.label_map[label] <span class="cf">for</span> label <span class="kw">in</span> df[<span class="st">'label'</span>]]</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>            <span class="cf">except</span> <span class="pp">KeyError</span> <span class="im">as</span> e:</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>                <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"Invalid label found. Labels must be either numbers [0,2] or one of </span><span class="sc">{</span><span class="bu">list</span>(<span class="va">self</span>.label_map.keys())<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__len__</span>(<span class="va">self</span>):</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">len</span>(<span class="va">self</span>.premises)</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__getitem__</span>(<span class="va">self</span>, idx):</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>        premise <span class="op">=</span> <span class="bu">str</span>(<span class="va">self</span>.premises[idx])</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>        hypothesis <span class="op">=</span> <span class="bu">str</span>(<span class="va">self</span>.hypotheses[idx])</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>        label <span class="op">=</span> <span class="va">self</span>.labels[idx]</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>        encoding <span class="op">=</span> <span class="va">self</span>.tokenizer(</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>            premise,</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>            hypothesis,</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>            padding<span class="op">=</span><span class="st">'max_length'</span>,</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>            truncation<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>            max_length<span class="op">=</span><span class="va">self</span>.max_length,</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>            return_tensors<span class="op">=</span><span class="st">'pt'</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>            <span class="st">'input_ids'</span>: encoding[<span class="st">'input_ids'</span>].squeeze(),</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>            <span class="st">'attention_mask'</span>: encoding[<span class="st">'attention_mask'</span>].squeeze(),</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>            <span class="st">'token_type_ids'</span>: encoding[<span class="st">'token_type_ids'</span>].squeeze(),</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>            <span class="st">'labels'</span>: torch.tensor(label)</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>        }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then we can create the <code>prepare_nli_data</code> function streamlines the data preparation process. It splits the data into training and validation sets (validation sets are used during training for intermediary evaluation during training, to avoid overfitting), creates <code>Dataset</code> objects, and wraps them in <code>DataLoader</code> instances. The <code>DataLoader</code>s handle batching and shuffling during training, with customizable batch size and test split ratio. This serves as an organized data pipeline to make sure we get efficient training and validation processes.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the data preparation function</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> prepare_nli_data(df, tokenizer, test_size<span class="op">=</span><span class="fl">0.2</span>, batch_size<span class="op">=</span><span class="dv">16</span>):</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    train_df, val_df <span class="op">=</span> train_test_split(df, test_size<span class="op">=</span>test_size, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    train_dataset <span class="op">=</span> NLIDataset(train_df, tokenizer)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    val_dataset <span class="op">=</span> NLIDataset(val_df, tokenizer)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    train_dataloader <span class="op">=</span> DataLoader(</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        train_dataset, </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        batch_size<span class="op">=</span>batch_size, </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        shuffle<span class="op">=</span><span class="va">True</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    val_dataloader <span class="op">=</span> DataLoader(</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>        val_dataset, </span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>        batch_size<span class="op">=</span>batch_size</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> train_dataloader, val_dataloader</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The <code>BertForNLI</code> class defines our model architecture for Natural Language Inference. It builds upon the pre-trained BERT model, adding a dropout layer for regularization, and finally a classification head for our three-class prediction task. The forward method handles the flow of data through the model, utilizing BERT’s special tokens and attention mechanisms for processing sentence pairs.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the model class</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> BertForNLI(nn.Module):</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, num_labels<span class="op">=</span><span class="dv">3</span>):</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.bert <span class="op">=</span> BertModel.from_pretrained(<span class="st">'bert-base-uncased'</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.dropout <span class="op">=</span> nn.Dropout(<span class="fl">0.1</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.classifier <span class="op">=</span> nn.Linear(<span class="dv">768</span>, num_labels)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, input_ids, attention_mask, token_type_ids):</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        outputs <span class="op">=</span> <span class="va">self</span>.bert(</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>            input_ids<span class="op">=</span>input_ids,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>            attention_mask<span class="op">=</span>attention_mask,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>            token_type_ids<span class="op">=</span>token_type_ids</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>        pooled_output <span class="op">=</span> outputs.pooler_output</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>        pooled_output <span class="op">=</span> <span class="va">self</span>.dropout(pooled_output)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>        logits <span class="op">=</span> <span class="va">self</span>.classifier(pooled_output)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> logits</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In the training function chunk, we implement the complete training loop with progress tracking, wrapped in the function <code>train_nli_model</code>. This function handles the optimization process using <code>AdamW</code>, monitors loss during training, and evaluates performance on the validation set after each epoch. The progress bar provides real-time feedback during training, making it easier to monitor long training runs.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the training function</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> train_nli_model(model, train_dataloader, val_dataloader, epochs<span class="op">=</span><span class="dv">3</span>):</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    optimizer <span class="op">=</span> AdamW(model.parameters(), lr<span class="op">=</span><span class="fl">2e-5</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(epochs):</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        model.train()</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        total_loss <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        progress_bar <span class="op">=</span> tqdm(train_dataloader, desc<span class="op">=</span><span class="ss">f'Epoch </span><span class="sc">{</span>epoch<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> batch <span class="kw">in</span> progress_bar:</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>            optimizer.zero_grad()</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>            input_ids <span class="op">=</span> batch[<span class="st">'input_ids'</span>].to(device)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>            attention_mask <span class="op">=</span> batch[<span class="st">'attention_mask'</span>].to(device)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>            token_type_ids <span class="op">=</span> batch[<span class="st">'token_type_ids'</span>].to(device)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>            labels <span class="op">=</span> batch[<span class="st">'labels'</span>].to(device)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>            outputs <span class="op">=</span> model(</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>                input_ids<span class="op">=</span>input_ids,</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>                attention_mask<span class="op">=</span>attention_mask,</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>                token_type_ids<span class="op">=</span>token_type_ids</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>            loss <span class="op">=</span> F.cross_entropy(outputs, labels)</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>            total_loss <span class="op">+=</span> loss.item()</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>            loss.backward()</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>            optimizer.step()</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>            progress_bar.set_postfix({<span class="st">'loss'</span>: loss.item()})</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>        val_accuracy <span class="op">=</span> evaluate_nli_model(model, val_dataloader)</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Epoch </span><span class="sc">{</span>epoch<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">, Loss: </span><span class="sc">{</span>total_loss<span class="op">/</span><span class="bu">len</span>(train_dataloader)<span class="sc">:.4f}</span><span class="ss">, Val Accuracy: </span><span class="sc">{</span>val_accuracy<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Finally, the evaluation chunk contains two crucial functions. The <code>evaluate_nli_model</code> function calculates model accuracy on a given data set, while <code>predict_nli</code> handles predictions for new sentence pairs. These functions include proper model state management (evaluation mode) and device handling, ensuring consistent results whether running on CPU or GPU.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> evaluate_nli_model(model, dataloader):</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    model.<span class="bu">eval</span>()</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    correct <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    total <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> torch.no_grad():</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> batch <span class="kw">in</span> dataloader:</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>            input_ids <span class="op">=</span> batch[<span class="st">'input_ids'</span>].to(device)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>            attention_mask <span class="op">=</span> batch[<span class="st">'attention_mask'</span>].to(device)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>            token_type_ids <span class="op">=</span> batch[<span class="st">'token_type_ids'</span>].to(device)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>            labels <span class="op">=</span> batch[<span class="st">'labels'</span>].to(device)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>            outputs <span class="op">=</span> model(</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>                input_ids<span class="op">=</span>input_ids,</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>                attention_mask<span class="op">=</span>attention_mask,</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>                token_type_ids<span class="op">=</span>token_type_ids</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>            _, predicted <span class="op">=</span> torch.<span class="bu">max</span>(outputs, <span class="dv">1</span>)</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>            total <span class="op">+=</span> labels.size(<span class="dv">0</span>)</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>            correct <span class="op">+=</span> (predicted <span class="op">==</span> labels).<span class="bu">sum</span>().item()</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> correct <span class="op">/</span> total</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="co"># predict label for new examples</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict_nli(model, tokenizer, premise, hypothesis):</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    model.<span class="bu">eval</span>()</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    encoding <span class="op">=</span> tokenizer(</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>        premise,</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>        hypothesis,</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>        padding<span class="op">=</span><span class="st">'max_length'</span>,</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>        truncation<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>        max_length<span class="op">=</span><span class="dv">128</span>,</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>        return_tensors<span class="op">=</span><span class="st">'pt'</span></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>    input_ids <span class="op">=</span> encoding[<span class="st">'input_ids'</span>].to(device)</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>    attention_mask <span class="op">=</span> encoding[<span class="st">'attention_mask'</span>].to(device)</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>    token_type_ids <span class="op">=</span> encoding[<span class="st">'token_type_ids'</span>].to(device)</span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> torch.no_grad():</span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>        outputs <span class="op">=</span> model(</span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>            input_ids<span class="op">=</span>input_ids,</span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>            attention_mask<span class="op">=</span>attention_mask,</span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>            token_type_ids<span class="op">=</span>token_type_ids</span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>        prediction <span class="op">=</span> torch.argmax(outputs, dim<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>    label_map <span class="op">=</span> {<span class="dv">0</span>: <span class="st">'contradiction'</span>, <span class="dv">1</span>: <span class="st">'neutral'</span>, <span class="dv">2</span>: <span class="st">'entailment'</span>}</span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> label_map[prediction.item()]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="training-and-evaluating-on-our-own-data" class="level2">
+<h2 class="anchored" data-anchor-id="training-and-evaluating-on-our-own-data">Training and Evaluating on our own Data</h2>
+<p>Finally, we have set everything up so that we can work on our own data. First, we read in and prepare prepare our actual data, a data set I downloaded from Kaggle, i.e., reading from a TSV file and replace the numeric labels with strings to avoid confusion. We create training and test sets from the data. This structured approach to data organization is crucial for maintaining consistency throughout the training and evaluation process.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'./files/pair-class_dev.tsv'</span>, sep<span class="op">=</span><span class="st">'</span><span class="ch">\t</span><span class="st">'</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>label_map <span class="op">=</span> {</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span>: <span class="st">'entailment'</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>: <span class="st">'neutral'</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="dv">2</span>: <span class="st">'contradiction'</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'label'</span>] <span class="op">=</span> df[<span class="st">'label'</span>].replace(label_map)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> df[<span class="dv">0</span>:<span class="dv">2000</span>]</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>test <span class="op">=</span> df[<span class="dv">2000</span>:<span class="dv">3000</span>].copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then we create our tokenizer and model instances. The tokenizer is loaded from the pre-trained BERT model, and our custom NLI model is moved to the appropriate device (i.e., GPU, CPU, or, in my case, MPS) for computation. This setup forms the foundation for our training process.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> BertTokenizer.from_pretrained(<span class="st">'bert-base-uncased'</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> BertForNLI()</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> model.to(device)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The training execution chunk brings everything together, creating our data loaders and running the training process. We specify two epochs for training, though this parameter could be adjusted based on the specific requirements of the task and the observed learning dynamics (more is generally better).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>train_dataloader, val_dataloader <span class="op">=</span> prepare_nli_data(train, tokenizer)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>train_nli_model(model, train_dataloader, val_dataloader, epochs <span class="op">=</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Epoch 1:   0%|          | 0/100 [00:00&lt;?, ?it/s]
+Epoch 1:   0%|          | 0/100 [00:01&lt;?, ?it/s, loss=1.42]
+Epoch 1:   1%|1         | 1/100 [00:01&lt;01:48,  1.10s/it, loss=1.42]
+Epoch 1:   1%|1         | 1/100 [00:01&lt;01:48,  1.10s/it, loss=1.24]
+Epoch 1:   2%|2         | 2/100 [00:01&lt;01:29,  1.09it/s, loss=1.24]
+Epoch 1:   2%|2         | 2/100 [00:02&lt;01:29,  1.09it/s, loss=1.17]
+Epoch 1:   3%|3         | 3/100 [00:02&lt;01:11,  1.37it/s, loss=1.17]
+Epoch 1:   3%|3         | 3/100 [00:02&lt;01:11,  1.37it/s, loss=1.42]
+Epoch 1:   4%|4         | 4/100 [00:02&lt;01:02,  1.55it/s, loss=1.42]
+Epoch 1:   4%|4         | 4/100 [00:03&lt;01:02,  1.55it/s, loss=1.11]
+Epoch 1:   5%|5         | 5/100 [00:03&lt;00:56,  1.67it/s, loss=1.11]
+Epoch 1:   5%|5         | 5/100 [00:03&lt;00:56,  1.67it/s, loss=1.18]
+Epoch 1:   6%|6         | 6/100 [00:03&lt;00:53,  1.76it/s, loss=1.18]
+Epoch 1:   6%|6         | 6/100 [00:04&lt;00:53,  1.76it/s, loss=1.13]
+Epoch 1:   7%|7         | 7/100 [00:04&lt;00:50,  1.83it/s, loss=1.13]
+Epoch 1:   7%|7         | 7/100 [00:04&lt;00:50,  1.83it/s, loss=1.13]
+Epoch 1:   8%|8         | 8/100 [00:04&lt;00:49,  1.87it/s, loss=1.13]
+Epoch 1:   8%|8         | 8/100 [00:05&lt;00:49,  1.87it/s, loss=1.03]
+Epoch 1:   9%|9         | 9/100 [00:05&lt;00:47,  1.90it/s, loss=1.03]
+Epoch 1:   9%|9         | 9/100 [00:05&lt;00:47,  1.90it/s, loss=1.2] 
+Epoch 1:  10%|#         | 10/100 [00:05&lt;00:47,  1.91it/s, loss=1.2]
+Epoch 1:  10%|#         | 10/100 [00:06&lt;00:47,  1.91it/s, loss=1.14]
+Epoch 1:  11%|#1        | 11/100 [00:06&lt;00:46,  1.92it/s, loss=1.14]
+Epoch 1:  11%|#1        | 11/100 [00:07&lt;00:46,  1.92it/s, loss=1.1] 
+Epoch 1:  12%|#2        | 12/100 [00:07&lt;00:45,  1.93it/s, loss=1.1]
+Epoch 1:  12%|#2        | 12/100 [00:07&lt;00:45,  1.93it/s, loss=1.07]
+Epoch 1:  13%|#3        | 13/100 [00:07&lt;00:45,  1.93it/s, loss=1.07]
+Epoch 1:  13%|#3        | 13/100 [00:08&lt;00:45,  1.93it/s, loss=1.12]
+Epoch 1:  14%|#4        | 14/100 [00:08&lt;00:44,  1.94it/s, loss=1.12]
+Epoch 1:  14%|#4        | 14/100 [00:08&lt;00:44,  1.94it/s, loss=1.07]
+Epoch 1:  15%|#5        | 15/100 [00:08&lt;00:43,  1.96it/s, loss=1.07]
+Epoch 1:  15%|#5        | 15/100 [00:09&lt;00:43,  1.96it/s, loss=1.15]
+Epoch 1:  16%|#6        | 16/100 [00:09&lt;00:42,  1.96it/s, loss=1.15]
+Epoch 1:  16%|#6        | 16/100 [00:09&lt;00:42,  1.96it/s, loss=1.07]
+Epoch 1:  17%|#7        | 17/100 [00:09&lt;00:42,  1.95it/s, loss=1.07]
+Epoch 1:  17%|#7        | 17/100 [00:10&lt;00:42,  1.95it/s, loss=1.1] 
+Epoch 1:  18%|#8        | 18/100 [00:10&lt;00:42,  1.91it/s, loss=1.1]
+Epoch 1:  18%|#8        | 18/100 [00:10&lt;00:42,  1.91it/s, loss=1.04]
+Epoch 1:  19%|#9        | 19/100 [00:10&lt;00:42,  1.92it/s, loss=1.04]
+Epoch 1:  19%|#9        | 19/100 [00:11&lt;00:42,  1.92it/s, loss=1.12]
+Epoch 1:  20%|##        | 20/100 [00:11&lt;00:41,  1.93it/s, loss=1.12]
+Epoch 1:  20%|##        | 20/100 [00:11&lt;00:41,  1.93it/s, loss=1.1] 
+Epoch 1:  21%|##1       | 21/100 [00:11&lt;00:40,  1.94it/s, loss=1.1]
+Epoch 1:  21%|##1       | 21/100 [00:12&lt;00:40,  1.94it/s, loss=1.01]
+Epoch 1:  22%|##2       | 22/100 [00:12&lt;00:40,  1.95it/s, loss=1.01]
+Epoch 1:  22%|##2       | 22/100 [00:12&lt;00:40,  1.95it/s, loss=1.13]
+Epoch 1:  23%|##3       | 23/100 [00:12&lt;00:39,  1.95it/s, loss=1.13]
+Epoch 1:  23%|##3       | 23/100 [00:13&lt;00:39,  1.95it/s, loss=1.01]
+Epoch 1:  24%|##4       | 24/100 [00:13&lt;00:38,  1.96it/s, loss=1.01]
+Epoch 1:  24%|##4       | 24/100 [00:13&lt;00:38,  1.96it/s, loss=1.09]
+Epoch 1:  25%|##5       | 25/100 [00:13&lt;00:38,  1.95it/s, loss=1.09]
+Epoch 1:  25%|##5       | 25/100 [00:14&lt;00:38,  1.95it/s, loss=1.15]
+Epoch 1:  26%|##6       | 26/100 [00:14&lt;00:37,  1.96it/s, loss=1.15]
+Epoch 1:  26%|##6       | 26/100 [00:14&lt;00:37,  1.96it/s, loss=0.991]
+Epoch 1:  27%|##7       | 27/100 [00:14&lt;00:37,  1.95it/s, loss=0.991]
+Epoch 1:  27%|##7       | 27/100 [00:15&lt;00:37,  1.95it/s, loss=1.07] 
+Epoch 1:  28%|##8       | 28/100 [00:15&lt;00:36,  1.97it/s, loss=1.07]
+Epoch 1:  28%|##8       | 28/100 [00:15&lt;00:36,  1.97it/s, loss=1.06]
+Epoch 1:  29%|##9       | 29/100 [00:15&lt;00:36,  1.96it/s, loss=1.06]
+Epoch 1:  29%|##9       | 29/100 [00:16&lt;00:36,  1.96it/s, loss=1.05]
+Epoch 1:  30%|###       | 30/100 [00:16&lt;00:35,  1.97it/s, loss=1.05]
+Epoch 1:  30%|###       | 30/100 [00:16&lt;00:35,  1.97it/s, loss=1.05]
+Epoch 1:  31%|###1      | 31/100 [00:16&lt;00:35,  1.97it/s, loss=1.05]
+Epoch 1:  31%|###1      | 31/100 [00:17&lt;00:35,  1.97it/s, loss=1.01]
+Epoch 1:  32%|###2      | 32/100 [00:17&lt;00:34,  1.97it/s, loss=1.01]
+Epoch 1:  32%|###2      | 32/100 [00:17&lt;00:34,  1.97it/s, loss=1.01]
+Epoch 1:  33%|###3      | 33/100 [00:17&lt;00:34,  1.96it/s, loss=1.01]
+Epoch 1:  33%|###3      | 33/100 [00:18&lt;00:34,  1.96it/s, loss=1.02]
+Epoch 1:  34%|###4      | 34/100 [00:18&lt;00:33,  1.96it/s, loss=1.02]
+Epoch 1:  34%|###4      | 34/100 [00:18&lt;00:33,  1.96it/s, loss=1.08]
+Epoch 1:  35%|###5      | 35/100 [00:18&lt;00:33,  1.96it/s, loss=1.08]
+Epoch 1:  35%|###5      | 35/100 [00:19&lt;00:33,  1.96it/s, loss=1.05]
+Epoch 1:  36%|###6      | 36/100 [00:19&lt;00:32,  1.96it/s, loss=1.05]
+Epoch 1:  36%|###6      | 36/100 [00:19&lt;00:32,  1.96it/s, loss=0.977]
+Epoch 1:  37%|###7      | 37/100 [00:19&lt;00:32,  1.96it/s, loss=0.977]
+Epoch 1:  37%|###7      | 37/100 [00:20&lt;00:32,  1.96it/s, loss=1.01] 
+Epoch 1:  38%|###8      | 38/100 [00:20&lt;00:31,  1.97it/s, loss=1.01]
+Epoch 1:  38%|###8      | 38/100 [00:20&lt;00:31,  1.97it/s, loss=1.02]
+Epoch 1:  39%|###9      | 39/100 [00:20&lt;00:31,  1.96it/s, loss=1.02]
+Epoch 1:  39%|###9      | 39/100 [00:21&lt;00:31,  1.96it/s, loss=1.06]
+Epoch 1:  40%|####      | 40/100 [00:21&lt;00:30,  1.96it/s, loss=1.06]
+Epoch 1:  40%|####      | 40/100 [00:21&lt;00:30,  1.96it/s, loss=1.02]
+Epoch 1:  41%|####1     | 41/100 [00:21&lt;00:30,  1.96it/s, loss=1.02]
+Epoch 1:  41%|####1     | 41/100 [00:22&lt;00:30,  1.96it/s, loss=1.05]
+Epoch 1:  42%|####2     | 42/100 [00:22&lt;00:29,  1.96it/s, loss=1.05]
+Epoch 1:  42%|####2     | 42/100 [00:22&lt;00:29,  1.96it/s, loss=0.941]
+Epoch 1:  43%|####3     | 43/100 [00:22&lt;00:29,  1.94it/s, loss=0.941]
+Epoch 1:  43%|####3     | 43/100 [00:23&lt;00:29,  1.94it/s, loss=0.915]
+Epoch 1:  44%|####4     | 44/100 [00:23&lt;00:28,  1.94it/s, loss=0.915]
+Epoch 1:  44%|####4     | 44/100 [00:23&lt;00:28,  1.94it/s, loss=0.852]
+Epoch 1:  45%|####5     | 45/100 [00:23&lt;00:28,  1.93it/s, loss=0.852]
+Epoch 1:  45%|####5     | 45/100 [00:24&lt;00:28,  1.93it/s, loss=0.995]
+Epoch 1:  46%|####6     | 46/100 [00:24&lt;00:28,  1.93it/s, loss=0.995]
+Epoch 1:  46%|####6     | 46/100 [00:24&lt;00:28,  1.93it/s, loss=0.902]
+Epoch 1:  47%|####6     | 47/100 [00:24&lt;00:27,  1.94it/s, loss=0.902]
+Epoch 1:  47%|####6     | 47/100 [00:25&lt;00:27,  1.94it/s, loss=0.997]
+Epoch 1:  48%|####8     | 48/100 [00:25&lt;00:26,  1.94it/s, loss=0.997]
+Epoch 1:  48%|####8     | 48/100 [00:25&lt;00:26,  1.94it/s, loss=0.97] 
+Epoch 1:  49%|####9     | 49/100 [00:25&lt;00:26,  1.94it/s, loss=0.97]
+Epoch 1:  49%|####9     | 49/100 [00:26&lt;00:26,  1.94it/s, loss=0.96]
+Epoch 1:  50%|#####     | 50/100 [00:26&lt;00:25,  1.94it/s, loss=0.96]
+Epoch 1:  50%|#####     | 50/100 [00:26&lt;00:25,  1.94it/s, loss=0.962]
+Epoch 1:  51%|#####1    | 51/100 [00:26&lt;00:25,  1.95it/s, loss=0.962]
+Epoch 1:  51%|#####1    | 51/100 [00:27&lt;00:25,  1.95it/s, loss=0.885]
+Epoch 1:  52%|#####2    | 52/100 [00:27&lt;00:24,  1.95it/s, loss=0.885]
+Epoch 1:  52%|#####2    | 52/100 [00:28&lt;00:24,  1.95it/s, loss=1.03] 
+Epoch 1:  53%|#####3    | 53/100 [00:28&lt;00:24,  1.95it/s, loss=1.03]
+Epoch 1:  53%|#####3    | 53/100 [00:28&lt;00:24,  1.95it/s, loss=0.956]
+Epoch 1:  54%|#####4    | 54/100 [00:28&lt;00:23,  1.95it/s, loss=0.956]
+Epoch 1:  54%|#####4    | 54/100 [00:29&lt;00:23,  1.95it/s, loss=0.944]
+Epoch 1:  55%|#####5    | 55/100 [00:29&lt;00:22,  1.96it/s, loss=0.944]
+Epoch 1:  55%|#####5    | 55/100 [00:29&lt;00:22,  1.96it/s, loss=0.952]
+Epoch 1:  56%|#####6    | 56/100 [00:29&lt;00:22,  1.96it/s, loss=0.952]
+Epoch 1:  56%|#####6    | 56/100 [00:30&lt;00:22,  1.96it/s, loss=0.848]
+Epoch 1:  57%|#####6    | 57/100 [00:30&lt;00:21,  1.96it/s, loss=0.848]
+Epoch 1:  57%|#####6    | 57/100 [00:30&lt;00:21,  1.96it/s, loss=0.893]
+Epoch 1:  58%|#####8    | 58/100 [00:30&lt;00:21,  1.97it/s, loss=0.893]
+Epoch 1:  58%|#####8    | 58/100 [00:31&lt;00:21,  1.97it/s, loss=1.08] 
+Epoch 1:  59%|#####8    | 59/100 [00:31&lt;00:20,  1.97it/s, loss=1.08]
+Epoch 1:  59%|#####8    | 59/100 [00:31&lt;00:20,  1.97it/s, loss=1.03]
+Epoch 1:  60%|######    | 60/100 [00:31&lt;00:20,  1.98it/s, loss=1.03]
+Epoch 1:  60%|######    | 60/100 [00:32&lt;00:20,  1.98it/s, loss=1.06]
+Epoch 1:  61%|######1   | 61/100 [00:32&lt;00:19,  1.97it/s, loss=1.06]
+Epoch 1:  61%|######1   | 61/100 [00:32&lt;00:19,  1.97it/s, loss=0.99]
+Epoch 1:  62%|######2   | 62/100 [00:32&lt;00:20,  1.90it/s, loss=0.99]
+Epoch 1:  62%|######2   | 62/100 [00:33&lt;00:20,  1.90it/s, loss=1.13]
+Epoch 1:  63%|######3   | 63/100 [00:33&lt;00:19,  1.91it/s, loss=1.13]
+Epoch 1:  63%|######3   | 63/100 [00:33&lt;00:19,  1.91it/s, loss=0.861]
+Epoch 1:  64%|######4   | 64/100 [00:33&lt;00:18,  1.94it/s, loss=0.861]
+Epoch 1:  64%|######4   | 64/100 [00:34&lt;00:18,  1.94it/s, loss=0.931]
+Epoch 1:  65%|######5   | 65/100 [00:34&lt;00:17,  1.95it/s, loss=0.931]
+Epoch 1:  65%|######5   | 65/100 [00:34&lt;00:17,  1.95it/s, loss=1.05] 
+Epoch 1:  66%|######6   | 66/100 [00:34&lt;00:17,  1.96it/s, loss=1.05]
+Epoch 1:  66%|######6   | 66/100 [00:35&lt;00:17,  1.96it/s, loss=0.883]
+Epoch 1:  67%|######7   | 67/100 [00:35&lt;00:16,  1.96it/s, loss=0.883]
+Epoch 1:  67%|######7   | 67/100 [00:35&lt;00:16,  1.96it/s, loss=0.822]
+Epoch 1:  68%|######8   | 68/100 [00:35&lt;00:16,  1.95it/s, loss=0.822]
+Epoch 1:  68%|######8   | 68/100 [00:36&lt;00:16,  1.95it/s, loss=0.946]
+Epoch 1:  69%|######9   | 69/100 [00:36&lt;00:15,  1.94it/s, loss=0.946]
+Epoch 1:  69%|######9   | 69/100 [00:36&lt;00:15,  1.94it/s, loss=0.87] 
+Epoch 1:  70%|#######   | 70/100 [00:36&lt;00:15,  1.94it/s, loss=0.87]
+Epoch 1:  70%|#######   | 70/100 [00:37&lt;00:15,  1.94it/s, loss=0.899]
+Epoch 1:  71%|#######1  | 71/100 [00:37&lt;00:15,  1.93it/s, loss=0.899]
+Epoch 1:  71%|#######1  | 71/100 [00:37&lt;00:15,  1.93it/s, loss=0.868]
+Epoch 1:  72%|#######2  | 72/100 [00:37&lt;00:14,  1.91it/s, loss=0.868]
+Epoch 1:  72%|#######2  | 72/100 [00:38&lt;00:14,  1.91it/s, loss=1.1]  
+Epoch 1:  73%|#######3  | 73/100 [00:38&lt;00:14,  1.90it/s, loss=1.1]
+Epoch 1:  73%|#######3  | 73/100 [00:38&lt;00:14,  1.90it/s, loss=1.15]
+Epoch 1:  74%|#######4  | 74/100 [00:38&lt;00:13,  1.91it/s, loss=1.15]
+Epoch 1:  74%|#######4  | 74/100 [00:39&lt;00:13,  1.91it/s, loss=1.06]
+Epoch 1:  75%|#######5  | 75/100 [00:39&lt;00:13,  1.92it/s, loss=1.06]
+Epoch 1:  75%|#######5  | 75/100 [00:39&lt;00:13,  1.92it/s, loss=0.875]
+Epoch 1:  76%|#######6  | 76/100 [00:39&lt;00:12,  1.93it/s, loss=0.875]
+Epoch 1:  76%|#######6  | 76/100 [00:40&lt;00:12,  1.93it/s, loss=0.831]
+Epoch 1:  77%|#######7  | 77/100 [00:40&lt;00:11,  1.93it/s, loss=0.831]
+Epoch 1:  77%|#######7  | 77/100 [00:40&lt;00:11,  1.93it/s, loss=0.92] 
+Epoch 1:  78%|#######8  | 78/100 [00:40&lt;00:11,  1.93it/s, loss=0.92]
+Epoch 1:  78%|#######8  | 78/100 [00:41&lt;00:11,  1.93it/s, loss=0.794]
+Epoch 1:  79%|#######9  | 79/100 [00:41&lt;00:10,  1.94it/s, loss=0.794]
+Epoch 1:  79%|#######9  | 79/100 [00:41&lt;00:10,  1.94it/s, loss=0.971]
+Epoch 1:  80%|########  | 80/100 [00:41&lt;00:10,  1.92it/s, loss=0.971]
+Epoch 1:  80%|########  | 80/100 [00:42&lt;00:10,  1.92it/s, loss=0.695]
+Epoch 1:  81%|########1 | 81/100 [00:42&lt;00:09,  1.92it/s, loss=0.695]
+Epoch 1:  81%|########1 | 81/100 [00:42&lt;00:09,  1.92it/s, loss=0.662]
+Epoch 1:  82%|########2 | 82/100 [00:42&lt;00:09,  1.92it/s, loss=0.662]
+Epoch 1:  82%|########2 | 82/100 [00:43&lt;00:09,  1.92it/s, loss=0.975]
+Epoch 1:  83%|########2 | 83/100 [00:43&lt;00:08,  1.93it/s, loss=0.975]
+Epoch 1:  83%|########2 | 83/100 [00:44&lt;00:08,  1.93it/s, loss=0.859]
+Epoch 1:  84%|########4 | 84/100 [00:44&lt;00:08,  1.95it/s, loss=0.859]
+Epoch 1:  84%|########4 | 84/100 [00:44&lt;00:08,  1.95it/s, loss=0.913]
+Epoch 1:  85%|########5 | 85/100 [00:44&lt;00:07,  1.94it/s, loss=0.913]
+Epoch 1:  85%|########5 | 85/100 [00:45&lt;00:07,  1.94it/s, loss=0.72] 
+Epoch 1:  86%|########6 | 86/100 [00:45&lt;00:07,  1.93it/s, loss=0.72]
+Epoch 1:  86%|########6 | 86/100 [00:45&lt;00:07,  1.93it/s, loss=0.935]
+Epoch 1:  87%|########7 | 87/100 [00:45&lt;00:06,  1.94it/s, loss=0.935]
+Epoch 1:  87%|########7 | 87/100 [00:46&lt;00:06,  1.94it/s, loss=0.919]
+Epoch 1:  88%|########8 | 88/100 [00:46&lt;00:06,  1.95it/s, loss=0.919]
+Epoch 1:  88%|########8 | 88/100 [00:46&lt;00:06,  1.95it/s, loss=1.02] 
+Epoch 1:  89%|########9 | 89/100 [00:46&lt;00:05,  1.95it/s, loss=1.02]
+Epoch 1:  89%|########9 | 89/100 [00:47&lt;00:05,  1.95it/s, loss=1.06]
+Epoch 1:  90%|######### | 90/100 [00:47&lt;00:05,  1.97it/s, loss=1.06]
+Epoch 1:  90%|######### | 90/100 [00:47&lt;00:05,  1.97it/s, loss=0.909]
+Epoch 1:  91%|#########1| 91/100 [00:47&lt;00:04,  1.97it/s, loss=0.909]
+Epoch 1:  91%|#########1| 91/100 [00:48&lt;00:04,  1.97it/s, loss=0.666]
+Epoch 1:  92%|#########2| 92/100 [00:48&lt;00:04,  1.96it/s, loss=0.666]
+Epoch 1:  92%|#########2| 92/100 [00:48&lt;00:04,  1.96it/s, loss=0.593]
+Epoch 1:  93%|#########3| 93/100 [00:48&lt;00:03,  1.96it/s, loss=0.593]
+Epoch 1:  93%|#########3| 93/100 [00:49&lt;00:03,  1.96it/s, loss=0.808]
+Epoch 1:  94%|#########3| 94/100 [00:49&lt;00:03,  1.96it/s, loss=0.808]
+Epoch 1:  94%|#########3| 94/100 [00:49&lt;00:03,  1.96it/s, loss=0.884]
+Epoch 1:  95%|#########5| 95/100 [00:49&lt;00:02,  1.97it/s, loss=0.884]
+Epoch 1:  95%|#########5| 95/100 [00:50&lt;00:02,  1.97it/s, loss=0.723]
+Epoch 1:  96%|#########6| 96/100 [00:50&lt;00:02,  1.97it/s, loss=0.723]
+Epoch 1:  96%|#########6| 96/100 [00:50&lt;00:02,  1.97it/s, loss=1.16] 
+Epoch 1:  97%|#########7| 97/100 [00:50&lt;00:01,  1.98it/s, loss=1.16]
+Epoch 1:  97%|#########7| 97/100 [00:51&lt;00:01,  1.98it/s, loss=0.878]
+Epoch 1:  98%|#########8| 98/100 [00:51&lt;00:01,  1.98it/s, loss=0.878]
+Epoch 1:  98%|#########8| 98/100 [00:51&lt;00:01,  1.98it/s, loss=0.965]
+Epoch 1:  99%|#########9| 99/100 [00:51&lt;00:00,  1.96it/s, loss=0.965]
+Epoch 1:  99%|#########9| 99/100 [00:52&lt;00:00,  1.96it/s, loss=0.763]
+Epoch 1: 100%|##########| 100/100 [00:52&lt;00:00,  1.96it/s, loss=0.763]
+Epoch 1: 100%|##########| 100/100 [00:52&lt;00:00,  1.92it/s, loss=0.763]
+Epoch 1, Loss: 0.9929, Val Accuracy: 0.7025
+
+Epoch 2:   0%|          | 0/100 [00:00&lt;?, ?it/s]
+Epoch 2:   0%|          | 0/100 [00:00&lt;?, ?it/s, loss=0.909]
+Epoch 2:   1%|1         | 1/100 [00:00&lt;00:51,  1.93it/s, loss=0.909]
+Epoch 2:   1%|1         | 1/100 [00:01&lt;00:51,  1.93it/s, loss=0.978]
+Epoch 2:   2%|2         | 2/100 [00:01&lt;00:49,  1.97it/s, loss=0.978]
+Epoch 2:   2%|2         | 2/100 [00:01&lt;00:49,  1.97it/s, loss=0.697]
+Epoch 2:   3%|3         | 3/100 [00:01&lt;00:49,  1.97it/s, loss=0.697]
+Epoch 2:   3%|3         | 3/100 [00:02&lt;00:49,  1.97it/s, loss=0.978]
+Epoch 2:   4%|4         | 4/100 [00:02&lt;00:48,  1.96it/s, loss=0.978]
+Epoch 2:   4%|4         | 4/100 [00:02&lt;00:48,  1.96it/s, loss=0.658]
+Epoch 2:   5%|5         | 5/100 [00:02&lt;00:48,  1.96it/s, loss=0.658]
+Epoch 2:   5%|5         | 5/100 [00:03&lt;00:48,  1.96it/s, loss=1.21] 
+Epoch 2:   6%|6         | 6/100 [00:03&lt;00:47,  1.96it/s, loss=1.21]
+Epoch 2:   6%|6         | 6/100 [00:03&lt;00:47,  1.96it/s, loss=0.741]
+Epoch 2:   7%|7         | 7/100 [00:03&lt;00:47,  1.97it/s, loss=0.741]
+Epoch 2:   7%|7         | 7/100 [00:04&lt;00:47,  1.97it/s, loss=0.777]
+Epoch 2:   8%|8         | 8/100 [00:04&lt;00:46,  1.97it/s, loss=0.777]
+Epoch 2:   8%|8         | 8/100 [00:04&lt;00:46,  1.97it/s, loss=0.654]
+Epoch 2:   9%|9         | 9/100 [00:04&lt;00:46,  1.97it/s, loss=0.654]
+Epoch 2:   9%|9         | 9/100 [00:05&lt;00:46,  1.97it/s, loss=0.705]
+Epoch 2:  10%|#         | 10/100 [00:05&lt;00:45,  1.97it/s, loss=0.705]
+Epoch 2:  10%|#         | 10/100 [00:05&lt;00:45,  1.97it/s, loss=0.79] 
+Epoch 2:  11%|#1        | 11/100 [00:05&lt;00:44,  1.98it/s, loss=0.79]
+Epoch 2:  11%|#1        | 11/100 [00:06&lt;00:44,  1.98it/s, loss=0.486]
+Epoch 2:  12%|#2        | 12/100 [00:06&lt;00:44,  1.97it/s, loss=0.486]
+Epoch 2:  12%|#2        | 12/100 [00:06&lt;00:44,  1.97it/s, loss=0.59] 
+Epoch 2:  13%|#3        | 13/100 [00:06&lt;00:44,  1.97it/s, loss=0.59]
+Epoch 2:  13%|#3        | 13/100 [00:07&lt;00:44,  1.97it/s, loss=0.71]
+Epoch 2:  14%|#4        | 14/100 [00:07&lt;00:43,  1.97it/s, loss=0.71]
+Epoch 2:  14%|#4        | 14/100 [00:07&lt;00:43,  1.97it/s, loss=0.572]
+Epoch 2:  15%|#5        | 15/100 [00:07&lt;00:43,  1.97it/s, loss=0.572]
+Epoch 2:  15%|#5        | 15/100 [00:08&lt;00:43,  1.97it/s, loss=0.696]
+Epoch 2:  16%|#6        | 16/100 [00:08&lt;00:42,  1.97it/s, loss=0.696]
+Epoch 2:  16%|#6        | 16/100 [00:08&lt;00:42,  1.97it/s, loss=0.66] 
+Epoch 2:  17%|#7        | 17/100 [00:08&lt;00:42,  1.96it/s, loss=0.66]
+Epoch 2:  17%|#7        | 17/100 [00:09&lt;00:42,  1.96it/s, loss=0.469]
+Epoch 2:  18%|#8        | 18/100 [00:09&lt;00:41,  1.97it/s, loss=0.469]
+Epoch 2:  18%|#8        | 18/100 [00:09&lt;00:41,  1.97it/s, loss=0.665]
+Epoch 2:  19%|#9        | 19/100 [00:09&lt;00:41,  1.97it/s, loss=0.665]
+Epoch 2:  19%|#9        | 19/100 [00:10&lt;00:41,  1.97it/s, loss=0.737]
+Epoch 2:  20%|##        | 20/100 [00:10&lt;00:40,  1.95it/s, loss=0.737]
+Epoch 2:  20%|##        | 20/100 [00:10&lt;00:40,  1.95it/s, loss=0.632]
+Epoch 2:  21%|##1       | 21/100 [00:10&lt;00:40,  1.95it/s, loss=0.632]
+Epoch 2:  21%|##1       | 21/100 [00:11&lt;00:40,  1.95it/s, loss=0.751]
+Epoch 2:  22%|##2       | 22/100 [00:11&lt;00:40,  1.94it/s, loss=0.751]
+Epoch 2:  22%|##2       | 22/100 [00:11&lt;00:40,  1.94it/s, loss=0.931]
+Epoch 2:  23%|##3       | 23/100 [00:11&lt;00:39,  1.95it/s, loss=0.931]
+Epoch 2:  23%|##3       | 23/100 [00:12&lt;00:39,  1.95it/s, loss=0.711]
+Epoch 2:  24%|##4       | 24/100 [00:12&lt;00:38,  1.95it/s, loss=0.711]
+Epoch 2:  24%|##4       | 24/100 [00:12&lt;00:38,  1.95it/s, loss=0.904]
+Epoch 2:  25%|##5       | 25/100 [00:12&lt;00:38,  1.96it/s, loss=0.904]
+Epoch 2:  25%|##5       | 25/100 [00:13&lt;00:38,  1.96it/s, loss=0.732]
+Epoch 2:  26%|##6       | 26/100 [00:13&lt;00:37,  1.96it/s, loss=0.732]
+Epoch 2:  26%|##6       | 26/100 [00:13&lt;00:37,  1.96it/s, loss=0.627]
+Epoch 2:  27%|##7       | 27/100 [00:13&lt;00:37,  1.97it/s, loss=0.627]
+Epoch 2:  27%|##7       | 27/100 [00:14&lt;00:37,  1.97it/s, loss=0.565]
+Epoch 2:  28%|##8       | 28/100 [00:14&lt;00:36,  1.97it/s, loss=0.565]
+Epoch 2:  28%|##8       | 28/100 [00:14&lt;00:36,  1.97it/s, loss=0.654]
+Epoch 2:  29%|##9       | 29/100 [00:14&lt;00:35,  1.98it/s, loss=0.654]
+Epoch 2:  29%|##9       | 29/100 [00:15&lt;00:35,  1.98it/s, loss=0.654]
+Epoch 2:  30%|###       | 30/100 [00:15&lt;00:35,  1.97it/s, loss=0.654]
+Epoch 2:  30%|###       | 30/100 [00:15&lt;00:35,  1.97it/s, loss=0.815]
+Epoch 2:  31%|###1      | 31/100 [00:15&lt;00:35,  1.97it/s, loss=0.815]
+Epoch 2:  31%|###1      | 31/100 [00:16&lt;00:35,  1.97it/s, loss=0.878]
+Epoch 2:  32%|###2      | 32/100 [00:16&lt;00:34,  1.96it/s, loss=0.878]
+Epoch 2:  32%|###2      | 32/100 [00:16&lt;00:34,  1.96it/s, loss=0.652]
+Epoch 2:  33%|###3      | 33/100 [00:16&lt;00:33,  1.97it/s, loss=0.652]
+Epoch 2:  33%|###3      | 33/100 [00:17&lt;00:33,  1.97it/s, loss=0.537]
+Epoch 2:  34%|###4      | 34/100 [00:17&lt;00:33,  1.97it/s, loss=0.537]
+Epoch 2:  34%|###4      | 34/100 [00:17&lt;00:33,  1.97it/s, loss=0.556]
+Epoch 2:  35%|###5      | 35/100 [00:17&lt;00:33,  1.96it/s, loss=0.556]
+Epoch 2:  35%|###5      | 35/100 [00:18&lt;00:33,  1.96it/s, loss=0.794]
+Epoch 2:  36%|###6      | 36/100 [00:18&lt;00:32,  1.97it/s, loss=0.794]
+Epoch 2:  36%|###6      | 36/100 [00:18&lt;00:32,  1.97it/s, loss=0.585]
+Epoch 2:  37%|###7      | 37/100 [00:18&lt;00:31,  1.97it/s, loss=0.585]
+Epoch 2:  37%|###7      | 37/100 [00:19&lt;00:31,  1.97it/s, loss=0.614]
+Epoch 2:  38%|###8      | 38/100 [00:19&lt;00:31,  1.98it/s, loss=0.614]
+Epoch 2:  38%|###8      | 38/100 [00:19&lt;00:31,  1.98it/s, loss=0.777]
+Epoch 2:  39%|###9      | 39/100 [00:19&lt;00:30,  1.98it/s, loss=0.777]
+Epoch 2:  39%|###9      | 39/100 [00:20&lt;00:30,  1.98it/s, loss=0.895]
+Epoch 2:  40%|####      | 40/100 [00:20&lt;00:30,  1.98it/s, loss=0.895]
+Epoch 2:  40%|####      | 40/100 [00:20&lt;00:30,  1.98it/s, loss=0.477]
+Epoch 2:  41%|####1     | 41/100 [00:20&lt;00:29,  1.97it/s, loss=0.477]
+Epoch 2:  41%|####1     | 41/100 [00:21&lt;00:29,  1.97it/s, loss=0.816]
+Epoch 2:  42%|####2     | 42/100 [00:21&lt;00:29,  1.97it/s, loss=0.816]
+Epoch 2:  42%|####2     | 42/100 [00:21&lt;00:29,  1.97it/s, loss=0.587]
+Epoch 2:  43%|####3     | 43/100 [00:21&lt;00:28,  1.97it/s, loss=0.587]
+Epoch 2:  43%|####3     | 43/100 [00:22&lt;00:28,  1.97it/s, loss=0.556]
+Epoch 2:  44%|####4     | 44/100 [00:22&lt;00:28,  1.97it/s, loss=0.556]
+Epoch 2:  44%|####4     | 44/100 [00:22&lt;00:28,  1.97it/s, loss=0.376]
+Epoch 2:  45%|####5     | 45/100 [00:22&lt;00:27,  1.96it/s, loss=0.376]
+Epoch 2:  45%|####5     | 45/100 [00:23&lt;00:27,  1.96it/s, loss=0.807]
+Epoch 2:  46%|####6     | 46/100 [00:23&lt;00:27,  1.97it/s, loss=0.807]
+Epoch 2:  46%|####6     | 46/100 [00:23&lt;00:27,  1.97it/s, loss=0.659]
+Epoch 2:  47%|####6     | 47/100 [00:23&lt;00:27,  1.96it/s, loss=0.659]
+Epoch 2:  47%|####6     | 47/100 [00:24&lt;00:27,  1.96it/s, loss=0.795]
+Epoch 2:  48%|####8     | 48/100 [00:24&lt;00:26,  1.96it/s, loss=0.795]
+Epoch 2:  48%|####8     | 48/100 [00:24&lt;00:26,  1.96it/s, loss=1]    
+Epoch 2:  49%|####9     | 49/100 [00:24&lt;00:26,  1.96it/s, loss=1]
+Epoch 2:  49%|####9     | 49/100 [00:25&lt;00:26,  1.96it/s, loss=0.663]
+Epoch 2:  50%|#####     | 50/100 [00:25&lt;00:25,  1.94it/s, loss=0.663]
+Epoch 2:  50%|#####     | 50/100 [00:25&lt;00:25,  1.94it/s, loss=0.692]
+Epoch 2:  51%|#####1    | 51/100 [00:25&lt;00:25,  1.94it/s, loss=0.692]
+Epoch 2:  51%|#####1    | 51/100 [00:26&lt;00:25,  1.94it/s, loss=0.401]
+Epoch 2:  52%|#####2    | 52/100 [00:26&lt;00:24,  1.95it/s, loss=0.401]
+Epoch 2:  52%|#####2    | 52/100 [00:26&lt;00:24,  1.95it/s, loss=0.856]
+Epoch 2:  53%|#####3    | 53/100 [00:26&lt;00:23,  1.96it/s, loss=0.856]
+Epoch 2:  53%|#####3    | 53/100 [00:27&lt;00:23,  1.96it/s, loss=0.737]
+Epoch 2:  54%|#####4    | 54/100 [00:27&lt;00:23,  1.95it/s, loss=0.737]
+Epoch 2:  54%|#####4    | 54/100 [00:28&lt;00:23,  1.95it/s, loss=0.675]
+Epoch 2:  55%|#####5    | 55/100 [00:28&lt;00:23,  1.93it/s, loss=0.675]
+Epoch 2:  55%|#####5    | 55/100 [00:28&lt;00:23,  1.93it/s, loss=0.643]
+Epoch 2:  56%|#####6    | 56/100 [00:28&lt;00:22,  1.94it/s, loss=0.643]
+Epoch 2:  56%|#####6    | 56/100 [00:29&lt;00:22,  1.94it/s, loss=0.508]
+Epoch 2:  57%|#####6    | 57/100 [00:29&lt;00:22,  1.95it/s, loss=0.508]
+Epoch 2:  57%|#####6    | 57/100 [00:29&lt;00:22,  1.95it/s, loss=0.851]
+Epoch 2:  58%|#####8    | 58/100 [00:29&lt;00:21,  1.95it/s, loss=0.851]
+Epoch 2:  58%|#####8    | 58/100 [00:30&lt;00:21,  1.95it/s, loss=0.337]
+Epoch 2:  59%|#####8    | 59/100 [00:30&lt;00:21,  1.95it/s, loss=0.337]
+Epoch 2:  59%|#####8    | 59/100 [00:30&lt;00:21,  1.95it/s, loss=0.64] 
+Epoch 2:  60%|######    | 60/100 [00:30&lt;00:20,  1.96it/s, loss=0.64]
+Epoch 2:  60%|######    | 60/100 [00:31&lt;00:20,  1.96it/s, loss=0.416]
+Epoch 2:  61%|######1   | 61/100 [00:31&lt;00:20,  1.90it/s, loss=0.416]
+Epoch 2:  61%|######1   | 61/100 [00:31&lt;00:20,  1.90it/s, loss=0.335]
+Epoch 2:  62%|######2   | 62/100 [00:31&lt;00:19,  1.93it/s, loss=0.335]
+Epoch 2:  62%|######2   | 62/100 [00:32&lt;00:19,  1.93it/s, loss=0.81] 
+Epoch 2:  63%|######3   | 63/100 [00:32&lt;00:19,  1.93it/s, loss=0.81]
+Epoch 2:  63%|######3   | 63/100 [00:32&lt;00:19,  1.93it/s, loss=0.526]
+Epoch 2:  64%|######4   | 64/100 [00:32&lt;00:18,  1.95it/s, loss=0.526]
+Epoch 2:  64%|######4   | 64/100 [00:33&lt;00:18,  1.95it/s, loss=0.684]
+Epoch 2:  65%|######5   | 65/100 [00:33&lt;00:17,  1.95it/s, loss=0.684]
+Epoch 2:  65%|######5   | 65/100 [00:33&lt;00:17,  1.95it/s, loss=0.47] 
+Epoch 2:  66%|######6   | 66/100 [00:33&lt;00:17,  1.97it/s, loss=0.47]
+Epoch 2:  66%|######6   | 66/100 [00:34&lt;00:17,  1.97it/s, loss=0.467]
+Epoch 2:  67%|######7   | 67/100 [00:34&lt;00:16,  1.97it/s, loss=0.467]
+Epoch 2:  67%|######7   | 67/100 [00:34&lt;00:16,  1.97it/s, loss=0.464]
+Epoch 2:  68%|######8   | 68/100 [00:34&lt;00:16,  1.98it/s, loss=0.464]
+Epoch 2:  68%|######8   | 68/100 [00:35&lt;00:16,  1.98it/s, loss=0.292]
+Epoch 2:  69%|######9   | 69/100 [00:35&lt;00:15,  1.98it/s, loss=0.292]
+Epoch 2:  69%|######9   | 69/100 [00:35&lt;00:15,  1.98it/s, loss=0.336]
+Epoch 2:  70%|#######   | 70/100 [00:35&lt;00:15,  1.99it/s, loss=0.336]
+Epoch 2:  70%|#######   | 70/100 [00:36&lt;00:15,  1.99it/s, loss=0.376]
+Epoch 2:  71%|#######1  | 71/100 [00:36&lt;00:14,  1.99it/s, loss=0.376]
+Epoch 2:  71%|#######1  | 71/100 [00:36&lt;00:14,  1.99it/s, loss=0.691]
+Epoch 2:  72%|#######2  | 72/100 [00:36&lt;00:14,  2.00it/s, loss=0.691]
+Epoch 2:  72%|#######2  | 72/100 [00:37&lt;00:14,  2.00it/s, loss=1.02] 
+Epoch 2:  73%|#######3  | 73/100 [00:37&lt;00:13,  1.99it/s, loss=1.02]
+Epoch 2:  73%|#######3  | 73/100 [00:37&lt;00:13,  1.99it/s, loss=0.935]
+Epoch 2:  74%|#######4  | 74/100 [00:37&lt;00:13,  1.99it/s, loss=0.935]
+Epoch 2:  74%|#######4  | 74/100 [00:38&lt;00:13,  1.99it/s, loss=0.84] 
+Epoch 2:  75%|#######5  | 75/100 [00:38&lt;00:12,  1.99it/s, loss=0.84]
+Epoch 2:  75%|#######5  | 75/100 [00:38&lt;00:12,  1.99it/s, loss=0.444]
+Epoch 2:  76%|#######6  | 76/100 [00:38&lt;00:12,  2.00it/s, loss=0.444]
+Epoch 2:  76%|#######6  | 76/100 [00:39&lt;00:12,  2.00it/s, loss=0.806]
+Epoch 2:  77%|#######7  | 77/100 [00:39&lt;00:11,  1.99it/s, loss=0.806]
+Epoch 2:  77%|#######7  | 77/100 [00:39&lt;00:11,  1.99it/s, loss=0.59] 
+Epoch 2:  78%|#######8  | 78/100 [00:39&lt;00:11,  1.99it/s, loss=0.59]
+Epoch 2:  78%|#######8  | 78/100 [00:40&lt;00:11,  1.99it/s, loss=0.333]
+Epoch 2:  79%|#######9  | 79/100 [00:40&lt;00:10,  1.98it/s, loss=0.333]
+Epoch 2:  79%|#######9  | 79/100 [00:40&lt;00:10,  1.98it/s, loss=0.427]
+Epoch 2:  80%|########  | 80/100 [00:40&lt;00:10,  1.97it/s, loss=0.427]
+Epoch 2:  80%|########  | 80/100 [00:41&lt;00:10,  1.97it/s, loss=0.574]
+Epoch 2:  81%|########1 | 81/100 [00:41&lt;00:09,  1.98it/s, loss=0.574]
+Epoch 2:  81%|########1 | 81/100 [00:41&lt;00:09,  1.98it/s, loss=0.741]
+Epoch 2:  82%|########2 | 82/100 [00:41&lt;00:09,  1.98it/s, loss=0.741]
+Epoch 2:  82%|########2 | 82/100 [00:42&lt;00:09,  1.98it/s, loss=0.749]
+Epoch 2:  83%|########2 | 83/100 [00:42&lt;00:08,  1.98it/s, loss=0.749]
+Epoch 2:  83%|########2 | 83/100 [00:42&lt;00:08,  1.98it/s, loss=0.756]
+Epoch 2:  84%|########4 | 84/100 [00:42&lt;00:08,  1.97it/s, loss=0.756]
+Epoch 2:  84%|########4 | 84/100 [00:43&lt;00:08,  1.97it/s, loss=0.534]
+Epoch 2:  85%|########5 | 85/100 [00:43&lt;00:07,  1.97it/s, loss=0.534]
+Epoch 2:  85%|########5 | 85/100 [00:43&lt;00:07,  1.97it/s, loss=0.544]
+Epoch 2:  86%|########6 | 86/100 [00:43&lt;00:07,  1.92it/s, loss=0.544]
+Epoch 2:  86%|########6 | 86/100 [00:44&lt;00:07,  1.92it/s, loss=0.471]
+Epoch 2:  87%|########7 | 87/100 [00:44&lt;00:06,  1.93it/s, loss=0.471]
+Epoch 2:  87%|########7 | 87/100 [00:44&lt;00:06,  1.93it/s, loss=0.514]
+Epoch 2:  88%|########8 | 88/100 [00:44&lt;00:06,  1.95it/s, loss=0.514]
+Epoch 2:  88%|########8 | 88/100 [00:45&lt;00:06,  1.95it/s, loss=0.318]
+Epoch 2:  89%|########9 | 89/100 [00:45&lt;00:05,  1.96it/s, loss=0.318]
+Epoch 2:  89%|########9 | 89/100 [00:45&lt;00:05,  1.96it/s, loss=0.907]
+Epoch 2:  90%|######### | 90/100 [00:45&lt;00:05,  1.95it/s, loss=0.907]
+Epoch 2:  90%|######### | 90/100 [00:46&lt;00:05,  1.95it/s, loss=0.474]
+Epoch 2:  91%|#########1| 91/100 [00:46&lt;00:04,  1.95it/s, loss=0.474]
+Epoch 2:  91%|#########1| 91/100 [00:46&lt;00:04,  1.95it/s, loss=0.591]
+Epoch 2:  92%|#########2| 92/100 [00:46&lt;00:04,  1.94it/s, loss=0.591]
+Epoch 2:  92%|#########2| 92/100 [00:47&lt;00:04,  1.94it/s, loss=0.843]
+Epoch 2:  93%|#########3| 93/100 [00:47&lt;00:03,  1.95it/s, loss=0.843]
+Epoch 2:  93%|#########3| 93/100 [00:47&lt;00:03,  1.95it/s, loss=0.516]
+Epoch 2:  94%|#########3| 94/100 [00:47&lt;00:03,  1.96it/s, loss=0.516]
+Epoch 2:  94%|#########3| 94/100 [00:48&lt;00:03,  1.96it/s, loss=0.606]
+Epoch 2:  95%|#########5| 95/100 [00:48&lt;00:02,  1.94it/s, loss=0.606]
+Epoch 2:  95%|#########5| 95/100 [00:48&lt;00:02,  1.94it/s, loss=0.623]
+Epoch 2:  96%|#########6| 96/100 [00:48&lt;00:02,  1.95it/s, loss=0.623]
+Epoch 2:  96%|#########6| 96/100 [00:49&lt;00:02,  1.95it/s, loss=0.935]
+Epoch 2:  97%|#########7| 97/100 [00:49&lt;00:01,  1.95it/s, loss=0.935]
+Epoch 2:  97%|#########7| 97/100 [00:49&lt;00:01,  1.95it/s, loss=0.601]
+Epoch 2:  98%|#########8| 98/100 [00:49&lt;00:01,  1.95it/s, loss=0.601]
+Epoch 2:  98%|#########8| 98/100 [00:50&lt;00:01,  1.95it/s, loss=0.398]
+Epoch 2:  99%|#########9| 99/100 [00:50&lt;00:00,  1.97it/s, loss=0.398]
+Epoch 2:  99%|#########9| 99/100 [00:50&lt;00:00,  1.97it/s, loss=0.651]
+Epoch 2: 100%|##########| 100/100 [00:50&lt;00:00,  1.97it/s, loss=0.651]
+Epoch 2: 100%|##########| 100/100 [00:50&lt;00:00,  1.96it/s, loss=0.651]
+Epoch 2, Loss: 0.6563, Val Accuracy: 0.7125</code></pre>
+</div>
+</div>
+<p>Once the training has finished, we can eyeball the results using a simple example. The example uses a clear semantic relationship between sleeping and resting to showcase the model’s capability to recognize entailment.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>premise <span class="op">=</span> <span class="st">"The cat is sleeping"</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>hypothesis <span class="op">=</span> <span class="st">"The cat is resting."</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>prediction <span class="op">=</span> predict_nli(model, tokenizer, premise, hypothesis)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Prediction: </span><span class="sc">{</span>prediction<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Prediction: entailment</code></pre>
+</div>
+</div>
+<p>In our final evaluation chunk, we perform comprehensive testing on our held-out test set. We process all test examples through our model and calculate various performance metrics using <code>scikit-learn</code>’s classification report. This gives us a detailed view of the model’s performance across different relationship types, including precision, recall, and F1-score for each class.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>predictions <span class="op">=</span> []</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> idx, row <span class="kw">in</span> test.iterrows():</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    pred <span class="op">=</span> predict_nli(model, tokenizer, row[<span class="st">'premise'</span>], row[<span class="st">'hypothesis'</span>])</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    predictions.append(pred)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>test[<span class="st">'predicted'</span>] <span class="op">=</span> predictions</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(test[<span class="st">'label'</span>], test[<span class="st">'predicted'</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>               precision    recall  f1-score   support
+
+contradiction       0.69      0.73      0.71       328
+   entailment       0.75      0.90      0.82       342
+      neutral       0.72      0.53      0.61       330
+
+     accuracy                           0.72      1000
+    macro avg       0.72      0.72      0.71      1000
+ weighted avg       0.72      0.72      0.72      1000</code></pre>
+</div>
+</div>
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-laurer_less_2024" class="csl-entry" role="listitem">
+Laurer, Moritz, Wouter Van Atteveldt, Andreu Casas, and Kasper Welbers. 2024. <span>“<a href="https://doi.org/10.1017/pan.2023.20">Less <span>Annotating</span>, <span>More Classifying</span>: <span>Addressing</span> the <span>Data Scarcity Issue</span> of <span>Supervised Machine Learning</span> with <span>Deep Transfer Learning</span> and <span>BERT-NLI</span></a>.”</span> <em>Political Analysis</em> 32(1):84–100.
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Copyright 2024, Felix Lennert (<a href="mailto:felix.lennert@uni-leipzig.de">felix.lennert@uni-leipzig.de</a>)</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
