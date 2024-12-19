@@ -52,5 +52,6 @@ rsconnect/
 files/
 _pyenv/
 _*/
+fine_tuned_nli_model/
 venv/
 temp/
