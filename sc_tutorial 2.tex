@@ -1,0 +1,518 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  letterpaper,
+  DIV=11,
+  numbers=noendperiod]{scrartcl}
+
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else  
+    % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+\KOMAoption{captions}{tableheading}
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Working with Leipzig University's Computer Cluster},
+  pdfauthor={Felix Lennert},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{Working with Leipzig University's Computer Cluster}
+\author{Felix Lennert}
+\date{}
+
+\begin{document}
+\maketitle
+
+
+\subsection{Intro}\label{intro}
+
+This document serves as an introduction to working with the Leipzig
+University Computer cluster. The cluster is available for members of
+Leipzig University. You have to register first and ask for access to
+different resources, and then once it's set up, you can use it for your
+own research purposes. It comes with a large amount of storage for your
+data. You can work on these using RStudio via a web app
+(https://rstudio.sc.uni-leipzig.de/) and it also provides access to
+Python via JupyterLab (https://lab.sc.uni-leipzig.de/). Furthermore, you
+can send jobs using Slurm.
+
+Since the RStudio web app is very similar to the IDE you can run on your
+own machine, this tutorial will rather focus on the yet unknown -- i.e.,
+Python, the terminal, and Slurm jobs. I will first describe where and
+how you can register for access, then delve into daily Python workflows
+(i.e., basic terminal commands, authentication, choosing modules,
+creating project-specific environments, and setting up dedicated
+kernels), and then finally introduce Slurm which allows you to send
+``jobs'' for more resource-intensive computations that you couldn't run
+in a classic Jupyter Notebook.
+
+\subsection{Registration and Access
+Setup}\label{registration-and-access-setup}
+
+Before utilizing the cluster, you need to register and request access to
+the necessary resources. Here's how to get started:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Request SC Infrastructure Access}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Visit the \href{https://www.sc.uni-leipzig.de/}{Scientific Computing
+    Knowledge Base} and navigate to the ``Request SC infrastructure''
+    section.
+  \item
+    Complete the form with your university credentials and specify the
+    resources you require. A good start is to ask for
+    ``paula,clara,paul,jupyter,rstudio''
+  \item
+    After submission, your account will be created, and you'll receive
+    an email with your SC user information.
+  \end{itemize}
+\item
+  \textbf{Accessing the Cluster}:
+\end{enumerate}
+
+When accessing the cluster, make sure that you are connected to the
+university's internal network (i.e., you are physically in a university
+building and connected to the local wifi network) or use a VPN
+(\href{https://www.urz.uni-leipzig.de/en/servicedesk-und-hilfe/hilfe-zu-unseren-services/netz-und-zugang/hilfe-vpn-zugang-zum-uni-netz-vpn-webvpn}{instructions}).
+
+If this is the case, you can access the services through your web
+browser:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{JupyterLab}: Navigate to \url{https://lab.sc.uni-leipzig.de/}
+  and log in with your SC credentials.
+\item
+  \textbf{RStudio}: Go to \url{https://rstudio.sc.uni-leipzig.de/} and
+  log in with your SC credentials.
+\end{itemize}
+
+For submitting jobs, you need to connect to the cluster from your
+terminal. To do this, the most convenient way is to authenticate via
+SSH. SSH gives you the possibility to connect safely to another computer
+(the server, in our case). Then, once connected, you can control the
+remote machine via terminal commands. This is good for submitting jobs.
+Everything else (i.e., interactive coding, code testing, etc.) should be
+done using the web interface in JupyterLab or RStudio.
+
+Before you can authenticate using SSH, you need to create a key pair on
+your own machine and upload the public key to the cluster. You can find
+an extensive tutorial
+\href{https://www.sc.uni-leipzig.de/03_System_access/Cluster/}{online}.
+
+Once you have access, you can connect using your terminal with your SC
+username.
+
+\begin{verbatim}
+ssh <your_sc_username>@login01.sc.uni-leipzig.de
+\end{verbatim}
+
+\subsection{Daily Python Workflows}\label{daily-python-workflows}
+
+Once you have access, you can set up your Python environment and
+workflows.
+
+When you access JupyterLab via https://lab.sc.uni-leipzig.de, you first
+need to choose your server and the resources you need. \texttt{paul} has
+CPUs only, while \texttt{clara} and \texttt{paula} also have GPUs
+available.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{figures/resource_selection.png}
+
+}
+
+\caption{lab.sc.uni-leipzig.de landing page}
+
+\end{figure}%
+
+Once you have launched the server, you reach the ``Launcher.'' While you
+can do most of these things in the JupyterLab GUI, I recommend using
+terminal commands since it's fast and -- once you've got the hang of it
+-- easier. In the Launcher, you can open a Terminal window by clicking
+``Other \textgreater{} Terminal'' (see screenshot below).
+
+\begin{figure}[H]
+
+{\centering \includegraphics{figures/lab_overview.png}
+
+}
+
+\caption{Launcher}
+
+\end{figure}%
+
+\subsubsection{Basic Terminal Commands}\label{basic-terminal-commands}
+
+Familiarity with basic terminal commands is essential for navigating and
+managing files on the cluster. Here are some common commands:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{ls}: List directory contents.
+\item
+  \texttt{cd}: Change the current directory, e.g.,
+  \texttt{cd\ my\_folder}
+\item
+  \texttt{pwd}: Display the current directory path.
+\item
+  \texttt{mkdir}: Create a new directory (make sure you have navigated
+  to the right folder first).
+\item
+  \texttt{rm}: Remove files or directories, e.g., \texttt{rm\ my\_file}
+\end{itemize}
+
+For a comprehensive list, consult the
+\href{https://community.linuxmint.com/tutorial/view/244}{Linux Command
+Reference}.
+
+\subsubsection{Module Selection}\label{module-selection}
+
+The cluster uses environment modules to manage software. To see
+available modules, type:
+
+\begin{verbatim}
+module avail
+\end{verbatim}
+
+Then you have to choose one \emph{first thing}. I usually go for
+\texttt{Python/3.10.8-GCCcore-12.2.0}. You can activate this module
+using \texttt{module\ load\ Python/3.10.8-GCCcore-12.2.0}. The module
+essentially provides the environment needed to run your code..
+
+\subsubsection{Creating a Project-specific Virtual
+Environment}\label{creating-a-project-specific-virtual-environment}
+
+Then you will want to create a virtual environment for your dedicated
+project. The virtual environment allows you to install the relevant
+Python packages that you will need, keeping your Python distribution
+clean and ensuring that you will not run into compatibility issues
+between packages.
+
+For creating a virtual environment, you can use the terminal. First,
+navigate to your project's folder (make sure to create it first), then
+create the environment using \texttt{venv}, and finally activate it.
+
+\begin{verbatim}
+mkdir project_folder  
+cd project_folder  
+python -m venvmy_project_env  
+source my_project_env/bin/activate
+\end{verbatim}
+
+Once it is activated, you can start installing the packages you require
+using \texttt{pip} (e.g., \texttt{pip\ install\ pandas}).
+
+\subsubsection{Setting up Kernels}\label{setting-up-kernels}
+
+To make your life easier in the JupyterLab, you should set up a
+dedicated kernel in your JupyterLab. The kernel runs in the background
+of your notebook, takes your code, processes it, and finally returns the
+results. Each notebook is connected to one kernel and the kernel defines
+the language and environment the notebook runs in.
+
+You can set up a dedicated kernel as follows: first, activate your
+environment, second, install \texttt{ipykernel}, third, create the
+Jupyter kernel containing your environment, you can change the name in
+the final argument after \texttt{display-name}.
+
+\begin{verbatim}
+source my_project_env/bin/activate  
+pip install ipykernel  
+python -m ipykernel install --user --name=my_project_env --display-name "Python  
+3.9 (my_project_env)"  
+\end{verbatim}
+
+Once this is done, in the future, you will have to choose your module
+first -- matching the Python version of your kernel (e.g., load a Python
+3.9 module if your kernel uses Python 3.9). Then you can click one of
+the buttons (see screenshot) -- depending on the environment you want to
+work with -- and start coding.
+
+\includegraphics{figures/notebooks_kernel.png}
+
+Find more information
+\href{https://www.sc.uni-leipzig.de/05_Instructions/Jupyter/}{here}.
+
+\subsection{Slurm}\label{slurm}
+
+Slurm (Simple Linux Utility for Resource Management) is a powerful job
+scheduling system used on HPC (High-Performance Computing) clusters to
+manage and allocate resources among users. Job here means that if you
+have a script that needs to run for longer, e.g., classifying large
+amounts of text or comparable things, you can set this up \emph{as a
+job}. This allows the server to manage its resources better by
+distributing the different jobs all over the cluster.
+
+Here's a quick guide on the basic Slurm commands to help you submit,
+monitor, and manage jobs.
+
+\subsubsection{The Script}\label{the-script}
+
+A Slurm job script is a shell script with Slurm-specific options defined
+at the beginning. Here's an example template (the
+\texttt{\textless{}-\/-\ {[}comment{]}} are just for annotation and are
+not allowed in the real script):
+
+\begin{verbatim}
+#!/bin/bash eval=FALSE  
+#SBATCH --time=02:30:00 # <-- allocated time  
+#SBATCH --mem=128G <-- required memory
+#SBATCH --ntasks=1 <-- number of tasks  
+#SBATCH --job-name=1_unsupervisedTopicModel <-- job name  
+#SBATCH --partition=clara <-- the server partition you want to work on  
+#SBATCH --gpus=v100:1 <-- the gpu you need, ":1" stands for one gpu required  
+##SBATCH --mail-type=END <-- sending you an email once it's done  
+#SBATCH --mail-user=[username]@uni-leipzig.de <-- your email  
+#SBATCH --output=$HOME/jobfiles/log/%x.out-%j <-- where you want your log file  
+
+# load modules  
+module purge  
+module load Python/3.11.5-GCCcore-13.2.0  
+module load CUDA/12.1.1     
+
+# Activate the virtual environment  
+source /home/sc.uni-leipzig.de/[username]/venv/bertopic_env/bin/activate  
+
+# Confirm the Python version and environment being used  
+python --version  
+which python  
+
+# Run the Python script  
+python /home/sc.uni-leipzig.de/[username]/bertopic_scripts/script_1.py  
+\end{verbatim}
+
+\subsubsection{Basic Slurm Commands}\label{basic-slurm-commands}
+
+To submit a job, first connect to the server via ssh. Then you can use
+the following commands:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Submitting a Job}: To submit a job, use the \texttt{sbatch}
+  command.
+\end{itemize}
+
+\begin{verbatim}
+sbatch job_script.sh
+\end{verbatim}
+
+This command sends the job script to Slurm, which then schedules the job
+to run on available resources.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Checking Job Status}: To check the status of your submitted
+  jobs, use:
+\end{itemize}
+
+\begin{verbatim}
+squeue -u [your_username]
+\end{verbatim}
+
+Replace \texttt{{[}your\_username{]}} with your actual username. This
+will display all jobs you have running or queued on the cluster.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Cancelling a Job}: To cancel a job, use:
+\end{itemize}
+
+\begin{verbatim}
+scancel [job_id]
+\end{verbatim}
+
+Replace \texttt{{[}job\_id{]}} with the actual ID of the job that you
+defined in the script. You can also find the job ID using
+\texttt{squeue}.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Monitoring Resource Usage}
+\end{itemize}
+
+You can monitor resource usage and efficiency with commands like:
+
+\begin{verbatim}
+  sacct -j [job_id]
+\end{verbatim}
+
+This command provides detailed information about your job, including CPU
+and memory usage. Replace \texttt{{[}job\_id{]}} with your job's ID.
+
+So, in practice:
+
+First, write your Python script and test it with a small sample of your
+data in ``interactive coding mode'' in the JupyterLab. This will also
+give you an idea of how much time your job will require. Then, refine
+the script so that it takes the full data and build the Slurm script in
+your text editor (needs to be an \texttt{.sh} file)
+
+Once you've created your Slurm job script, you can log in via SSH and
+submit the script using:
+
+\begin{verbatim}
+sbatch job_script.sh
+\end{verbatim}
+
+After submitting, you can use \texttt{squeue} to check its status or
+\texttt{scancel} if you need to stop it. Monitoring with \texttt{sacct}
+will help you optimize resource requests for future jobs, making your
+submissions more efficient and improving queue times.
+
+Happy coding.
+
+
+
+
+\end{document}

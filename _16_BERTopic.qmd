@@ -1,0 +1,37 @@
+---
+title: "BERTopic"
+editor: visual
+---
+
+[WORK IN PROGRESS]
+
+Unfortunately, BERTopic does not run in my RStudio environment. Hence, I will include Python code here and screenshot output from the Leipzig SC cluster. Find extensive documentation on BERTopic [here](https://maartengr.github.io/BERTopic/index.html).
+
+## General Clustering
+
+```{python eval=FALSE}
+import numpy as np
+from bertopic import BERTopic
+from sentence_transformers import SentenceTransformer
+import pandas as pd
+import plotly.express as px
+```
+
+```{python eval=FALSE}
+docs = [
+    "Machine learning is a fascinating field of artificial intelligence",
+    "Natural language processing helps computers understand human language",
+    "Deep learning models have transformed AI capabilities",
+    "Data science combines statistics and programming",
+    "Neural networks are inspired by biological brains",
+    "Python is a popular programming language for AI"
+]
+
+topic_model = BERTopic()
+topics, probs = topic_model.fit_transform(docs)
+```
+
+
+
+
+

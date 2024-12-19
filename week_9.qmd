@@ -1,0 +1,46 @@
+---
+title: "Week 9: Geo Data I"
+published-title: week_8
+engine: knitr
+freeze: false
+---
+
+This lecture answers the following questions:
+
+- Why shall we take spatial data into account?
+- What does spatial data tell us about humans?
+- What are the particularities of spatial data?
+- How to measure distance?
+- Moran's I
+
+## Slides 
+
+Please click [here to download the latest version of the slides](./slides/20241217-spatial-I.pdf).
+
+```{css echo=FALSE}
+
+.embed-container {
+    position: relative;
+    padding-bottom: 129%;
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+.embed-container iframe,
+.embed-container object,
+.embed-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+```
+
+Alternatively, read it here (probably not the best if you're visiting this page on a mobile device):
+
+<div class="embed-container">
+  <iframe src="./slides/20241217-spatial-I.pdf" style="border: 0.5px"></iframe>
+</div>

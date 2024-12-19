@@ -1,0 +1,68 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: \"BERTopic\"\n",
+        "editor: visual\n",
+        "---\n",
+        "\n",
+        "\n",
+        "\n",
+        "\n",
+        "[WORK IN PROGRESS]\n",
+        "\n",
+        "Unfortunately, BERTopic does not run in my RStudio environment. Hence, I will include Python code here and screenshot output from the Leipzig SC cluster. Find extensive documentation on BERTopic [here](https://maartengr.github.io/BERTopic/index.html).\n",
+        "\n",
+        "## General Clustering\n"
+      ],
+      "id": "c2f9df81"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import numpy as np\n",
+        "from bertopic import BERTopic\n",
+        "from sentence_transformers import SentenceTransformer\n",
+        "import pandas as pd\n",
+        "import plotly.express as px"
+      ],
+      "id": "1500dd1d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "docs = [\n",
+        "    \"Machine learning is a fascinating field of artificial intelligence\",\n",
+        "    \"Natural language processing helps computers understand human language\",\n",
+        "    \"Deep learning models have transformed AI capabilities\",\n",
+        "    \"Data science combines statistics and programming\",\n",
+        "    \"Neural networks are inspired by biological brains\",\n",
+        "    \"Python is a popular programming language for AI\"\n",
+        "]\n",
+        "\n",
+        "topic_model = BERTopic()\n",
+        "topics, probs = topic_model.fit_transform(docs)"
+      ],
+      "id": "93bfc62c",
+      "execution_count": null,
+      "outputs": []
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "transformer_kernel",
+      "language": "python",
+      "display_name": "Transformers",
+      "path": "/Users/felixlennert/Library/Jupyter/kernels/transformer_kernel"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}

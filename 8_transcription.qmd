@@ -1,0 +1,175 @@
+---
+title: "Chapter 8: `OpenAI whisper`"
+published-title: whisper
+engine: knitr
+freeze: auto
+bibliography: literature.bib
+csl: ASA.csl
+---
+
+In this chapter, I will show you how to use `OpenAI Whisper` for audio transcription and diarization. Whisper is a versatile tool that helps convert audio recordings into text, lending itself well for tasks like transcribing interviews, radio shows, or any other type of recorded speech. Additionally, we will use speaker diarization to identify different speakers in the audio.
+
+Throughout this chapter, we will use `reticulate` for integrating Python code within our R workflow, `pydub` for audio manipulation, `openai-whisper` for audio transcription, `torch` for running deep learning models, `numpy` for numerical operations, and `pyannote.audio` for speaker diarization.
+
+## Install Python using `reticulate` and `miniconda`
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+vembedr::embed_youtube("KKhGNHgLJm8")
+```
+
+Like in the chapter on `selenium`, we first create a `conda` environment with all the required packages.
+
+```{r eval=FALSE}
+needs(reticulate)
+#reticulate::conda_create(envname = "pyenv/whisper_env") # create empty environment
+reticulate::conda_install(envname = "pyenv/whisper_env",
+                          packages = c("pydub", "openai-whisper", "torch", "numpy"), 
+                          pip = TRUE) # install packages into a certain environment
+```
+
+Thereafter, we need to make sure that we activate our environment. Moreover, for `pyannote`, you will need an access token from huggingface (get yourself a "read" key here: https://huggingface.co/settings/tokens). I stored mine in my R environment and feed it forward to Python, so that it is readily accessible without others seeing it. 
+
+```{r eval=FALSE}
+needs(reticulate)
+use_condaenv(condaenv = "pyenv/whisper_env")
+```
+
+Then we can load the required Python packages.
+
+```{python eval=FALSE, include=FALSE}
+hf_token = "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"
+```
+
+```{python eval=FALSE}
+import torch
+import whisper
+from pyannote.audio import Pipeline
+import wave
+import os
+from pydub import AudioSegment
+from pyannote.core import Segment
+import numpy as np
+import pandas as pd
+from scipy.io import wavfile
+```
+
+Also, if we have a GPU available -- as you probably should if you're running these operations on a server -- we need to tell our packages that they can use the GPU instead of the CPU. 
+
+```{python eval=FALSE}
+device = torch.device("mps" if torch.backends.mps.is_available() else "cpu") # I'm using MPS here because I'm on a Mac
+# device = device = torch.device('cuda' if torch.cuda.is_available() else 'cpu') # if you're on a server with a suitable GPU
+
+whisper_model = whisper.load_model("base").to("cpu")
+#whisper_model = whisper.load_model("base").to(device) # if you're on a server with a suitable GPU
+
+# Load diarization pipeline
+pipeline = Pipeline.from_pretrained("pyannote/speaker-diarization", use_auth_token = hf_token)
+pipeline.to(device)
+```
+
+Since this script is for students of Leipzig University first and foremost, I had to make some changes to it so that it can run nicely on the university's server. It's quite a chore to install `ffmpeg` there -- which `whisper` requires by default to read in sound. Here, we skip this step, but due to this the transcription function needs to be rewritten from scratch. However, this comes with the shortcoming of the model in this script only accepting .wav files. This can be circumnavigated by using the `audioread` library (find more infos [here](https://github.com/beetbox/audioread)).   
+
+```{python eval=FALSE}
+def load_audio_manually(file_path, target_sr=16000):
+    sr, audio = wavfile.read(file_path)
+    if audio.ndim > 1:
+        audio = np.mean(audio, axis=1)
+    if sr != target_sr:
+        import librosa
+        audio = librosa.resample(audio.astype(np.float32), orig_sr=sr, target_sr=target_sr)
+    return audio
+
+def transcribe_audio(file_path): #transcribe it
+    audio = load_audio_manually(file_path)
+    audio = audio.astype(np.float32) / 32768.0  # Normalize if original was int16
+    result = whisper_model.transcribe(audio)
+    return result
+```
+
+Now we canmake our first transcription:
+
+```{python eval=FALSE}
+ihaveadream_transcript = transcribe_audio("mlk_ihaveadream.wav")
+ihaveadream_transcript["text"]
+ihaveadream_transcript["segments"][0]
+```
+
+## Diarization
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+vembedr::embed_youtube("seSdYnCR4Z0")
+```
+
+We can also use speaker diarization to split audio files by speaker and transcribe each segment separately. This is particularly useful if the recording contains multiple speakers. Here, we use the `AudioSegment` class from `pydub` to load the audio file. The `pipeline` object is used to iterate over the speaker turns, and we save each speaker segment to a separate audio file.
+
+```{python eval=FALSE}
+audio = AudioSegment.from_wav("temp/thisisamerica_200_snippet.wav")
+
+for turn, _, speaker in pipeline("temp/thisisamerica_200_snippet.wav").itertracks(yield_label=True):
+    start_time = turn.start * 1000
+    end_time = turn.end * 1000
+    segment_audio = audio[start_time:end_time]
+    segment_file = f"temp/carrboro_market/{speaker}-{int(turn.start)}-{int(turn.end)}.wav"
+    segment_audio.export(segment_file, format = "wav")
+    #print(f"Saved segment: {segment_file}")
+```
+
+Next, we want to transcribe each of the diarized segments and save the results to a CSV file.
+
+```{python eval=FALSE}
+import pandas as pd
+import glob
+
+# Initialize lists to store each attribute separately
+speakers = []
+start_times = []
+end_times = []
+texts = []
+
+def transcribe_and_collect(file_path, speaker, start_time, end_time):
+    # Perform transcription
+    result = transcribe_audio(file_path)  # Assuming transcribe_audio function exists
+    # Append each attribute to its respective list
+    speakers.append(speaker)
+    start_times.append(start_time)
+    end_times.append(end_time)
+    texts.append(result['text'])
+
+
+# Iterate over diarized segments (assuming you have diarization data)
+for segment_file in glob.glob("temp/carrboro_market/SPEAKER_*.wav"):
+    parts = segment_file.split('-')
+    speaker = parts[0].split("/")[2]
+    start_time = float(parts[1])
+    end_time = float(parts[2].split('.')[0])
+    transcribe_and_collect(segment_file, speaker, start_time, end_time)
+
+# Write the DataFrame to a CSV file
+transcriptions_df = pd.DataFrame({
+    "speaker": speakers,
+    "start": start_times,
+    "end": end_times,
+    "text": texts
+})
+
+transcriptions_df
+# Write the DataFrame to a CSV file
+transcriptions_df.to_csv("temp/transcriptions.csv", index=False)
+```
+
+So that we can finally read it back in and wrangle the results in R.
+
+```{r}
+transcriptions_df <- readr::read_csv("temp/transcriptions.csv") |> 
+  dplyr::arrange(start)
+
+transcriptions_df
+```
+
+So here we are, a quick introduction to transcription and diarization in Python.
+
+## Further links
+
+-   `whisper` [GitHub repository](https://github.com/openai/whisper)
+-   `Pyannote` [audio documentation](https://pyannote.github.io/)
+

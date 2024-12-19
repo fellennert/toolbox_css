@@ -1,0 +1,311 @@
+---
+title: "Chapter 15: NLI using BERT"
+published-title: nli
+engine: knitr
+freeze: auto
+bibliography: literature.bib
+csl: ASA.csl
+---
+
+Natural Language Inference (NLI), sometimes called textual entailment, represents a fundamental task in Natural Language Processing. The goal is to determine the logical relationship between pairs of sentences -- a premise and a hypothesis. Given these two pieces of text, models must decide whether the hypothesis is logically entailed by the premise, contradicts it, or is unrelated (neutral).
+
+For example, if our premise is "The cat is sleeping on the couch" and our hypothesis is "The cat is resting", this would be considered entailment since sleeping logically implies resting. However, if the hypothesis were "The cat is playing," this would be a contradiction. A hypothesis like "The cat has brown fur" would be neutral -- we cannot determine its truth value from the premise alone.
+
+This task serves as an important benchmark for evaluating language understanding in AI systems. Unlike simpler tasks that can be solved through pattern matching or keyword detection, NLI requires deeper semantic comprehension. A model must understand context, implications, and common sense relationships between concepts.
+
+Pre-trained language models like BERT have shown remarkable capabilities in NLI tasks. Through their pre-training on vast amounts of text, they develop representations that capture subtle semantic relationships. We can fine-tune these models on NLI datasets to create powerful classifiers for textual relationships. @laurer_less_2024 have suggested using NLI for classification tasks all together, as they might outperform fine-tuned classifiers for classification tasks.
+
+In the following sections, we will implement an NLI system using BERT. We'll see how to prepare sentence pairs for the model, create an appropriate architecture for the task, and train the system to recognize these logical relationships. The same principles we explored in simpler text classification tasks will apply here, but with additional complexity in both the data preparation and model architecture. I aimed to prepare everything in such a way that you can copy-paste the code. In your own scripts, you will have to define the same classes and your annotated data should follow the same structure -- i.e., have two list columns named "premise" and "hypothesis" and another column named "label." The label column should be strings containing "contradiction," "neutral," or "entailment". I highly suggest going with string labels to avoid confusion about the predictions.
+
+## Set up Python and classes
+
+In the first chunk, we set up our Python--R connection through the `reticulate` package and specify our virtual environment that we have set up before. It is important that it contains all the relevant packages. For reference on how to set up the venv, check chapter 14 on BERT.
+
+```{r}
+needs(reticulate)
+
+use_virtualenv("_pyenv/transformer_env")
+```
+
+Then, we import all necessary libraries and set up our device configuration. The device setup is particularly important as it allows our code to run efficiently on different hardware configurations -- whether that's a Silicon Mac using MPS (in my case), a machine with CUDA-enabled GPU, or a regular CPU. Depending on this, you might have to install the respective `torch` packages. We use `pandas` for data manipulation, 
+`torch` (PyTorch) for deep learning operations, and the `transformers` library for access to pre-trained BERT models. Furthermore, we use an array of `sklearn` (scikit-learn) functions for train-test split creation and subsequent model evaluation.
+
+```{python}
+import pandas as pd
+import torch
+from torch.utils.data import Dataset, DataLoader
+from transformers import BertTokenizer, BertModel
+import torch.nn as nn
+from torch.optim import AdamW
+import torch.nn.functional as F
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from tqdm.auto import tqdm
+
+# First set up the device
+def get_device():
+    if torch.backends.mps.is_available():
+        device = torch.device("mps")
+    elif torch.cuda.is_available():
+        device = torch.device("cuda")
+    else:
+        device = torch.device("cpu")
+    return device
+
+device = get_device()
+print(f"Using device: {device}")
+```
+
+Next, we define our custom `NLIDataset` class that handles the specific requirements of Natural Language Inference data. Classes in Python provide a way to bundle data and functionality together. They act as blueprints for creating objects that share similar characteristics and behaviors. Think of a class like a template - it defines what type of data the object can store (through attributes) and what operations it can perform (through methods).
+
+Here, several things happen: first, Python creates a new object based on the NLIDataset template we define, the `__init__` method is used for constructing the set. Then, the object gets its own copy of the attributes. Finally, we can call methods on this object -- e.g., dataset.get_text(0). Think of it as preprocessing.
+
+This class processes pairs of sentences (premises and hypotheses) along with their labels. It includes robust error handling for different label formats and converts all inputs into the tensor format required by `PyTorch`. The `max_length` parameter controls sequence length, with longer sequences being truncated and shorter ones padded.
+
+```{python}
+# Define the Dataset class
+class NLIDataset(Dataset):
+    def __init__(self, df, tokenizer, max_length=128):
+        self.tokenizer = tokenizer
+        self.premises = df['premise'].tolist()
+        self.hypotheses = df['hypothesis'].tolist()
+        self.max_length = max_length
+        
+        try:
+            # Try to convert to numeric and verify range
+            numeric_labels = pd.to_numeric(df['label'])
+            if not all(numeric_labels.between(0, 2)):
+                raise ValueError("Numeric labels must be in range [0,2]")
+            self.labels = numeric_labels.tolist()
+        except ValueError:
+            # If conversion to numeric fails, treat as string labels
+            self.label_map = {'contradiction': 0, 'neutral': 1, 'entailment': 2}
+            try:
+                self.labels = [self.label_map[label] for label in df['label']]
+            except KeyError as e:
+                raise ValueError(f"Invalid label found. Labels must be either numbers [0,2] or one of {list(self.label_map.keys())}")
+
+    def __len__(self):
+        return len(self.premises)
+
+    def __getitem__(self, idx):
+        premise = str(self.premises[idx])
+        hypothesis = str(self.hypotheses[idx])
+        label = self.labels[idx]
+
+        encoding = self.tokenizer(
+            premise,
+            hypothesis,
+            padding='max_length',
+            truncation=True,
+            max_length=self.max_length,
+            return_tensors='pt'
+        )
+
+        return {
+            'input_ids': encoding['input_ids'].squeeze(),
+            'attention_mask': encoding['attention_mask'].squeeze(),
+            'token_type_ids': encoding['token_type_ids'].squeeze(),
+            'labels': torch.tensor(label)
+        }
+```
+
+
+Then we can create the `prepare_nli_data` function streamlines the data preparation process. It splits the data into training and validation sets (validation sets are used during training for intermediary evaluation during training, to avoid overfitting), creates `Dataset` objects, and wraps them in `DataLoader` instances. The `DataLoader`s handle batching and shuffling during training, with customizable batch size and test split ratio. This serves as an organized data pipeline to make sure we get efficient training and validation processes.
+
+```{python}
+# Define the data preparation function
+def prepare_nli_data(df, tokenizer, test_size=0.2, batch_size=16):
+    train_df, val_df = train_test_split(df, test_size=test_size, random_state=42)
+    
+    train_dataset = NLIDataset(train_df, tokenizer)
+    val_dataset = NLIDataset(val_df, tokenizer)
+    
+    train_dataloader = DataLoader(
+        train_dataset, 
+        batch_size=batch_size, 
+        shuffle=True
+    )
+    val_dataloader = DataLoader(
+        val_dataset, 
+        batch_size=batch_size
+    )
+    
+    return train_dataloader, val_dataloader
+```
+
+The `BertForNLI` class defines our model architecture for Natural Language Inference. It builds upon the pre-trained BERT model, adding a dropout layer for regularization, and finally a classification head for our three-class prediction task. The forward method handles the flow of data through the model, utilizing BERT's special tokens and attention mechanisms for processing sentence pairs.
+
+```{python}
+# Define the model class
+class BertForNLI(nn.Module):
+    def __init__(self, num_labels=3):
+        super().__init__()
+        self.bert = BertModel.from_pretrained('bert-base-uncased')
+        self.dropout = nn.Dropout(0.1)
+        self.classifier = nn.Linear(768, num_labels)
+        
+    def forward(self, input_ids, attention_mask, token_type_ids):
+        outputs = self.bert(
+            input_ids=input_ids,
+            attention_mask=attention_mask,
+            token_type_ids=token_type_ids
+        )
+        
+        pooled_output = outputs.pooler_output
+        pooled_output = self.dropout(pooled_output)
+        logits = self.classifier(pooled_output)
+        
+        return logits
+```
+
+
+In the training function chunk, we implement the complete training loop with progress tracking, wrapped in the function `train_nli_model`. This function handles the optimization process using `AdamW`, monitors loss during training, and evaluates performance on the validation set after each epoch. The progress bar provides real-time feedback during training, making it easier to monitor long training runs.
+
+```{python}
+# Define the training function
+def train_nli_model(model, train_dataloader, val_dataloader, epochs=3):
+    optimizer = AdamW(model.parameters(), lr=2e-5)
+    
+    for epoch in range(epochs):
+        model.train()
+        total_loss = 0
+        progress_bar = tqdm(train_dataloader, desc=f'Epoch {epoch+1}')
+        
+        for batch in progress_bar:
+            optimizer.zero_grad()
+            
+            input_ids = batch['input_ids'].to(device)
+            attention_mask = batch['attention_mask'].to(device)
+            token_type_ids = batch['token_type_ids'].to(device)
+            labels = batch['labels'].to(device)
+            
+            outputs = model(
+                input_ids=input_ids,
+                attention_mask=attention_mask,
+                token_type_ids=token_type_ids
+            )
+            
+            loss = F.cross_entropy(outputs, labels)
+            total_loss += loss.item()
+            
+            loss.backward()
+            optimizer.step()
+            
+            progress_bar.set_postfix({'loss': loss.item()})
+        
+        val_accuracy = evaluate_nli_model(model, val_dataloader)
+        print(f"Epoch {epoch+1}, Loss: {total_loss/len(train_dataloader):.4f}, Val Accuracy: {val_accuracy:.4f}")
+```
+
+
+Finally, the evaluation chunk contains two crucial functions. The `evaluate_nli_model` function calculates model accuracy on a given data set, while `predict_nli` handles predictions for new sentence pairs. These functions include proper model state management (evaluation mode) and device handling, ensuring consistent results whether running on CPU or GPU.
+
+```{python}
+def evaluate_nli_model(model, dataloader):
+    model.eval()
+    correct = 0
+    total = 0
+    
+    with torch.no_grad():
+        for batch in dataloader:
+            input_ids = batch['input_ids'].to(device)
+            attention_mask = batch['attention_mask'].to(device)
+            token_type_ids = batch['token_type_ids'].to(device)
+            labels = batch['labels'].to(device)
+            
+            outputs = model(
+                input_ids=input_ids,
+                attention_mask=attention_mask,
+                token_type_ids=token_type_ids
+            )
+            
+            _, predicted = torch.max(outputs, 1)
+            total += labels.size(0)
+            correct += (predicted == labels).sum().item()
+    
+    return correct / total
+
+# predict label for new examples
+def predict_nli(model, tokenizer, premise, hypothesis):
+    model.eval()
+    encoding = tokenizer(
+        premise,
+        hypothesis,
+        padding='max_length',
+        truncation=True,
+        max_length=128,
+        return_tensors='pt'
+    )
+    
+    input_ids = encoding['input_ids'].to(device)
+    attention_mask = encoding['attention_mask'].to(device)
+    token_type_ids = encoding['token_type_ids'].to(device)
+    
+    with torch.no_grad():
+        outputs = model(
+            input_ids=input_ids,
+            attention_mask=attention_mask,
+            token_type_ids=token_type_ids
+        )
+        prediction = torch.argmax(outputs, dim=1)
+    
+    label_map = {0: 'contradiction', 1: 'neutral', 2: 'entailment'}
+    return label_map[prediction.item()]
+```
+
+## Training and Evaluating on our own Data
+
+Finally, we have set everything up so that we can work on our own data. First, we read in and prepare prepare our actual data, a data set I downloaded from Kaggle, i.e., reading from a TSV file and replace the numeric labels with strings to avoid confusion. We create training and test sets from the data. This structured approach to data organization is crucial for maintaining consistency throughout the training and evaluation process.
+
+```{python}
+df = pd.read_csv('./files/pair-class_dev.tsv', sep='\t')
+label_map = {
+    0: 'entailment',
+    1: 'neutral',
+    2: 'contradiction'
+}
+df['label'] = df['label'].replace(label_map)
+train = df[0:2000]
+test = df[2000:3000].copy()
+```
+
+Then we create our tokenizer and model instances. The tokenizer is loaded from the pre-trained BERT model, and our custom NLI model is moved to the appropriate device (i.e., GPU, CPU, or, in my case, MPS) for computation. This setup forms the foundation for our training process.
+
+```{python}
+tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+model = BertForNLI()
+model = model.to(device)
+```
+
+The training execution chunk brings everything together, creating our data loaders and running the training process. We specify two epochs for training, though this parameter could be adjusted based on the specific requirements of the task and the observed learning dynamics (more is generally better).
+
+```{python}
+train_dataloader, val_dataloader = prepare_nli_data(train, tokenizer)
+train_nli_model(model, train_dataloader, val_dataloader, epochs = 2)
+```
+
+Once the training has finished, we can eyeball the results using a simple example. The example uses a clear semantic relationship between sleeping and resting to showcase the model's capability to recognize entailment.
+
+```{python}
+premise = "The cat is sleeping"
+hypothesis = "The cat is resting."
+prediction = predict_nli(model, tokenizer, premise, hypothesis)
+print(f"Prediction: {prediction}")
+```
+
+In our final evaluation chunk, we perform comprehensive testing on our held-out test set. We process all test examples through our model and calculate various performance metrics using `scikit-learn`'s classification report. This gives us a detailed view of the model's performance across different relationship types, including precision, recall, and F1-score for each class.
+
+```{python}
+predictions = []
+for idx, row in test.iterrows():
+    pred = predict_nli(model, tokenizer, row['premise'], row['hypothesis'])
+    predictions.append(pred)
+
+test['predicted'] = predictions
+
+print(classification_report(test['label'], test['predicted']))
+```
+
+
+
