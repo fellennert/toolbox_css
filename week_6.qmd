@@ -2,7 +2,7 @@
 title: "Week 6: Text as Data II"
 published-title: week_4
 engine: knitr
-freeze: false
+freeze: auto
 ---
 
 This lecture answers the following questions:

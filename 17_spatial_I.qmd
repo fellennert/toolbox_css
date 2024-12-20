@@ -27,7 +27,7 @@ shape_electoral_districts <- st_read("files/btw25_geometrie_wahlkreise_shp_geo/b
 
 shape_electoral_districts |> 
 ggplot() +
-  geom_sf(aes(fill = LAND_NAME), alpha=0.8, col="white") +
+  geom_sf(aes(fill = LAND_NAME), alpha = 0.8, col = "white") +
   labs(title = "States of Germany")
 ```
 
@@ -36,19 +36,19 @@ Next, we experiment with different map projections. The Mollweide projection is 
 ```{r}
 shape_electoral_districts |> 
 ggplot() +
-  geom_sf(aes(fill = LAND_NAME), alpha=0.8, col="white") +
+  geom_sf(aes(fill = LAND_NAME), alpha = 0.8, col = "white") +
   coord_sf(crs = "+proj=moll") +
   labs(title = "States of Germany",
        subtitle = "Mollweide projection") +
   theme_minimal()
 ```
 
-Therefore, we now use EPSG:4839 (DHDN / 3-degree Gauss zone 3), which is a projection specifically designed for Germany. This projection provides a better representation of the country's geography as it minimizes distortion for this specific region. Notice how the proportions look more natural compared to the previous projections.
+Therefore, we now use EPSG:4839 (DHDN / 3-degree Gauss zone 3), which is a projection specifically designed for Germany (see [this website](https://epsg.io) to find adequate projections). This projection provides a better representation of the country's geography as it minimizes distortion for this specific region. Notice how the proportions look more natural compared to the previous projections.
 
 ```{r}
 shape_electoral_districts |> 
 ggplot() +
-  geom_sf(aes(fill = LAND_NAME), alpha=0.8, col="white") +
+  geom_sf(aes(fill = LAND_NAME), alpha = 0.8, col = "white") +
   coord_sf(crs = 4839) +
   labs(title = "States of Germany",
        subtitle = "Using adequate projection") +
@@ -65,9 +65,9 @@ Now we move on to analyze voting behavior on a spatial level. First, we load and
 -   Invalid votes 
 -   Votes per party 
 
-We perform several data cleaning steps including handling missing values, removing leading zeros of the district numbers (so that we can finally merge it with the districts in the shape file). We also need to merge two districts. Finally, we can join them to our shape file using normal `dplyr` functions. This is as `sf` treats shape files as normal data frame with an added `geometry` column that is used for all spatial operations. 
+We perform several data cleaning steps including handling missing values, removing leading zeros of the district numbers (so that we can finally merge it with the districts in the shape file). We also need to merge two districts. Finally, we can join them to our shape file using normal `dplyr` functions. This is as `sf` treats shape files as a normal data frame with an added `geometry` column that is used for all spatial operations. 
 
-```{r warning=FALSE}
+```{r message=FALSE, warning=FALSE}
 turnout_votes <- read_delim("files/kerg.csv", skip = 2, delim = ";", show_col_types = FALSE) |> 
   select(1:2, possible_votes_erststimme = Wahlberechtigte,
          possible_votes_zweitstimme = ...5, actual_votes_erststimme = Wählende, actual_votes_zweitstimme = ...10, 
@@ -85,7 +85,7 @@ turnout_votes <- read_delim("files/kerg.csv", skip = 2, delim = ";", show_col_ty
   filter(nr_filled != Nr) |> 
   janitor::clean_names() |> 
   mutate(nr = str_remove_all(nr, "^0{1,2}") |> as.integer()) |> 
-  left_join(read_delim("files/kerg.csv", skip = 2, delim = ";") |> 
+  left_join(read_delim("files/kerg.csv", skip = 2, delim = ";", show_col_types = FALSE) |> 
               filter(`gehört zu` == 99) |> 
               select(1:2),
             by = c("nr_filled" = "Nr")) |> 
@@ -110,7 +110,7 @@ turnout_votes_fixed <- bind_rows(
   summarize(across(3:19, \(x) x |> sum(), .names = "{.col}")),
   turnout_votes |> filter(nr > 71) |> mutate(nr = nr - 1)
 ) |> 
-  fill(district)
+  fill(state)
 
 
 ## add electoral data to shape file
@@ -128,7 +128,7 @@ Then we can visualize these data:
 ```{r}
 shape_electoral_districts_turnout_votes |> 
 ggplot() +
-  geom_sf(aes(fill = state), alpha=0.8, col="white") +
+  geom_sf(aes(fill = state), alpha = 0.8, col = "white") +
   coord_sf(crs = 4839) +
   labs(title = "States of Germany",
        subtitle = "Using adequate projection") +
@@ -137,7 +137,7 @@ ggplot() +
 
 ### Merge Polygons
 
-Note that some districts are not colored according to their actual state. This comes about as, in our shape file, the district "Ostallgäu" is divided into two districts. Luckily, `sf`'s `st_union()` function enables us to melt these into one district, so that both election results and spatial information are matched.
+Note that some districts are not colored according to their actual state. This comes about as, in our shape file, the district "Ostallgäu" is divided into two districts, and therefore the two data sets' district numbers do not align. Luckily, `sf`'s `st_union()` function enables us to melt the superfluous districts into one district, so that both election results and spatial information are matched.
 
 ```{r}
 fixed_districts <- bind_rows(
@@ -169,7 +169,7 @@ After fixing the district boundaries, we create another visualization to verify 
 ```{r}
 shape_turnout_vote_fixed |> 
 ggplot() +
-  geom_sf(aes(fill = state), alpha=0.8, col="white") +
+  geom_sf(aes(fill = state), alpha = 0.8, col = "white") +
   coord_sf(crs = 4839) +
   labs(title = "States of Germany",
        subtitle = "Using adequate projection") +
@@ -320,11 +320,11 @@ shape_turnout_vote_perc |>
   group_by(district) |> 
   filter(percentage_6_biggest == max(percentage_6_biggest)) |> 
   ggplot() +
-  geom_sf(aes(fill = party), alpha=0.8, col="white") +
+  geom_sf(aes(fill = party), alpha = 0.8, col = "white") +
   coord_sf(crs = 4839) +
   labs(title = "Winning parties in German States",
        subtitle = "Using adequate projection") +
-  scale_fill_manual(values = party_colors)
+  scale_fill_manual(values = party_colors) +
   theme_minimal()
 ```
 
@@ -405,7 +405,7 @@ local_morans_i_afd_tbl <- shape_turnout_vote_perc |>
 
 local_morans_i_afd_tbl |> 
   ggplot() +
-  geom_sf(aes(fill = percentage_6_biggest), alpha=0.8, col="white") +
+  geom_sf(aes(fill = percentage_6_biggest), alpha = 0.8, col = "white") +
   coord_sf(crs = 4839) +
   labs(title = "Local Moran's I of AfD voting",
        subtitle = "Using adequate projection") +
@@ -413,7 +413,7 @@ local_morans_i_afd_tbl |>
 
 local_morans_i_afd_tbl |> 
   ggplot() +
-  geom_sf(aes(fill = local_moransi), alpha=0.8, col="white") +
+  geom_sf(aes(fill = local_moransi), alpha = 0.8, col = "white") +
   coord_sf(crs = 4839) +
   labs(title = "Local Moran's I of AfD voting",
        subtitle = "Using adequate projection") +
@@ -421,7 +421,7 @@ local_morans_i_afd_tbl |>
 
 local_morans_i_afd_tbl |> 
   ggplot() +
-  geom_sf(aes(fill = z_scores), alpha=0.8, col="white") +
+  geom_sf(aes(fill = z_scores), alpha = 0.8, col = "white") +
   coord_sf(crs = 4839) +
   labs(title = "Local Moran's I of AfD voting",
        subtitle = "Using adequate projection") +
@@ -429,7 +429,7 @@ local_morans_i_afd_tbl |>
 
 local_morans_i_afd_tbl |> 
   ggplot() +
-  geom_sf(aes(fill = p_value), alpha=0.8, col="white") +
+  geom_sf(aes(fill = p_value), alpha = 0.8, col = "white") +
   coord_sf(crs = 4839) +
   labs(title = "Local Moran's I of AfD voting",
        subtitle = "Using adequate projection") +
@@ -469,7 +469,7 @@ local_morans_i_afd_tbl |>
       percentage_centered < 0 & spatial_lag > 0 ~ "Low-High"
     )) |> 
   ggplot() +
-  geom_sf(aes(fill = cluster_type), alpha=0.8, col="white") +
+  geom_sf(aes(fill = cluster_type), alpha = 0.8, col = "white") +
   coord_sf(crs = 4839) +
   labs(title = "Local Indicators of Spatial Autocorrelation of AfD voting",
        subtitle = "Colored by ",
@@ -568,7 +568,7 @@ left_join(
   by = c("WKR_NR" = "nr")
 ) |> 
   ggplot() +
-  geom_sf(aes(fill = turnout), alpha=0.8, col="white") +
+  geom_sf(aes(fill = turnout), alpha = 0.8, col = "white") +
   coord_sf(crs = 4839) +
   labs(title = "Winning parties in German States",
        subtitle = "Using adequate projection") +
@@ -617,7 +617,7 @@ local_morans_i_turnout_tbl <- turnout_shape |>
 
 local_morans_i_turnout_tbl |> 
   ggplot() +
-  geom_sf(aes(fill = turnout), alpha=0.8, col="white") +
+  geom_sf(aes(fill = turnout), alpha = 0.8, col = "white") +
   coord_sf(crs = 4839) +
   labs(title = "Local Moran's I of turnout",
        subtitle = "Using adequate projection") +
@@ -625,7 +625,7 @@ local_morans_i_turnout_tbl |>
 
 local_morans_i_turnout_tbl |> 
   ggplot() +
-  geom_sf(aes(fill = local_moransi), alpha=0.8, col="white") +
+  geom_sf(aes(fill = local_moransi), alpha = 0.8, col = "white") +
   coord_sf(crs = 4839) +
   labs(title = "Local Moran's I of turnout",
        subtitle = "Using adequate projection") +
@@ -633,7 +633,7 @@ local_morans_i_turnout_tbl |>
 
 local_morans_i_turnout_tbl |> 
   ggplot() +
-  geom_sf(aes(fill = z_scores), alpha=0.8, col="white") +
+  geom_sf(aes(fill = z_scores), alpha = 0.8, col = "white") +
   coord_sf(crs = 4839) +
   labs(title = "Local Moran's I of turnout",
        subtitle = "Using adequate projection") +
@@ -641,7 +641,7 @@ local_morans_i_turnout_tbl |>
 
 local_morans_i_turnout_tbl |> 
   ggplot() +
-  geom_sf(aes(fill = p_value), alpha=0.8, col="white") +
+  geom_sf(aes(fill = p_value), alpha = 0.8, col = "white") +
   coord_sf(crs = 4839) +
   labs(title = "Local Moran's I of turnout",
        subtitle = "Using adequate projection") +
@@ -668,7 +668,7 @@ local_morans_i_turnout_tbl |>
       turnout_centered < 0 & spatial_lag > 0 ~ "Low-High"
     )) |> 
   ggplot() +
-  geom_sf(aes(fill = cluster_type), alpha=0.8, col="white") +
+  geom_sf(aes(fill = cluster_type), alpha = 0.8, col = "white") +
   coord_sf(crs = 4839) +
   labs(title = "Local Indicators of Spatial Autocorrelation of turnout",
        subtitle = "Colored by ",
@@ -684,3 +684,4 @@ local_morans_i_turnout_tbl |>
 -   [More on mapping](https://raw.githack.com/uo-ec607/lectures/master/09-spatial/09-spatial.html)
 -   [Geocomputation with R](https://r.geocompx.org) -- @lovelace_geocomputation_2025
 -   [The `sf` website](https://r-spatial.github.io/sf/)
+-   Find adequate projections [here](https://epsg.io)

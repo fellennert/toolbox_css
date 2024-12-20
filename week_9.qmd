@@ -2,7 +2,7 @@
 title: "Week 9: Geo Data I"
 published-title: week_8
 engine: knitr
-freeze: false
+freeze: auto
 ---
 
 This lecture answers the following questions:

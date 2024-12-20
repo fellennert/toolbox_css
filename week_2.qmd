@@ -2,7 +2,7 @@
 title: "Week 2: New Possibilities"
 published-title: week_2
 engine: knitr
-freeze: false
+freeze: auto
 ---
 
 This lecture answers the following questions:

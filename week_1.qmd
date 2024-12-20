@@ -2,7 +2,7 @@
 title: "Week 1: What Is Computational Social Science (CSS)?"
 published-title: week_1
 engine: knitr
-freeze: false
+freeze: auto
 ---
 
 This lecture answers the following questions:

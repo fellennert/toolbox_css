@@ -2,7 +2,7 @@
 title: "Week 4: Data Acquisition II"
 published-title: week_4
 engine: knitr
-freeze: false
+freeze: auto
 ---
 
 This lecture answers the following questions:
