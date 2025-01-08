@@ -10,7 +10,7 @@ csl: ASA.csl
 This tutorial demonstrates how to work with spatial data in R, specifically focusing on analyzing German electoral districts. We'll cover basic mapping, projections, spatial statistics including local and global versions of Moran's I, and creating interactive visualizations with `leaflet`. We'll use the `sf` package for handling spatial data and `ggplot2` for visualization.
 
 ```{r}
-needs(sf, tidyverse, leaflet)
+needs(sf, tidyverse, leaflet, spdep)
 ```
 
 ## Basic operations with `sf`
@@ -300,7 +300,6 @@ This is all fun and games, but let's analyze some voting data. In a first step, 
 
 ```{r}
 #-- moran's I
-needs(spdep)
 
 party_colors <- c(
   "left" = "#d837f0",
@@ -570,7 +569,7 @@ left_join(
   ggplot() +
   geom_sf(aes(fill = turnout), alpha = 0.8, col = "white") +
   coord_sf(crs = 4839) +
-  labs(title = "Winning parties in German States",
+  labs(title = "Voting turnout in German Electoral Districts",
        subtitle = "Using adequate projection") +
   theme_minimal()
 ```
@@ -670,7 +669,7 @@ local_morans_i_turnout_tbl |>
   ggplot() +
   geom_sf(aes(fill = cluster_type), alpha = 0.8, col = "white") +
   coord_sf(crs = 4839) +
-  labs(title = "Local Indicators of Spatial Autocorrelation of turnout",
+  labs(title = "Local Indicators of Spatial Autocorrelation of Turnout",
        subtitle = "Colored by ",
        fill = "Cluster Type") +
   scale_fill_manual(values = cluster_color) +

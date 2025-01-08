@@ -1,5 +1,5 @@
 ---
-title: "Week 9: Geo Data I"
+title: "Week 9: Spatial Data I"
 published-title: week_8
 engine: knitr
 freeze: auto
