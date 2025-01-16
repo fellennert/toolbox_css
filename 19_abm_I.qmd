@@ -696,7 +696,7 @@ initialize_opinion_model <- function(n_actors = 100,
   )
 }
 
-initialize_opinion_model()
+initialize_opinion_model() |> str()
 ```
 
 ### Process overview and scheduling
