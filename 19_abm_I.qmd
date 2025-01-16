@@ -571,6 +571,10 @@ system.time({
 
 Now that we have this sped up function, we can use different parameters, run different simulations, and you can look at the results. `furrr` gives us the option to use the `future_map()` funtion. This is basically `purrr::map()` running in parallel.
 ```{r}
+#| results: hide
+#| message: false
+#| warning: false
+
 input_table <- expand_grid(
   max_steps = 50,
   dimensions = c(25, 50),
