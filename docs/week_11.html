@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.5.55">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Chapter 7: OCR with tesseract – Toolbox CSS</title>
+<title>Week 11: Agent-based Modeling I – Toolbox CSS</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,60 +20,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -119,7 +66,6 @@ div.csl-indent {
     "search-label": "Search"
   }
 }</script>
-<link href="site_libs/vembedr-0.1.5/css/vembedr.css" rel="stylesheet">
 
 
 <link rel="stylesheet" href="styles.css">
@@ -190,6 +136,14 @@ div.csl-indent {
         <li>
     <a class="dropdown-item" href="./week_9.html">
  <span class="dropdown-text">Week 9: Spatial Data I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week_10.html">
+ <span class="dropdown-text">Week 10: Spatial Data II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week_11.html">
+ <span class="dropdown-text">Week 11: Agent-based Modeling I</span></a>
   </li>  
     </ul>
   </li>
@@ -262,6 +216,14 @@ div.csl-indent {
     <a class="dropdown-item" href="./17_spatial_I.html">
  <span class="dropdown-text">Chapter 16: Working with Spatial Data</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./18_spatial_II.html">
+ <span class="dropdown-text">Chapter 17: Inference with Spatial Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./19_abm_I.html">
+ <span class="dropdown-text">Chapter 18: Agent-based Modeling</span></a>
+  </li>  
     </ul>
   </li>
 </ul>
@@ -280,12 +242,7 @@ div.csl-indent {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#install-tesseract-and-download-language-packages" id="toc-install-tesseract-and-download-language-packages" class="nav-link active" data-scroll-target="#install-tesseract-and-download-language-packages">Install <code>tesseract</code> and download language packages</a></li>
-  <li><a href="#ocr-101" id="toc-ocr-101" class="nav-link" data-scroll-target="#ocr-101">OCR 101</a></li>
-  <li><a href="#advanced-ocr-with-magick-preprocessing" id="toc-advanced-ocr-with-magick-preprocessing" class="nav-link" data-scroll-target="#advanced-ocr-with-magick-preprocessing">Advanced OCR with <code>magick</code> preprocessing</a></li>
-  <li><a href="#read-pdfs" id="toc-read-pdfs" class="nav-link" data-scroll-target="#read-pdfs">Read PDFs</a></li>
-  <li><a href="#further-links" id="toc-further-links" class="nav-link" data-scroll-target="#further-links">Further links</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
+  <li><a href="#slides" id="toc-slides" class="nav-link active" data-scroll-target="#slides">Slides</a></li>
   </ul>
 </nav>
     </div>
@@ -294,7 +251,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Chapter 7: OCR with <code>tesseract</code></h1>
+<h1 class="title">Week 11: Agent-based Modeling I</h1>
 </div>
 
 
@@ -311,250 +268,47 @@ div.csl-indent {
 </header>
 
 
-<p>This chapter demonstrates how you can read images and PDF documents into R in an automated fashion. Note that OCR is not always perfect and you might have to do some significant pre- and/or post-processing. I have included some classic pre-processing commands from the <code>magick</code> package, post-processing will usually be conducted using RegExes.</p>
-<section id="install-tesseract-and-download-language-packages" class="level2">
-<h2 class="anchored" data-anchor-id="install-tesseract-and-download-language-packages">Install <code>tesseract</code> and download language packages</h2>
-<div class="cell">
-<div class="cell-output-display">
-<div class="vembedr">
-<div>
-<iframe src="https://www.youtube.com/embed/2Gx6Mi16g8E" width="533" height="300" frameborder="0" allowfullscreen="" data-external="1"></iframe>
-</div>
-</div>
-</div>
-</div>
-<p>Before we can start OCRing images, we need to install <code>tesseract</code> via the command line. The reason for this is that the R package merely binds to the engine, but the OCRing happens “under the hood.” You can find instructions on how to install <code>tesseract</code> for your respective operating system <a href="https://tesseract-ocr.github.io/tessdoc/Installation.html">here</a>.</p>
-<p>Once successfully installed, we can just load the package. In order to get the best results, we need to define the language our text is in. Multiple options are available (for a list of languages, <a href="https://ports.macports.org/search/?q=tesseract-&amp;name=on">see this website</a>) and can be downloaded using <code>tesseract::tesseract_download()</code> (for Mac and Windows users).</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(tesseract)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>english <span class="ot">&lt;-</span> <span class="fu">tesseract</span>(<span class="st">"eng"</span>) <span class="co"># use English model</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tesseract_download</span>(<span class="st">"deu"</span>) <span class="co"># download German language model</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Training data already exists. Overwriting /Users/felixlennert/Library/Application Support/tesseract5/tessdata/deu.traineddata</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "/Users/felixlennert/Library/Application Support/tesseract5/tessdata/deu.traineddata"</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tesseract_info</span>()[[<span class="st">"available"</span>]] <span class="co"># check available languages</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "deu"  "eng"  "osd"  "snum"</code></pre>
-</div>
-</div>
-</section>
-<section id="ocr-101" class="level2">
-<h2 class="anchored" data-anchor-id="ocr-101">OCR 101</h2>
-<p>Once the package and the language module is installed, you can start OCRing. For illustration purposes, we OCR the first paragraph of the RStudio Wikipedia article:</p>
-<p><img src="figures/rstudio_wiki.png" class="img-fluid"></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ocr</span>(<span class="st">"figures/rstudio_wiki.png"</span>, <span class="at">engine =</span> english)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "RStudio IDE (or RStudio) is an integrated development environment for R, a\nprogramming language for statistical computing and graphics. It is available in two\nformats: RStudio Desktop is a regular desktop application while RStudio Server runs on\na remote server and allows accessing RStudio using a web browser. The RStudio IDE\nis a product of Posit PBC (formerly RStudio PBC, formerly RStudio Inc.).\n"</code></pre>
-</div>
-</div>
-<p>Note that there are still line breaks in there. We can easily replace them with whitespace them using <code>stringr::str_replace_all()</code>. Make sure to remove redundant whitespaces using <code>stringr::str_squish()</code></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(tidyverse)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ocr</span>(<span class="st">"figures/rstudio_wiki.png"</span>, <span class="at">engine =</span> english) <span class="sc">|&gt;</span> </span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_replace_all</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">n"</span>, <span class="st">" "</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_squish</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "RStudio IDE (or RStudio) is an integrated development environment for R, a programming language for statistical computing and graphics. It is available in two formats: RStudio Desktop is a regular desktop application while RStudio Server runs on a remote server and allows accessing RStudio using a web browser. The RStudio IDE is a product of Posit PBC (formerly RStudio PBC, formerly RStudio Inc.)."</code></pre>
-</div>
-</div>
-<p>If we want deeper insights to the confidence <code>tesseract</code> has in its word guesses, use <code>tesseract::ocr_data()</code>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ocr_data</span>(<span class="st">"figures/rstudio_wiki.png"</span>, <span class="at">engine =</span> english)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 63 × 3
-   word        confidence bbox           
-   &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;          
- 1 RStudio           91.8 14,18,134,43   
- 2 IDE               96.6 145,19,196,42  
- 3 (or               93.3 207,18,245,49  
- 4 RStudio)          92.9 256,18,385,49  
- 5 is                96.3 397,19,418,43  
- 6 an                96.3 429,24,461,43  
- 7 integrated        96.5 474,18,612,49  
- 8 development       93.7 624,18,806,49  
- 9 environment       96.5 816,19,991,43  
-10 for               93.2 1001,18,1038,43
-# ℹ 53 more rows</code></pre>
-</div>
-</div>
-</section>
-<section id="advanced-ocr-with-magick-preprocessing" class="level2">
-<h2 class="anchored" data-anchor-id="advanced-ocr-with-magick-preprocessing">Advanced OCR with <code>magick</code> preprocessing</h2>
-<p>This worked quite well. One reason for this is that screenshots from the internet are usually very “clean.” However, often this is not the case, especially with book scans. There might be some noise/speckles in the image, some skewed text, etc. In our next example, we OCR the first page of the “Text As Data” book and preprocess it with <code>magick</code> (find instructions for <code>magick</code> <a href="https://docs.ropensci.org/magick/articles/intro.html">here</a>)</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="figures/tad_toc.png" class="img-fluid figure-img"></p>
-<figcaption>Table of contents of <span class="citation" data-cites="grimmer_text_2022">Grimmer, Roberts, and Stewart (<a href="#ref-grimmer_text_2022" role="doc-biblioref">2022</a>)</span></figcaption>
-</figure>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ocr</span>(<span class="st">"figures/tad_toc.png"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Preface i
-Prerequisites and Notation xvll
-Uses for This Book wl
-What This Book Is Not —
-PART |! PRELIMINARIES 1
-CHAPTER 1 Introduction 3
-1.1. How This Book Informs the Social Sciences 5
-1.2. How This Book Informs the Digital Humanities 8
-1.3 How This Book Informs Data Science in Industry
-and Government
-1.4  AGuide to This Book 2
-1.5 Conclusion *
-CHAPTER 2 Social Science Research and Text Analysis 13
-2.1 Discovery
-2.2 Measurement 18
-2.3. Inference ae
-2.4 Social Science as an Iterative and W
-Cumulative Process
-2.5 An Agnostic Approach to Text Analysis
-2.6 Discovery, Measurement, and Causal Inference:
-How the Chinese Government Censors Social
-Media 20
-2.7 Six Principles of Text Analysis 22
-2.71 Social Science Theories and Substantive
-Knowledge are Essential for Research Design 22
-2.7.2 Text Analysis does not Replace Humans—lt
-Augments Them 24
-273 Building, Refining, and Testing Social Science
-Theories Requires Iteration and Cumulation 26
-2.74 Text Analysis Methods Distill Generalizations
-from Language 28
-2.75 The Best Method Depends on the Task 29</code></pre>
-</div>
-</div>
-<p>As we can see, there are a couple of problems – some page numbers are not detected correctly, some typos, etc. Perhaps, some manual image pre-processing can help here.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(magick)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">image_read</span>(<span class="st">"figures/tad_toc.png"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">image_resize</span>(<span class="st">"90%"</span>) <span class="sc">|&gt;</span> <span class="co"># play around with this parameter</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">image_rotate</span>(<span class="at">degrees =</span> <span class="dv">3</span>) <span class="sc">|&gt;</span> <span class="co">#straighten picture</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">image_contrast</span>(<span class="at">sharpen =</span> <span class="dv">100</span>) <span class="sc">|&gt;</span>  <span class="co"># increases contrast</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">image_convert</span>(<span class="at">type =</span> <span class="st">"Grayscale"</span>) <span class="sc">|&gt;</span> <span class="co"># black and white</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">image_trim</span>() <span class="sc">|&gt;</span> <span class="co">#trim image to remove margins </span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ocr</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Preface xvii
-Prerequisites and Notation xvii
-Uses for This Book xviii
-What This Book Is Not min
-PARTI PRELIMINARIES 1
-CHAPTER 1 Introduction 3
-1.1. How This Book Informs the Social Sciences 5
-1.2 How This Book Informs the Digital Humanities 8
-1.3. How This Book Informs Data Science in Industry
-and Government 9
-1.4 A Guide to This Book 10
-1.5 Conclusion n
-CHAPTER 2 __ Social Science Research and Text Analysis 13
-2.1 Discovery 15
-2.2 Measurement 16
-2.3 Inference 17
-2.4 Social Science as an Iterative and
-Cumulative Process 7
-2.5 An Agnostic Approach to Text Analysis 18
-2.6 Discovery, Measurement, and Causal Inference:
-How the Chinese Government Censors Social
-Media 20
-2.7 Six Principles of Text Analysis 22
-2.71 Social Science Theories and Substantive
-Knowledge are Essential for Research Design 22)
-2.72 Text Analysis does not Replace Humans—It
-Augments Them 24
-2.73 Building, Refining, and Testing Social Science
-Theories Requires Iteration and Cumulation 26
-2.74 Text Analysis Methods Distill Generalizations
-from Language 28
-2.75 The Best Method Depends on the Task 29</code></pre>
-</div>
-</div>
-<p>Slight improvements! Still not perfect, but OCR hardly ever is.</p>
-</section>
-<section id="read-pdfs" class="level2">
-<h2 class="anchored" data-anchor-id="read-pdfs">Read PDFs</h2>
-<p>If we want to read PDFs, we can also harness the power of <code>tesseract</code> in combination with <code>magick</code> and <code>pdftools</code>. In this example, I ocr a multi-page PDF document containing newspaper articles.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(pdftools)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>german <span class="ot">&lt;-</span> <span class="fu">tesseract</span>(<span class="at">language =</span> <span class="st">"deu"</span>)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>texts <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">pdf_info</span>(<span class="st">"figures/snippet_dereko.pdf"</span>)<span class="sc">$</span>pages, </span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>              \(x) {</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>                <span class="fu">pdf_render_page</span>(<span class="st">"figures/snippet_dereko.pdf"</span>, <span class="at">page =</span> x, <span class="at">dpi =</span> <span class="dv">300</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">image_read</span>() <span class="sc">|&gt;</span> <span class="co"># Convert raw image to magick image object</span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">ocr</span>(<span class="at">engine =</span> german) <span class="co"># OCR</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>                }) <span class="sc">|&gt;</span> </span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reduce</span>(c)</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>texts <span class="sc">|&gt;</span> <span class="fu">str_sub</span>(<span class="dv">1</span>, <span class="dv">100</span>) <span class="sc">|&gt;</span> <span class="fu">cat</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>© Leibniz-Institut für Deutsche Sprache, Mannheim
-COSMAS II-Server, C2API-Version 4.23.8 - 21.11.202 bewusst als Veranstaltungsort gewählt worden. Bundesweit soll auf über 500 Veranstaltungen die Staat Das Auto hält sich an die religiösen Regeln am Shabbat, an dem keine Arbeit getan, kein Lichtschalte (B98/MA1.29532 Berliner Zeitung, 15.05.1998; PALÄSTINA [S. 6])
-
-Israelis und Palästinenser erinnern </code></pre>
-</div>
-</div>
-<p>Easy!</p>
-</section>
-<section id="further-links" class="level2">
-<h2 class="anchored" data-anchor-id="further-links">Further links</h2>
+<p>This lecture answers the following questions:</p>
 <ul>
-<li><a href="https://cran.r-project.org/web/packages/tesseract/vignettes/intro.html#Extract_Text_from_Images"><code>tesseract</code> R package manual</a></li>
-<li><a href="https://docs.ropensci.org/magick/articles/intro.html#ocr-text-extraction"><code>magick</code> R package manual</a></li>
+<li>Why shall we simulate human behavior in an agent-based fashion?</li>
+<li>What is its relationship with sociological theory?</li>
+<li>How can we use it for mechanism-based explanations?</li>
 </ul>
-</section>
-<section id="exercises" class="level2">
-<h2 class="anchored" data-anchor-id="exercises">Exercises</h2>
-<p>In general, you could try all the <code>rvest</code> exercises with <code>selenium</code> to see how these things differ. Also every page is different, therefore it will probably be best if you just start with your own things. However, here is a quite tricky example.</p>
-<ol type="1">
-<li>Take a screenshot of a page of your liking and OCR it. Post-process.</li>
-</ol>
-<details>
-<summary>
-Solution. Click to expand!
-</summary>
+<section id="slides" class="level2">
+<h2 class="anchored" data-anchor-id="slides">Slides</h2>
+<p>Please click <a href="./slides/20250114-abm-I.pdf">here to download the latest version of the slides</a>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ocr</span>(<span class="st">"figures/rstudio_wiki.png"</span>, <span class="at">engine =</span> english) <span class="sc">|&gt;</span> </span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_replace_all</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">n"</span>, <span class="st">" "</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_squish</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</details>
-<ol start="2" type="1">
-<li>OCR a PDF document you have available (e.g., one of the course readings). If you get the error “Image too small to scale,” you can use <code>magick::image_resize()</code>.</li>
-</ol>
-<details>
-<summary>
-Solution. Click to expand!
-</summary>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>texts <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, </span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>              \(x) {</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                <span class="fu">pdf_render_page</span>(<span class="st">"figures/Stoltz:Taylor 2020.pdf"</span>, <span class="at">page =</span> x, <span class="at">dpi =</span> <span class="dv">300</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">image_read</span>() <span class="sc">|&gt;</span> <span class="co"># Convert raw image to magick image object</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">image_resize</span>(<span class="st">"300%"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">ocr</span>(<span class="at">engine =</span> english) <span class="co"># OCR</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>                }) <span class="sc">|&gt;</span> </span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reduce</span>(c)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</details>
+<style type="text/css">
 
+.embed-container {
+    position: relative;
+    padding-bottom: 129%;
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+.embed-container iframe,
+.embed-container object,
+.embed-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+</style>
+</div>
+<p>Alternatively, read it here (probably not the best if you’re visiting this page on a mobile device):</p>
+<div class="embed-container">
+<p><iframe src="./slides/20250114-abm-I.pdf" style="border: 0.5px"></iframe></p>
+</div>
 
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-grimmer_text_2022" class="csl-entry" role="listitem">
-Grimmer, Justin, Margaret Roberts, and Brandon Stewart. 2022. <em>Text as <span>Data</span>: <span>A New Framework</span> for <span>Machine Learning</span> and the <span>Social Sciences</span></em>. Princeton: Princeton University Press.
-</div>
-</div></section></div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

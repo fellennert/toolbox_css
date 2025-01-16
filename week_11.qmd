@@ -1,18 +1,19 @@
 ---
-title: "Week 10: Spatial Data II"
-published-title: week_10
+title: "Week 11: Agent-based Modeling I"
+published-title: week_11
 engine: knitr
 freeze: auto
 ---
 
 This lecture answers the following questions:
 
-- How do we perform statistical inference on human behavior using spatial data?
-- Which ways exist to get around spatial autocorrelation?
+- Why shall we simulate human behavior in an agent-based fashion?
+- What is its relationship with sociological theory?
+- How can we use it for mechanism-based explanations?
 
 ## Slides 
 
-Please click [here to download the latest version of the slides](./slides/20250107-spatial-II.pdf).
+Please click [here to download the latest version of the slides](./slides/20250114-abm-I.pdf).
 
 ```{css echo=FALSE}
 
@@ -39,5 +40,7 @@ Please click [here to download the latest version of the slides](./slides/202501
 Alternatively, read it here (probably not the best if you're visiting this page on a mobile device):
 
 <div class="embed-container">
-  <iframe src="./slides/20250107-spatial-II.pdf" style="border: 0.5px"></iframe>
+  <iframe src="./slides/20250114-abm-I.pdf" style="border: 0.5px"></iframe>
 </div>
+
+
