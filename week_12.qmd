@@ -1,0 +1,46 @@
+---
+title: "Week 12: Agent-based Modeling II"
+published-title: week_12
+engine: knitr
+freeze: auto
+---
+
+This lecture answers the following questions:
+
+- How can we get to reasonable assumptions for ABMs?
+- Where do these data come from?
+- How can we compare the model outcomes to the real world?
+
+## Slides 
+
+Please click [here to download the latest version of the slides](./slides/20250121-abm-II.pdf).
+
+```{css echo=FALSE}
+
+.embed-container {
+    position: relative;
+    padding-bottom: 129%;
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+.embed-container iframe,
+.embed-container object,
+.embed-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+```
+
+Alternatively, read it here (probably not the best if you're visiting this page on a mobile device):
+
+<div class="embed-container">
+  <iframe src="./slides/20250121-abm-II.pdf" style="border: 0.5px"></iframe>
+</div>
+
+
