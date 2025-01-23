@@ -893,5 +893,5 @@ While in this toy example, the "ground truth" came from and unspecified simulati
 
 ## Further links
 
-- Another handbook entry on [ABMs in the social sciences](https://doi.org/10.4337/9781789909432.00011)
+- Another handbook chapter on [ABMs in the social sciences](https://doi.org/10.4337/9781789909432.00011)
 - A [workshop on ABMs](https://marijnkeijzer.github.io/sub/bigsss-abm/) by Marijn Keizer and Jan Lorenz (it's in Netlogo but gives you some infos on how to build and interpret ABMs)
