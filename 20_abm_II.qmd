@@ -7,107 +7,41 @@ bibliography: literature.bib
 csl: ASA.csl
 ---
 
-# Introduction
+## Introduction
 
-Welcome to our session on **Agent-Based Modeling (ABM)** and **parameter calibration** in R. In the coming chapters, you will learn how to set up a simple ABM that simulates the diffusion of a superior innovation among agents, then use calibration techniques to estimate model parameters from observed (or synthetic) data.
+*Note: this script has been kindly provided by [Sascha Grehl](https://www.uni-leipzig.de/en/profile/mitarbeiter/sascha-grehl). You might notice the difference in coding style -- i.e., old pipe operator, not necessarily using all of the `tidyverse` packages. Style preferences differ, but this script impressively showcases that there are different ways and they are neither mutually exclusive nor necessarily better. I made some changes when I deemed them necessary, mostly to ensure compatibility with Macs. You can find the original code [in this GitHub repository](https://github.com/SGrehl/diffusion/tree/main).*
 
-**Key topics in this chapter**:
+Welcome to our session on Agent-Based Modeling (ABM) and parameter calibration in R. In the coming chapters, you will learn how to set up a simple ABM that simulates the diffusion of a superior innovation among agents, then use calibration techniques to estimate model parameters from observed (or synthetic) data.
 
-1. **What is Agent-Based Modeling?**  
-2. **Why Do We Need Calibration?**  
-3. **Outline of the Session**
+Agent-Based Modeling (ABM) is a computational approach where a large number of individual entities -- the agents -- interact within a defined environment. Each agent can follow simple or complex rules, and through these interactions, emergent phenomena arise at the system level. The agents can represent people, firms, animals, or any discrete decision-making units. Rules are pre-specified by the model architect and often include how agents move, communicate, adopt behaviors, or otherwise change over time. Finally, the environment can be spatial (e.g., a grid or network), social (e.g., hierarchy, peer groups), or both.
 
----
+ABMs are nice for a couple of reasons: they capture heterogeneity as ach agent can have different attributes or decision rules. Furthermore, they model interactions directly -- agents can influence each other’s state (e.g., spread of ideas or contagion). Finally, they allow for emergence, thereby explicitly capturing the final micro--macro step of the Coleman boat; this allows us to thoroughly model and investigate how large-scale patterns (e.g., diffusion curves) arise from simple local interactions.
 
-## What is Agent-Based Modeling?
+However, a model, no matter how cleverly designed, is most useful when it can be compared to real data or synthetic data that mimics reality. Calibration is the process of adjusting a model’s internal parameters so that its output matches observed data as closely as possible. To this end, we perform parameter calibration, i.e., find the combination of parameters (e.g., contagion probability, contact rate, etc.) that leads to the most realistic model outputs. Then we can can validate: once the parameters are estimated, we need to check if the model can predict data in scenarios beyond what it was originally fit to. This is useful since a calibrated model is more reliable for exploring what-if scenarios or interventions.
 
-Agent-Based Modeling (ABM) is a computational approach where a large number of individual entities—called **agents**—interact within a defined environment. Each agent can follow simple or complex rules, and through these interactions, **emergent phenomena** arise at the system level.
+In today's session, we will use synthetic historic data generated with hidden (“secret”) parameters. Your goal will be to figure out which parameters best explain the simulated outcomes—mimicking what you would do with real-world data if these parameters were unknown. To this end, we will first build up an ABM. Then, we will build a function that takes two models and compares the goodness of their fit (i.e., how well their outcomes match). Finally, we will systematically alter the parameters of our existing model to find the specification that matches our existing, synthetic data the best. 
 
-- **Agents** can represent people, firms, animals, or any discrete decision-making units.
-- **Rules** often include how agents move, communicate, adopt behaviors, or otherwise change over time.
-- **Environment** can be spatial (e.g., a grid or network), social (e.g., hierarchy, peer groups), or both.
+By the end of this session, you will have practical experience in:
 
-**Why ABM?**  
-1. It captures **heterogeneity**: Each agent can have different attributes or decision rules.  
-2. It models **interactions** directly: Agents can influence each other’s state (e.g., spread of ideas or contagion).  
-3. It allows **emergence**: Large-scale patterns (e.g., diffusion curves) arise from simple local interactions.
-
----
-
-## Why Do We Need Calibration?
-
-A model, no matter how cleverly designed, is most useful when it can be **compared to real data** or synthetic data that mimics reality. Calibration is the process of adjusting a model’s internal parameters so that its output matches observed data as closely as possible.
-
-- **Parameter Estimation**: Find the combination of parameters (e.g., contagion probability, contact rate, etc.) that leads to the most realistic model outputs.  
-- **Validation**: Once calibrated, we can check if the model can predict data in scenarios beyond what it was originally fit to.  
-- **Policy or Scenario Testing**: A calibrated model is more reliable for exploring what-if scenarios or interventions.
-
-In today's session, we will use **synthetic** historic data generated with hidden (“secret”) parameters. Your goal will be to figure out which parameters best explain the simulated outcomes—mimicking what you would do with real-world data if these parameters were unknown.
-
----
-
-## Outline of the Session
-
-Here’s how the rest of the session will unfold:
-
-1. **ABM Mechanics (Chapter 2)**  
-   - We will dive into the details of our ABM code, explaining each function that initializes the world, updates agents, and tracks innovation over time.
-
-2. **Calibration Techniques (Chapter 3)**  
-   - We will introduce our fit functions, show how to compare data, and illustrate simple grid-search or Monte Carlo approaches to find “best” parameters.
-
-3. **Hands-On Exercises (Chapter 4)**  
-   - You will practice calibrating the model, experiment with fit functions, and refine your intuition about why different parameter settings lead to different diffusion outcomes.
-
-4. **Appendix (Chapter 5)**  
-   - Additional references, extended code listings, and more advanced topics.
-
-By the end of this session, you will have **practical experience** in:
 - Building and running an agent-based simulation in R.
 - Implementing calibration routines and interpreting the results.
 - Visualizing parameter search results with heatmaps or other techniques.
 
----
+## Building the model
 
-## Final Notes
+In this chapter, we will delve into the mechanics of an agent-based model (ABM) that simulates the diffusion of an innovation over time. Our model starts with a grid-based world of agents, allows them to interact and spread the innovation, and then collects data on how the innovation diffuses over time.
 
-- **Software Requirements**: We will use R (version 4.0 or later), with packages including `tidyverse` and preferably with `foreach` and `doParallel`.
-- **Data**: Synthetic data (`historic_data.RData`) will be provided.  
-- **Code**: Functions for simulation and calibration reside in separate R scripts (`functions_simulation.R`, `functions_calibration.R`). We will call them throughout.
+For our diffusion simulation, we use a simple mesh grid of size $M \times M$. Each cell on this grid is occupied by $n$ agents. Agents are either innovators (already using the new innovation) or non-innovators.
 
-In the next chapter, we will explore the **mechanics** of our ABM, so you can see how the innovation spreads among agents step by step.
-
-*Let’s begin our journey!*
-
-# ABM Simulation
-
-In this chapter, we will delve into the **mechanics** of the agent-based model (ABM) that simulates the **diffusion of an innovation**. Our model starts with a grid-based world of agents, allows them to interact and spread the innovation, and then collects data on how the innovation diffuses over time.
-
-**Key Topics**:
-1. Defining a Model
-2. World initialization
-3. Visualization of the grid
-4. Movement and contact logic
-5. The simulation loop
-6. Reporting and summarizing results
-
-Throughout this chapter, we’ll show the core functions, which are stored in a separate file (e.g. `functions_simulation.R`) and simply call via `source("functions_simulation.R")`. Here, we break them down for clarity.
-
----
-
-## Defining a Model
-
-For our diffusion simulation, we use a **simple mesh grid** of size \\( M \times M \\). Each cell on this grid is occupied by \\( n \\) agents. Agents are either **innovators** (already using the new innovation) or **non-innovators**.
-
-At **each time step**, all innovators:
-1. Draw a random distance \\( d \\) from a specified distribution (e.g., **geometric**, **Weibull**, etc.) using the **`agent_distance_function`**.  
-2. Select **one random cell** exactly \\( d \\) units away (in **Manhattan distance**).  
-3. Pick **one random agent** in that cell (the targeted agent).  
-4. Attempt to **convince** the targeted agent to **adopt** the innovation, succeeding with probability \\( p \\) (defined by `agent_distance_contagion`).  
+At each time step, all innovators:
+1. Draw a random distance `d` from a specified distribution (e.g., geometric, Weibull, etc.) using the `model_implement_distance_function`  
+2. Select one random cell exactly `d` units away (in Manhattan distance).  
+3. Pick one random agent in that cell (the targeted agent).  
+4. Attempt to convince the targeted agent to adopt the innovation, succeeding with probability `p` (defined by `agent_distance_contagion`).  
 
 If successful, the targeted agent becomes an innovator as well.
 
-Additionally, we include a **seed** for reproducibility, so each run can produce consistent results. Here is an example **R list** capturing these model parameters:
+Additionally, we include a `seed` for reproducibility, so each run can produce consistent results. Here is an example `list` capturing these model parameters:
 
 ```{r}
 needs(tidyverse)
@@ -121,7 +55,7 @@ model <- list(
 )
 ```
 
-## Creating the World
+### Creating the World
 
 After defining the model parameters, we need a function to initialize our world with agents. Each agent is placed on a \( M \times M \) grid, with \( n \) agents per cell. We also specify which agent starts off with the innovation.
 
@@ -153,13 +87,13 @@ world <- world_init()
 world |> head()
 ```
 
-Now the world is a data frame, for each agent a row with its x and y coordinates, the cell id, and its innovation-status (1 = innovator, 0 = not).
+Now the world is a data frame, for each agent a row with its `x` and `y` coordinates, the `cell_id`, and its `innovation` status (`1 == innovator`, `0 == not`).
 
 ### Additional Setup: Distance Drawing and Position Lookup
 
-Before we will turn to Updating the World in Each Step, we will introduce to functions which will help us to run the simulation faster.  
+Before we will turn to updating the World in each step, we will introduce to functions which will help us to run the simulation faster.  
 
-When we run our ABM, each innovator needs to pick a distance \\( d \\) from a **probability distribution** (e.g., a geometric or Weibull distribution). To avoid repeatedly switching among these distributions at each step, we define a **single helper function** that **attaches** the appropriate `draw_distance()` function to the `model` object.
+When we run our ABM, each innovator needs to pick a distance `d` from a probability distribution (e.g., a geometric or Weibull distribution). To avoid repeatedly switching among these distributions at each step, we define a single helper function that attaches the appropriate `draw_distance()` function to the `model` object.
 
 ```{r}
 model_implement_distance_function <- function(model){
@@ -181,7 +115,7 @@ model_implement_distance_function <- function(model){
 model_implement_distance_function(model)
 ```
 
-We also define a **position lookup** function to quickly find all agents in a specific cell, greatly improving performance when we need to identify potential targets.
+We also define a position lookup function to quickly find all agents in a specific cell, greatly improving performance when we need to identify potential targets.
 
 ```{r}
 create_position_lookup <- function(world) {
@@ -196,19 +130,18 @@ create_position_lookup <- function(world) {
 create_position_lookup(world) |> head()
 ```
 
-## A Single Time Step
+### A single time step
 
-At each **time step** in our ABM, we want to simulate how existing **innovators** attempt to convince other agents to adopt the innovation. The process includes:
+At each time step in our ABM, we want to simulate how existing innovators attempt to convince other agents to adopt the innovation. The process includes:
 
 1. Identifying all current innovators.
-2. Drawing a random distance for each innovator and selecting a **target cell** using Manhattan distance.
-3. Picking a **random agent** in that cell.
-4. Filtering out innovators who fail a random threshold (they won’t successfully convince anyone).
-5. Updating the targeted agents’ status if they have been convinced to adopt the innovation.
+2. Drawing a random distance for each innovator and selecting a target cell using Manhattan distance.
+3. Picking a random agent in that cell.
+4. Updating the targeted agents' status if they have been convinced to adopt the innovation.
 
-However, for **performance reasons**, our actual implementation filters out would-be unsuccessful innovators before drawing distances. This approach avoids unnecessary computations for innovators who would fail anyway. For example, if we have 1,000 innovators but only a 5% chance of convincing someone, filtering first means we only process about 50 innovators for the subsequent steps—significantly reducing computational overhead.
+However, for performance reasons, our actual implementation filters out would-be unsuccessful innovators before drawing distances. This approach avoids unnecessary computations for innovators who would fail anyway. For example, if we have 1,000 innovators but only a 5% chance of convincing someone, filtering first means we only process about 50 innovators for the subsequent steps -- significantly reducing computational overhead.
 
-Below is the world_step() function, highlighting how these steps are organized for both correctness and efficiency.
+Below is the `world_step()` function, highlighting how these steps are organized for both correctness and efficiency.
 
 ```{r}
 world_step <- function(
@@ -291,7 +224,7 @@ world_step(world, model) |>
     head()
 ```
 
-One key detail is how we sample a random cell at distance \( d \). We use the Manhattan metric (often referred to as L1 distance), which measures distance by summing the absolute differences in the \( x \) and \( y \) coordinates. In a grid setting, moving two cells to the left is considered equivalent in “distance cost” to moving one cell left and one cell up—both yield a Manhattan distance of 2. This makes sense for grid-based worlds, where movement is often discrete rather than diagonal or Euclidean.
+One key detail is how we sample a random cell at distance `d`. We use the Manhattan metric (often referred to as L1 distance), which measures distance by summing the absolute differences in the `x` and `y` coordinates. In a grid setting, moving two cells to the left is considered equivalent in “distance cost” to moving one cell left and one cell up -— both yield a Manhattan distance of 2. This makes sense for grid-based worlds, where movement is often discrete rather than diagonal or Euclidean.
 
 The function for this is as follows:
 ```{r}
@@ -339,9 +272,9 @@ get_a_cell_at_manhattan_distance <- function(x,
 
 ```
 
-## Running the Full Simulation
+### Running the Full Simulation
 
-After defining **how to initialize** the world (`world_init()`) and **how a single time step** unfolds (`world_step()`), we now need to **combine** these pieces to run our ABM across multiple rounds. The function `run_simulation()` orchestrates all the steps, producing a **list** of world states—one for each time step.
+After defining how to initialize the world (`world_init()`) and how a single time step unfolds (`world_step()`), we now need to combine these pieces to run our ABM across multiple rounds. The function `run_simulation()` orchestrates all the steps, producing a list of world states -— one for each time step.
 
 Here is the function:
 ```{r}
@@ -372,16 +305,13 @@ run_simulation <- function(model,
 }
 ```
 
-## Plotting the Simulation
+### Plotting the Simulation
 
-Understanding the dynamics of your agent-based model (ABM) is crucial. Visualizations help you interpret and communicate the spread of innovation across the grid. In this section, we'll explore two primary methods for visualizing the simulation results:
+Understanding the dynamics of your agent-based model (ABM) is crucial. Visualizations help you interpret and communicate the spread of innovation across the grid. In this section, we'll explore two primary methods for visualizing the simulation results: Static plots provide snapshot views of the world at specific time steps. Animations, on the other hand, give dynamic visualizations the show the evolution of the innovation over time.
 
-1. Static Plots: Snapshot views of the world at specific time steps.
-2. Animations: Dynamic visualizations showing the evolution of the innovation over time.
+#### Creating Static Plots
 
-### Creating Static Plots
-
-A static plot provides a clear snapshot of the world's state at a particular time step. The world_print() function leverages ggplot2 to generate a color-coded grid that represents the share of innovators in each cell.
+A static plot provides a clear snapshot of the world's state at a particular time step. The `world_print()` function uses `ggplot2` to generate a color-coded grid that represents the share of innovators in each cell.
     
 ```{r}
 world_print <- function(world, 
@@ -416,13 +346,13 @@ world_print(sim_data[[3]], step = 3)
 world_print(sim_data[[25]], step = 25)
 ```
 
-### Creating Animations
+#### Creating Animations
 
 While static plots are useful for snapshots, animations provide a comprehensive view of how innovation spreads over time. Animations can make it easier to identify patterns, trends, and anomalies that might not be apparent from static images.
 
-#### Limitations on University Clusters
+Due to server restrictions on the University Cluster's RStudio Server version, certain animation functionalities may not work directly within the environment. To circumvent this, animation functions are excluded from the main script and placed in a separate file: `functions_animations.R`. This allows you to run animations locally on your machine without interfering with server policies. 
 
-Due to server restrictions on the University Cluster's RStudio Server version, certain animation functionalities may not work directly within the environment. To circumvent this, animation functions are excluded from the main script and placed in a separate file: functions_animations.R. This allows you to run animations locally on your machine without interfering with server policies.
+*(Note Felix: the following function has not been tested on the server. You might consider using Sascha's original function that can be found in the [GitHub repository](https://github.com/SGrehl/diffusion/tree/main).)*
 
 ```{r, eval=TRUE}
 needs(gganimate)
@@ -453,39 +383,20 @@ world_animation <- function(worlds){
 world_animation(sim_data)
 ```
 
-# Calibration
+## Calibration
 
-In this chapter, we delve into **calibration**, a crucial process in agent-based modeling (ABM) that aligns simulation outputs with observed (or synthetic) data. Calibration ensures that your model accurately reflects the real-world processes it aims to represent by fine-tuning its parameters. We will explore how to measure the closeness of your simulation to historic data and employ techniques to identify the best-fitting parameters.
+In this chapter, we delve into calibration, a crucial process in agent-based modeling (ABM) that aligns simulation outputs with observed (or synthetic) data. Calibration ensures that your model accurately reflects the real-world processes it aims to represent by fine-tuning its parameters. We will explore how to measure the closeness of your simulation to historic data and employ techniques to identify the best-fitting parameters.
 
-**Key Topics**:
+While our simulation generates a wealth of detailed data, this richness can be overwhelming and, in many cases, unnecessary for calibration purposes. To effectively calibrate our model, we first need to create a summary of the simulation data to a form that is comparable to our observed (historic) data. This involves extracting the relevant metrics from the simulation that correspond to the data available from the real-world process we aim to model. This ensures that we are comparing like with like, making the calibration process meaningful and effective. We will refer to this data reduction process as "generating a report."" The purpose of the report is to distill the simulation's rich data into a concise summary that mirrors the structure and content of our real-world data.
 
-1. Reducing Data: Generating Comparable Reports
-2. Properties of a Good Fit Function
-3. Defining the Fit Function
-4. Example: Calibrating to Synthetic Historic Data
-5. Practical Exercises
-
----
-
-## Reducing Data: Generating Comparable Reports
-
-While our simulation generates a wealth of detailed data, this richness can be overwhelming and, in many cases, **unnecessary** for calibration purposes. To effectively calibrate our model, we need to **summarize** or **reduce** the simulation data to a form that is **comparable** to our observed (historic) data.
-
-### The Importance of Data Reduction
-
-Data reduction involves extracting the **relevant metrics** from the simulation that correspond to the data available from the real-world process we aim to model. This ensures that we are comparing **like with like**, making the calibration process meaningful and effective.
-
-### Generating Reports
-
-We will refer to this data reduction process as **generating a report**. The purpose of the report is to distill the simulation's rich data into a concise summary that mirrors the structure and content of our real-world data.
-
-In our script, the `report_generate(world_history)` function takes a list of world states at different time steps (referred to as `world_history`) and produces a **data frame** containing all relevant information necessary for calibration.
+In our script, the `report_generate(world_history)` function takes a list of world states at different time steps (referred to as `world_history`) and produces a data frame containing all relevant information necessary for calibration.
 
 #### Example Report Structure
 
 For our diffusion of innovation model, we assume that we know:
-- The **global share of innovators** in the population.
-- The **number of cells** in the grid that fall into specific **share thresholds** of innovators.
+
+- The global share of innovators in the population.
+- The number of cells in the grid that fall into specific share thresholds of innovators.
 
 Here's an illustrative example of what the report might look like:
 
@@ -529,24 +440,20 @@ report_generate <- function(world_history){
   return(report)
 }
 
-report_generate(sim_data)
+report_generate(sim_data) |> head()
 ```
 
-### Understanding the Report
+The report is structured as follows: 
 
-    step: Represents the time step in the simulation.
-    share_global: The overall proportion of innovators in the entire population.
-    s_1 to s_7: The number of cells that fall into specific thresholds of local innovation shares:
-        s_1: Cells with 0% innovators.
-        s_2 to s_7: Cells with 1/6 up to 6/6 (100%) innovators.
+- `step` represents the time step in the simulation.
+- share_global: The overall proportion of innovators in the entire population.
+- `s_1` to `s_7`: The number of cells that fall into specific thresholds of local innovation shares: `s_1` are the cells with 0% innovators; `s_2` to `s_7`: Cells with 1/6 up to 6/6 (100%) innovators.
 
 For instance, at step 1, the global share of innovators is 0.000986, with 168 cells having 0% innovators and 1 cell with 1/6 innovators. By step 6, the global share increases to 0.00690, and the distribution of innovators across cells becomes more varied.
 
-**Relevance to Calibration**
-
 Including this summarized information is essential for calibration because it mirrors the structure of the real-world data we aim to fit our model to. In the next section, we will discuss how to quantify the fit between the simulation reports and historic data using a fit function.
 
-## Properties of a Good Fit Function
+### Properties of a good fit function
 
 A fit function (also known as an objective function, distance metric, or error measure) quantifies how closely the simulation’s output aligns with the observed (historic) data. Selecting an appropriate fit function is critical for effective calibration. Here are the desirable properties of a good fit function:
 
@@ -569,8 +476,6 @@ A fit function (also known as an objective function, distance metric, or error m
   - The fit function should produce finite values for finite inputs.
   - This ensures stability and reliability in the calibration process.
 
-### Example of a Good Fit Function
-
 A commonly used fit function that satisfies these properties is:
 
 $$
@@ -579,20 +484,18 @@ $$
 
 With
 
-    -  $h_i$ = Historic (observed) value $i$.
-    -  $m_i$ = Model (simulation) value $i$.
-    -  $w_i$ = Weight assigned to this particular data point $i$. 
-    -  $v$   = Number of data points fitted.
+-  $h_i$ = Historic (observed) value $i$.
+-  $m_i$ = Model (simulation) value $i$.
+-  $w_i$ = Weight assigned to this particular data point $i$. 
+-  $v$   = Number of data points fitted.
 
-This function computes the squared relative difference, ensuring symmetry, non-negativity, and dimensionlessness. The weight w allows for the prioritization of specific data points. However, to achieve this, the **minimum values of h and m must be set to 0**, which may require some data transformation. Then an perfect fits is always a Fit of 0, whereas the maximal value 
+This function computes the squared relative difference, ensuring symmetry, non-negativity, and dimensionlessness. The weight w allows for the prioritization of specific data points. However, to achieve this, the minimum values of h and m must be set to 0, which may require some data transformation. Then a perfect fits is always a Fit of 0.
 
 ### Defining the Fit Function
 
 To quantitatively assess the similarity between our simulation output and historic data, we define the `measure_fit()` function. This function calculates the fit score by comparing the relevant metrics extracted from both datasets.
 
 ```{r}
-needs(foreach, doParallel)
-
 # Example measure of fit between two reports
 measure_fit <- function(historic_report, sim_report) {
   # Join by step (inner join: only compare matching steps)
@@ -721,9 +624,11 @@ measure_fit_weighted <- function(historic_report,
 
 The calibrate_model function tests different parameter combinations in an agent-based model to find settings that best match historical data. It creates a grid of parameter combinations, including grid sizes, agents per cell, distance functions, and adoption probabilities. For each combination, it runs multiple simulations to account for randomness, generates reports comparing to historic data, and calculates an average fit score.
 
-The function works by first building a data frame of all parameter combinations using expand.grid(). It then loops through each combination, modifying the base model with new parameters using modifyList(). For each parameter set, it runs the simulation n_sims times with different random seeds, generates reports using report_generate(), and measures the fit against historic data using measure_fit(). The results are stored in a tibble showing how well each parameter combination performed.
+The function works by first building a data frame of all parameter combinations using `expand.grid()`. It then loops through each combination, modifying the base model with new parameters using `modifyList()`. For each parameter set, it runs the simulation `n_sims` times with different random seeds, generates reports using `report_generate()`, and measures the fit against historic data using `measure_fit()`. The results are stored in a tibble showing how well each parameter combination performed.
 
 ```{r}
+needs(foreach, doParallel)
+
 calibrate_model <- function(
     historic_report,
     model,
@@ -796,7 +701,8 @@ calibrate_model <- function(
 
 ```
 
-This parallel version of the calibration function, calibrate_model_mc, uses multiple cores to speed up parameter testing. It creates a parallel computing cluster, distributes work across available cores, and combines results into a single dataset. The Monte Carlo implementation improves efficiency when testing many parameter combinations.This parallel version of the calibration function, calibrate_model_mc, uses multiple cores to speed up parameter testing. It creates a parallel computing cluster, distributes work across available cores, and combines results into a single dataset. The Monte Carlo implementation improves efficiency when testing many parameter combinations.
+Since this is tedious work that might take a long time, this parallel version of the calibration function, `calibrate_model_mc()`, uses multiple cores to speed up parameter testing. It creates a parallel computing cluster, distributes work across available cores, and combines results into a single dataset. The implementation improves efficiency when testing many parameter combinations.
+
 ```{r}
 calibrate_model_mc <- function(
     historic_report, 
@@ -886,7 +792,7 @@ calibrate_model_mc <- function(
 }
 ```
 
-The base calibration_heatmap function creates a ggplot2 visualization showing how model fit varies across parameter combinations. It displays results as a color-coded tile plot where the x and y axes represent different parameters and the color intensity indicates fit quality. The function offers customization of variables, color schemes, and plot styling.
+The `calibration_heatmap` function creates a ggplot2 visualization showing how model fit varies across parameter combinations. It displays results as a color-coded tile plot where the x and y axes represent different parameters and the color intensity indicates fit quality. The function offers customization of variables, color schemes, and plot styling.
 ```{r}
 calibration_heatmap <- function(
     data,
@@ -910,7 +816,7 @@ calibration_heatmap <- function(
 }
 ```
 
-So now let's have a look at our historic data. The next chunk loads our data and animates the process. This serves as our "ground truth."
+So now let's have a look at our historic data. The next chunk loads our data and animates its innovation process. This serves as our "ground truth."
 
 ```{r}
 load("files/historic_data.RData")
@@ -919,7 +825,7 @@ historic_report <- report_generate(historic_data)
 world_animation(historic_data)
 ```
 
-In the next step, we first compare the historic data with our prior run. For this, we measure the fit at each time-step. Perfect overall fit -- i.e., if our model perfectly replicates the historic data, would be 0.
+In the next step, we first compare the historic data with our prior run. For this, we measure the fit at each time-step. Perfect overall fit -- i.e., if our model perfectly replicates the patterns in the historic data, would be 0.
 ```{r eval=TRUE}
 source("files/functions_simulation.R")
 source("files/functions_calibration.R")
@@ -943,7 +849,8 @@ sim_report <- report_generate(sim_data)
 measure_fit(historic_report, sim_report)
 ```
 
-```{r eval=FALSE}
+Then we can move on to running multiple (i.e., 50 per parameter combination) models whose outcomes we subsequently compare to the "real," observed outcome. For this comparison, we draw a heatmap. 
+```{r eval=FALSE} 
 
 # define the base model
 base_model <- list(
@@ -979,3 +886,12 @@ calibration_heatmap(calibration_result)
 load("files/calibration_result.Rdata")
 calibration_heatmap(calibration_result)
 ```
+
+The bluer the tile, the better the fit of our own model to the "original" data. According to our graph, the true adoption parameters lie around 0.4, and the true distance parameter around 0.6.
+
+While in this toy example, the "ground truth" came from and unspecified simulation run of our own, in real research applications you would want to compare your simulation outcomes to data that stem from observational, longitudinal data (e.g., surveys, observational studies).
+
+## Further links
+
+- Another handbook entry on [ABMs in the social sciences](https://doi.org/10.4337/9781789909432.00011)
+- A [workshop on ABMs](https://marijnkeijzer.github.io/sub/bigsss-abm/) by Marijn Keizer and Jan Lorenz

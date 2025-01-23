@@ -25,6 +25,7 @@ website:
           - href: week_9.qmd
           - href: week_10.qmd
           - href: week_11.qmd
+          - href: week_12.qmd
       - text: R Script
         menu: 
           - href: 1_r_index.qmd
@@ -45,7 +46,7 @@ website:
           - href: 17_spatial_I.qmd
           - href: 18_spatial_II.qmd
           - href: 19_abm_I.qmd
-
+          - href: 20_abm_II.qmd
 format:
   html:
     theme: darkly
