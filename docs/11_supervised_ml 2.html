@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.55">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Chapter 11: Supervised Classification – Toolbox CSS</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link href="site_libs/vembedr-0.1.5/css/vembedr.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Toolbox CSS</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lectures" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lectures</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lectures">    
+        <li>
+    <a class="dropdown-item" href="./lectures-overview.html">
+ <span class="dropdown-text">Lectures – Overview</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week_1.html">
+ <span class="dropdown-text">Week 1: What Is Computational Social Science (CSS)?</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week_2.html">
+ <span class="dropdown-text">Week 2: New Possibilities</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week_3.html">
+ <span class="dropdown-text">Week 3: Data Acquisition I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week_4.html">
+ <span class="dropdown-text">Week 4: Data Acquisition II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week_5.html">
+ <span class="dropdown-text">Week 5: Text as Data I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week_6.html">
+ <span class="dropdown-text">Week 6: Text as Data II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week_7.html">
+ <span class="dropdown-text">Week 7: Text as Data III</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week_8.html">
+ <span class="dropdown-text">Week 8: Text as Data IV</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week_9.html">
+ <span class="dropdown-text">Week 9: Spatial Data I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week_10.html">
+ <span class="dropdown-text">Week 10: Spatial Data II</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week_11.html">
+ <span class="dropdown-text">Week 11: Agent-based Modeling I</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./week_12.html">
+ <span class="dropdown-text">Week 12: Agent-based Modeling II</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-r-script" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">R Script</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-r-script">    
+        <li>
+    <a class="dropdown-item" href="./1_r_index.html">
+ <span class="dropdown-text">Chapter 1: Preface</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./2_r_catch-up.html">
+ <span class="dropdown-text">Chapter 2: Brief R Recap</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./3_stringr_regex.html">
+ <span class="dropdown-text">Chapter 3: <code>stringr</code> and RegExes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./4_crawling.html">
+ <span class="dropdown-text">Chapter 4: Crawling the Web and Extracting Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./5_apis.html">
+ <span class="dropdown-text">Chapter 5: APIs</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./6_selenium.html">
+ <span class="dropdown-text">Chapter 6: <code>selenium</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./7_tesseract.html">
+ <span class="dropdown-text">Chapter 7: OCR with <code>tesseract</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./8_transcription.html">
+ <span class="dropdown-text">Chapter 8: <code>OpenAI whisper</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./9_text-preprocessing.html">
+ <span class="dropdown-text">Chapter 9: Text Preprocessing and Featurization</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./10_dictionary-based-analysis.html">
+ <span class="dropdown-text">Chapter 10: Dictionary-based Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./11_supervised_ml.html">
+ <span class="dropdown-text">Chapter 11: Supervised Classification</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./12_unsupervised_ml.html">
+ <span class="dropdown-text">Chapter 12: Unsupervised Machine Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./13_word_embeddings.html">
+ <span class="dropdown-text">Chapter 13: Word Embeddings</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./14_BERT.html">
+ <span class="dropdown-text">Chapter 14: Supervised Classification using <code>BERT</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./15_NLI.html">
+ <span class="dropdown-text">Chapter 15: NLI using BERT</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./17_spatial_I.html">
+ <span class="dropdown-text">Chapter 16: Working with Spatial Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./18_spatial_II.html">
+ <span class="dropdown-text">Chapter 17: Inference with Spatial Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./19_abm_I.html">
+ <span class="dropdown-text">Chapter 18: Agent-based Modeling</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./20_abm_II.html">
+ <span class="dropdown-text">Chapter 19: Agent-based Modeling – Empirically Calibrated</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-process" id="toc-the-process" class="nav-link active" data-scroll-target="#the-process">The Process</a>
+  <ul class="collapse">
+  <li><a href="#split-the-data" id="toc-split-the-data" class="nav-link" data-scroll-target="#split-the-data">Split the data</a></li>
+  <li><a href="#pre-processing-and-featurization" id="toc-pre-processing-and-featurization" class="nav-link" data-scroll-target="#pre-processing-and-featurization">Pre-processing and featurization</a></li>
+  <li><a href="#textrecipes-basic-example" id="toc-textrecipes-basic-example" class="nav-link" data-scroll-target="#textrecipes-basic-example"><code>textrecipes</code> – basic example</a></li>
+  <li><a href="#textrecipes-further-preprocessing-steps" id="toc-textrecipes-further-preprocessing-steps" class="nav-link" data-scroll-target="#textrecipes-further-preprocessing-steps"><code>textrecipes</code> – further preprocessing steps</a></li>
+  <li><a href="#model-specification" id="toc-model-specification" class="nav-link" data-scroll-target="#model-specification">Model specification</a></li>
+  <li><a href="#model-training-workflows" id="toc-model-training-workflows" class="nav-link" data-scroll-target="#model-training-workflows">Model training – <code>workflows</code></a></li>
+  <li><a href="#model-evaluation" id="toc-model-evaluation" class="nav-link" data-scroll-target="#model-evaluation">Model evaluation</a></li>
+  <li><a href="#hyperparameter-tuning" id="toc-hyperparameter-tuning" class="nav-link" data-scroll-target="#hyperparameter-tuning">Hyperparameter tuning</a></li>
+  <li><a href="#final-fit" id="toc-final-fit" class="nav-link" data-scroll-target="#final-fit">Final fit</a></li>
+  </ul></li>
+  <li><a href="#supervised-ml-with-tidymodels-in-a-nutshell" id="toc-supervised-ml-with-tidymodels-in-a-nutshell" class="nav-link" data-scroll-target="#supervised-ml-with-tidymodels-in-a-nutshell">Supervised ML with <code>tidymodels</code> in a nutshell</a></li>
+  <li><a href="#side-note-active-learning" id="toc-side-note-active-learning" class="nav-link" data-scroll-target="#side-note-active-learning">Side note: Active learning</a></li>
+  <li><a href="#further-links" id="toc-further-links" class="nav-link" data-scroll-target="#further-links">Further links</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Chapter 11: Supervised Classification</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="cell">
+<div class="cell-output-display">
+<div class="vembedr">
+<div>
+<iframe src="https://www.youtube.com/embed/DELqEnh7_j0" width="533" height="300" frameborder="0" allowfullscreen="" data-external="1"></iframe>
+</div>
+</div>
+</div>
+</div>
+<p>In the following script, I will introduce you to the supervised classification of text. Supervised means that I will need to “show” the machine a data set that already contains the value or label I want to predict (the “dependent variable”) as well as all the variables that are used to predict the class/value (the independent variables or, in ML lingo, <em>features</em>). In the examples I will showcase, the features are the tokens that are contained in a document. Dependent variables are in my example sentiment.</p>
+<section id="the-process" class="level2">
+<h2 class="anchored" data-anchor-id="the-process">The Process</h2>
+<p>Overall, the process of supervised classification using text in R encompasses the following steps:</p>
+<ol type="1">
+<li>Split data into training and test set</li>
+<li>Pre-processing and featurization</li>
+<li>Training</li>
+<li>Evaluation and tuning (through cross-validation) (… repeat 2.-4. as often as necessary)</li>
+<li>Applying the model to the held-out test set</li>
+<li>Final evaluation</li>
+</ol>
+<p>This is mirrored in the <code>workflow()</code> function from the <code>workflows</code> <span class="citation" data-cites="vaughan_workflows_2022">(<a href="#ref-vaughan_workflows_2022" role="doc-biblioref">Vaughan 2022</a>)</span> package. There, you define the pre-processing procedure (<code>add_recipe()</code> – created through the <code>recipe()</code> function from the <code>recipes</code> <span class="citation" data-cites="kuhn_recipes_2022">(<a href="#ref-kuhn_recipes_2022" role="doc-biblioref">Kuhn and Wickham 2022</a>)</span> and/or <code>textrecipes</code> <span class="citation" data-cites="hvitfeldt_textrecipes_2022">(<a href="#ref-hvitfeldt_textrecipes_2022" role="doc-biblioref">Hvitfeldt 2022</a>)</span> package(s)), the model specification with <code>add_spec()</code> – taking a model specification as created by the <code>parsnip</code> <span class="citation" data-cites="kuhn_parsnip_2022">(<a href="#ref-kuhn_parsnip_2022" role="doc-biblioref">Kuhn, Vaughan, and Hvitfeldt 2022</a>)</span> package.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/workflow.png" class="img-fluid figure-img"></p>
+<figcaption>Workflow overview</figcaption>
+</figure>
+</div>
+<p>In the next part, other approaches such as Support Vector Machines (SVM), penalized logistic regression models (penalized here means, loosely speaking, that insignificant predictors which contribute little will be shrunk and ignored – as the text contains many tokens that might not contribute much, those models lend themselves nicely to such tasks), random forest models, or XGBoost will be introduced. Those approaches are not to be explained in-depth, third-party articles will be linked though, but their intuition and the particularities of their implementation will be described. Since we use the <code>tidymodels</code> <span class="citation" data-cites="kuhn_tidymodels_2020">(<a href="#ref-kuhn_tidymodels_2020" role="doc-biblioref">Kuhn and Wickham 2020</a>)</span> framework for implementation, trying out different approaches is straightforward. Also, the pre-processing differs, <code>recipes</code> and <code>textrecipes</code> facilitate this task decisively. Third, the evaluation of different classifiers will be described. Finally, the entire workflow will be demonstrated using a Twitter data set.</p>
+<p>The first example for today’s session is the IMDb data set. First, we load a whole bunch of packages and the data set.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(discrim, glmnet, textrecipes, tidymodels, tidytext, tidyverse, workflows)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>imdb_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://www.dropbox.com/s/0cfr4rkthtfryyp/imdb_reviews.csv?dl=1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="split-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="split-the-data">Split the data</h3>
+<p>The first step is to divide the data into training and test sets using <code>initial_split()</code>. You need to make sure that the test and training set are fairly balanced which is achieved by using <code>strata =</code>. <code>prop =</code> refers to the proportion of rows that make it into the training set.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(imdb_data, <span class="at">prop =</span> <span class="fl">0.2</span>, <span class="at">strata =</span> sentiment)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>imdb_train <span class="ot">&lt;-</span> <span class="fu">training</span>(split)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>imdb_test <span class="ot">&lt;-</span> <span class="fu">testing</span>(split)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(imdb_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 5,000
+Columns: 2
+$ text      &lt;chr&gt; "Not even the Beatles could write songs everyone liked, and …
+$ sentiment &lt;chr&gt; "negative", "negative", "negative", "negative", "negative", …</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>imdb_train <span class="sc">|&gt;</span> <span class="fu">count</span>(sentiment)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  sentiment     n
+  &lt;chr&gt;     &lt;int&gt;
+1 negative   2500
+2 positive   2500</code></pre>
+</div>
+</div>
+</section>
+<section id="pre-processing-and-featurization" class="level3">
+<h3 class="anchored" data-anchor-id="pre-processing-and-featurization">Pre-processing and featurization</h3>
+<p>In the <code>tidymodels</code> framework, pre-processing and featurization are performed through so-called <code>recipes</code>. For text data, so-called <code>textrecipes</code> are available.</p>
+</section>
+<section id="textrecipes-basic-example" class="level3">
+<h3 class="anchored" data-anchor-id="textrecipes-basic-example"><code>textrecipes</code> – basic example</h3>
+<p>In the initial call, the formula needs to be provided. In our example, we want to predict the sentiment (“positive” or “negative”) using the text in the review. Then, different steps for pre-processing are added. Similar to what you have learned in the prior chapters containing measures based on the bag of words assumption, the first step is usually tokenization, achieved through <code>step_tokenize()</code>. In the end, the features need to be quantified, either through <code>step_tf()</code>, for raw term frequencies, or <code>step_tfidf()</code>, for TF-IDF. In between, various pre-processing steps such as word normalization (i.e., stemming or lemmatization), and removal of rare or common words Hence, a recipe for a very basic model just using raw frequencies and the 1,000 most common words would look as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>imdb_basic_recipe <span class="ot">&lt;-</span> <span class="fu">recipe</span>(sentiment <span class="sc">~</span> text, <span class="at">data =</span> imdb_train) <span class="sc">|&gt;</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_tokenize</span>(text) <span class="sc">|&gt;</span> <span class="co"># tokenize text</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_tokenfilter</span>(text, <span class="at">max_tokens =</span> <span class="dv">1000</span>) <span class="sc">|&gt;</span> <span class="co"># only retain 1000 most common words</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># additional pre-processing steps can be added, see next chapter</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_tfidf</span>(text) <span class="co"># final step: add term frequencies</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In case you want to know what the data set for the classification task looks like, you can <code>prep()</code> and finally <code>bake()</code> the recipe. Note that we need to specify the data set we want to pre-process in the recipe’s manner. In our case, we want to perform the operations on the data specified in the <code>basic_recipe</code> and, hence, need to specify <code>new_data = NULL</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>imdb_basic_recipe <span class="sc">|&gt;</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prep</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bake</span>(<span class="at">new_data =</span> <span class="cn">NULL</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5,000 × 1,001
+   sentiment tfidf_text_1 tfidf_text_10 tfidf_text_2 tfidf_text_20 tfidf_text_3
+   &lt;fct&gt;            &lt;dbl&gt;         &lt;dbl&gt;        &lt;dbl&gt;         &lt;dbl&gt;        &lt;dbl&gt;
+ 1 negative       0             0             0                  0      0.0119 
+ 2 negative       0.0270        0             0.0240             0      0      
+ 3 negative       0             0             0                  0      0      
+ 4 negative       0             0.0178        0.0203             0      0      
+ 5 negative       0             0             0                  0      0      
+ 6 negative       0             0             0                  0      0      
+ 7 negative       0.0215        0             0.0192             0      0      
+ 8 negative       0.00812       0.00637       0                  0      0.00829
+ 9 negative       0             0             0                  0      0      
+10 negative       0             0             0                  0      0      
+# ℹ 4,990 more rows
+# ℹ 995 more variables: tfidf_text_4 &lt;dbl&gt;, tfidf_text_5 &lt;dbl&gt;,
+#   tfidf_text_7 &lt;dbl&gt;, tfidf_text_8 &lt;dbl&gt;, tfidf_text_80 &lt;dbl&gt;,
+#   tfidf_text_9 &lt;dbl&gt;, tfidf_text_a &lt;dbl&gt;, tfidf_text_able &lt;dbl&gt;,
+#   tfidf_text_about &lt;dbl&gt;, tfidf_text_above &lt;dbl&gt;,
+#   tfidf_text_absolutely &lt;dbl&gt;, tfidf_text_across &lt;dbl&gt;, tfidf_text_act &lt;dbl&gt;,
+#   tfidf_text_acted &lt;dbl&gt;, tfidf_text_acting &lt;dbl&gt;, tfidf_text_action &lt;dbl&gt;, …</code></pre>
+</div>
+</div>
+</section>
+<section id="textrecipes-further-preprocessing-steps" class="level3">
+<h3 class="anchored" data-anchor-id="textrecipes-further-preprocessing-steps"><code>textrecipes</code> – further preprocessing steps</h3>
+<p>More steps exist. These always follow the same structure: their first two arguments are the recipe (which in practice does not matter, because they are generally used in a “pipeline”) and the variable that is affected (in our example “text” because it is the one to be modified). The rest of the arguments depends on the function. In the following, we will briefly list them and their most important arguments. Find the exhaustive list <a href="https://cran.r-project.org/web/packages/textrecipes/textrecipes.pdf">here</a>,</p>
+<ul>
+<li><code>step_tokenfilter()</code>: filters tokens
+<ul>
+<li><code>max_times =</code> upper threshold for how often a term can appear (removes common words)</li>
+<li><code>min_times =</code> lower threshold for how often a term can appear (removes rare words)</li>
+<li><code>max_tokens =</code> maximum number of tokens to be retained; will only keep the ones that appear the most often</li>
+<li>you should filter before using <code>step_tf</code> or <code>step_tfidf</code> to limit the number of variables that are created</li>
+</ul></li>
+<li><code>step_lemma()</code>: allows you to extract the lemma
+<ul>
+<li>in case you want to use it, make sure you tokenize via <code>spacyr</code> (by using <code>step_tokenize(text, engine = "spacyr"))</code></li>
+</ul></li>
+<li><code>step_pos_filter()</code>: adds the Part-of-speech tags
+<ul>
+<li><code>keep_tags =</code> character vector that specifies the types of tags to retain (default is “NOUN”, for more details see <a href="https://github.com/explosion/spaCy/blob/master/spacy/glossary.py">here</a> or consult chapter @ref(day4))</li>
+<li>in case you want to use it, make sure you tokenize via <code>spacyr</code> (by using <code>step_tokenize(text, engine = "spacyr"))</code></li>
+</ul></li>
+<li><code>step_stem()</code>: stems tokens
+<ul>
+<li><code>custom_stem =</code> specifies the stemming function. Defaults to <code>SnowballC</code>. Custom functions can be provided.</li>
+<li><code>options =</code> can be used to provide arguments (stored as named elements of a list) to the stemming function. E.g., <code>step_stem(text, custom_stem = "SnowballC", options = list(language = "russian"))</code></li>
+</ul></li>
+<li><code>step_stopwords()</code>: removes stopwords
+<ul>
+<li><code>source =</code> alternative stopword lists can be used; potential values are contained in <code>stopwords::stopwords_getsources()</code></li>
+<li><code>custom_stopword_source =</code> provide your own stopword list</li>
+<li><code>language =</code> specify language of stop word list; potential values can be found in <code>stopwords::stopwords_getlanguages()</code></li>
+</ul></li>
+<li><code>step_ngram()</code>: takes into account order of terms, provides more context
+<ul>
+<li><code>num_tokens =</code> number of tokens in n-gram – defaults to 3 – trigrams</li>
+<li><code>min_num_tokens =</code> minimal number of tokens in n-gram – <code>step_ngram(text, num_tokens = 3, min_num_tokens = 1)</code> will return all uni-, bi-, and trigrams.</li>
+</ul></li>
+<li><code>step_word_embeddings()</code>: use pre-trained embeddings for words
+<ul>
+<li><code>embeddings()</code>: tibble of pre-trained embeddings</li>
+</ul></li>
+<li><code>step_normalize()</code>: performs unicode normalization as a preprocessing step
+<ul>
+<li><code>normalization_form =</code> which Unicode Normalization to use, overview in <a href="https://www.rdocumentation.org/packages/stringi/versions/1.7.6/topics/stri_trans_nfc"><code>stringi::stri_trans_nfc()</code></a></li>
+</ul></li>
+<li><code>themis::step_upsample()</code> takes care of unbalanced dependent variables (which need to be specified in the call)
+<ul>
+<li><code>over_ratio =</code> ratio of desired minority-to-majority frequencies</li>
+</ul></li>
+</ul>
+</section>
+<section id="model-specification" class="level3">
+<h3 class="anchored" data-anchor-id="model-specification">Model specification</h3>
+<p>Now that the data is ready, the model can be specified. The <code>parsnip</code> package is used for this. It contains a model specification, the type, and the engine. For Naïve Bayes, this would look like the following (note that you will need to install the relevant packages – here: <code>discrim</code> – before using them):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>nb_spec <span class="ot">&lt;-</span> <span class="fu">naive_Bayes</span>() <span class="sc">|&gt;</span> <span class="co"># the initial function, coming from the parsnip package</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"classification"</span>) <span class="sc">|&gt;</span> <span class="co"># classification for discrete values, regression for continuous ones</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"naivebayes"</span>) <span class="co"># needs to be installed</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Other model specifications you might deem relevant:</p>
+<ul>
+<li>Logistic regression</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>lr_spec <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>() <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glm"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"classification"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Logistic regression (penalized with Lasso):</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>lasso_spec <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>(<span class="at">mixture =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glm"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"classification"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>SVM (here, <code>step_normalize(all_predictors())</code> needs to be the last step in the recipe)</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>svm_spec <span class="ot">&lt;-</span> <span class="fu">svm_linear</span>() <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"regression"</span>) <span class="sc">|&gt;</span> <span class="co"># can also be "classification"</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"LiblineaR"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Random Forest (with 100 decision trees):</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>rf_spec <span class="ot">&lt;-</span> <span class="fu">rand_forest</span>(<span class="at">trees =</span> <span class="dv">100</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"ranger"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"classification"</span>) <span class="co"># can also be "regression"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>xgBoost (with 20 decision trees):</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>xg_spec <span class="ot">&lt;-</span> <span class="fu">boost_tree</span>(<span class="at">trees =</span> <span class="dv">20</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"xgboost"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"regression"</span>) <span class="co"># can also be classification</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="model-training-workflows" class="level3">
+<h3 class="anchored" data-anchor-id="model-training-workflows">Model training – <code>workflows</code></h3>
+<p>A workflow can be defined to train the model. It will contain the recipe, hence taking care of the pre-processing, and the model specification. In the end, it can be used to fit the model.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>imdb_nb_wf <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(imdb_basic_recipe) <span class="sc">|&gt;</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(nb_spec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>It can then be fit using <code>fit()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>imdb_nb_basic <span class="ot">&lt;-</span> imdb_nb_wf <span class="sc">|&gt;</span> <span class="fu">fit</span>(<span class="at">data =</span> imdb_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="model-evaluation" class="level3">
+<h3 class="anchored" data-anchor-id="model-evaluation">Model evaluation</h3>
+<div class="cell">
+<div class="cell-output-display">
+<div class="vembedr">
+<div>
+<iframe src="https://www.youtube.com/embed/RVRyBQOB1jc" width="533" height="300" frameborder="0" allowfullscreen="" data-external="1"></iframe>
+</div>
+</div>
+</div>
+</div>
+<p>Now that a first model has been trained, its performance can be evaluated. In theory, we have a test set for this. However, the test set is precious and should only be used once we are sure that we have found a good model. Hence, for these intermediary tuning steps, we need to come up with another solution. So-called cross-validation lends itself nicely to this task. The rationale behind it is that chunks from the training set are used as test sets. So, in the case of 10-fold cross-validation, the training set is divided into 10 distinctive chunks of data. Then, 10 models are trained on the respective 9/10 of the training set that is not used for evaluation. Finally, each model is evaluated against the respective held-out “test set” and the performance metrics averaged.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://scikit-learn.org/stable/_images/grid_search_cross_validation.png" class="img-fluid figure-img"></p>
+<figcaption>Graph taken from https://scikit-learn.org/stable/modules/cross_validation.html/</figcaption>
+</figure>
+</div>
+<p>First, the folds need to be determined. we set a seed in the beginning to ensure reproducibility.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(tune)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>imdb_folds <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(imdb_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><code>fit_resamples()</code> trains models on the respective samples. (Note that for this to work, no model must have been fit to this workflow before. Hence, you either need to define a new workflow first or restart the session and skip the fit-line from before.)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>imdb_nb_resampled <span class="ot">&lt;-</span> <span class="fu">fit_resamples</span>(</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  imdb_nb_wf,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  imdb_folds,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">control_resamples</span>(<span class="at">save_pred =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">metrics =</span> <span class="fu">metric_set</span>(accuracy, recall, precision)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co">#imdb_nb_resampled |&gt; write_rds("imdb_nb_resampled.rds")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><code>collect_metrics()</code> can be used to evaluate the results.</p>
+<ul>
+<li>Accuracy tells me the share of correct predictions overall</li>
+<li>Precision tells me the number of correct positive predictions</li>
+<li>Recall tells me how many actual positives are predicted properly</li>
+</ul>
+<p>In all cases, values close to 1 are better.</p>
+<p><code>collect_predictions()</code> will give you the predicted values.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>nb_rs_metrics <span class="ot">&lt;-</span> <span class="fu">collect_metrics</span>(imdb_nb_resampled)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>nb_rs_predictions <span class="ot">&lt;-</span> <span class="fu">collect_predictions</span>(imdb_nb_resampled)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This can also be used to create the confusion matrix by hand.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>confusion_mat <span class="ot">&lt;-</span> nb_rs_predictions <span class="sc">|&gt;</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(id) <span class="sc">|&gt;</span> </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">confusion_class =</span> <span class="fu">case_when</span>(.pred_class <span class="sc">==</span> <span class="st">"positive"</span> <span class="sc">&amp;</span> sentiment <span class="sc">==</span> <span class="st">"positive"</span> <span class="sc">~</span> <span class="st">"TP"</span>,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>                                     .pred_class <span class="sc">==</span> <span class="st">"positive"</span> <span class="sc">&amp;</span> sentiment <span class="sc">==</span> <span class="st">"negative"</span> <span class="sc">~</span> <span class="st">"FP"</span>,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>                                     .pred_class <span class="sc">==</span> <span class="st">"negative"</span> <span class="sc">&amp;</span> sentiment <span class="sc">==</span> <span class="st">"negative"</span> <span class="sc">~</span> <span class="st">"TN"</span>,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>                                     .pred_class <span class="sc">==</span> <span class="st">"negative"</span> <span class="sc">&amp;</span> sentiment <span class="sc">==</span> <span class="st">"positive"</span> <span class="sc">~</span> <span class="st">"FN"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(confusion_class) <span class="sc">|&gt;</span> </span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> confusion_class, <span class="at">values_from =</span> n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now you can go back and adapt the pre-processing recipe, fit a new model, or try a different classifier, and evaluate it against the same set of folds. Once you are satisfied, you can proceed to check the workflow on the held-out test data.</p>
+</section>
+<section id="hyperparameter-tuning" class="level3">
+<h3 class="anchored" data-anchor-id="hyperparameter-tuning">Hyperparameter tuning</h3>
+<p>Some models also require the tuning of hyperparameters (for instance, lasso regression). If we wanted to tune these values, we could do so using the <code>tune</code> package. There, the parameter that needs to be tuned gets a placeholder in the model specification. Through variation of the placeholder, the optimal solution can be empirically determined.</p>
+<p>So, in the first example, we will try to determine a good penalty value for LASSO regression.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>lasso_tune_spec <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>(<span class="at">penalty =</span> <span class="fu">tune</span>(), <span class="at">mixture =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"classification"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glmnet"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We will also play with the numbers of tokens to be included:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>imdb_tune_basic_recipe <span class="ot">&lt;-</span> <span class="fu">recipe</span>(sentiment <span class="sc">~</span> text, <span class="at">data =</span> imdb_train) <span class="sc">|&gt;</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_tokenize</span>(text) <span class="sc">|&gt;</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_tokenfilter</span>(text, <span class="at">max_tokens =</span> <span class="fu">tune</span>()) <span class="sc">|&gt;</span> </span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_tf</span>(text)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The <code>dials</code> <span class="citation" data-cites="kuhn_dials_2022">(<a href="#ref-kuhn_dials_2022" role="doc-biblioref">Kuhn and Frick 2022</a>)</span> package provides the handy <code>grid_regular()</code> function which chooses suitable values for certain parameters.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>lambda_grid <span class="ot">&lt;-</span> <span class="fu">grid_regular</span>(</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">penalty</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">0</span>)), </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">max_tokens</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="fl">1e3</span>, <span class="fl">2e3</span>)),</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">levels =</span> <span class="fu">c</span>(<span class="at">penalty =</span> <span class="dv">3</span>, <span class="at">max_tokens =</span> <span class="dv">2</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then, we need to define a new workflow, too.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>lasso_tune_wf <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(imdb_tune_basic_recipe) <span class="sc">|&gt;</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(lasso_tune_spec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>For the resampling, we can use <code>tune_grid()</code> which will use the workflow, a set of folds (we use the ones we created earlier), and a grid containing the different parameters.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>tune_lasso_rs <span class="ot">&lt;-</span> <span class="fu">tune_grid</span>(</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  lasso_tune_wf,</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  imdb_folds,</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">grid =</span> lambda_grid,</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">metrics =</span> <span class="fu">metric_set</span>(accuracy, sensitivity, specificity)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Again, we can access the resulting metrics using <code>collect_metrics()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">collect_metrics</span>(tune_lasso_rs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 18 × 8
+   penalty max_tokens .metric     .estimator  mean     n std_err .config        
+     &lt;dbl&gt;      &lt;int&gt; &lt;chr&gt;       &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;          
+ 1  0.0001       1000 accuracy    binary     0.864    10 0.00433 Preprocessor1_…
+ 2  0.0001       1000 sensitivity binary     0.858    10 0.00537 Preprocessor1_…
+ 3  0.0001       1000 specificity binary     0.869    10 0.00441 Preprocessor1_…
+ 4  0.01         1000 accuracy    binary     0.851    10 0.00329 Preprocessor1_…
+ 5  0.01         1000 sensitivity binary     0.814    10 0.00556 Preprocessor1_…
+ 6  0.01         1000 specificity binary     0.887    10 0.00298 Preprocessor1_…
+ 7  1            1000 accuracy    binary     0.491    10 0.00240 Preprocessor1_…
+ 8  1            1000 sensitivity binary     0.6      10 0.163   Preprocessor1_…
+ 9  1            1000 specificity binary     0.4      10 0.163   Preprocessor1_…
+10  0.0001       2000 accuracy    binary     0.864    10 0.00254 Preprocessor2_…
+11  0.0001       2000 sensitivity binary     0.860    10 0.00439 Preprocessor2_…
+12  0.0001       2000 specificity binary     0.867    10 0.00267 Preprocessor2_…
+13  0.01         2000 accuracy    binary     0.858    10 0.00273 Preprocessor2_…
+14  0.01         2000 sensitivity binary     0.823    10 0.00542 Preprocessor2_…
+15  0.01         2000 specificity binary     0.893    10 0.00332 Preprocessor2_…
+16  1            2000 accuracy    binary     0.491    10 0.00240 Preprocessor2_…
+17  1            2000 sensitivity binary     0.6      10 0.163   Preprocessor2_…
+18  1            2000 specificity binary     0.4      10 0.163   Preprocessor2_…</code></pre>
+</div>
+</div>
+<p>We can also visualize this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">collect_metrics</span>(tune_lasso_rs) <span class="sc">|&gt;</span> </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(penalty, mean, <span class="at">color =</span> <span class="fu">as_factor</span>(max_tokens))) <span class="sc">+</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(.metric), <span class="at">nrow =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="fl">0.0001</span>, <span class="fl">0.01</span>, <span class="dv">1</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="11_supervised_ml_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Also, we can use <code>show_best()</code> to look at the best result. Subsequently, <code>select_best()</code> allows me to choose it. In real life, we would choose the best trade-off between a model as simple and as good as possible. Using <code>select_by_pct_loss()</code>, we choose the one that performs still more or less on par with the best option (i.e., within 2 percent accuracy) but is considerably simpler. Finally, once we are satisfied with the outcome, we can <code>finalize_workflow()</code> and fit the final model to the test data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show_best</span>(tune_lasso_rs, <span class="at">metric =</span> <span class="st">"accuracy"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 8
+  penalty max_tokens .metric  .estimator  mean     n std_err .config            
+    &lt;dbl&gt;      &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;              
+1  0.0001       1000 accuracy binary     0.864    10 0.00433 Preprocessor1_Mode…
+2  0.0001       2000 accuracy binary     0.864    10 0.00254 Preprocessor2_Mode…
+3  0.01         2000 accuracy binary     0.858    10 0.00273 Preprocessor2_Mode…
+4  0.01         1000 accuracy binary     0.851    10 0.00329 Preprocessor1_Mode…
+5  1            1000 accuracy binary     0.491    10 0.00240 Preprocessor1_Mode…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>final_lasso_imdb <span class="ot">&lt;-</span> <span class="fu">finalize_workflow</span>(lasso_tune_wf, <span class="fu">select_by_pct_loss</span>(tune_lasso_rs, <span class="at">metric =</span> <span class="st">"accuracy"</span>, <span class="sc">-</span>penalty))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="final-fit" class="level3">
+<h3 class="anchored" data-anchor-id="final-fit">Final fit</h3>
+<p>Now we can finally fit our model to the training data and predict on the test data. <code>last_fit()</code> is the way to go. It takes the workflow and the split (as defined by <code>initial_split()</code>) as parameters.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>final_fitted <span class="ot">&lt;-</span> <span class="fu">last_fit</span>(final_lasso_imdb, split)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">collect_metrics</span>(final_fitted)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 4
+  .metric     .estimator .estimate .config             
+  &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;               
+1 accuracy    binary         0.841 Preprocessor1_Model1
+2 roc_auc     binary         0.919 Preprocessor1_Model1
+3 brier_class binary         0.122 Preprocessor1_Model1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">collect_predictions</span>(final_fitted) <span class="sc">|&gt;</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">conf_mat</span>(<span class="at">truth =</span> sentiment, <span class="at">estimate =</span> .pred_class) <span class="sc">|&gt;</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(<span class="at">type =</span> <span class="st">"heatmap"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="11_supervised_ml_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="supervised-ml-with-tidymodels-in-a-nutshell" class="level2">
+<h2 class="anchored" data-anchor-id="supervised-ml-with-tidymodels-in-a-nutshell">Supervised ML with <code>tidymodels</code> in a nutshell</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div class="vembedr">
+<div>
+<iframe src="https://www.youtube.com/embed/YRtZZi0Ss5E" width="533" height="300" frameborder="0" allowfullscreen="" data-external="1"></iframe>
+</div>
+</div>
+</div>
+</div>
+<p>Here, we give you the condensed version of how you would train a model on a number of documents and predict on a certain test set. To exemplify this, I use Tweets from British MPs from the two largest parties.</p>
+<p>First, you take your data and split it into training and test set:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>timelines_gb <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://www.dropbox.com/s/1lrv3i655u5d7ps/timelines_gb_2022.csv?dl=1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 59444 Columns: 2
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (2): party, text
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>split_gb <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(timelines_gb, <span class="at">prop =</span> <span class="fl">0.3</span>, <span class="at">strata =</span> party)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>party_tweets_train_gb <span class="ot">&lt;-</span> <span class="fu">training</span>(split_gb)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>party_tweets_test_gb <span class="ot">&lt;-</span> <span class="fu">testing</span>(split_gb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Second, define your text pre-processing steps. In this case, we want to predict partisanship based on textual content. We tokenize the text, upsample to have balanced classed in terms of party in the training set, and retain only the 1,000 most commonly appearing tokens.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>twitter_recipe <span class="ot">&lt;-</span> <span class="fu">recipe</span>(party <span class="sc">~</span> text, <span class="at">data =</span> party_tweets_train_gb) <span class="sc">|&gt;</span> </span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_tokenize</span>(text) <span class="sc">|&gt;</span> <span class="co"># tokenize text</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  themis<span class="sc">::</span><span class="fu">step_upsample</span>(party) <span class="sc">|&gt;</span> </span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_tokenfilter</span>(text, <span class="at">max_tokens =</span> <span class="dv">1000</span>) <span class="sc">|&gt;</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_tfidf</span>(text) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Third, the model specification needs to be defined. In this case, we go with a random forest classifier containing 50 decision trees.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>rf_spec <span class="ot">&lt;-</span> <span class="fu">rand_forest</span>(<span class="at">trees =</span> <span class="dv">50</span>) <span class="sc">|&gt;</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"ranger"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"classification"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Finally, the pre-processing “recipe” and the model specification can be summarized in one workflow and the model can be fit to the training data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>twitter_party_rf_workflow <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(twitter_recipe) <span class="sc">|&gt;</span> </span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(rf_spec)</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>party_gb <span class="ot">&lt;-</span> twitter_party_rf_workflow <span class="sc">|&gt;</span> <span class="fu">fit</span>(<span class="at">data =</span> party_tweets_train_gb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we have arrived at a model we can apply to make predictions using <code>augment()</code>. Finally, we can evaluate its accuracy on the test data by taking the share of correctly predicted values.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>predictions_gb <span class="ot">&lt;-</span> <span class="fu">augment</span>(party_gb, party_tweets_test_gb)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(predictions_gb<span class="sc">$</span>party <span class="sc">==</span> predictions_gb<span class="sc">$</span>.pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.698909</code></pre>
+</div>
+</div>
+</section>
+<section id="side-note-active-learning" class="level2">
+<h2 class="anchored" data-anchor-id="side-note-active-learning">Side note: Active learning</h2>
+<p>The <code>augment()</code> function can also be used to choose observations whose annotation could boost the classifier’s performance. Here we want to find the tweets whose <code>.pred_Conservative</code> and <code>.pred_Labour</code> are close to 0.5. An exemplary script for choosing new observations for annotation can look like this. Of course, this example is fictitious as we already have all the labels. If you were to use this for creating an annotation set, make sure to remove the labels (here: <code>party</code>) before looking at the data to maintain the validity of the annotation process. Also, adding an id helps with joining the data after annotation.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>anno_set_active_learning <span class="ot">&lt;-</span> predictions_gb <span class="sc">|&gt;</span> </span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">distance_cons_05 =</span> <span class="fu">abs</span>(.pred_Conservative<span class="fl">-0.5</span>),</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">distance_lab_05 =</span> <span class="fu">abs</span>(.pred_Conservative<span class="fl">-0.5</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(party, text) <span class="sc">|&gt;</span> </span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">dist_05 =</span> <span class="fu">min</span>(distance_cons_05, distance_lab_05)) <span class="sc">|&gt;</span> </span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_min</span>(dist_05, <span class="at">n =</span> <span class="dv">100</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowid_to_column</span>(<span class="st">"id"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'party'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>for_annotation <span class="ot">&lt;-</span> anno_set_active_learning <span class="sc">|&gt;</span> <span class="fu">select</span>(id, text)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="further-links" class="level2">
+<h2 class="anchored" data-anchor-id="further-links">Further links</h2>
+<ul>
+<li>Check out the <a href="https://smltar.com">SMLTAR book</a></li>
+<li>More on <a href="https://www.tidymodels.org">tidymodels</a></li>
+<li>Basic <a href="https://www.simplilearn.com/10-algorithms-machine-learning-engineers-need-to-know-article">descriptions of ML models</a></li>
+<li>More on prediction with text using <a href="https://www.tidymodels.org/learn/work/tune-text/">tidymodels</a></li>
+</ul>
+</section>
+<section id="exercises" class="level2">
+<h2 class="anchored" data-anchor-id="exercises">Exercises</h2>
+<ol type="1">
+<li>Measuring polarization of language through a “fake prediction.” Train the same model that we trained on British MPs earlier on <code>timelines_us &lt;- read_csv("https://www.dropbox.com/s/dpu5m3xqz4u4nv7/tweets_house_rep_party.csv?dl=1")</code>. First, split the new data into training and test set (<code>prop = 0.3</code> should suffice, make sure that you set <code>strata = party</code>). Train the model using the same workflow but new training data that predicts partisanship based on the Tweets’ text. Predict on the test set and compare the models’ accuracy.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>timelines_uk <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://www.dropbox.com/s/1lrv3i655u5d7ps/timelines_gb_2022.csv?dl=1"</span>)</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>timelines_us <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://www.dropbox.com/s/iglayccyevgvume/timelines_us.csv?dl=1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<details>
+<summary>
+Solution. Click to expand!
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>split_gb <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(timelines_gb, <span class="at">prop =</span> <span class="fl">0.3</span>, <span class="at">strata =</span> party)</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>party_tweets_train_gb <span class="ot">&lt;-</span> <span class="fu">training</span>(split_gb)</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>party_tweets_test_gb <span class="ot">&lt;-</span> <span class="fu">testing</span>(split_gb)</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>split_us <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(timelines_us, <span class="at">prop =</span> <span class="fl">0.3</span>, <span class="at">strata =</span> party)</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>party_tweets_train_us <span class="ot">&lt;-</span> <span class="fu">training</span>(split_us)</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>party_tweets_test_us <span class="ot">&lt;-</span> <span class="fu">testing</span>(split_us)</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>twitter_recipe <span class="ot">&lt;-</span> <span class="fu">recipe</span>(party <span class="sc">~</span> text, <span class="at">data =</span> party_tweets_train_gb) <span class="sc">|&gt;</span> </span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_tokenize</span>(text) <span class="sc">|&gt;</span> <span class="co"># tokenize text</span></span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>  themis<span class="sc">::</span><span class="fu">step_upsample</span>(party) <span class="sc">|&gt;</span> </span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_tokenfilter</span>(text, <span class="at">max_tokens =</span> <span class="dv">1000</span>) <span class="sc">|&gt;</span></span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_tfidf</span>(text) </span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>rf_spec <span class="ot">&lt;-</span> <span class="fu">rand_forest</span>(<span class="at">trees =</span> <span class="dv">50</span>) <span class="sc">|&gt;</span></span>
+<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"ranger"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb47-17"><a href="#cb47-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"classification"</span>) </span>
+<span id="cb47-18"><a href="#cb47-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-19"><a href="#cb47-19" aria-hidden="true" tabindex="-1"></a>twitter_party_rf_workflow <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb47-20"><a href="#cb47-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(twitter_recipe) <span class="sc">|&gt;</span> </span>
+<span id="cb47-21"><a href="#cb47-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(rf_spec)</span>
+<span id="cb47-22"><a href="#cb47-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-23"><a href="#cb47-23" aria-hidden="true" tabindex="-1"></a>party_gb <span class="ot">&lt;-</span> twitter_party_rf_workflow <span class="sc">|&gt;</span> <span class="fu">fit</span>(<span class="at">data =</span> party_tweets_train_gb)</span>
+<span id="cb47-24"><a href="#cb47-24" aria-hidden="true" tabindex="-1"></a>party_us <span class="ot">&lt;-</span> twitter_party_rf_workflow <span class="sc">|&gt;</span> <span class="fu">fit</span>(<span class="at">data =</span> party_tweets_train_us)</span>
+<span id="cb47-25"><a href="#cb47-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-26"><a href="#cb47-26" aria-hidden="true" tabindex="-1"></a>predictions_gb <span class="ot">&lt;-</span> <span class="fu">augment</span>(party_gb, party_tweets_test_gb)</span>
+<span id="cb47-27"><a href="#cb47-27" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(predictions_gb<span class="sc">$</span>party <span class="sc">==</span> predictions_gb<span class="sc">$</span>.pred_class)</span>
+<span id="cb47-28"><a href="#cb47-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-29"><a href="#cb47-29" aria-hidden="true" tabindex="-1"></a>predictions_us <span class="ot">&lt;-</span> <span class="fu">augment</span>(party_us, party_tweets_test_us)</span>
+<span id="cb47-30"><a href="#cb47-30" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(predictions_us<span class="sc">$</span>party <span class="sc">==</span> predictions_us<span class="sc">$</span>.pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</details>
+<ol start="2" type="1">
+<li>Extract Tweets from U.S. timelines that are about abortion by using the keywords. Perform the same prediction task (but now with <code>initial_split(prop = 0.8)</code>). How does the accuracy change?</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>keywords <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"abortion"</span>, <span class="st">"prolife"</span>, <span class="st">" roe "</span>, <span class="st">" wade "</span>, <span class="st">"roevswade"</span>, <span class="st">"baby"</span>, <span class="st">"fetus"</span>, <span class="st">"womb"</span>, <span class="st">"prochoice"</span>, <span class="st">"leak"</span>)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>timelines_us_abortion <span class="ot">&lt;-</span> timelines_us <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">str_detect</span>(text, keywords <span class="sc">|&gt;</span> <span class="fu">str_c</span>(<span class="at">collapse =</span> <span class="st">"|"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<details>
+<summary>
+Solution. Click to expand!
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>split_us_abortion <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(timelines_us_abortion, <span class="at">prop =</span> <span class="fl">0.8</span>, <span class="at">strata =</span> party)</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>abortion_tweets_train_us <span class="ot">&lt;-</span> <span class="fu">training</span>(split_us_abortion)</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>abortion_tweets_test_us <span class="ot">&lt;-</span> <span class="fu">testing</span>(split_us_abortion)</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>abortion_us <span class="ot">&lt;-</span> twitter_party_rf_workflow <span class="sc">|&gt;</span> <span class="fu">fit</span>(<span class="at">data =</span> abortion_tweets_train_us)</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>predictions_abortion_us <span class="ot">&lt;-</span> <span class="fu">augment</span>(abortion_us, abortion_tweets_test_us)</span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(predictions_abortion_us<span class="sc">$</span>party <span class="sc">==</span> predictions_abortion_us<span class="sc">$</span>.pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</details>
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-hvitfeldt_textrecipes_2022" class="csl-entry" role="listitem">
+Hvitfeldt, Emil. 2022. <span>“Textrecipes: <span>Extra</span> ’<span>Recipes</span>’ for <span>Text Processing</span>.”</span>
+</div>
+<div id="ref-kuhn_dials_2022" class="csl-entry" role="listitem">
+Kuhn, Max and Hannah Frick. 2022. <span>“Dials: <span>Tools</span> for <span>Creating Tuning Parameter Values</span>.”</span>
+</div>
+<div id="ref-kuhn_parsnip_2022" class="csl-entry" role="listitem">
+Kuhn, Max, Davis Vaughan, and Emil Hvitfeldt. 2022. <span>“Parsnip: <span>A Common API</span> to <span>Modeling</span> and <span>Analysis Functions</span>.”</span>
+</div>
+<div id="ref-kuhn_tidymodels_2020" class="csl-entry" role="listitem">
+Kuhn, Max and Hadley Wickham. 2020. <span>“Tidymodels: A Collection of Packages for Modeling and Machine Learning Using Tidyverse Principles.”</span>
+</div>
+<div id="ref-kuhn_recipes_2022" class="csl-entry" role="listitem">
+Kuhn, Max and Hadley Wickham. 2022. <span>“Recipes: <span>Preprocessing</span> and <span>Feature Engineering Steps</span> for <span>Modeling</span>.”</span>
+</div>
+<div id="ref-vaughan_workflows_2022" class="csl-entry" role="listitem">
+Vaughan, Davis. 2022. <span>“Workflows: <span>Modeling Workflows</span>.”</span>
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Copyright 2024, Felix Lennert (<a href="mailto:felix.lennert@uni-leipzig.de">felix.lennert@uni-leipzig.de</a>)</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
