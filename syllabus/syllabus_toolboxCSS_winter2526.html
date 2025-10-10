@@ -295,7 +295,7 @@ div.csl-indent {
 <p>The main objective of this course is that students <strong>perform their own research as the course unfolds</strong>. To this end, we will talk about your interests. Study groups of matching research interests might be formed. Students can of course also work individually. Students are expected to continue working on their projects as the course unfolds.</p>
 <p>A tried-and-tested strategy is to work on a topic you could later use for your Master’s thesis. However, this is not a requirement. In this case, this course would give you more time for the tedious data acquisition and cleaning phase, which is often underestimated.</p>
 <p>At the very end of the course, it is time for a “peer reviewed presentations” of your project. One of your peers will be assigned your project and provide comments on it. This peer review ensures that you are right on track and that everyone has accomplished the course’s learning goals. After that, you are all good to go and can check your analyses and write up your resulting papers so that they resemble a proper empirical research paper (see more in “Expectations” below).</p>
-<p>The actual “peer-review” will work as follows: first, you (the author of the project) present your work briefly (10 minutes). Then, the assigned reviewer group will provide their comments (5 minutes). To facilitate this, you must send presentations presenting the main idea, some theory (including hypotheses), a preliminary testing strategy, and the first results to me by <strong>January 30, 2026</strong>, so I can distribute them to your peers.</p>
+<p>The actual “peer-review” will work as follows: first, you (the author of the project) present your work briefly (10 minutes). Then, the assigned reviewer group will provide their comments (5 minutes). To facilitate this, you must send a presentation presenting the main idea, some theory (including hypotheses), a preliminary testing strategy, and the first results to me by <strong>January 30, 2026</strong>, so I can distribute it to your peers.</p>
 <p>As a peer reviewer, you have 5 minutes to provide feedback on four components:</p>
 <ol type="1">
 <li>Research Question &amp; Motivation: Is it clear and compelling? Are there ways to sharpen the focus?</li>
@@ -321,7 +321,7 @@ div.csl-indent {
 <li>length: between 4,000 and 8,000 words</li>
 <li>cite correctly and in a uniform manner. My preferred citation style is ASA. It is strongly advised to use Zotero and Quarto/Overleaf; resources can be provided upon request.</li>
 </ul></li>
-<li>Structured resembles an empirical research paper:
+<li>Structure resembles an empirical research paper:
 <ul>
 <li>the <em>introduction</em> contains an empirical social scientific research question that is theoretically and practically motivated (i.e., showing its scientific and real-world relevance)</li>
 <li>the <em>theory section</em> provides a <strong>brief</strong> overview of relevant prior research; clearly testable hypotheses are derived from the literature/goals for exploratory analyses are formulated</li>
@@ -469,7 +469,7 @@ div.csl-indent {
 <h3 class="anchored" data-anchor-id="sentiment-analysis-tf-idf-and-nerpos-thu-04-december-2025-1515-1645-nsg-sr-325">Sentiment Analysis, TF-IDF, and NER/POS (Thu, 04 December 2025; 15:15 – 16:45; NSG, SR 325)</h3>
 <ul>
 <li><span class="citation" data-cites="grimmer_text_2022">Grimmer et al. (<a href="#ref-grimmer_text_2022" role="doc-biblioref">2022</a>)</span>, chapter 11</li>
-<li><span class="citation" data-cites="jurafsky_speech_nodate">(<a href="#ref-jurafsky_speech_nodate" role="doc-biblioref"><strong>jurafsky_speech_nodate?</strong></a>)</span>, chapter 21 – <em><a href="https://web.stanford.edu/~jurafsky/slp3/21.pdf">online</a></em></li>
+<li><span class="citation" data-cites="jurafsky_speech">Jurafsky and Martin (<a href="#ref-jurafsky_speech" role="doc-biblioref">n.d.</a>)</span>, chapter 21 – <em><a href="https://web.stanford.edu/~jurafsky/slp3/21.pdf">online</a></em></li>
 <li><span class="citation" data-cites="silge_text_2017">Silge and Robinson (<a href="#ref-silge_text_2017" role="doc-biblioref">2017</a>)</span> – <em><a href="https://www.tidytextmining.com/">online</a></em>, chapters 2 &amp; 3</li>
 </ul>
 </section>
@@ -617,6 +617,9 @@ Grimmer, Justin, Margaret Roberts, and Brandon Stewart. 2022. <em>Text as <span>
 <div id="ref-hvitfeldt_supervised_2022" class="csl-entry" role="listitem">
 Hvitfeldt, Emil and Julia Silge. 2022. <em>Supervised Machine Learning for Text Analysis in <span>R</span></em>. First edition. Boca Raton London New York: CRC Press, Taylor &amp; Francis Group.
 </div>
+<div id="ref-jurafsky_speech" class="csl-entry" role="listitem">
+Jurafsky, Dan and James Martin. n.d. <span>“Speech and <span>Language Processing</span>.”</span>
+</div>
 <div id="ref-laurer_less_2024" class="csl-entry" role="listitem">
 Laurer, Moritz, Wouter Van Atteveldt, Andreu Casas, and Kasper Welbers. 2024. <span>“<a href="https://doi.org/10.1017/pan.2023.20">Less <span>Annotating</span>, <span>More Classifying</span>: <span>Addressing</span> the <span>Data Scarcity Issue</span> of <span>Supervised Machine Learning</span> with <span>Deep Transfer Learning</span> and <span>BERT-NLI</span></a>.”</span> <em>Political Analysis</em> 32(1):84–100.
 </div>
@@ -714,7 +717,7 @@ Wankmüller, Sandra. 2022. <span>“<a href="https://doi.org/10.1177/00491241221
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/fellennert\.github\.io\/toolbox_css\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
