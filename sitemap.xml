@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://fellennert.github.io/toolbox_css/lectures-overview.html</loc>
-    <lastmod>2025-10-10T14:42:30.700Z</lastmod>
+    <loc>https://fellennert.github.io/toolbox_css/lectures_week_1.html</loc>
+    <lastmod>2024-12-20T06:47:33.538Z</lastmod>
   </url>
   <url>
-    <loc>https://fellennert.github.io/toolbox_css/syllabus/syllabus_toolboxCSS_winter2526.html</loc>
-    <lastmod>2025-10-10T15:34:30.147Z</lastmod>
+    <loc>https://fellennert.github.io/toolbox_css/1_r_index.html</loc>
+    <lastmod>2025-10-10T15:33:54.596Z</lastmod>
   </url>
   <url>
     <loc>https://fellennert.github.io/toolbox_css/index.html</loc>
     <lastmod>2025-10-10T14:42:30.699Z</lastmod>
   </url>
   <url>
-    <loc>https://fellennert.github.io/toolbox_css/1_r_index.html</loc>
-    <lastmod>2025-10-10T15:33:54.596Z</lastmod>
+    <loc>https://fellennert.github.io/toolbox_css/syllabus/syllabus_toolboxCSS_winter2526.html</loc>
+    <lastmod>2025-10-10T15:34:30.147Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fellennert.github.io/toolbox_css/lectures-overview.html</loc>
+    <lastmod>2025-10-10T14:42:30.700Z</lastmod>
   </url>
 </urlset>
