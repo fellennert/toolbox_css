@@ -1,0 +1,15 @@
+{
+  "hash": "09ad54da93704ce3564dbd6ba8ea1cff",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Week 1: What Is Computational Social Science (CSS)?\"\npublished-title: week_1\nengine: knitr\nfreeze: auto\n---\n\nThis lecture answers the following questions:\n\n- What does the term CSS mean?\n- Which principles underly a new CSS?\n- Which methods does CSS encompass?\n\n## Slides \n\nPlease click [here to download the latest version of the slides](./slides/20251014-intro.pdf).\n\n\n::: {.cell}\n<style type=\"text/css\">\n\n.embed-container {\n    position: relative;\n    padding-bottom: 129%;\n    height: 0;\n    overflow: hidden;\n    max-width: 100%;\n}\n\n.embed-container iframe,\n.embed-container object,\n.embed-container embed {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n}\n\n</style>\n:::\n\n\nAlternatively, read it here (probably not the best if you're visiting this page on a mobile device):\n\n<div class=\"embed-container\">\n  <iframe src=\"./slides/20251014-intro.pdf\" style=\"border: 0.5px\"></iframe>\n</div>\n\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

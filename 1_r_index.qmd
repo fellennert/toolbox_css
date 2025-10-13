@@ -13,7 +13,7 @@ if you read this script, you are either participating in one of my courses on di
 
 This script will introduce you to techniques I regard as elementary for any aspiring (computational) social scientist: the collection of digital trace data via either scraping the web or acquiring data from application programming interfaces (APIs), the analysis of text in an automated fashion (text mining), the analysis and visualization of spatial data, and the modeling of human behavior *in silico* (agent-based modeling).
 
-The following chapters draw heavily on packages from the `tidyverse` [@wickham_welcome_2019] and related packages. If you have not acquired sufficient familiarity yet, you can have a look at the excellent book [R for Data Science](https://r4ds.hadley.nz) [@wickham_r_2023].
+The following chapters draw heavily on packages from the `tidyverse` [@wickham_welcome_2019] and related packages. If you have not acquired sufficient familiarity yet, you can have a look at the excellent book [R for Data Science](https://r4ds.hadley.nz) [@wickham_data_2023].
 
 I have added brief videos to each section. In these, I will briefly go through the code of the respective section and show a bit of what's going on in there. I sometimes spontaneously elaborate a bit more on the examples at hand or show things in the data, so they may add some value. However, the script should be sufficient to provide you an understanding the concepts I introduce.
 

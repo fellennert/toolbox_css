@@ -201,7 +201,7 @@ Students are expected to show up to class and work on their projects.
 ### Sentiment Analysis, TF-IDF, and NER/POS (`r return_course_date(8, tuesday = FALSE)`)
 
 * @grimmer_text_2022, chapter 11
-* @jurafsky_speech_nodate, chapter 21 -- _[online](https://web.stanford.edu/~jurafsky/slp3/21.pdf)_
+* @jurafsky_speech, chapter 21 -- _[online](https://web.stanford.edu/~jurafsky/slp3/21.pdf)_
 * @silge_text_2017 -- _[online](https://www.tidytextmining.com/)_, chapters 2 & 3
 
 ## Week 9: Text as Data II
@@ -240,7 +240,7 @@ Students are expected to show up to class and work on their projects.
 
 ### Measuring Similarity and the Distributional Hypothesis (`r return_course_date(13, tuesday = TRUE)`)
 
-* @jurafsky_speech_nodate, chapter 6 -- _[online](https://web.stanford.edu/~jurafsky/slp3/6.pdf)_
+* @jurafsky_speech, chapter 6 -- _[online](https://web.stanford.edu/~jurafsky/slp3/6.pdf)_
 * @stoltz_cultural_2021
 
 ### Word Embeddings (`r return_course_date(13, tuesday = FALSE)`)

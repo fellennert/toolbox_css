@@ -11,7 +11,7 @@ website:
       - text: Lectures
         menu:
           - href: lectures-overview.qmd
-         # - href: week_1.qmd
+          - href: lectures-week_1.qmd
          # - href: week_2.qmd
          # - href: week_3.qmd
          # - href: week_4.qmd
