@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Felix Lennert">
+
+<title>06-002-107-3: Forschungsseminar B – Experimentelle Soziologie und Computational Social Science – toolbox_css</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-c1fac2584b48ed01fb6e278e36375074.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">toolbox_css</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#course-description" id="toc-course-description" class="nav-link active" data-scroll-target="#course-description">Course description</a></li>
+  <li><a href="#what-to-expect" id="toc-what-to-expect" class="nav-link" data-scroll-target="#what-to-expect">What to expect</a>
+  <ul class="collapse">
+  <li><a href="#extensions" id="toc-extensions" class="nav-link" data-scroll-target="#extensions">Extensions</a></li>
+  <li><a href="#expectations" id="toc-expectations" class="nav-link" data-scroll-target="#expectations">Expectations</a></li>
+  </ul></li>
+  <li><a href="#basic-rules-of-behavior" id="toc-basic-rules-of-behavior" class="nav-link" data-scroll-target="#basic-rules-of-behavior">Basic rules of behavior</a></li>
+  <li><a href="#schedule" id="toc-schedule" class="nav-link" data-scroll-target="#schedule">Schedule</a>
+  <ul class="collapse">
+  <li><a href="#week-1-kick-off" id="toc-week-1-kick-off" class="nav-link" data-scroll-target="#week-1-kick-off">Week 1: Kick Off</a>
+  <ul class="collapse">
+  <li><a href="#welcome-housekeeping-tue-14-october-2025-1515-1645-nsg-sr-325" id="toc-welcome-housekeeping-tue-14-october-2025-1515-1645-nsg-sr-325" class="nav-link" data-scroll-target="#welcome-housekeeping-tue-14-october-2025-1515-1645-nsg-sr-325">Welcome &amp; Housekeeping (Tue, 14 October 2025; 15:15 – 16:45; NSG, SR 325)</a></li>
+  <li><a href="#setting-up-your-workstation-thu-16-october-2025-1515-1645-nsg-sr-325" id="toc-setting-up-your-workstation-thu-16-october-2025-1515-1645-nsg-sr-325" class="nav-link" data-scroll-target="#setting-up-your-workstation-thu-16-october-2025-1515-1645-nsg-sr-325">Setting up your workstation (Thu, 16 October 2025; 15:15 – 16:45; NSG, SR 325)</a></li>
+  </ul></li>
+  <li><a href="#week-2-brief-intro-to-python-regexes" id="toc-week-2-brief-intro-to-python-regexes" class="nav-link" data-scroll-target="#week-2-brief-intro-to-python-regexes">Week 2: Brief Intro to Python &amp; Regexes</a>
+  <ul class="collapse">
+  <li><a href="#python-regexestue-21-october-2025-1515-1645-nsg-sr-325" id="toc-python-regexestue-21-october-2025-1515-1645-nsg-sr-325" class="nav-link" data-scroll-target="#python-regexestue-21-october-2025-1515-1645-nsg-sr-325">Python &amp; Regexes(Tue, 21 October 2025; 15:15 – 16:45; NSG, SR 325)</a></li>
+  <li><a href="#regular-expressions-thu-23-october-2025-1515-1645-nsg-sr-325" id="toc-regular-expressions-thu-23-october-2025-1515-1645-nsg-sr-325" class="nav-link" data-scroll-target="#regular-expressions-thu-23-october-2025-1515-1645-nsg-sr-325">Regular Expressions (Thu, 23 October 2025; 15:15 – 16:45; NSG, SR 325)</a></li>
+  </ul></li>
+  <li><a href="#week-3-data-acquisition-i" id="toc-week-3-data-acquisition-i" class="nav-link" data-scroll-target="#week-3-data-acquisition-i">Week 3: Data Acquisition I</a>
+  <ul class="collapse">
+  <li><a href="#how-the-web-is-written-and-ethics-tue-28-october-2025-1515-1645-nsg-sr-325" id="toc-how-the-web-is-written-and-ethics-tue-28-october-2025-1515-1645-nsg-sr-325" class="nav-link" data-scroll-target="#how-the-web-is-written-and-ethics-tue-28-october-2025-1515-1645-nsg-sr-325">How the Web is Written and Ethics (Tue, 28 October 2025; 15:15 – 16:45; NSG, SR 325)</a></li>
+  <li><a href="#rvest" id="toc-rvest" class="nav-link" data-scroll-target="#rvest"><code>rvest</code></a></li>
+  </ul></li>
+  <li><a href="#week-4-data-acquisition-ii" id="toc-week-4-data-acquisition-ii" class="nav-link" data-scroll-target="#week-4-data-acquisition-ii">Week 4: Data Acquisition II</a>
+  <ul class="collapse">
+  <li><a href="#dynamic-pages-and-forms-tue-04-november-2025-1515-1645-nsg-sr-325" id="toc-dynamic-pages-and-forms-tue-04-november-2025-1515-1645-nsg-sr-325" class="nav-link" data-scroll-target="#dynamic-pages-and-forms-tue-04-november-2025-1515-1645-nsg-sr-325">Dynamic Pages and Forms (Tue, 04 November 2025; 15:15 – 16:45; NSG, SR 325)</a></li>
+  <li><a href="#apis-thu-13-november-2025-1515-1645-nsg-sr-325" id="toc-apis-thu-13-november-2025-1515-1645-nsg-sr-325" class="nav-link" data-scroll-target="#apis-thu-13-november-2025-1515-1645-nsg-sr-325">APIs (Thu, 13 November 2025; 15:15 – 16:45; NSG, SR 325)</a></li>
+  </ul></li>
+  <li><a href="#week-5-data-acquisition-iii" id="toc-week-5-data-acquisition-iii" class="nav-link" data-scroll-target="#week-5-data-acquisition-iii">Week 5: Data Acquisition III</a>
+  <ul class="collapse">
+  <li><a href="#intro-to-ocr-and-transcription-thu-13-november-2025-1515-1645-nsg-sr-325" id="toc-intro-to-ocr-and-transcription-thu-13-november-2025-1515-1645-nsg-sr-325" class="nav-link" data-scroll-target="#intro-to-ocr-and-transcription-thu-13-november-2025-1515-1645-nsg-sr-325">Intro to OCR and Transcription (Thu, 13 November 2025; 15:15 – 16:45; NSG, SR 325)</a></li>
+  </ul></li>
+  <li><a href="#week-6-data-acquisition-iv" id="toc-week-6-data-acquisition-iv" class="nav-link" data-scroll-target="#week-6-data-acquisition-iv">Week 6: Data Acquisition IV</a>
+  <ul class="collapse">
+  <li><a href="#optical-character-recognition-and-transcription-tue-18-november-2025-1515-1645-nsg-sr-325" id="toc-optical-character-recognition-and-transcription-tue-18-november-2025-1515-1645-nsg-sr-325" class="nav-link" data-scroll-target="#optical-character-recognition-and-transcription-tue-18-november-2025-1515-1645-nsg-sr-325">Optical Character Recognition and Transcription (Tue, 18 November 2025; 15:15 – 16:45; NSG, SR 325)</a></li>
+  <li><a href="#data-acquisition-recap-and-project-discussion-thu-20-november-2025-1515-1645-nsg-sr-325" id="toc-data-acquisition-recap-and-project-discussion-thu-20-november-2025-1515-1645-nsg-sr-325" class="nav-link" data-scroll-target="#data-acquisition-recap-and-project-discussion-thu-20-november-2025-1515-1645-nsg-sr-325">Data Acquisition Recap and Project Discussion (Thu, 20 November 2025; 15:15 – 16:45; NSG, SR 325)</a></li>
+  </ul></li>
+  <li><a href="#week-7-student-project-week" id="toc-week-7-student-project-week" class="nav-link" data-scroll-target="#week-7-student-project-week">Week 7: Student Project Week</a></li>
+  <li><a href="#week-8-text-as-data-i" id="toc-week-8-text-as-data-i" class="nav-link" data-scroll-target="#week-8-text-as-data-i">Week 8: Text as Data I</a>
+  <ul class="collapse">
+  <li><a href="#bag-of-wordstue-02-december-2025-1515-1645-nsg-sr-325" id="toc-bag-of-wordstue-02-december-2025-1515-1645-nsg-sr-325" class="nav-link" data-scroll-target="#bag-of-wordstue-02-december-2025-1515-1645-nsg-sr-325">Bag of Words(Tue, 02 December 2025; 15:15 – 16:45; NSG, SR 325)</a></li>
+  <li><a href="#sentiment-analysis-tf-idf-and-nerpos-thu-04-december-2025-1515-1645-nsg-sr-325" id="toc-sentiment-analysis-tf-idf-and-nerpos-thu-04-december-2025-1515-1645-nsg-sr-325" class="nav-link" data-scroll-target="#sentiment-analysis-tf-idf-and-nerpos-thu-04-december-2025-1515-1645-nsg-sr-325">Sentiment Analysis, TF-IDF, and NER/POS (Thu, 04 December 2025; 15:15 – 16:45; NSG, SR 325)</a></li>
+  </ul></li>
+  <li><a href="#week-9-text-as-data-ii" id="toc-week-9-text-as-data-ii" class="nav-link" data-scroll-target="#week-9-text-as-data-ii">Week 9: Text as Data II</a>
+  <ul class="collapse">
+  <li><a href="#supervised-machine-learning-in-theory-tue-09-december-2025-1515-1645-nsg-sr-325" id="toc-supervised-machine-learning-in-theory-tue-09-december-2025-1515-1645-nsg-sr-325" class="nav-link" data-scroll-target="#supervised-machine-learning-in-theory-tue-09-december-2025-1515-1645-nsg-sr-325">Supervised Machine Learning in Theory (Tue, 09 December 2025; 15:15 – 16:45; NSG, SR 325)</a></li>
+  <li><a href="#supervised-machine-learning-in-practice-thu-11-december-2025-1515-1645-nsg-sr-325" id="toc-supervised-machine-learning-in-practice-thu-11-december-2025-1515-1645-nsg-sr-325" class="nav-link" data-scroll-target="#supervised-machine-learning-in-practice-thu-11-december-2025-1515-1645-nsg-sr-325">Supervised Machine Learning in Practice (Thu, 11 December 2025; 15:15 – 16:45; NSG, SR 325)</a></li>
+  </ul></li>
+  <li><a href="#week-10-text-as-data-iii" id="toc-week-10-text-as-data-iii" class="nav-link" data-scroll-target="#week-10-text-as-data-iii">Week 10: Text as Data III</a>
+  <ul class="collapse">
+  <li><a href="#unsupervised-ml-in-theory-and-practice-tue-16-december-2025-1515-1645-nsg-sr-325" id="toc-unsupervised-ml-in-theory-and-practice-tue-16-december-2025-1515-1645-nsg-sr-325" class="nav-link" data-scroll-target="#unsupervised-ml-in-theory-and-practice-tue-16-december-2025-1515-1645-nsg-sr-325">Unsupervised ML in Theory and Practice (Tue, 16 December 2025; 15:15 – 16:45; NSG, SR 325)</a></li>
+  <li><a href="#remote-counseling-pre-christmas-break-thu-18-december-2025-1515-1645-nsg-sr-325" id="toc-remote-counseling-pre-christmas-break-thu-18-december-2025-1515-1645-nsg-sr-325" class="nav-link" data-scroll-target="#remote-counseling-pre-christmas-break-thu-18-december-2025-1515-1645-nsg-sr-325">Remote Counseling pre-Christmas Break (Thu, 18 December 2025; 15:15 – 16:45; NSG, SR 325)</a></li>
+  </ul></li>
+  <li><a href="#week-11-text-as-data-iv" id="toc-week-11-text-as-data-iv" class="nav-link" data-scroll-target="#week-11-text-as-data-iv">Week 11: Text as Data IV</a>
+  <ul class="collapse">
+  <li><a href="#measuring-similarity-and-the-distributional-hypothesis-tue-06-january-2026-1515-1645-nsg-sr-325" id="toc-measuring-similarity-and-the-distributional-hypothesis-tue-06-january-2026-1515-1645-nsg-sr-325" class="nav-link" data-scroll-target="#measuring-similarity-and-the-distributional-hypothesis-tue-06-january-2026-1515-1645-nsg-sr-325">Measuring Similarity and the Distributional Hypothesis (Tue, 06 January 2026; 15:15 – 16:45; NSG, SR 325)</a></li>
+  <li><a href="#word-embeddings-thu-08-january-2026-1515-1645-nsg-sr-325" id="toc-word-embeddings-thu-08-january-2026-1515-1645-nsg-sr-325" class="nav-link" data-scroll-target="#word-embeddings-thu-08-january-2026-1515-1645-nsg-sr-325">Word Embeddings (Thu, 08 January 2026; 15:15 – 16:45; NSG, SR 325)</a></li>
+  </ul></li>
+  <li><a href="#week-12-text-as-data-v" id="toc-week-12-text-as-data-v" class="nav-link" data-scroll-target="#week-12-text-as-data-v">Week 12: Text as Data V</a>
+  <ul class="collapse">
+  <li><a href="#supervised-learning-on-steroids-bert-tue-13-january-2026-1515-1645-nsg-sr-325" id="toc-supervised-learning-on-steroids-bert-tue-13-january-2026-1515-1645-nsg-sr-325" class="nav-link" data-scroll-target="#supervised-learning-on-steroids-bert-tue-13-january-2026-1515-1645-nsg-sr-325">Supervised Learning on Steroids: BERT (Tue, 13 January 2026; 15:15 – 16:45; NSG, SR 325)</a></li>
+  <li><a href="#active-learning-with-bert-thu-15-january-2026-1515-1645-nsg-sr-325" id="toc-active-learning-with-bert-thu-15-january-2026-1515-1645-nsg-sr-325" class="nav-link" data-scroll-target="#active-learning-with-bert-thu-15-january-2026-1515-1645-nsg-sr-325">Active Learning with BERT (Thu, 15 January 2026; 15:15 – 16:45; NSG, SR 325)</a></li>
+  </ul></li>
+  <li><a href="#week-13-text-as-data-vi" id="toc-week-13-text-as-data-vi" class="nav-link" data-scroll-target="#week-13-text-as-data-vi">Week 13: Text as Data VI</a>
+  <ul class="collapse">
+  <li><a href="#llms-for-information-extraction-tue-20-january-2026-1515-1645-nsg-sr-325" id="toc-llms-for-information-extraction-tue-20-january-2026-1515-1645-nsg-sr-325" class="nav-link" data-scroll-target="#llms-for-information-extraction-tue-20-january-2026-1515-1645-nsg-sr-325">LLMs for information extraction (Tue, 20 January 2026; 15:15 – 16:45; NSG, SR 325)</a></li>
+  <li><a href="#local-llms-a-primer-thu-22-january-2026-1515-1645-nsg-sr-325" id="toc-local-llms-a-primer-thu-22-january-2026-1515-1645-nsg-sr-325" class="nav-link" data-scroll-target="#local-llms-a-primer-thu-22-january-2026-1515-1645-nsg-sr-325">Local LLMs – a primer (Thu, 22 January 2026; 15:15 – 16:45; NSG, SR 325)</a></li>
+  </ul></li>
+  <li><a href="#week-14-presentation-preparation-week" id="toc-week-14-presentation-preparation-week" class="nav-link" data-scroll-target="#week-14-presentation-preparation-week">Week 14: Presentation Preparation Week</a></li>
+  <li><a href="#week-15-presentation-wrap-up-week" id="toc-week-15-presentation-wrap-up-week" class="nav-link" data-scroll-target="#week-15-presentation-wrap-up-week">Week 15: Presentation &amp; Wrap Up Week</a>
+  <ul class="collapse">
+  <li><a href="#presentations-tue-03-february-2026-1515-1645-nsg-sr-325" id="toc-presentations-tue-03-february-2026-1515-1645-nsg-sr-325" class="nav-link" data-scroll-target="#presentations-tue-03-february-2026-1515-1645-nsg-sr-325">Presentations (Tue, 03 February 2026; 15:15 – 16:45; NSG, SR 325)</a></li>
+  <li><a href="#presentations-wrap-up-thu-05-february-2026-1515-1645-nsg-sr-325" id="toc-presentations-wrap-up-thu-05-february-2026-1515-1645-nsg-sr-325" class="nav-link" data-scroll-target="#presentations-wrap-up-thu-05-february-2026-1515-1645-nsg-sr-325">Presentations &amp; Wrap-up (Thu, 05 February 2026; 15:15 – 16:45; NSG, SR 325)</a></li>
+  </ul></li>
+  <li><a href="#deadline-forschungsbericht" id="toc-deadline-forschungsbericht" class="nav-link" data-scroll-target="#deadline-forschungsbericht">Deadline Forschungsbericht</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">06-002-107-3: Forschungsseminar B – Experimentelle Soziologie und Computational Social Science</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Felix Lennert </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">Invalid Date</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<ul>
+<li>E-mail: <a href="mailto:felix.lennert@uni-leipzig.de" class="email">felix.lennert@uni-leipzig.de</a></li>
+<li>Course hours: Tuesdays and Thursdays, 15:15 – 16:45, NSG, SR 325; for exact dates, see <a href="#schedule">schedule</a></li>
+<li>Readings: see <a href="#schedule">schedule</a></li>
+<li>Course materials: see <a href="https://fellennert.github.io/toolbox-css/">website</a></li>
+<li>Student hours: are to be set up individually via email; my office is H3 1.07; there is a multitude of valid reasons why you should come see me – some are listed here:
+<ul>
+<li>things are unclear and you need help with the material</li>
+<li>you want to discuss a research idea</li>
+<li>you have come across a cool new paper that I might deem interesting</li>
+<li>you have recommendations for me in terms of general course resources/references/structure/behavior</li>
+<li>you want some career advice from someone roughly your age</li>
+<li>you forgot your mensa card at home and want some coffee/tea</li>
+<li>in case you need some free period supplies, no email is required, you can just get them at Leonie Steinbrinker’s office (I also have a key if she’s not there), H3 1.06</li>
+</ul></li>
+</ul>
+<section id="course-description" class="level1">
+<h1>Course description</h1>
+<p>The Forschungsseminar in Computational Social Science (CSS) equips you with the tools to analyze human behavior, predict social trends, and tackle complex societal issues using cutting-edge data science techniques. From web scraping to AI-powered text analysis, you’ll learn to use your computer in new ways to gain insights into social phenomena.</p>
+<p>The curriculum covers a range of topics including data management, web scraping, speech-to-text, and computational text analysis. Students will hone their R and develop skills in Python, applying these languages to real-world social science problems. The course progresses from fundamental concepts to advanced techniques, including the use of state-of-the-art AI models for text analysis.</p>
+<p>The course structure consists of one lecture and one lab session per week, providing a balance of theoretical knowledge and practical application. Throughout the semester, students will benefit from hands-on coding exercises, one-on-one mentoring, and collaborative projects. The course culminates in a research paper, allowing students to apply their new skills to a topic of their choice.</p>
+<p>This course is ideal for social scientists looking to enhance their computational skills. It is geared toward 2nd year Master’s students who are enrolled in the reformed Sociology Master’s program. Interested Bachelor’s students are also very welcome to attend, they shall send an email to the instructor no later than October 10, 2025. However, Bachelor’s students will not be able to earn credits with their attendance.</p>
+</section>
+<section id="what-to-expect" class="level1">
+<h1>What to expect</h1>
+<p>This course is structured so that it provides you – the student – with theoretical lectures (on Tuesdays) and hands-on coding labs (Thursdays). The lectures aim to introduce you to how you can use techniques to conduct empirical research and will mostly consist of the presentation of innovative and/or cutting-edge research that has harnessed digital data to solve exciting research puzzles. They also might contain some practical demonstrations already. The practical sessions then showcase how to perform similar things yourself and give you ample opportunities to perform the analyses on your own data. Exercises will be provided, but you are not expected to hand them in – I could not care less and not doing them is simply your loss. However, I am of course always available to help you with the exercises if you get stuck.</p>
+<p>The main objective of this course is that students <strong>perform their own research as the course unfolds</strong>. To this end, we will talk about your interests. Study groups of matching research interests might be formed. Students can of course also work individually. Students are expected to continue working on their projects as the course unfolds.</p>
+<p>A tried-and-tested strategy is to work on a topic you could later use for your Master’s thesis. However, this is not a requirement. In this case, this course would give you more time for the tedious data acquisition and cleaning phase, which is often underestimated.</p>
+<p>At the very end of the course, it is time for a “peer reviewed presentations” of your project. One of your peers will be assigned your project and provide comments on it. This peer review ensures that you are right on track and that everyone has accomplished the course’s learning goals. After that, you are all good to go and can check your analyses and write up your resulting papers so that they resemble a proper empirical research paper (see more in “Expectations” below).</p>
+<p>The actual “peer-review” will work as follows: first, you (the author of the project) present your work briefly (10 minutes). Then, the assigned reviewer group will provide their comments (5 minutes). To facilitate this, you must send presentations presenting the main idea, some theory (including hypotheses), a preliminary testing strategy, and the first results to me by <strong>January 30, 2026</strong>, so I can distribute them to your peers.</p>
+<p>As a peer reviewer, you have 5 minutes to provide feedback on four components:</p>
+<ol type="1">
+<li>Research Question &amp; Motivation: Is it clear and compelling? Are there ways to sharpen the focus?</li>
+<li>Theory &amp; Hypotheses – Is relevant literature cited? Are there gaps or alternative frameworks to consider?</li>
+<li>Data &amp; Methods – Is the approach appropriate? Are there concerns about data quality or better-suited methods?</li>
+<li>Preliminary Results – Are visualizations clear? Do results address the hypotheses? What additional analyses might help?</li>
+</ol>
+<p>Please be constructive rather than critical, frame suggestions as questions (“Have you considered…?”), be specific with your feedback, and acknowledge that everyone is working within constraints. Aim to identify 2-3 main strengths and 2-3 areas for improvement, and suggest specific papers, methods, or framings where helpful.</p>
+<p>The (tentative) deadline for the paper (“Forschungsbericht”) is <strong>March 19, 2026</strong>. Please send it – in PDF format – to Simone Müller (<a href="muellers@uni-leipzig.de">muellers@uni-leipzig.de</a>) and CC me. Code and data have to be sent to me via email (depending on data size, data can also be shared via Google Drive/Dropbox/Uni Leipzig Wolke). The code should run “out of the box” and contain everything necessary to replicate the results and graphs in the paper. Preferably, this is in chronological order and structured into sections with descriptive titles. I have no preferences regarding the programming language (R, Python), therefore your project can be in either language or a mix of both (e.g., using <code>reticulate</code> in R or <code>quarto</code> notebooks – the latter being my suggestion).</p>
+<section id="extensions" class="level2">
+<h2 class="anchored" data-anchor-id="extensions">Extensions</h2>
+<p>Extensions can be granted for particular reasons. These involve, among others, internships and sickness. In the case of the former, please give me a quick heads-up so that I can arrange it (preferably with some sort of proof). If you need an extension for a different reason than the ones mentioned above, feel free to reach out anytime, and I will do my best to accommodate your needs.</p>
+</section>
+<section id="expectations" class="level2">
+<h2 class="anchored" data-anchor-id="expectations">Expectations</h2>
+<ul>
+<li>The Basics
+<ul>
+<li>written in English</li>
+<li>file format: PDF</li>
+<li>font size 12 pt, 1.5 line spacing</li>
+<li>no typos, grammatical flaws, etc. (you are living in the age of helpers such as <a href="https://app.grammarly.com">Grammarly</a>, there are no more excuses)</li>
+<li>length: between 4,000 and 8,000 words</li>
+<li>cite correctly and in a uniform manner. My preferred citation style is ASA. It is strongly advised to use Zotero and Quarto/Overleaf; resources can be provided upon request.</li>
+</ul></li>
+<li>Structured resembles an empirical research paper:
+<ul>
+<li>the <em>introduction</em> contains an empirical social scientific research question that is theoretically and practically motivated (i.e., showing its scientific and real-world relevance)</li>
+<li>the <em>theory section</em> provides a <strong>brief</strong> overview of relevant prior research; clearly testable hypotheses are derived from the literature/goals for exploratory analyses are formulated</li>
+<li>in <em>data and methods</em>, the data (including acquisition strategy), as well as the analysis strategy, are described; in our case, the data consist of text, the analyses are related to the course content; data and methods need to enable valid results</li>
+<li><em>results</em> need to be visualized through tables and/or (gg)plots and described in the text; tables and visualizations need to be properly labeled so that they can “stand on their own”</li>
+<li><em>discussion</em> of the results is performed in the light of the theoretical foundations; potential shortcomings and reach of the paper are outlined</li>
+<li>the <em>conclusion</em> circles back to the introduction and connects it to the results; it needs to clearly answer the research question</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="basic-rules-of-behavior" class="level1">
+<h1>Basic rules of behavior</h1>
+<ul>
+<li>If anything is unclear, ask me. This probably means that I have failed my job, and your question offers me a second chance to fix this.</li>
+<li>No discrimination. Never. If you witness any, tell me. I will find a way to deal with it.</li>
+<li>THIS IS IMPORTANT: If there are problems, reach out whenever. Do not let them become too big.</li>
+<li>Copy code from the internet – but you are responsible for the solution, so please make sure it works and solves your problem.</li>
+<li>Generative AI (i.e., ChatGPT et al.) is explicitly allowed. In my opinion, it is a tool that is here to stay, and you should use whatever resource you have to get the job(s) done. Plus, writing the right prompt is a skill in itself that you should definitely hone. If you use it for your writing, please make sure to proof-read everything properly, since you – and only you – will be held accountable for its content.</li>
+<li>Form groups with your peers for working on the material. Everything will be easier and more fun. Except for when you have free riders. Kick them out of your group.</li>
+<li>AGAIN: ask questions if needed. Anytime.</li>
+</ul>
+</section>
+<section id="schedule" class="level1">
+<h1>Schedule</h1>
+<p>As stated above, Tuesdays are lectures and Thursdays are lab sessions. Please bring a laptop to all of our meetings (if you don’t have one, feel free to reach out and we will try our best to lend you one). It’s also a good idea to charge it before, since outlets appear a bit scant.</p>
+<p>Most of you will use RStudio. I personally use Positron, which is basically the same but more accomodating to Python. You can download it for free from <a href="https://positron.posit.co">posit.co</a>. However, RStudio is perfectly fine, too.</p>
+<p>Literature-wise, we will use a mix of textbooks and review papers to introduce theoretical concepts and related studies to illustrate. In terms of programming, we will mostly rely on online resources. However, everything that is relevant in terms of R content (and more!) can be found in the R script.</p>
+<p>Every reading will be either provided online or linked to in this syllabus (just click on <em>“<a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">online</a>”</em>) – the link is hidden.</p>
+<p>I do not expect you to read the literature and will do the theoretical sessions in a “lecture” style. This is because this is an applied course and not every piece of content has the same relevance for everyone. Having been a student myself, I think that students should not be overwhelmed by having to read everything while working on their projects. I will upload additional readings on top of the ones this syllabus mentions in case you want to read more and need some inspiration. I also recommend looking at the references of the papers we read to find more relevant literature or just ask me anytime.</p>
+<section id="week-1-kick-off" class="level2">
+<h2 class="anchored" data-anchor-id="week-1-kick-off">Week 1: Kick Off</h2>
+<section id="welcome-housekeeping-tue-14-october-2025-1515-1645-nsg-sr-325" class="level3">
+<h3 class="anchored" data-anchor-id="welcome-housekeeping-tue-14-october-2025-1515-1645-nsg-sr-325">Welcome &amp; Housekeeping (Tue, 14 October 2025; 15:15 – 16:45; NSG, SR 325)</h3>
+<p>No readings.</p>
+</section>
+<section id="setting-up-your-workstation-thu-16-october-2025-1515-1645-nsg-sr-325" class="level3">
+<h3 class="anchored" data-anchor-id="setting-up-your-workstation-thu-16-october-2025-1515-1645-nsg-sr-325">Setting up your workstation (Thu, 16 October 2025; 15:15 – 16:45; NSG, SR 325)</h3>
+<ul>
+<li>Acquire access to <em><a href="www.sc.uni-leipzig.de">sc.uni-leipzig.de</a></em></li>
+<li>R recap (the corresponding chapters can be found in the R4DS book – _<a href="https://r4ds.hadley.nz">online</a>)
+<ul>
+<li><code>RMarkdown</code>/<code>Quarto</code> – chapters 28 &amp; 29</li>
+<li><code>dplyr</code> – chapter 4</li>
+<li><code>tidyr</code> – chapter 6</li>
+<li><code>ggplot2</code> – chapters 2 &amp; 10 &amp; 11 &amp; 12</li>
+<li><code>purrr</code> &amp; loops in different flavors – chapter 27</li>
+<li>functional programming – chapter 26</li>
+<li>set up <code>reticulate</code> in RStudio – <em><a href="https://rstudio.github.io/reticulate/">online</a></em></li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="week-2-brief-intro-to-python-regexes" class="level2">
+<h2 class="anchored" data-anchor-id="week-2-brief-intro-to-python-regexes">Week 2: Brief Intro to Python &amp; Regexes</h2>
+<section id="python-regexestue-21-october-2025-1515-1645-nsg-sr-325" class="level3">
+<h3 class="anchored" data-anchor-id="python-regexestue-21-october-2025-1515-1645-nsg-sr-325">Python &amp; Regexes(Tue, 21 October 2025; 15:15 – 16:45; NSG, SR 325)</h3>
+<ul>
+<li>Brief intro to Python
+<ul>
+<li><em>reticulate</em> – how to run Python in R studio</li>
+<li>data types</li>
+<li>loops</li>
+<li>functions</li>
+<li><code>pandas</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="regular-expressions-thu-23-october-2025-1515-1645-nsg-sr-325" class="level3">
+<h3 class="anchored" data-anchor-id="regular-expressions-thu-23-october-2025-1515-1645-nsg-sr-325">Regular Expressions (Thu, 23 October 2025; 15:15 – 16:45; NSG, SR 325)</h3>
+<ul>
+<li><code>stringr</code> &amp; Regular Expressions – R4DS book, <em><a href="https://r4ds.hadley.nz">online</a></em>, chapters 15 &amp; 16</li>
+</ul>
+</section>
+</section>
+<section id="week-3-data-acquisition-i" class="level2">
+<h2 class="anchored" data-anchor-id="week-3-data-acquisition-i">Week 3: Data Acquisition I</h2>
+<section id="how-the-web-is-written-and-ethics-tue-28-october-2025-1515-1645-nsg-sr-325" class="level3">
+<h3 class="anchored" data-anchor-id="how-the-web-is-written-and-ethics-tue-28-october-2025-1515-1645-nsg-sr-325">How the Web is Written and Ethics (Tue, 28 October 2025; 15:15 – 16:45; NSG, SR 325)</h3>
+<ul>
+<li><span class="citation" data-cites="stoltz_mapping_2024">Stoltz and Taylor (<a href="#ref-stoltz_mapping_2024" role="doc-biblioref">2024</a>)</span> – chapter 5</li>
+<li>Blog post on CSS selectors – <em><a href="https://css-tricks.com/css-selectors/">online</a></em></li>
+<li>Blog posts on API calls – <em><a href="https://www.cloudflare.com/learning/security/api/what-is-api-call/">online</a></em></li>
+</ul>
+</section>
+<section id="rvest" class="level3">
+<h3 class="anchored" data-anchor-id="rvest"><code>rvest</code></h3>
+<ul>
+<li><code>rvest</code> Web scraping 101 – <em><a href="https://rvest.tidyverse.org/articles/rvest.html">online</a></em></li>
+</ul>
+</section>
+</section>
+<section id="week-4-data-acquisition-ii" class="level2">
+<h2 class="anchored" data-anchor-id="week-4-data-acquisition-ii">Week 4: Data Acquisition II</h2>
+<section id="dynamic-pages-and-forms-tue-04-november-2025-1515-1645-nsg-sr-325" class="level3">
+<h3 class="anchored" data-anchor-id="dynamic-pages-and-forms-tue-04-november-2025-1515-1645-nsg-sr-325">Dynamic Pages and Forms (Tue, 04 November 2025; 15:15 – 16:45; NSG, SR 325)</h3>
+<ul>
+<li><code>selenium</code> documentation – <em><a href="https://www.selenium.dev/documentation/webdriver/">online</a></em></li>
+</ul>
+</section>
+<section id="apis-thu-13-november-2025-1515-1645-nsg-sr-325" class="level3">
+<h3 class="anchored" data-anchor-id="apis-thu-13-november-2025-1515-1645-nsg-sr-325">APIs (Thu, 13 November 2025; 15:15 – 16:45; NSG, SR 325)</h3>
+<ul>
+<li><code>httr2</code> documentation – <em><a href="https://httr2.r-lib.org/articles/httr2.html">online</a></em></li>
+</ul>
+</section>
+</section>
+<section id="week-5-data-acquisition-iii" class="level2">
+<h2 class="anchored" data-anchor-id="week-5-data-acquisition-iii">Week 5: Data Acquisition III</h2>
+<section id="intro-to-ocr-and-transcription-thu-13-november-2025-1515-1645-nsg-sr-325" class="level3">
+<h3 class="anchored" data-anchor-id="intro-to-ocr-and-transcription-thu-13-november-2025-1515-1645-nsg-sr-325">Intro to OCR and Transcription (Thu, 13 November 2025; 15:15 – 16:45; NSG, SR 325)</h3>
+<ul>
+<li><span class="citation" data-cites="stoltz_mapping_2024">Stoltz and Taylor (<a href="#ref-stoltz_mapping_2024" role="doc-biblioref">2024</a>)</span> – chapter 5</li>
+</ul>
+</section>
+</section>
+<section id="week-6-data-acquisition-iv" class="level2">
+<h2 class="anchored" data-anchor-id="week-6-data-acquisition-iv">Week 6: Data Acquisition IV</h2>
+<section id="optical-character-recognition-and-transcription-tue-18-november-2025-1515-1645-nsg-sr-325" class="level3">
+<h3 class="anchored" data-anchor-id="optical-character-recognition-and-transcription-tue-18-november-2025-1515-1645-nsg-sr-325">Optical Character Recognition and Transcription (Tue, 18 November 2025; 15:15 – 16:45; NSG, SR 325)</h3>
+<ul>
+<li><code>Tesseract</code> documentation – <em><a href="https://tesseract-ocr.github.io">online</a></em></li>
+<li>OpenAI Whisper Python package documentation – <em><a href="https://github.com/openai/whisper">online</a></em></li>
+</ul>
+</section>
+<section id="data-acquisition-recap-and-project-discussion-thu-20-november-2025-1515-1645-nsg-sr-325" class="level3">
+<h3 class="anchored" data-anchor-id="data-acquisition-recap-and-project-discussion-thu-20-november-2025-1515-1645-nsg-sr-325">Data Acquisition Recap and Project Discussion (Thu, 20 November 2025; 15:15 – 16:45; NSG, SR 325)</h3>
+</section>
+</section>
+<section id="week-7-student-project-week" class="level2">
+<h2 class="anchored" data-anchor-id="week-7-student-project-week">Week 7: Student Project Week</h2>
+<p>Students are expected to show up to class and work on their projects.</p>
+</section>
+<section id="week-8-text-as-data-i" class="level2">
+<h2 class="anchored" data-anchor-id="week-8-text-as-data-i">Week 8: Text as Data I</h2>
+<section id="bag-of-wordstue-02-december-2025-1515-1645-nsg-sr-325" class="level3">
+<h3 class="anchored" data-anchor-id="bag-of-wordstue-02-december-2025-1515-1645-nsg-sr-325">Bag of Words(Tue, 02 December 2025; 15:15 – 16:45; NSG, SR 325)</h3>
+<ul>
+<li><span class="citation" data-cites="evans_machine_2016">Evans and Aceves (<a href="#ref-evans_machine_2016" role="doc-biblioref">2016</a>)</span></li>
+<li><span class="citation" data-cites="grimmer_text_2022">Grimmer, Roberts, and Stewart (<a href="#ref-grimmer_text_2022" role="doc-biblioref">2022</a>)</span>, chapters 3–5, 11, &amp; 15</li>
+<li><span class="citation" data-cites="stoltz_mapping_2024">Stoltz and Taylor (<a href="#ref-stoltz_mapping_2024" role="doc-biblioref">2024</a>)</span>, chapters 4–9</li>
+</ul>
+</section>
+<section id="sentiment-analysis-tf-idf-and-nerpos-thu-04-december-2025-1515-1645-nsg-sr-325" class="level3">
+<h3 class="anchored" data-anchor-id="sentiment-analysis-tf-idf-and-nerpos-thu-04-december-2025-1515-1645-nsg-sr-325">Sentiment Analysis, TF-IDF, and NER/POS (Thu, 04 December 2025; 15:15 – 16:45; NSG, SR 325)</h3>
+<ul>
+<li><span class="citation" data-cites="grimmer_text_2022">Grimmer et al. (<a href="#ref-grimmer_text_2022" role="doc-biblioref">2022</a>)</span>, chapter 11</li>
+<li><span class="citation" data-cites="jurafsky_speech_nodate">(<a href="#ref-jurafsky_speech_nodate" role="doc-biblioref"><strong>jurafsky_speech_nodate?</strong></a>)</span>, chapter 21 – <em><a href="https://web.stanford.edu/~jurafsky/slp3/21.pdf">online</a></em></li>
+<li><span class="citation" data-cites="silge_text_2017">Silge and Robinson (<a href="#ref-silge_text_2017" role="doc-biblioref">2017</a>)</span> – <em><a href="https://www.tidytextmining.com/">online</a></em>, chapters 2 &amp; 3</li>
+</ul>
+</section>
+</section>
+<section id="week-9-text-as-data-ii" class="level2">
+<h2 class="anchored" data-anchor-id="week-9-text-as-data-ii">Week 9: Text as Data II</h2>
+<section id="supervised-machine-learning-in-theory-tue-09-december-2025-1515-1645-nsg-sr-325" class="level3">
+<h3 class="anchored" data-anchor-id="supervised-machine-learning-in-theory-tue-09-december-2025-1515-1645-nsg-sr-325">Supervised Machine Learning in Theory (Tue, 09 December 2025; 15:15 – 16:45; NSG, SR 325)</h3>
+<section id="supervised-ml" class="level4">
+<h4 class="anchored" data-anchor-id="supervised-ml">Supervised ML</h4>
+<ul>
+<li><span class="citation" data-cites="barbera_automated_2021">Barberá et al. (<a href="#ref-barbera_automated_2021" role="doc-biblioref">2021</a>)</span></li>
+<li><span class="citation" data-cites="grimmer_text_2022">Grimmer et al. (<a href="#ref-grimmer_text_2022" role="doc-biblioref">2022</a>)</span>, chapters 17–20</li>
+<li><span class="citation" data-cites="stoltz_mapping_2024">Stoltz and Taylor (<a href="#ref-stoltz_mapping_2024" role="doc-biblioref">2024</a>)</span>, chapters 9 &amp; 12</li>
+</ul>
+</section>
+</section>
+<section id="supervised-machine-learning-in-practice-thu-11-december-2025-1515-1645-nsg-sr-325" class="level3">
+<h3 class="anchored" data-anchor-id="supervised-machine-learning-in-practice-thu-11-december-2025-1515-1645-nsg-sr-325">Supervised Machine Learning in Practice (Thu, 11 December 2025; 15:15 – 16:45; NSG, SR 325)</h3>
+<ul>
+<li><span class="citation" data-cites="hvitfeldt_supervised_2022">Hvitfeldt and Silge (<a href="#ref-hvitfeldt_supervised_2022" role="doc-biblioref">2022</a>)</span> – <em><a href="https://smltar.com/">online</a></em>, chapters 6 &amp; 7</li>
+<li><span class="citation" data-cites="silge_predictive_2019">Silge and Hvitfeldt (<a href="#ref-silge_predictive_2019" role="doc-biblioref">2019</a>)</span> – <em><a href="https://emilhvitfeldt.github.io/useR2020-text-modeling-tutorial/#4">online</a></em></li>
+</ul>
+</section>
+</section>
+<section id="week-10-text-as-data-iii" class="level2">
+<h2 class="anchored" data-anchor-id="week-10-text-as-data-iii">Week 10: Text as Data III</h2>
+<section id="unsupervised-ml-in-theory-and-practice-tue-16-december-2025-1515-1645-nsg-sr-325" class="level3">
+<h3 class="anchored" data-anchor-id="unsupervised-ml-in-theory-and-practice-tue-16-december-2025-1515-1645-nsg-sr-325">Unsupervised ML in Theory and Practice (Tue, 16 December 2025; 15:15 – 16:45; NSG, SR 325)</h3>
+<ul>
+<li><span class="citation" data-cites="blei_probabilistic_2012">Blei (<a href="#ref-blei_probabilistic_2012" role="doc-biblioref">2012</a>)</span></li>
+<li><span class="citation" data-cites="dimaggio_exploiting_2013">DiMaggio, Nag, and Blei (<a href="#ref-dimaggio_exploiting_2013" role="doc-biblioref">2013</a>)</span></li>
+<li><span class="citation" data-cites="grimmer_text_2022">Grimmer et al. (<a href="#ref-grimmer_text_2022" role="doc-biblioref">2022</a>)</span>, chapters 10, 12–3</li>
+<li><span class="citation" data-cites="stoltz_mapping_2024">Stoltz and Taylor (<a href="#ref-stoltz_mapping_2024" role="doc-biblioref">2024</a>)</span>, chapters 10 &amp; 11</li>
+<li><span class="citation" data-cites="silge_text_2017">Silge and Robinson (<a href="#ref-silge_text_2017" role="doc-biblioref">2017</a>)</span> – <em><a href="https://www.tidytextmining.com/topicmodeling.html">online</a></em>, chapter 6</li>
+</ul>
+</section>
+<section id="remote-counseling-pre-christmas-break-thu-18-december-2025-1515-1645-nsg-sr-325" class="level3">
+<h3 class="anchored" data-anchor-id="remote-counseling-pre-christmas-break-thu-18-december-2025-1515-1645-nsg-sr-325">Remote Counseling pre-Christmas Break (Thu, 18 December 2025; 15:15 – 16:45; NSG, SR 325)</h3>
+<p>1-on-1 project counseling available on Zoom.</p>
+<p>—- CHRISTMAS BREAK —-</p>
+</section>
+</section>
+<section id="week-11-text-as-data-iv" class="level2">
+<h2 class="anchored" data-anchor-id="week-11-text-as-data-iv">Week 11: Text as Data IV</h2>
+<section id="measuring-similarity-and-the-distributional-hypothesis-tue-06-january-2026-1515-1645-nsg-sr-325" class="level3">
+<h3 class="anchored" data-anchor-id="measuring-similarity-and-the-distributional-hypothesis-tue-06-january-2026-1515-1645-nsg-sr-325">Measuring Similarity and the Distributional Hypothesis (Tue, 06 January 2026; 15:15 – 16:45; NSG, SR 325)</h3>
+<ul>
+<li><span class="citation" data-cites="jurafsky_speech_nodate">(<a href="#ref-jurafsky_speech_nodate" role="doc-biblioref"><strong>jurafsky_speech_nodate?</strong></a>)</span>, chapter 6 – <em><a href="https://web.stanford.edu/~jurafsky/slp3/6.pdf">online</a></em></li>
+<li><span class="citation" data-cites="stoltz_cultural_2021">Stoltz and Taylor (<a href="#ref-stoltz_cultural_2021" role="doc-biblioref">2021</a>)</span></li>
+</ul>
+</section>
+<section id="word-embeddings-thu-08-january-2026-1515-1645-nsg-sr-325" class="level3">
+<h3 class="anchored" data-anchor-id="word-embeddings-thu-08-january-2026-1515-1645-nsg-sr-325">Word Embeddings (Thu, 08 January 2026; 15:15 – 16:45; NSG, SR 325)</h3>
+<ul>
+<li><span class="citation" data-cites="hvitfeldt_supervised_2022">Hvitfeldt and Silge (<a href="#ref-hvitfeldt_supervised_2022" role="doc-biblioref">2022</a>)</span> – <em><a href="https://smltar.com">online</a></em>, chapter 5</li>
+<li><span class="citation" data-cites="stoltz_mapping_2024">Stoltz and Taylor (<a href="#ref-stoltz_mapping_2024" role="doc-biblioref">2024</a>)</span>, chapter 11</li>
+<li><code>text2map</code>: R Tools for Text Matrices – <em><a href="https://culturalcartography.gitlab.io/text2map/">online</a></em></li>
+</ul>
+</section>
+</section>
+<section id="week-12-text-as-data-v" class="level2">
+<h2 class="anchored" data-anchor-id="week-12-text-as-data-v">Week 12: Text as Data V</h2>
+<section id="supervised-learning-on-steroids-bert-tue-13-january-2026-1515-1645-nsg-sr-325" class="level3">
+<h3 class="anchored" data-anchor-id="supervised-learning-on-steroids-bert-tue-13-january-2026-1515-1645-nsg-sr-325">Supervised Learning on Steroids: BERT (Tue, 13 January 2026; 15:15 – 16:45; NSG, SR 325)</h3>
+<ul>
+<li><span class="citation" data-cites="do_augmented_2022">Do, Ollion, and Shen (<a href="#ref-do_augmented_2022" role="doc-biblioref">2022</a>)</span></li>
+<li><span class="citation" data-cites="laurer_less_2024">Laurer et al. (<a href="#ref-laurer_less_2024" role="doc-biblioref">2024</a>)</span></li>
+<li><span class="citation" data-cites="tornberg_how_2023">Törnberg (<a href="#ref-tornberg_how_2023" role="doc-biblioref">2023</a>)</span></li>
+<li><span class="citation" data-cites="wankmuller_introduction_2022">Wankmüller (<a href="#ref-wankmuller_introduction_2022" role="doc-biblioref">2022</a>)</span></li>
+</ul>
+</section>
+<section id="active-learning-with-bert-thu-15-january-2026-1515-1645-nsg-sr-325" class="level3">
+<h3 class="anchored" data-anchor-id="active-learning-with-bert-thu-15-january-2026-1515-1645-nsg-sr-325">Active Learning with BERT (Thu, 15 January 2026; 15:15 – 16:45; NSG, SR 325)</h3>
+<ul>
+<li>set up environments</li>
+<li>Augmented Social Scientist tutorial – <em><a href="https://colab.research.google.com/drive/132_oDik-SOWve31tZ8D1VOx1Sj_Cyzn7?usp=sharing">online</a></em></li>
+<li>BERTopic – <em><a href="https://maartengr.github.io/BERTopic/index.html">online</a></em></li>
+</ul>
+</section>
+</section>
+<section id="week-13-text-as-data-vi" class="level2">
+<h2 class="anchored" data-anchor-id="week-13-text-as-data-vi">Week 13: Text as Data VI</h2>
+<section id="llms-for-information-extraction-tue-20-january-2026-1515-1645-nsg-sr-325" class="level3">
+<h3 class="anchored" data-anchor-id="llms-for-information-extraction-tue-20-january-2026-1515-1645-nsg-sr-325">LLMs for information extraction (Tue, 20 January 2026; 15:15 – 16:45; NSG, SR 325)</h3>
+<ul>
+<li><span class="citation" data-cites="stuhler_codebooks_2025">Stuhler, Ton, and Ollion (<a href="#ref-stuhler_codebooks_2025" role="doc-biblioref">2025</a>)</span></li>
+</ul>
+</section>
+<section id="local-llms-a-primer-thu-22-january-2026-1515-1645-nsg-sr-325" class="level3">
+<h3 class="anchored" data-anchor-id="local-llms-a-primer-thu-22-january-2026-1515-1645-nsg-sr-325">Local LLMs – a primer (Thu, 22 January 2026; 15:15 – 16:45; NSG, SR 325)</h3>
+<ul>
+<li><code>ellmer</code> documentation – <em><a href="https://ellmer.tidyverse.org">online</a></em></li>
+<li>Tutorial from IC2S2 by Etienne Ollion, Emilien Schultz, Julien Boelaert – <em><a href="https://www.css.cnrs.fr/llm-power-to-the-people/">online</a></em></li>
+</ul>
+</section>
+</section>
+<section id="week-14-presentation-preparation-week" class="level2">
+<h2 class="anchored" data-anchor-id="week-14-presentation-preparation-week">Week 14: Presentation Preparation Week</h2>
+<p>No classes. Deadline for sending presentations: January 30, 6PM.</p>
+</section>
+<section id="week-15-presentation-wrap-up-week" class="level2">
+<h2 class="anchored" data-anchor-id="week-15-presentation-wrap-up-week">Week 15: Presentation &amp; Wrap Up Week</h2>
+<section id="presentations-tue-03-february-2026-1515-1645-nsg-sr-325" class="level3">
+<h3 class="anchored" data-anchor-id="presentations-tue-03-february-2026-1515-1645-nsg-sr-325">Presentations (Tue, 03 February 2026; 15:15 – 16:45; NSG, SR 325)</h3>
+<p>No readings.</p>
+</section>
+<section id="presentations-wrap-up-thu-05-february-2026-1515-1645-nsg-sr-325" class="level3">
+<h3 class="anchored" data-anchor-id="presentations-wrap-up-thu-05-february-2026-1515-1645-nsg-sr-325">Presentations &amp; Wrap-up (Thu, 05 February 2026; 15:15 – 16:45; NSG, SR 325)</h3>
+<p>No readings.</p>
+</section>
+</section>
+<section id="deadline-forschungsbericht" class="level2">
+<h2 class="anchored" data-anchor-id="deadline-forschungsbericht">Deadline Forschungsbericht</h2>
+<p>March 19, 2026 (tentative).</p>
+<div style="page-break-after: always;"></div>
+</section>
+</section>
+<section id="references" class="level1">
+
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-barbera_automated_2021" class="csl-entry" role="listitem">
+Barberá, Pablo, Amber E. Boydstun, Suzanna Linn, Ryan McMahon, and Jonathan Nagler. 2021. <span>“<a href="https://doi.org/10.1017/pan.2020.8">Automated <span>Text Classification</span> of <span>News Articles</span>: <span>A Practical Guide</span></a>.”</span> <em>Political Analysis</em> 29(1):19–42.
+</div>
+<div id="ref-blei_probabilistic_2012" class="csl-entry" role="listitem">
+Blei, David. 2012. <span>“<a href="https://doi.org/10.1145/2133806.2133826">Probabilistic Topic Models</a>.”</span> <em>Communications of the ACM</em> 55(4):77–84.
+</div>
+<div id="ref-dimaggio_exploiting_2013" class="csl-entry" role="listitem">
+DiMaggio, Paul, Manish Nag, and David Blei. 2013. <span>“<a href="https://doi.org/10.1016/j.poetic.2013.08.004">Exploiting Affinities Between Topic Modeling and the Sociological Perspective on Culture: <span>Application</span> to Newspaper Coverage of <span>U</span>.<span>S</span>. Government Arts Funding</a>.”</span> <em>Poetics</em> 41(6):570–606.
+</div>
+<div id="ref-do_augmented_2022" class="csl-entry" role="listitem">
+Do, Salomé, Étienne Ollion, and Rubing Shen. 2022. <span>“<a href="https://doi.org/10.1177/00491241221134526">The <span>Augmented Social Scientist</span>: <span>Using Sequential Transfer Learning</span> to <span>Annotate Millions</span> of <span>Texts</span> with <span>Human-Level Accuracy</span></a>.”</span> <em>Sociological Methods &amp; Research</em> 004912412211345.
+</div>
+<div id="ref-evans_machine_2016" class="csl-entry" role="listitem">
+Evans, James A. and Pedro Aceves. 2016. <span>“<a href="https://doi.org/10.1146/annurev-soc-081715-074206">Machine <span>Translation</span>: <span>Mining Text</span> for <span>Social Theory</span></a>.”</span> <em>Annual Review of Sociology</em> 42(1):21–50.
+</div>
+<div id="ref-grimmer_text_2022" class="csl-entry" role="listitem">
+Grimmer, Justin, Margaret Roberts, and Brandon Stewart. 2022. <em>Text as <span>Data</span>: <span>A New Framework</span> for <span>Machine Learning</span> and the <span>Social Sciences</span></em>. Princeton: Princeton University Press.
+</div>
+<div id="ref-hvitfeldt_supervised_2022" class="csl-entry" role="listitem">
+Hvitfeldt, Emil and Julia Silge. 2022. <em>Supervised Machine Learning for Text Analysis in <span>R</span></em>. First edition. Boca Raton London New York: CRC Press, Taylor &amp; Francis Group.
+</div>
+<div id="ref-laurer_less_2024" class="csl-entry" role="listitem">
+Laurer, Moritz, Wouter Van Atteveldt, Andreu Casas, and Kasper Welbers. 2024. <span>“<a href="https://doi.org/10.1017/pan.2023.20">Less <span>Annotating</span>, <span>More Classifying</span>: <span>Addressing</span> the <span>Data Scarcity Issue</span> of <span>Supervised Machine Learning</span> with <span>Deep Transfer Learning</span> and <span>BERT-NLI</span></a>.”</span> <em>Political Analysis</em> 32(1):84–100.
+</div>
+<div id="ref-silge_predictive_2019" class="csl-entry" role="listitem">
+Silge, Julia and Emil Hvitfeldt. 2019. <span>“Predictive Modeling with Text Using Tidy Data Principles.”</span> in <em><span class="nocase">useR2020</span></em>.
+</div>
+<div id="ref-silge_text_2017" class="csl-entry" role="listitem">
+Silge, Julia and David Robinson. 2017. <em>Text Mining with <span>R</span>: A Tidy Approach</em>. First edition. Beijing ; Boston: O’Reilly.
+</div>
+<div id="ref-stoltz_cultural_2021" class="csl-entry" role="listitem">
+Stoltz, Dustin S. and Marshall A. Taylor. 2021. <span>“<a href="https://doi.org/10.1016/j.poetic.2021.101567">Cultural Cartography with Word Embeddings</a>.”</span> <em>Poetics</em> 88:101567.
+</div>
+<div id="ref-stoltz_mapping_2024" class="csl-entry" role="listitem">
+Stoltz, Dustin S. and Marshall A. Taylor. 2024. <em>Mapping Texts: Computational Text Analysis for the Social Sciences</em>. New York, NY: Oxford University Press.
+</div>
+<div id="ref-stuhler_codebooks_2025" class="csl-entry" role="listitem">
+Stuhler, Oscar, Cat Dang Ton, and Etienne Ollion. 2025. <span>“<a href="https://doi.org/10.1177/00491241251336794">From <span>Codebooks</span> to <span>Promptbooks</span>: <span>Extracting Information</span> from <span>Text</span> with <span>Generative Large Language Models</span></a>.”</span> <em>Sociological Methods &amp; Research</em> 54(3):794–848.
+</div>
+<div id="ref-tornberg_how_2023" class="csl-entry" role="listitem">
+Törnberg, Petter. 2023. <span>“<a href="https://doi.org/10.48550/ARXIV.2307.13106">How to Use <span>LLMs</span> for <span>Text Analysis</span></a>.”</span>
+</div>
+<div id="ref-wankmuller_introduction_2022" class="csl-entry" role="listitem">
+Wankmüller, Sandra. 2022. <span>“<a href="https://doi.org/10.1177/00491241221134527">Introduction to <span>Neural Transfer Learning With Transformers</span> for <span>Social Science Text Analysis</span></a>.”</span> <em>Sociological Methods &amp; Research</em> 004912412211345.
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

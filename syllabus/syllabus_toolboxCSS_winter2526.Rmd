@@ -1,0 +1,298 @@
+---
+output: 
+  pdf_document: default
+
+geometry: margin=1in
+
+title: "06-002-107-3: Forschungsseminar B -- Experimentelle Soziologie und Computational Social Science"
+author: "Felix Lennert"
+date: "Winter 2025/26"
+bibliography: literature.bib
+csl: asa.csl
+
+---
+
+```{r dates_bib, include=FALSE}
+knitr::opts_chunk$set(cache=FALSE, dev='pdf')
+
+return_course_date <- function(week, tuesday = TRUE) {
+  if (tuesday) 
+    return(format(lubridate::ymd("2025-10-14") + (week - 1) * 7, format = "%a, %d %B %Y") |> 
+             stringr::str_c(x = _, "; 15:15 – 16:45; NSG, SR 325"))
+  else
+    return(format(lubridate::ymd("2025-10-16") + (week - 1) * 7, format = "%a, %d %B %Y") |> 
+             stringr::str_c(x = _, "; 15:15 – 16:45; NSG, SR 325"))
+  
+}
+
+return_course_date(8)
+```
+
+* E-mail: <felix.lennert@uni-leipzig.de>
+* Course hours: Tuesdays and Thursdays, 15:15 -- 16:45, NSG, SR 325; for exact dates, see [schedule](#schedule)
+* Readings: see [schedule](#schedule)
+* Course materials: see [website](https://fellennert.github.io/toolbox-css/)
+* Student hours: are to be set up individually via email; my office is H3 1.07; there is a multitude of valid reasons why you should come see me -- some are listed here:
+  + things are unclear and you need help with the material
+  + you want to discuss a research idea 
+  + you have come across a cool new paper that I might deem interesting
+  + you have recommendations for me in terms of general course resources/references/structure/behavior
+  + you want some career advice from someone roughly your age
+  + you forgot your mensa card at home and want some coffee/tea
+  + in case you need some free period supplies, no email is required, you can just get them at Leonie Steinbrinker's office (I also have a key if she's not there), H3 1.06
+
+# Course description
+
+The Forschungsseminar in Computational Social Science (CSS) equips you with the tools to analyze human behavior, predict social trends, and tackle complex societal issues using cutting-edge data science techniques. From web scraping to AI-powered text analysis, you'll learn to use your computer in new ways to gain insights into social phenomena.
+
+The curriculum covers a range of topics including data management, web scraping, speech-to-text, and computational text analysis. Students will hone their R and develop skills in Python, applying these languages to real-world social science problems. The course progresses from fundamental concepts to advanced techniques, including the use of state-of-the-art AI models for text analysis.
+
+The course structure consists of one lecture and one lab session per week, providing a balance of theoretical knowledge and practical application. Throughout the semester, students will benefit from hands-on coding exercises, one-on-one mentoring, and collaborative projects. The course culminates in a research paper, allowing students to apply their new skills to a topic of their choice.
+
+This course is ideal for social scientists looking to enhance their computational skills. It is geared toward 2nd year Master’s students who are enrolled in the reformed Sociology Master’s program. Interested Bachelor’s students are also very welcome to attend, they shall send an email to the instructor no later than October 10, 2025. However, Bachelor’s students will not be able to earn credits with their attendance.
+
+# What to expect
+
+This course is structured so that it provides you -- the student -- with theoretical lectures (on Tuesdays) and hands-on coding labs (Thursdays). The lectures aim to introduce you to how you can use techniques to conduct empirical research and will mostly consist of the presentation of innovative and/or cutting-edge research that has harnessed digital data to solve exciting research puzzles. They also might contain some practical demonstrations already. The practical sessions then showcase how to perform similar things yourself and give you ample opportunities to perform the analyses on your own data. Exercises will be provided, but you are not expected to hand them in -- I could not care less and not doing them is simply your loss. However, I am of course always available to help you with the exercises if you get stuck.
+
+The main objective of this course is that students **perform their own research as the course unfolds**. To this end, we will talk about your interests. Study groups of matching research interests might be formed. Students can of course also work individually. Students are expected to continue working on their projects as the course unfolds. 
+
+A tried-and-tested strategy is to work on a topic you could later use for your Master's thesis. However, this is not a requirement. In this case, this course would give you more time for the tedious data acquisition and cleaning phase, which is often underestimated. 
+
+At the very end of the course, it is time for a "peer reviewed presentations" of your project. One of your peers  will be assigned your project and provide comments on it. This peer review ensures that you are right on track and that everyone has accomplished the course's learning goals. After that, you are all good to go and can check your analyses and write up your resulting papers so that they resemble a proper empirical research paper (see more in "Expectations" below).
+
+The actual "peer-review" will work as follows: first, you (the author of the project) present your work briefly (10 minutes). Then, the assigned reviewer group will provide their comments (5 minutes). To facilitate this, you must send presentations presenting the main idea, some theory (including hypotheses), a preliminary testing strategy, and the first results to me by **January 30, 2026**, so I can distribute them to your peers.
+
+As a peer reviewer, you have 5 minutes to provide feedback on four components: 
+
+(1) Research Question & Motivation: Is it clear and compelling? Are there ways to sharpen the focus? 
+(2) Theory & Hypotheses – Is relevant literature cited? Are there gaps or alternative frameworks to consider? 
+(3) Data & Methods – Is the approach appropriate? Are there concerns about data quality or better-suited methods? 
+(4) Preliminary Results – Are visualizations clear? Do results address the hypotheses? What additional analyses might help?
+
+Please be constructive rather than critical, frame suggestions as questions ("Have you considered...?"), be specific with your feedback, and acknowledge that everyone is working within constraints. Aim to identify 2-3 main strengths and 2-3 areas for improvement, and suggest specific papers, methods, or framings where helpful.
+
+The (tentative) deadline for the paper ("Forschungsbericht") is **March 19, 2026**. Please send it -- in PDF format -- to Simone Müller ([muellers@uni-leipzig.de](muellers@uni-leipzig.de)) and CC me. Code and data have to be sent to me via email (depending on data size, data can also be shared via Google Drive/Dropbox/Uni Leipzig Wolke). The code should run "out of the box" and contain everything necessary to replicate the results and graphs in the paper. Preferably, this is in chronological order and structured into sections with descriptive titles. I have no preferences regarding the programming language (R, Python), therefore your project can be in either language or a mix of both (e.g., using `reticulate` in R or `quarto` notebooks -- the latter being my suggestion).
+
+## Extensions
+
+Extensions can be granted for particular reasons. These involve, among others, internships and sickness. In the case of the former, please give me a quick heads-up so that I can arrange it (preferably with some sort of proof). If you need an extension for a different reason than the ones mentioned above, feel free to reach out anytime, and I will do my best to accommodate your needs.
+
+## Expectations
+
+* The Basics
+  + written in English
+  + file format: PDF
+  + font size 12 pt, 1.5 line spacing
+  + no typos, grammatical flaws, etc. (you are living in the age of helpers such as [Grammarly](https://app.grammarly.com), there are no more excuses)
+  + length: between 4,000 and 8,000 words
+  + cite correctly and in a uniform manner. My preferred citation style is ASA. It is strongly advised to use Zotero and Quarto/Overleaf; resources can be provided upon request.
+* Structured resembles an empirical research paper: 
+  + the *introduction* contains an empirical social scientific research question that is theoretically and practically motivated (i.e., showing its scientific and real-world relevance)
+  + the *theory section* provides a **brief** overview of relevant prior research; clearly testable hypotheses are derived from the literature/goals for exploratory analyses are formulated
+  + in *data and methods*, the data (including acquisition strategy), as well as the analysis strategy, are described; in our case, the data consist of text, the analyses are related to the course content; data and methods need to enable valid results
+  + *results* need to be visualized through tables and/or (gg)plots and described in the text; tables and visualizations need to be properly labeled so that they can "stand on their own"
+  + *discussion* of the results is performed in the light of the theoretical foundations; potential shortcomings and reach of the paper are outlined
+  + the *conclusion* circles back to the introduction and connects it to the results; it needs to clearly answer the research question
+
+# Basic rules of behavior 
+
+* If anything is unclear, ask me. This probably means that I have failed my job, and your question offers me a second chance to fix this.
+* No discrimination. Never. If you witness any, tell me. I will find a way to deal with it.
+* THIS IS IMPORTANT: If there are problems, reach out whenever. Do not let them become too big.
+* Copy code from the internet -- but you are responsible for the solution, so please make sure it works and solves your problem.
+* Generative AI (i.e., ChatGPT et al.) is explicitly allowed. In my opinion, it is a tool that is here to stay, and you should use whatever resource you have to get the job(s) done. Plus, writing the right prompt is a skill in itself that you should definitely hone. If you use it for your writing, please make sure to proof-read everything properly, since you -- and only you -- will be held accountable for its content.
+* Form groups with your peers for working on the material. Everything will be easier and more fun. Except for when you have free riders. Kick them out of your group. 
+* AGAIN: ask questions if needed. Anytime. 
+
+# Schedule
+
+As stated above, Tuesdays are lectures and Thursdays are lab sessions. Please bring a laptop to all of our meetings (if you don't have one, feel free to reach out and we will try our best to lend you one). It's also a good idea to charge it before, since outlets appear a bit scant.
+
+Most of you will use RStudio. I personally use Positron, which is basically the same but more accomodating to Python. You can download it for free from [posit.co](https://positron.posit.co). However, RStudio is perfectly fine, too.
+
+Literature-wise, we will use a mix of textbooks and review papers to introduce theoretical concepts and related studies to illustrate. In terms of programming, we will mostly rely on online resources. However, everything that is relevant in terms of R content (and more!) can be found in the R script. 
+
+Every reading will be either provided online or linked to in this syllabus (just click on _"[online](https://www.youtube.com/watch?v=dQw4w9WgXcQ)"_) -- the link is hidden. 
+
+I do not expect you to read the literature and will do the theoretical sessions in a "lecture" style. This is because this is an applied course and not every piece of content has the same relevance for everyone. Having been a student myself, I think that students should not be overwhelmed by having to read everything while working on their projects. I will upload additional readings on top of the ones this syllabus mentions in case you want to read more and need some inspiration. I also recommend looking at the references of the papers we read to find more relevant literature or just ask me anytime.
+
+
+
+## Week 1: Kick Off
+
+### Welcome & Housekeeping (`r return_course_date(1, tuesday = TRUE)`)
+
+No readings.
+
+### Setting up your workstation (`r return_course_date(1, tuesday = FALSE)`)
+
+* Acquire access to _[sc.uni-leipzig.de](www.sc.uni-leipzig.de)_
+* R recap (the corresponding chapters can be found in the R4DS book -- _[online](https://r4ds.hadley.nz))
+  + `RMarkdown`/`Quarto` -- chapters 28 & 29
+  + `dplyr` -- chapter 4
+  + `tidyr` -- chapter 6
+  + `ggplot2` -- chapters 2 & 10 & 11 & 12
+  + `purrr` & loops in different flavors -- chapter 27
+  + functional programming -- chapter 26
+  + set up `reticulate` in RStudio -- _[online](https://rstudio.github.io/reticulate/)_
+
+## Week 2: Brief Intro to Python & Regexes
+
+### Python & Regexes(`r return_course_date(2, tuesday = TRUE)`)
+
+* Brief intro to Python
+  + _reticulate_ -- how to run Python in R studio
+  + data types
+  + loops
+  + functions
+  + `pandas`
+
+### Regular Expressions (`r return_course_date(2, tuesday = FALSE)`)
+
+* `stringr` & Regular Expressions -- R4DS book, _[online](https://r4ds.hadley.nz)_, chapters 15 & 16
+
+## Week 3: Data Acquisition I
+
+### How the Web is Written and Ethics (`r return_course_date(3, tuesday = TRUE)`)
+
+* @stoltz_mapping_2024 -- chapter 5
+* Blog post on CSS selectors -- _[online](https://css-tricks.com/css-selectors/)_
+* Blog posts on API calls --  _[online](https://www.cloudflare.com/learning/security/api/what-is-api-call/)_
+
+### `rvest`
+
+* `rvest` Web scraping 101 -- _[online](https://rvest.tidyverse.org/articles/rvest.html)_
+
+## Week 4: Data Acquisition II
+### Dynamic Pages and Forms (`r return_course_date(4, tuesday = TRUE)`)
+
+* `selenium` documentation -- _[online](https://www.selenium.dev/documentation/webdriver/)_
+
+### APIs (`r return_course_date(5, tuesday = FALSE)`)
+
+* `httr2` documentation -- _[online](https://httr2.r-lib.org/articles/httr2.html)_
+
+## Week 5: Data Acquisition III
+### Intro to OCR and Transcription (`r return_course_date(5, tuesday = FALSE)`)
+
+* @stoltz_mapping_2024 -- chapter 5
+
+## Week 6: Data Acquisition IV
+### Optical Character Recognition and Transcription (`r return_course_date(6, tuesday = TRUE)`)
+
+* `Tesseract` documentation -- _[online](https://tesseract-ocr.github.io)_
+* OpenAI Whisper Python package documentation -- _[online](https://github.com/openai/whisper)_
+
+### Data Acquisition Recap and Project Discussion (`r return_course_date(6, tuesday = FALSE)`)
+
+## Week 7: Student Project Week
+
+Students are expected to show up to class and work on their projects.
+
+## Week 8: Text as Data I
+
+### Bag of Words(`r return_course_date(8, tuesday = TRUE)`)
+
+* @evans_machine_2016
+* @grimmer_text_2022, chapters 3--5, 11, & 15
+* @stoltz_mapping_2024, chapters 4--9
+
+### Sentiment Analysis, TF-IDF, and NER/POS (`r return_course_date(8, tuesday = FALSE)`)
+
+* @grimmer_text_2022, chapter 11
+* @jurafsky_speech_nodate, chapter 21 -- _[online](https://web.stanford.edu/~jurafsky/slp3/21.pdf)_
+* @silge_text_2017 -- _[online](https://www.tidytextmining.com/)_, chapters 2 & 3
+
+## Week 9: Text as Data II
+
+### Supervised Machine Learning in Theory (`r return_course_date(9, tuesday = TRUE)`)
+
+#### Supervised ML
+
+* @barbera_automated_2021
+* @grimmer_text_2022, chapters 17--20
+* @stoltz_mapping_2024, chapters 9 & 12
+
+### Supervised Machine Learning in Practice (`r return_course_date(9, tuesday = FALSE)`)
+
+* @hvitfeldt_supervised_2022 -- _[online](https://smltar.com/)_, chapters 6 & 7
+* @silge_predictive_2019 -- _[online](https://emilhvitfeldt.github.io/useR2020-text-modeling-tutorial/#4)_
+
+
+## Week 10: Text as Data III
+
+### Unsupervised ML in Theory and Practice (`r return_course_date(10, tuesday = TRUE)`)
+
+* @blei_probabilistic_2012
+* @dimaggio_exploiting_2013
+* @grimmer_text_2022, chapters 10, 12--3
+* @stoltz_mapping_2024, chapters 10 & 11
+* @silge_text_2017 -- _[online](https://www.tidytextmining.com/topicmodeling.html)_, chapter 6
+
+### Remote Counseling pre-Christmas Break (`r return_course_date(10, tuesday = FALSE)`)
+
+1-on-1 project counseling available on Zoom.
+
+---- CHRISTMAS BREAK ----
+
+## Week 11: Text as Data IV
+
+### Measuring Similarity and the Distributional Hypothesis (`r return_course_date(13, tuesday = TRUE)`)
+
+* @jurafsky_speech_nodate, chapter 6 -- _[online](https://web.stanford.edu/~jurafsky/slp3/6.pdf)_
+* @stoltz_cultural_2021
+
+### Word Embeddings (`r return_course_date(13, tuesday = FALSE)`)
+
+* @hvitfeldt_supervised_2022 -- _[online](https://smltar.com)_, chapter 5
+* @stoltz_mapping_2024, chapter 11
+* `text2map`: R Tools for Text Matrices -- _[online](https://culturalcartography.gitlab.io/text2map/)_
+
+## Week 12: Text as Data V
+
+### Supervised Learning on Steroids: BERT (`r return_course_date(14, tuesday = TRUE)`)
+
+* @do_augmented_2022
+* @laurer_less_2024
+* @tornberg_how_2023
+* @wankmuller_introduction_2022
+
+### Active Learning with BERT (`r return_course_date(14, tuesday = FALSE)`)
+
+* set up environments
+* Augmented Social Scientist tutorial --  _[online](https://colab.research.google.com/drive/132_oDik-SOWve31tZ8D1VOx1Sj_Cyzn7?usp=sharing)_
+* BERTopic -- _[online](https://maartengr.github.io/BERTopic/index.html)_
+
+## Week 13: Text as Data VI
+
+### LLMs for information extraction (`r return_course_date(15, tuesday = TRUE)`)
+
+* @stuhler_codebooks_2025
+
+### Local LLMs -- a primer (`r return_course_date(15, tuesday = FALSE)`)
+
+* `ellmer` documentation -- _[online](https://ellmer.tidyverse.org)_
+* Tutorial from IC2S2 by Etienne Ollion, Emilien Schultz, Julien Boelaert -- _[online](https://www.css.cnrs.fr/llm-power-to-the-people/)_
+
+## Week 14: Presentation Preparation Week
+
+No classes. Deadline for sending presentations: January 30, 6PM.
+
+## Week 15: Presentation & Wrap Up Week
+
+### Presentations (`r return_course_date(17, tuesday = TRUE)`)
+
+No readings.
+
+### Presentations & Wrap-up (`r return_course_date(17, tuesday = FALSE)`)
+
+No readings.
+
+## Deadline Forschungsbericht
+
+March 19, 2026 (tentative).
+
+\pagebreak
+
+# References

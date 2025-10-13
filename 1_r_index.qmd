@@ -1,0 +1,52 @@
+---
+title: "Chapter 1: Preface"
+published-title: r_preface
+engine: knitr
+freeze: false
+bibliography: literature.bib
+csl: ASA.csl
+---
+
+Dear student,
+
+if you read this script, you are either participating in one of my courses on digital methods for the social sciences, or at least interested in this topic. If you have any questions or remarks regarding this script, hit me up at [felix.lennert\@uni-leipzig.de](mailto:felix.lennert@uni-leipzig.de).
+
+This script will introduce you to techniques I regard as elementary for any aspiring (computational) social scientist: the collection of digital trace data via either scraping the web or acquiring data from application programming interfaces (APIs), the analysis of text in an automated fashion (text mining), the analysis and visualization of spatial data, and the modeling of human behavior *in silico* (agent-based modeling).
+
+The following chapters draw heavily on packages from the `tidyverse` [@wickham_welcome_2019] and related packages. If you have not acquired sufficient familiarity yet, you can have a look at the excellent book [R for Data Science](https://r4ds.hadley.nz) [@wickham_r_2023].
+
+I have added brief videos to each section. In these, I will briefly go through the code of the respective section and show a bit of what's going on in there. I sometimes spontaneously elaborate a bit more on the examples at hand or show things in the data, so they may add some value. However, the script should be sufficient to provide you an understanding the concepts I introduce.
+
+## Outline
+
+This script will unfold as follows:
+
+Chapter 2, "Brief R Recap," briefly introduces RStudio Projects, Quarto, tidy data and `tidyr`, `dplyr`, `ggplot`, functions, loops, and `purrr`. These techniques are vital for the things that will come next.
+
+Chapter 3, "R vs. Python" introduces Python and the `reticulate` package, which allows you to use Python in an R environment. It also introduces `pandas`, a powerful data manipulation package for Python.
+
+Chapter 4, "`stringr` and RegExes," deals with string manipulation using, you guessed it, `stringr` and RegExes.
+
+Chapters 5 and 6, "Crawling the Web and Extracting Data" and "APIs," introduce the reader to the basics of `rvest`, HTML, and CSS selectors and how these can be used to acquire data from the web. Moreover, I introduce the `httr` package and explain how you can use it to make requests to APIs.
+
+Chapter 7, "`selenium`," introduces `selenium`, a Python package that allows you to control a "headless browser" -- this is invaluable if you want to scrape dynamic web sites. It will also feature an introduction to `reticulate`, an R package that allows you to use Python code in an R environment.
+
+Chapter 8, "Chapter 7: OCR with `tesseract`," shows you how to digitize text from pdf files or images in an automated fashion using `tesseract`.
+
+Chapter 9, "`OpenAI whisper`" focuses on the transcription of audio files. This includes diarization.
+
+Chapter 10, "Text Preprocessing and Featurization," touches upon the basics of bringing text into a numeric format that lends itself to quantitative analyses. It also introduces feature weighting using TF-IDF (i.e., determining which tokens matter more than others), Named-Entity Recognition, and Part-of-Speech-tagging.
+
+Chapter 11, "Dictionary-based analysis," covers dictionary-based text analysis.
+
+Chapter 12, "Supervised Classification," deals with the classification of text in a supervised manner using `tidymodels`.
+
+Chapter 13, "Unsupervised Classification," deals with the classification of text in an unsupervised manner using "classic" Laten Dirichlet Allocation, Structural Topic Models, and Seeded Topic Models.
+
+Chapter 14, "Word Embeddings," showcases new text analysis techniques that are based on distributional representations of words, commonly referred to as word embeddings.
+
+Chapter 15, "BERT" demonstrates how you can use BERT for supervised classification. This script will only contain small data-sets, since these large language models require more computing power (e.g., a server with plenty of RAM as well as sufficient CPU and/or GPU power)
+
+Chapter 16, "Local LLMs," introduces local large language models (LLMs) and showcases how you can use them for information extraction.
+
+All chapters try to deal with social scientific examples. Data sets will be provided via Dropbox, therefore the script shall run more or less out of the box. I tried to include "Further links" for the avid readers or the ones that are dissatisfied with my coverage of the content. Exercises are included, the respective solutions will be added as the course unfolds (except for the R recap, please contact me in case you are interested).

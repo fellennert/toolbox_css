@@ -1,0 +1,23 @@
+{
+  "404.qmd": {
+    "404.html": "08bb5c9b"
+  },
+  "index.qmd": {
+    "index.html": "87c56ba8"
+  },
+  "about.qmd": {
+    "about.html": "9e012c2f"
+  },
+  "lectures-overview.qmd": {
+    "lectures-overview.html": "6993d103"
+  },
+  "syllabus/syllabus_toolboxCSS_winter2526.Rmd": {
+    "syllabus_toolboxCSS_winter2526.html": "2749442d"
+  },
+  "syllabus/syllabus_toolboxCSS_winter2425.Rmd": {
+    "syllabus_toolboxCSS_winter2425.html": "03cfc03b"
+  },
+  "1_r_index.qmd": {
+    "1_r_index.html": "7447ade6"
+  }
+}

@@ -1,0 +1,46 @@
+---
+title: "Week 1: What Is Computational Social Science (CSS)?"
+published-title: week_1
+engine: knitr
+freeze: auto
+---
+
+This lecture answers the following questions:
+
+- What does the term CSS mean?
+- Which principles underly a new CSS?
+- Which methods does CSS encompass?
+
+## Slides 
+
+Please click [here to download the latest version of the slides](./slides/20251014-intro.pdf).
+
+```{css echo=FALSE}
+
+.embed-container {
+    position: relative;
+    padding-bottom: 129%;
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+.embed-container iframe,
+.embed-container object,
+.embed-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+```
+
+Alternatively, read it here (probably not the best if you're visiting this page on a mobile device):
+
+<div class="embed-container">
+  <iframe src="./slides/20251014-intro.pdf" style="border: 0.5px"></iframe>
+</div>
+
+

@@ -1,0 +1,53 @@
+project:
+  type: website
+
+website:
+  page-footer: "Copyright 2025, Felix Lennert ([felix.lennert@uni-leipzig.de](mailto:felix.lennert@uni-leipzig.de))" 
+  title: "Toolbox CSS"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - text: Lectures
+        menu:
+          - href: lectures-overview.qmd
+         # - href: week_1.qmd
+         # - href: week_2.qmd
+         # - href: week_3.qmd
+         # - href: week_4.qmd
+         # - href: week_5.qmd
+         # - href: week_6.qmd
+         # - href: week_7.qmd
+         # - href: week_8.qmd
+         # - href: week_9.qmd
+         # - href: week_10.qmd
+         # - href: week_11.qmd
+         # - href: week_12.qmd
+      - text: R Script
+        menu: 
+          - href: 1_r_index.qmd
+         # - href: 2_r_catch-up.qmd
+         # - href: 3_stringr_regex.qmd
+         # - href: 4_crawling.qmd
+         # - href: 5_apis.qmd
+         # - href: 6_selenium.qmd
+         # - href: 7_tesseract.qmd
+         # - href: 8_transcription.qmd
+         # - href: 9_text-preprocessing.qmd
+         # - href: 10_dictionary-based-analysis.qmd
+         # - href: 11_supervised_ml.qmd
+         # - href: 12_unsupervised_ml.qmd
+         # - href: 13_word_embeddings.qmd
+         # - href: 14_BERT.qmd
+         # - href: 15_NLI.qmd
+         # - href: 17_spatial_I.qmd
+         # - href: 18_spatial_II.qmd
+         # - href: 19_abm_I.qmd
+         # - href: 20_abm_II.qmd
+format:
+  html:
+    theme: darkly
+    css: styles.css
+    toc: true
+
+

@@ -1,0 +1,138 @@
+---
+title: "Overview -- week by week"
+---
+
+## Week 1: Kick Off
+
+This week answers the following questions:
+
+- What does the term CSS mean?
+- Which principles underly a new CSS?
+- Which methods does CSS encompass?
+- How do we set up our computational workstation?
+
+## Week 2: Brief Intro to Python & Regexes
+
+This week answers the following questions:
+
+- How can we run Python in RStudio using reticulate?
+- What are the basics of Python programming?
+- What are regular expressions and why are they powerful?
+- How can we use stringr to work with text patterns?
+
+## Week 3: Data Acquisition I
+
+This week answers the following questions:
+
+- How is the web written and structured?
+- What are considerations in terms of law and ethics when scraping?
+- How do we acquire digital trace data via web scraping with rvest?
+- What are CSS selectors and how do they work?
+
+## Week 4: Data Acquisition II
+
+This week answers the following questions:
+
+- How do we scrape dynamic web pages that use JavaScript?
+- How can we interact with forms and buttons using selenium?
+- What are APIs and how do we use them?
+- How do we make API calls with httr2?
+
+## Week 5: Data Acquisition III
+
+This week answers the following questions:
+
+- What is Optical Character Recognition (OCR)?
+- How can we extract text from images and PDFs?
+- What is speech-to-text transcription?
+- How can we leverage these techniques for social science research?
+
+## Week 6: Data Acquisition IV
+
+This week answers the following questions:
+
+- How do we digitize text using Tesseract?
+- How do we digitize speech using OpenAI Whisper?
+- What are best practices for data acquisition projects?
+- How do we plan our research projects?
+
+## Week 7: Student Project Week
+
+This week is dedicated to working on your research projects in class.
+
+- Discuss your project ideas with peers and the instructor
+- Begin data acquisition for your research
+- Troubleshoot technical challenges
+- Form study groups with matching research interests
+
+## Week 8: Text as Data I
+
+This week answers the following questions:
+
+- What do we mean by "text as data"?
+- What do we mean by "bag of words"?
+- How do we perform sentiment analysis?
+- What are TF-IDF, Named Entity Recognition (NER), and Part-of-Speech (POS) tagging?
+
+## Week 9: Text as Data II
+
+This week answers the following questions:
+
+- What is supervised machine learning?
+- How can we train classifiers to categorize text?
+- What are best practices for supervised ML in social science?
+- How do we evaluate model performance?
+
+## Week 10: Text as Data III
+
+This week answers the following questions:
+
+- What is unsupervised machine learning?
+- How does topic modeling work?
+- What can probabilistic topic models tell us about text corpora?
+- When should we use unsupervised vs. supervised approaches?
+
+## Week 11: Text as Data IV
+
+This week answers the following questions:
+
+- How can we go beyond the "bag of words"?
+- What is the distributional hypothesis?
+- How can we measure semantic similarity between texts?
+- What are word embeddings and what do they capture?
+
+## Week 12: Text as Data V
+
+This week answers the following questions:
+
+- What are transformer models like BERT?
+- How do these models revolutionize text classification?
+- What is transfer learning and why is it so powerful?
+- What is active learning and how can it reduce annotation burden?
+
+## Week 13: Text as Data VI
+
+This week answers the following questions:
+
+- What's the latest in Natural Language Processing with Large Language Models (LLMs)?
+- How can we use LLMs for information extraction?
+- What are local LLMs and when should we use them?
+- How do we move from codebooks to promptbooks?
+
+## Week 14: Presentation Preparation Week
+
+This week is dedicated to preparing your final presentations.
+
+- Finalize your analyses and preliminary results
+- Prepare presentation slides (deadline: January 30, 6PM)
+- Review the peer review guidelines
+- Practice your 10-minute presentation
+
+## Week 15: Presentations & Wrap Up
+
+This week features peer-reviewed presentations of your research projects.
+
+- Present your research (10 minutes)
+- Receive feedback from assigned peer reviewers (5 minutes)
+- Discuss next steps for your final paper
+- Reflect on what we've learned throughout the semester
