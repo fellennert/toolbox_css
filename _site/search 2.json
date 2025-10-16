@@ -1,0 +1,296 @@
+[
+  {
+    "objectID": "lectures-week_1.html",
+    "href": "lectures-week_1.html",
+    "title": "Week 1: What Is Computational Social Science (CSS)?",
+    "section": "",
+    "text": "This lecture answers the following questions:"
+  },
+  {
+    "objectID": "lectures-week_1.html#slides",
+    "href": "lectures-week_1.html#slides",
+    "title": "Week 1: What Is Computational Social Science (CSS)?",
+    "section": "Slides",
+    "text": "Slides\nPlease click here to download the latest version of the slides.\n\n\n\nAlternatively, read it here (probably not the best if you’re visiting this page on a mobile device):"
+  },
+  {
+    "objectID": "1_r_index.html",
+    "href": "1_r_index.html",
+    "title": "Chapter 1: Preface",
+    "section": "",
+    "text": "Dear student,\nif you read this script, you are either participating in one of my courses on digital methods for the social sciences, or at least interested in this topic. If you have any questions or remarks regarding this script, hit me up at felix.lennert@uni-leipzig.de.\nThis script will introduce you to techniques I regard as elementary for any aspiring (computational) social scientist: the collection of digital trace data via either scraping the web or acquiring data from application programming interfaces (APIs), the analysis of text in an automated fashion (text mining), the analysis and visualization of spatial data, and the modeling of human behavior in silico (agent-based modeling).\nThe following chapters draw heavily on packages from the tidyverse (Wickham et al. 2019) and related packages. If you have not acquired sufficient familiarity yet, you can have a look at the excellent book R for Data Science (wickham_r_2023?).\nI have added brief videos to each section. In these, I will briefly go through the code of the respective section and show a bit of what’s going on in there. I sometimes spontaneously elaborate a bit more on the examples at hand or show things in the data, so they may add some value. However, the script should be sufficient to provide you an understanding the concepts I introduce."
+  },
+  {
+    "objectID": "1_r_index.html#outline",
+    "href": "1_r_index.html#outline",
+    "title": "Chapter 1: Preface",
+    "section": "Outline",
+    "text": "Outline\nThis script will unfold as follows:\nChapter 2, “Brief R Recap,” briefly introduces RStudio Projects, Quarto, tidy data and tidyr, dplyr, ggplot, functions, loops, and purrr. These techniques are vital for the things that will come next.\nChapter 3, “R vs. Python” introduces Python and the reticulate package, which allows you to use Python in an R environment. It also introduces pandas, a powerful data manipulation package for Python.\nChapter 4, “stringr and RegExes,” deals with string manipulation using, you guessed it, stringr and RegExes.\nChapters 5 and 6, “Crawling the Web and Extracting Data” and “APIs,” introduce the reader to the basics of rvest, HTML, and CSS selectors and how these can be used to acquire data from the web. Moreover, I introduce the httr package and explain how you can use it to make requests to APIs.\nChapter 7, “selenium,” introduces selenium, a Python package that allows you to control a “headless browser” – this is invaluable if you want to scrape dynamic web sites. It will also feature an introduction to reticulate, an R package that allows you to use Python code in an R environment.\nChapter 8, “Chapter 7: OCR with tesseract,” shows you how to digitize text from pdf files or images in an automated fashion using tesseract.\nChapter 9, “OpenAI whisper” focuses on the transcription of audio files. This includes diarization.\nChapter 10, “Text Preprocessing and Featurization,” touches upon the basics of bringing text into a numeric format that lends itself to quantitative analyses. It also introduces feature weighting using TF-IDF (i.e., determining which tokens matter more than others), Named-Entity Recognition, and Part-of-Speech-tagging.\nChapter 11, “Dictionary-based analysis,” covers dictionary-based text analysis.\nChapter 12, “Supervised Classification,” deals with the classification of text in a supervised manner using tidymodels.\nChapter 13, “Unsupervised Classification,” deals with the classification of text in an unsupervised manner using “classic” Laten Dirichlet Allocation, Structural Topic Models, and Seeded Topic Models.\nChapter 14, “Word Embeddings,” showcases new text analysis techniques that are based on distributional representations of words, commonly referred to as word embeddings.\nChapter 15, “BERT” demonstrates how you can use BERT for supervised classification. This script will only contain small data-sets, since these large language models require more computing power (e.g., a server with plenty of RAM as well as sufficient CPU and/or GPU power)\nChapter 16, “Local LLMs,” introduces local large language models (LLMs) and showcases how you can use them for information extraction.\nAll chapters try to deal with social scientific examples. Data sets will be provided via Dropbox, therefore the script shall run more or less out of the box. I tried to include “Further links” for the avid readers or the ones that are dissatisfied with my coverage of the content. Exercises are included, the respective solutions will be added as the course unfolds (except for the R recap, please contact me in case you are interested)."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Welcome",
+    "section": "",
+    "text": "This is a Quarto website for the “Forschungsseminar CSS” course at Leipzig University. It covers different techniques for the aspiring computational social scientist, hence I have dubbed it “Toolbox CSS.” You can reach me anytime at felix.lennert@uni-leipzig.de. If you’re interested in my academic work, you can visit my website.\nHere’s the official description:\nThe curriculum covers a range of topics including data management, web scraping, speech-to-text, and computational text analysis. Students will hone their R and develop skills in Python, applying these languages to real-world social science problems. The course progresses from fundamental concepts to advanced techniques, including the use of state-of-the-art AI models for text analysis.\nThe course structure consists of one lecture and one lab session per week, providing a balance of theoretical knowledge and practical application. Throughout the semester, students will benefit from hands-on coding exercises, one-on-one mentoring, and collaborative projects. The course culminates in a research paper, allowing students to apply their new skills to a topic of their choice."
+  },
+  {
+    "objectID": "index.html#course-structure",
+    "href": "index.html#course-structure",
+    "title": "Welcome",
+    "section": "Course Structure",
+    "text": "Course Structure\nThe course consists of lectures introducing each week’s content and a course script that provides hands-on coding examples for the content. It is mostly containing R with some Python mixed in for good measure when no great R alternatives exist (e.g., for web scraping with Selenium, text classification with transformer models).\nAt the beginning of the course, students are encouraged to form groups based on research interests and general vibes. I require each student group to check in with me at the beginning of each week to report their progress (even if there’s nothing to report – no progress, no problem). This does not count towards any grade but rather serves the purpose of me receiving feedback on the learning experience (this is a new course!) – and will hopefully help me with providing more appropriate guidance.\nHere’s an overview of the topics covered:\n\n\n\n\n\n\n\n\n\nWEEK\nTITLE\nCONTENT\nINFORMAL TITLE\n\n\n\n\n1\nKick Off\nHousekeeping; Setting up workstation; R recap\nWhatever you want to know about CSS\n\n\n2\nBrief Intro to Python & Regexes\nPython basics (reticulate, data types, loops, functions, pandas); Regular expressions with stringr\nREGEXES – tame your data\n\n\n3\nData Acquisition I\nHow the web is written and ethics; rvest web scraping\nstealing data from websites without them noticing it\n\n\n4\nData Acquisition II\nDynamic pages and forms with selenium; APIs with httr2\nstealing MORE data from websites\n\n\n5\nData Acquisition III\nIntro to OCR and transcription\nmaking images and audio readable\n\n\n6\nData Acquisition IV\nOptical Character Recognition (tesseract); Speech transcription (OpenAI Whisper); Project discussion\nmaking the computer your transcription servant\n\n\n7\nStudent Project Week\nWork on projects in class\ntime to get your hands dirty\n\n\n8\nText as Data I\nBag of words; Sentiment analysis, TF-IDF, NER/POS\nbasic text analysis\n\n\n9\nText as Data II\nSupervised machine learning in theory and practice\nadvanced text analysis with training data\n\n\n10\nText as Data III\nUnsupervised ML (topic modeling); Remote counseling pre-Christmas\nfinding patterns without labels\n\n\n11\nText as Data IV\nMeasuring similarity and distributional hypothesis; Word embeddings\ncutting-edge text analysis with vector spaces\n\n\n12\nText as Data V\nSupervised learning on steroids (BERT); Active learning with BERT\nholy shit…transformer models\n\n\n13\nText as Data VI\nLLMs for information extraction; Local LLMs primer\nunleashing the power of large language models\n\n\n14\nPresentation Preparation Week\nWork on presentations (deadline Jan 30, 6PM)\npolish your masterpiece\n\n\n15\nPresentations & Wrap Up\nPeer-reviewed presentations; Course wrap-up\nshow off your work"
+  },
+  {
+    "objectID": "index.html#syllabus",
+    "href": "index.html#syllabus",
+    "title": "Welcome",
+    "section": "Syllabus",
+    "text": "Syllabus\nPlease click here to download the latest version of the syllabus.\n\n\n\nAlternatively, read it here (probably not the best if you’re visiting this page on a mobile device):"
+  },
+  {
+    "objectID": "syllabus/syllabus_toolboxCSS_winter2526.html",
+    "href": "syllabus/syllabus_toolboxCSS_winter2526.html",
+    "title": "06-002-107-3: Forschungsseminar B – Experimentelle Soziologie und Computational Social Science",
+    "section": "",
+    "text": "E-mail: felix.lennert@uni-leipzig.de\nCourse hours: Tuesdays and Thursdays, 15:15 – 16:45, NSG, SR 325; for exact dates, see schedule\nReadings: see schedule\nCourse materials: see website\nStudent hours: are to be set up individually via email; my office is H3 1.07; there is a multitude of valid reasons why you should come see me – some are listed here:\n\nthings are unclear and you need help with the material\nyou want to discuss a research idea\nyou have come across a cool new paper that I might deem interesting\nyou have recommendations for me in terms of general course resources/references/structure/behavior\nyou want some career advice from someone roughly your age\nyou forgot your mensa card at home and want some coffee/tea\nin case you need some free period supplies, no email is required, you can just get them at Leonie Steinbrinker’s office (I also have a key if she’s not there), H3 1.06"
+  },
+  {
+    "objectID": "syllabus/syllabus_toolboxCSS_winter2526.html#extensions",
+    "href": "syllabus/syllabus_toolboxCSS_winter2526.html#extensions",
+    "title": "06-002-107-3: Forschungsseminar B – Experimentelle Soziologie und Computational Social Science",
+    "section": "Extensions",
+    "text": "Extensions\nExtensions can be granted for particular reasons. These involve, among others, internships and sickness. In the case of the former, please give me a quick heads-up so that I can arrange it (preferably with some sort of proof). If you need an extension for a different reason than the ones mentioned above, feel free to reach out anytime, and I will do my best to accommodate your needs."
+  },
+  {
+    "objectID": "syllabus/syllabus_toolboxCSS_winter2526.html#expectations",
+    "href": "syllabus/syllabus_toolboxCSS_winter2526.html#expectations",
+    "title": "06-002-107-3: Forschungsseminar B – Experimentelle Soziologie und Computational Social Science",
+    "section": "Expectations",
+    "text": "Expectations\n\nThe Basics\n\nwritten in English\nfile format: PDF\nfont size 12 pt, 1.5 line spacing\nno typos, grammatical flaws, etc. (you are living in the age of helpers such as Grammarly, there are no more excuses)\nlength: between 4,000 and 8,000 words\ncite correctly and in a uniform manner. My preferred citation style is ASA. It is strongly advised to use Zotero and Quarto/Overleaf; resources can be provided upon request.\n\nStructured resembles an empirical research paper:\n\nthe introduction contains an empirical social scientific research question that is theoretically and practically motivated (i.e., showing its scientific and real-world relevance)\nthe theory section provides a brief overview of relevant prior research; clearly testable hypotheses are derived from the literature/goals for exploratory analyses are formulated\nin data and methods, the data (including acquisition strategy), as well as the analysis strategy, are described; in our case, the data consist of text, the analyses are related to the course content; data and methods need to enable valid results\nresults need to be visualized through tables and/or (gg)plots and described in the text; tables and visualizations need to be properly labeled so that they can “stand on their own”\ndiscussion of the results is performed in the light of the theoretical foundations; potential shortcomings and reach of the paper are outlined\nthe conclusion circles back to the introduction and connects it to the results; it needs to clearly answer the research question"
+  },
+  {
+    "objectID": "syllabus/syllabus_toolboxCSS_winter2526.html#week-1-kick-off",
+    "href": "syllabus/syllabus_toolboxCSS_winter2526.html#week-1-kick-off",
+    "title": "06-002-107-3: Forschungsseminar B – Experimentelle Soziologie und Computational Social Science",
+    "section": "Week 1: Kick Off",
+    "text": "Week 1: Kick Off\n\nWelcome & Housekeeping (Tue, 14 October 2025; 15:15 – 16:45; NSG, SR 325)\nNo readings.\n\n\nSetting up your workstation (Thu, 16 October 2025; 15:15 – 16:45; NSG, SR 325)\n\nAcquire access to sc.uni-leipzig.de\nR recap (the corresponding chapters can be found in the R4DS book – _online)\n\nRMarkdown/Quarto – chapters 28 & 29\ndplyr – chapter 4\ntidyr – chapter 6\nggplot2 – chapters 2 & 10 & 11 & 12\npurrr & loops in different flavors – chapter 27\nfunctional programming – chapter 26\nset up reticulate in RStudio – online"
+  },
+  {
+    "objectID": "syllabus/syllabus_toolboxCSS_winter2526.html#week-2-brief-intro-to-python-regexes",
+    "href": "syllabus/syllabus_toolboxCSS_winter2526.html#week-2-brief-intro-to-python-regexes",
+    "title": "06-002-107-3: Forschungsseminar B – Experimentelle Soziologie und Computational Social Science",
+    "section": "Week 2: Brief Intro to Python & Regexes",
+    "text": "Week 2: Brief Intro to Python & Regexes\n\nPython & Regexes(Tue, 21 October 2025; 15:15 – 16:45; NSG, SR 325)\n\nBrief intro to Python\n\nreticulate – how to run Python in R studio\ndata types\nloops\nfunctions\npandas\n\n\n\n\nRegular Expressions (Thu, 23 October 2025; 15:15 – 16:45; NSG, SR 325)\n\nstringr & Regular Expressions – R4DS book, online, chapters 15 & 16"
+  },
+  {
+    "objectID": "syllabus/syllabus_toolboxCSS_winter2526.html#week-3-data-acquisition-i",
+    "href": "syllabus/syllabus_toolboxCSS_winter2526.html#week-3-data-acquisition-i",
+    "title": "06-002-107-3: Forschungsseminar B – Experimentelle Soziologie und Computational Social Science",
+    "section": "Week 3: Data Acquisition I",
+    "text": "Week 3: Data Acquisition I\n\nHow the Web is Written and Ethics (Tue, 28 October 2025; 15:15 – 16:45; NSG, SR 325)\n\nStoltz and Taylor (2024) – chapter 5\nBlog post on CSS selectors – online\nBlog posts on API calls – online\n\n\n\nrvest\n\nrvest Web scraping 101 – online"
+  },
+  {
+    "objectID": "syllabus/syllabus_toolboxCSS_winter2526.html#week-4-data-acquisition-ii",
+    "href": "syllabus/syllabus_toolboxCSS_winter2526.html#week-4-data-acquisition-ii",
+    "title": "06-002-107-3: Forschungsseminar B – Experimentelle Soziologie und Computational Social Science",
+    "section": "Week 4: Data Acquisition II",
+    "text": "Week 4: Data Acquisition II\n\nDynamic Pages and Forms (Tue, 04 November 2025; 15:15 – 16:45; NSG, SR 325)\n\nselenium documentation – online\n\n\n\nAPIs (Thu, 13 November 2025; 15:15 – 16:45; NSG, SR 325)\n\nhttr2 documentation – online"
+  },
+  {
+    "objectID": "syllabus/syllabus_toolboxCSS_winter2526.html#week-5-data-acquisition-iii",
+    "href": "syllabus/syllabus_toolboxCSS_winter2526.html#week-5-data-acquisition-iii",
+    "title": "06-002-107-3: Forschungsseminar B – Experimentelle Soziologie und Computational Social Science",
+    "section": "Week 5: Data Acquisition III",
+    "text": "Week 5: Data Acquisition III\n\nIntro to OCR and Transcription (Thu, 13 November 2025; 15:15 – 16:45; NSG, SR 325)\n\nStoltz and Taylor (2024) – chapter 5"
+  },
+  {
+    "objectID": "syllabus/syllabus_toolboxCSS_winter2526.html#week-6-data-acquisition-iv",
+    "href": "syllabus/syllabus_toolboxCSS_winter2526.html#week-6-data-acquisition-iv",
+    "title": "06-002-107-3: Forschungsseminar B – Experimentelle Soziologie und Computational Social Science",
+    "section": "Week 6: Data Acquisition IV",
+    "text": "Week 6: Data Acquisition IV\n\nOptical Character Recognition and Transcription (Tue, 18 November 2025; 15:15 – 16:45; NSG, SR 325)\n\nTesseract documentation – online\nOpenAI Whisper Python package documentation – online\n\n\n\nData Acquisition Recap and Project Discussion (Thu, 20 November 2025; 15:15 – 16:45; NSG, SR 325)"
+  },
+  {
+    "objectID": "syllabus/syllabus_toolboxCSS_winter2526.html#week-7-student-project-week",
+    "href": "syllabus/syllabus_toolboxCSS_winter2526.html#week-7-student-project-week",
+    "title": "06-002-107-3: Forschungsseminar B – Experimentelle Soziologie und Computational Social Science",
+    "section": "Week 7: Student Project Week",
+    "text": "Week 7: Student Project Week\nStudents are expected to show up to class and work on their projects."
+  },
+  {
+    "objectID": "syllabus/syllabus_toolboxCSS_winter2526.html#week-8-text-as-data-i",
+    "href": "syllabus/syllabus_toolboxCSS_winter2526.html#week-8-text-as-data-i",
+    "title": "06-002-107-3: Forschungsseminar B – Experimentelle Soziologie und Computational Social Science",
+    "section": "Week 8: Text as Data I",
+    "text": "Week 8: Text as Data I\n\nBag of Words(Tue, 02 December 2025; 15:15 – 16:45; NSG, SR 325)\n\nEvans and Aceves (2016)\nGrimmer, Roberts, and Stewart (2022), chapters 3–5, 11, & 15\nStoltz and Taylor (2024), chapters 4–9\n\n\n\nSentiment Analysis, TF-IDF, and NER/POS (Thu, 04 December 2025; 15:15 – 16:45; NSG, SR 325)\n\nGrimmer et al. (2022), chapter 11\n(jurafsky_speech_nodate?), chapter 21 – online\nSilge and Robinson (2017) – online, chapters 2 & 3"
+  },
+  {
+    "objectID": "syllabus/syllabus_toolboxCSS_winter2526.html#week-9-text-as-data-ii",
+    "href": "syllabus/syllabus_toolboxCSS_winter2526.html#week-9-text-as-data-ii",
+    "title": "06-002-107-3: Forschungsseminar B – Experimentelle Soziologie und Computational Social Science",
+    "section": "Week 9: Text as Data II",
+    "text": "Week 9: Text as Data II\n\nSupervised Machine Learning in Theory (Tue, 09 December 2025; 15:15 – 16:45; NSG, SR 325)\n\nSupervised ML\n\nBarberá et al. (2021)\nGrimmer et al. (2022), chapters 17–20\nStoltz and Taylor (2024), chapters 9 & 12\n\n\n\n\nSupervised Machine Learning in Practice (Thu, 11 December 2025; 15:15 – 16:45; NSG, SR 325)\n\nHvitfeldt and Silge (2022) – online, chapters 6 & 7\nSilge and Hvitfeldt (2019) – online"
+  },
+  {
+    "objectID": "syllabus/syllabus_toolboxCSS_winter2526.html#week-10-text-as-data-iii",
+    "href": "syllabus/syllabus_toolboxCSS_winter2526.html#week-10-text-as-data-iii",
+    "title": "06-002-107-3: Forschungsseminar B – Experimentelle Soziologie und Computational Social Science",
+    "section": "Week 10: Text as Data III",
+    "text": "Week 10: Text as Data III\n\nUnsupervised ML in Theory and Practice (Tue, 16 December 2025; 15:15 – 16:45; NSG, SR 325)\n\nBlei (2012)\nDiMaggio, Nag, and Blei (2013)\nGrimmer et al. (2022), chapters 10, 12–3\nStoltz and Taylor (2024), chapters 10 & 11\nSilge and Robinson (2017) – online, chapter 6\n\n\n\nRemote Counseling pre-Christmas Break (Thu, 18 December 2025; 15:15 – 16:45; NSG, SR 325)\n1-on-1 project counseling available on Zoom.\n—- CHRISTMAS BREAK —-"
+  },
+  {
+    "objectID": "syllabus/syllabus_toolboxCSS_winter2526.html#week-11-text-as-data-iv",
+    "href": "syllabus/syllabus_toolboxCSS_winter2526.html#week-11-text-as-data-iv",
+    "title": "06-002-107-3: Forschungsseminar B – Experimentelle Soziologie und Computational Social Science",
+    "section": "Week 11: Text as Data IV",
+    "text": "Week 11: Text as Data IV\n\nMeasuring Similarity and the Distributional Hypothesis (Tue, 06 January 2026; 15:15 – 16:45; NSG, SR 325)\n\n(jurafsky_speech_nodate?), chapter 6 – online\nStoltz and Taylor (2021)\n\n\n\nWord Embeddings (Thu, 08 January 2026; 15:15 – 16:45; NSG, SR 325)\n\nHvitfeldt and Silge (2022) – online, chapter 5\nStoltz and Taylor (2024), chapter 11\ntext2map: R Tools for Text Matrices – online"
+  },
+  {
+    "objectID": "syllabus/syllabus_toolboxCSS_winter2526.html#week-12-text-as-data-v",
+    "href": "syllabus/syllabus_toolboxCSS_winter2526.html#week-12-text-as-data-v",
+    "title": "06-002-107-3: Forschungsseminar B – Experimentelle Soziologie und Computational Social Science",
+    "section": "Week 12: Text as Data V",
+    "text": "Week 12: Text as Data V\n\nSupervised Learning on Steroids: BERT (Tue, 13 January 2026; 15:15 – 16:45; NSG, SR 325)\n\nDo, Ollion, and Shen (2022)\nLaurer et al. (2024)\nTörnberg (2023)\nWankmüller (2022)\n\n\n\nActive Learning with BERT (Thu, 15 January 2026; 15:15 – 16:45; NSG, SR 325)\n\nset up environments\nAugmented Social Scientist tutorial – online\nBERTopic – online"
+  },
+  {
+    "objectID": "syllabus/syllabus_toolboxCSS_winter2526.html#week-13-text-as-data-vi",
+    "href": "syllabus/syllabus_toolboxCSS_winter2526.html#week-13-text-as-data-vi",
+    "title": "06-002-107-3: Forschungsseminar B – Experimentelle Soziologie und Computational Social Science",
+    "section": "Week 13: Text as Data VI",
+    "text": "Week 13: Text as Data VI\n\nLLMs for information extraction (Tue, 20 January 2026; 15:15 – 16:45; NSG, SR 325)\n\nStuhler, Ton, and Ollion (2025)\n\n\n\nLocal LLMs – a primer (Thu, 22 January 2026; 15:15 – 16:45; NSG, SR 325)\n\nellmer documentation – online\nTutorial from IC2S2 by Etienne Ollion, Emilien Schultz, Julien Boelaert – online"
+  },
+  {
+    "objectID": "syllabus/syllabus_toolboxCSS_winter2526.html#week-14-presentation-preparation-week",
+    "href": "syllabus/syllabus_toolboxCSS_winter2526.html#week-14-presentation-preparation-week",
+    "title": "06-002-107-3: Forschungsseminar B – Experimentelle Soziologie und Computational Social Science",
+    "section": "Week 14: Presentation Preparation Week",
+    "text": "Week 14: Presentation Preparation Week\nNo classes. Deadline for sending presentations: January 30, 6PM."
+  },
+  {
+    "objectID": "syllabus/syllabus_toolboxCSS_winter2526.html#week-15-presentation-wrap-up-week",
+    "href": "syllabus/syllabus_toolboxCSS_winter2526.html#week-15-presentation-wrap-up-week",
+    "title": "06-002-107-3: Forschungsseminar B – Experimentelle Soziologie und Computational Social Science",
+    "section": "Week 15: Presentation & Wrap Up Week",
+    "text": "Week 15: Presentation & Wrap Up Week\n\nPresentations (Tue, 03 February 2026; 15:15 – 16:45; NSG, SR 325)\nNo readings.\n\n\nPresentations & Wrap-up (Thu, 05 February 2026; 15:15 – 16:45; NSG, SR 325)\nNo readings."
+  },
+  {
+    "objectID": "syllabus/syllabus_toolboxCSS_winter2526.html#deadline-forschungsbericht",
+    "href": "syllabus/syllabus_toolboxCSS_winter2526.html#deadline-forschungsbericht",
+    "title": "06-002-107-3: Forschungsseminar B – Experimentelle Soziologie und Computational Social Science",
+    "section": "Deadline Forschungsbericht",
+    "text": "Deadline Forschungsbericht\nMarch 19, 2026 (tentative)."
+  },
+  {
+    "objectID": "lectures-overview.html",
+    "href": "lectures-overview.html",
+    "title": "Overview – week by week",
+    "section": "",
+    "text": "This week answers the following questions:\n\nWhat does the term CSS mean?\nWhich principles underly a new CSS?\nWhich methods does CSS encompass?\nHow do we set up our computational workstation?"
+  },
+  {
+    "objectID": "lectures-overview.html#week-1-kick-off",
+    "href": "lectures-overview.html#week-1-kick-off",
+    "title": "Overview – week by week",
+    "section": "",
+    "text": "This week answers the following questions:\n\nWhat does the term CSS mean?\nWhich principles underly a new CSS?\nWhich methods does CSS encompass?\nHow do we set up our computational workstation?"
+  },
+  {
+    "objectID": "lectures-overview.html#week-2-brief-intro-to-python-regexes",
+    "href": "lectures-overview.html#week-2-brief-intro-to-python-regexes",
+    "title": "Overview – week by week",
+    "section": "Week 2: Brief Intro to Python & Regexes",
+    "text": "Week 2: Brief Intro to Python & Regexes\nThis week answers the following questions:\n\nHow can we run Python in RStudio using reticulate?\nWhat are the basics of Python programming?\nWhat are regular expressions and why are they powerful?\nHow can we use stringr to work with text patterns?"
+  },
+  {
+    "objectID": "lectures-overview.html#week-3-data-acquisition-i",
+    "href": "lectures-overview.html#week-3-data-acquisition-i",
+    "title": "Overview – week by week",
+    "section": "Week 3: Data Acquisition I",
+    "text": "Week 3: Data Acquisition I\nThis week answers the following questions:\n\nHow is the web written and structured?\nWhat are considerations in terms of law and ethics when scraping?\nHow do we acquire digital trace data via web scraping with rvest?\nWhat are CSS selectors and how do they work?"
+  },
+  {
+    "objectID": "lectures-overview.html#week-4-data-acquisition-ii",
+    "href": "lectures-overview.html#week-4-data-acquisition-ii",
+    "title": "Overview – week by week",
+    "section": "Week 4: Data Acquisition II",
+    "text": "Week 4: Data Acquisition II\nThis week answers the following questions:\n\nHow do we scrape dynamic web pages that use JavaScript?\nHow can we interact with forms and buttons using selenium?\nWhat are APIs and how do we use them?\nHow do we make API calls with httr2?"
+  },
+  {
+    "objectID": "lectures-overview.html#week-5-data-acquisition-iii",
+    "href": "lectures-overview.html#week-5-data-acquisition-iii",
+    "title": "Overview – week by week",
+    "section": "Week 5: Data Acquisition III",
+    "text": "Week 5: Data Acquisition III\nThis week answers the following questions:\n\nWhat is Optical Character Recognition (OCR)?\nHow can we extract text from images and PDFs?\nWhat is speech-to-text transcription?\nHow can we leverage these techniques for social science research?"
+  },
+  {
+    "objectID": "lectures-overview.html#week-6-data-acquisition-iv",
+    "href": "lectures-overview.html#week-6-data-acquisition-iv",
+    "title": "Overview – week by week",
+    "section": "Week 6: Data Acquisition IV",
+    "text": "Week 6: Data Acquisition IV\nThis week answers the following questions:\n\nHow do we digitize text using Tesseract?\nHow do we digitize speech using OpenAI Whisper?\nWhat are best practices for data acquisition projects?\nHow do we plan our research projects?"
+  },
+  {
+    "objectID": "lectures-overview.html#week-7-student-project-week",
+    "href": "lectures-overview.html#week-7-student-project-week",
+    "title": "Overview – week by week",
+    "section": "Week 7: Student Project Week",
+    "text": "Week 7: Student Project Week\nThis week is dedicated to working on your research projects in class.\n\nDiscuss your project ideas with peers and the instructor\nBegin data acquisition for your research\nTroubleshoot technical challenges\nForm study groups with matching research interests"
+  },
+  {
+    "objectID": "lectures-overview.html#week-8-text-as-data-i",
+    "href": "lectures-overview.html#week-8-text-as-data-i",
+    "title": "Overview – week by week",
+    "section": "Week 8: Text as Data I",
+    "text": "Week 8: Text as Data I\nThis week answers the following questions:\n\nWhat do we mean by “text as data”?\nWhat do we mean by “bag of words”?\nHow do we perform sentiment analysis?\nWhat are TF-IDF, Named Entity Recognition (NER), and Part-of-Speech (POS) tagging?"
+  },
+  {
+    "objectID": "lectures-overview.html#week-9-text-as-data-ii",
+    "href": "lectures-overview.html#week-9-text-as-data-ii",
+    "title": "Overview – week by week",
+    "section": "Week 9: Text as Data II",
+    "text": "Week 9: Text as Data II\nThis week answers the following questions:\n\nWhat is supervised machine learning?\nHow can we train classifiers to categorize text?\nWhat are best practices for supervised ML in social science?\nHow do we evaluate model performance?"
+  },
+  {
+    "objectID": "lectures-overview.html#week-10-text-as-data-iii",
+    "href": "lectures-overview.html#week-10-text-as-data-iii",
+    "title": "Overview – week by week",
+    "section": "Week 10: Text as Data III",
+    "text": "Week 10: Text as Data III\nThis week answers the following questions:\n\nWhat is unsupervised machine learning?\nHow does topic modeling work?\nWhat can probabilistic topic models tell us about text corpora?\nWhen should we use unsupervised vs. supervised approaches?"
+  },
+  {
+    "objectID": "lectures-overview.html#week-11-text-as-data-iv",
+    "href": "lectures-overview.html#week-11-text-as-data-iv",
+    "title": "Overview – week by week",
+    "section": "Week 11: Text as Data IV",
+    "text": "Week 11: Text as Data IV\nThis week answers the following questions:\n\nHow can we go beyond the “bag of words”?\nWhat is the distributional hypothesis?\nHow can we measure semantic similarity between texts?\nWhat are word embeddings and what do they capture?"
+  },
+  {
+    "objectID": "lectures-overview.html#week-12-text-as-data-v",
+    "href": "lectures-overview.html#week-12-text-as-data-v",
+    "title": "Overview – week by week",
+    "section": "Week 12: Text as Data V",
+    "text": "Week 12: Text as Data V\nThis week answers the following questions:\n\nWhat are transformer models like BERT?\nHow do these models revolutionize text classification?\nWhat is transfer learning and why is it so powerful?\nWhat is active learning and how can it reduce annotation burden?"
+  },
+  {
+    "objectID": "lectures-overview.html#week-13-text-as-data-vi",
+    "href": "lectures-overview.html#week-13-text-as-data-vi",
+    "title": "Overview – week by week",
+    "section": "Week 13: Text as Data VI",
+    "text": "Week 13: Text as Data VI\nThis week answers the following questions:\n\nWhat’s the latest in Natural Language Processing with Large Language Models (LLMs)?\nHow can we use LLMs for information extraction?\nWhat are local LLMs and when should we use them?\nHow do we move from codebooks to promptbooks?"
+  },
+  {
+    "objectID": "lectures-overview.html#week-14-presentation-preparation-week",
+    "href": "lectures-overview.html#week-14-presentation-preparation-week",
+    "title": "Overview – week by week",
+    "section": "Week 14: Presentation Preparation Week",
+    "text": "Week 14: Presentation Preparation Week\nThis week is dedicated to preparing your final presentations.\n\nFinalize your analyses and preliminary results\nPrepare presentation slides (deadline: January 30, 6PM)\nReview the peer review guidelines\nPractice your 10-minute presentation"
+  },
+  {
+    "objectID": "lectures-overview.html#week-15-presentations-wrap-up",
+    "href": "lectures-overview.html#week-15-presentations-wrap-up",
+    "title": "Overview – week by week",
+    "section": "Week 15: Presentations & Wrap Up",
+    "text": "Week 15: Presentations & Wrap Up\nThis week features peer-reviewed presentations of your research projects.\n\nPresent your research (10 minutes)\nReceive feedback from assigned peer reviewers (5 minutes)\nDiscuss next steps for your final paper\nReflect on what we’ve learned throughout the semester"
+  }
+]

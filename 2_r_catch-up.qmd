@@ -1,0 +1,2026 @@
+---
+title: "Chapter 2: Brief R Recap"
+published-title: r_recap
+engine: knitr
+freeze: auto
+bibliography: literature.bib
+csl: ASA.csl
+---
+
+I assume your familiarity with R. However, I am fully aware that nobody can have all these things avaible in their head all the time (that's what they invented StackOverflow for, new AI helpers are also pretty good). In the following, I show some basics of how I use R (i.e., RStudio Projects, scripts, Quarto) as well as some data wrangling stuff (`readr`, `tidyr`, `dplyr`), visualization with `ggplot2`, functions, loops, and `purrr`. If you need more info, check out the "further links" I have added after each section. There are also exercises after each section.
+
+```{r}
+needs(tidyverse, lubridate, fs, socviz)
+```
+
+## RStudio Projects
+
+### Motivation
+
+Disclaimer: those things might not be entirely clear right away. However, I am deeply convinced that it is important that you use R and RStudio properly from the start. Otherwise it won't be as easy to re-build the right habits.
+
+If you analyze data with R, one of the first things you do is to load in the data that you want to perform your analyses on. Then, you perform your analyses on them, and save the results in the (probably) same directory.\
+When you load a data set into R, you might use the `readr` package and do `read_csv(absolute_file_path.csv)`. This becomes fairly painful if you need to read in more than one data set. Then, relative paths (i.e., where you start from a certain point in your file structure, e.g., your file folder) become more useful. How you CAN go across this is to use the `setwd(absolute_file_path_to_your_directory)` function. Here, `set` stands for set and `wd` stands for working directory. If you are not sure about what the current working directory actually is, you can use `getwd()` which is the equivalent to `setwd(file_path)`. This enables you to read in a data set -- if the file is in the working directory -- by only using `read_csv(file_name.csv)`.\
+However, if you have ever worked on an R project with other people in a group and exchanged scripts regularly, you may have encountered one of the big problems with this `setwd(file_path)` approach: as it only takes absolute paths like this one: "/Users/felixlennert/Library/Mobile Documents/com~apple~CloudDocs/phd/teaching/hhs-stockholm/fall2021/scripts/", no other person will be able to run this script without making any changes[^catch-up-1]. Just to be clear: there are no two machines which have the exact same file structure.
+
+[^catch-up-1]: This becomes especially painful if you teach R to your students and have to grade 20 submissions and, hence, have to paste your personal directory's file path into each of these submissions.
+
+This is where RStudio Projects come into play: they make every file path relative. The Project file (ends with .Rproj) basically sets the working directory to the folder it is in. Hence, if you want to send your work to a peer or a teacher, just send a folder which also contains the .Rproj file and they will be able to work on your project without the hassle of pasting file paths into `setwd()` commands.
+
+### How to create an RStudio Project?
+
+I strongly suggest that you set up a project which is dedicated to this course.
+
+1.  In RStudio, click File \>\> New Project...
+2.  A window pops up which lets you select between "New Directory", "Existing Directory", and "Version Control." The first option creates a new folder which is named after your project, the second one "associates a project with an existing working directory," and the third one only applies to version control (like, for instance, GitHub) users. I suggest that you click "New Directory".
+3.  Now you need to specify the type of the project (Empty project, R package, or Shiny Web Application). In our case, you will need a "new project." Hit it!\
+4.  The final step is to choose the folder the project will live in. If you have already created a folder which is dedicated to this course, choose this one, and let the project live in there as a sub-directory.
+5.  When you write code for our course in the future, you *first* open the R project -- by double-clicking the .Rproj file -- and then create either a new script or open a former one (e.g., by going through the "Files" tab in the respective pane which will show the right directory already.)
+
+## R scripts and Quarto
+
+In this course, you will work with two sorts of documents to store your code in: R scripts (suffix `.R`) and Quarto documents (suffix `.qmd`). In the following, I will briefly introduce you to both of them.
+
+### R scripts
+
+The console, where you can only execute your code, is great for experimenting with R. If you want to store it -- e.g., for sharing -- you need something different. This is where R scripts come in handy. When you are in RStudio, you create a new script by either clicking `File >> New File >> R Script` or ctrl/cmd+shift+n. There are multiple ways to run code in the script:
+
+-   cmd/ctrl+return (Mac/Windows) -- execute entire expression and jump to next line\
+-   option/alt+return (Mac/Windows) -- execute entire expression and remain in line\
+-   cmd/ctrl+shift+return (Mac/Windows) -- execute entire script from the beginning to the end (rule: every script you hand in or send to somebody else should run smoothly from the beginning to the end)
+
+If you want to make annotations to your code (which you should do because it makes everything easier to read and understand), just insert '\#' into your code. Every expression that stands to the right of the '\#' sign will not be executed when you run the code.
+
+### Quarto
+
+A time will come where you will not just do analyses for yourself in R, but you will also have to communicate them. Let's take a master's thesis as an example: you need a type of document that is able to encapsulate: text (properly formatted), visualizations (tables, graphs, maybe images), and references. An RMarkdown document can do it all, plus, your entire analysis can live in there as well. So there is no need anymore for the cumbersome process of copying data from MS Excel or IBM SPSS into an MS Word table. You just tell RMarkdown what it should communicate and what not.
+
+In the following, I will not provide you with an exhaustive introduction to RMarkdown. Instead, I will focus on getting you started and then referring you to better, more exhaustive resources. It is not that I am too lazy to write a big tutorial, but there are state-of-the-art tutorials and resources (which mainly come straight from people who work on the forefront of the development of these tools) which are available for free. By linking to them, I want to encourage you to get involved and dig into this stuff. So, let's get you started!
+
+You create a Quarto document file by clicking `File >> New File >> Quarto Document`.... Then, a window pops up that looks like this:
+
+![New Quarto](figures/quarto_new.png)
+
+Note that you could also do a presentation (with the `beamer` package), a `shiny` app, a website (like this one), or use templates. We will focus on simple Quarto documents. Here, you can type in a title, the name(s) of the author(s), and choose the default output format. For now you have to choose one, but later you can switch to one of the others whenever you want to.
+
+-   *HTML* is handy for lightweight, quickly rendered files, or if you want to publish it on a website.
+-   *PDF* is good if you are experienced with LaTeX and want to further modify it in terms of formatting etc., or simply want to get a more formally looking document (I use it if I need to hand in something that is supposed to be graded). If you want to knit to PDF, you need a running LaTeX version on your machine. If you do not have one, I recommend you to install `tinytex.` I linked installation instructions down below.
+-   *Word* puts out an MS Word document -- especially handy if you collaborate with people who are either not experienced in R, like older faculty, or want some parts to be proof-read (remember the Track-Changes function?). Note that you need to have MS Word or LibreOffice installed on your machine.
+
+Did you notice the term render? The logic behind Quarto documents is that you edit them in RStudio and then render them. This means that it calls the `knitr` package. Thereby, all the code you include into the document is executed from scratch. If the code does not work and throws an error, the document will not knit -- hence, it needs to be properly written to avoid head-scratching. The `knitr` package creates a markdown file (suffix: .md). This is then processed by `pandoc`, a universal document converter. The big advantage of this two-step approach is that it enables a wide range of output formats.
+
+For your first Quarto document, choose HTML and click "OK". Then, you see a new plain-text file which looks like this:
+
+![A fresh and clean Quarto document](figures/quarto_empty.png)
+
+The visual editor is quite similar to what we know from word processing software such as Microsoft Word. I will run you through the features in a quick video.
+
+### Further links
+
+-   Chapter on [Scripts and Projects in R4DS](https://r4ds.hadley.nz/workflow-scripts.html)
+-   More on [RStudio Projects on the posit website](https://support.posit.co/hc/en-us/articles/200526207-Using-RStudio-Projects)
+-   [Chapter on Quarto](https://r4ds.hadley.nz/quarto) in R4DS
+-   All things [Quarto](https://quarto.org/docs/get-started/) on its dedicated website
+-   Yihui Xie published a [manual](https://yihui.org/tinytex/) for installing the `tinytex` package
+
+### Exercises
+
+-   Create a project for this course.
+-   Create a Quarto file to work on the exercises. Add the exercises and answer them *in code* in the document.
+-   Render it. Does it work?
+
+## Reading data into R
+
+Data is typically stored in csv-files and can be read in using `readr`. For "normal," comma-separated values `read_csv("file_path")` suffices. Sometimes, a semicolon is used instead of a comma (e.g., in countries that use the commas as a decimal sign). For these files, `read_csv2("file_path)` is the way to go.
+
+```{r eval=FALSE, include=TRUE}
+twitter_edgelist <- read_csv("data/edgelist_sen_twitter.csv")#,
+#                            col_types = cols(from = col_character(),
+#                                             to = col_character()))
+```
+
+If you encounter other data types, you just need to find the right `tidyverse` package to read the data in. Their syntax will be the same, it will just be the function names that differ.
+
+### Further links
+
+-   the [section on reading in data in R4DS](https://r4ds.hadley.nz/data-import)
+
+### Exercises
+
+First, download and extract [the zip file](https://www.dropbox.com/scl/fi/7apmtufeft01h02yip8e6/training-files.zip?rlkey=k86yaijrfmd5oz4her8jks5gs&dl=1) by clicking the link. Then...
+
+Read them in using the right functions. Specify the parameters properly. Hints can be found in `hints.md`. Each file should be stored in an object, names should correspond to the file names.
+
+Note: this is challenging, absolutely. If you have problems, try to google the different functions and think about what the different parameters indicate. If that is to no avail, send me an e-mail. I am very happy to provide you further assistance.
+
+## Tidy data with `tidyr`
+
+Before you learn how to tidy and wrangle data, you need to know how you want your data set to actually look like, i.e., what the desired outcome of the entire process of tidying your data set is. The `tidyverse` is a collection of packages which share an underlying philosophy: they are tidy. This means, that they (preferably) take tidy data as inputs and output tidy data. In the following, I will, first, introduce you to the concept of tidy data as developed by Hadley Wickham [@wickham_tidy_2014]. Second, `tidyr` is introduced [@wickham_tidyr_2020]. Its goal is to provide you with functions that facilitate tidying data sets. Beyond, I will provide you some examples of how to create tibbles using functions from the `tibble` package [@muller_tibble_2020]. Moreover, the pipe is introduced.
+
+Please note that tidying and cleaning data are not equivalent: I refer to tidying data as to bringing data in a tidy format. Cleaning data, however, can encompass way more than this: parsing columns in the right format (using `readr`, for instance), imputation of missing values, address the problem of typos, etc.
+
+### The concept of *tidy data*
+
+data sets can be structured in many ways. To make them tidy, they must be organized in the following way (this is taken from the R for Data Science book [@wickham_r_2016]):
+
+1.  Each variable must have its own column.\
+2.  Each observation must have its own row.\
+3.  Each value must have its own cell.
+
+They can even be boiled further down:
+
+1.  Put each data set in a tibble.
+2.  Put each variable in a column.
+
+This can also be visually depicted:
+
+![The three rules that make a data set tidy (taken from Wickham and Grolemund 2016: 149)](figures/tidy_data.png)
+
+This way of storing data has two big advantages:
+
+-   you can easily access, and hence manipulate, variables as vectors
+-   if you perform vectorized operations on the tibble, cases are preserved.
+
+### Making messy data tidy
+
+So what are the most common problems with data sets? The following list is taken from the `tidyr` vignette[^catch-up-2]:
+
+[^catch-up-2]: which can be found [here](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html) or using `vignette("tidy-data", package = "tidyr")`
+
+-   Column headers are values, not variable names.\
+-   Variables are stored in both rows and columns.\
+-   Multiple variables are stored in one column.\
+-   Multiple types of observational units are stored in the same table.\
+-   A single observational unit is stored in multiple tables.
+
+I will go across the former three types of problems, because the latter two require some more advanced data wrangling techniques you haven't learned yet (i.e., functions from the `dplyr` package: `select()`, `mutate()`, `left_join()`, among others).
+
+In the following, I will provide you with examples on how this might look like and how you can address the respective problem using functions from the `tidyr` package. This will serve as an introduction to the two most important functions of the `tidyr` package: `pivot_longer()` and its counterpart `pivot_wider()`. Beyond that, `separate()` will be introduced as well. At the beginning of every part, I will build the tibble using functions from the tibble package. This should suffice as a quick refresher for and introduction to creating tibbles.
+
+`tidyr` has some more functions in stock. They do not necessarily relate to transforming messy data sets into tidy ones, but also serve you well for some general cleaning tasks. They will be introduced, too.
+
+#### Column headers are values
+
+A data set of this form would look like this:
+
+```{r}
+#| warning: false
+
+tibble_value_headers <- tibble(
+  manufacturer = c("Audi", "BMW", "Mercedes", "Opel", "VW"),
+  `3 cyl` = sample(20, 5, replace = TRUE),
+  `4 cyl` = sample(50:100, 5, replace = TRUE),
+  `5 cyl` = sample(10, 5, replace = TRUE),
+  `6 cyl` = sample(30:50, 5, replace = TRUE),
+  `8 cyl` = sample(20:40, 5, replace = TRUE),
+  `10 cyl` = sample(10, 5, replace = TRUE),
+  `12 cyl` = sample(20, 5, replace = TRUE),
+  `16 cyl` = rep(0, 5)
+)
+
+tibble_value_headers
+```
+
+You can create a tibble *by column* using the `tibble` function. Column names need to be specified and linked to vectors of either the same length or length one.
+
+This data set basically consists of three variables: `German car manufacturer`, `number of cylinders`, and `frequency`. To make the data set tidy, it has to consist of three columns depicting the three respective variables. This operation is called pivoting the non-variable columns into two-column key-value pairs. As the data set will thereafter contain fewer columns and more rows than before, it will have become longer (or taller). Hence, the tidyr function is called `pivot_longer()`.
+
+```{r}
+ger_car_manufacturer_longer <- tibble_value_headers |> 
+  pivot_longer(-manufacturer, names_to = "cylinders", values_to = "frequency")
+ger_car_manufacturer_longer
+```
+
+In the function call, you need to specify the following: if you were not to use the pipe, the first argument would be the tibble you are manipulating. Then, you look at the column you want to **keep**. Here, it is the car manufacturer. This means that all columns but `manufacturer` will be crammed into two new ones: one will contain the columns' names, the other one their values. How are those new column supposed to be named? That can be specified in the `names_to =` and `values_to =`arguments. Please note that you need to provide them a character vector, hence, surround your parameters with quotation marks. As a rule of thumb for all `tidyverse` packages: If it is a new column name you provide, surround it with quotation marks. If it is one that already exists -- like, here, manufacturer, then you do not need the quotation marks.
+
+#### Variables in both rows and columns
+
+You have this data set:
+
+```{r}
+car_models_fuel <- tribble(
+  ~manufacturer, ~model, ~cylinders, ~fuel_consumption_type, ~fuel_consumption_per_100km,
+  "VW", "Golf", 4, "urban", 5.2,
+  "VW", "Golf", 4, "extra urban", 4.5,
+  "Opel", "Adam", 4, "urban", 4.9,
+  "Opel", "Adam", 4, "extra urban", 4.1
+  )
+car_models_fuel
+```
+
+It was created using the `tribble` function: tibbles can also be created *by row*. First, the column names need to be specified by putting a tilde (`~`) in front of them. Then, you can put in values separated by commas. Please note that the number of values needs to be a multiple of the number of columns.
+
+In this data set, there are basically five variables: manufacturer, model, cylinders, urban fuel consumption, and extra urban fuel consumption. However, the column `fuel_consumption_type` does not store a variable but the names of two variables. Hence, you need to fix this to make the data set tidy. Because this encompasses reducing the number of rows, the data set becomes wider. The function to achieve this is therefore called `pivot_wider()` and the inverse of `pivot_longer()`.
+
+```{r}
+car_models_fuel_tidy <- car_models_fuel |> 
+  pivot_wider(
+    names_from = fuel_consumption_type, 
+    values_from = fuel_consumption_per_100km
+    )
+
+car_models_fuel_tidy
+```
+
+Here, you only need to specify the columns you fetch the names and values from. As they both do already exist, you do not need to wrap them in quotation marks.
+
+#### Multiple variables in one column
+
+Now, however, there is a problem with the cylinders: their number should be depicted in a numeric vector. We could achieve this by either parsing it to a numeric vector:
+
+```{r}
+ger_car_manufacturer_longer$cylinders <- parse_number(ger_car_manufacturer_longer$cylinders)
+```
+
+On the other hand, we can also use a handy function from `tidyr` called `separate()` and afterwards drop the unnecessary column:
+
+```{r}
+ger_car_manufacturer_longer_sep_cyl <- ger_car_manufacturer_longer |> # first, take the tibble
+  separate(cylinders, into = c("cylinders", "drop_it"), sep = " ") |> # and then split the column "cylinders" into two
+  select(-drop_it) # you will learn about this in the lesson on dplyr  # and then drop one column from the tibble
+```
+
+If there are two (or actually more) relevant values in one column, you can simply let out the dropping process and easily split them into multiple columns. By default, the `sep =` argument divides the content by all non-alphanumeric characters (every character that is not a letter, number, or space) it contains.
+
+Please note that the new column is still in character format. We can change this using `as.numeric()`:
+
+```{r}
+ger_car_manufacturer_longer_sep_cyl$cylinders <- as.numeric(ger_car_manufacturer_longer_sep_cyl$cylinders)
+```
+
+Furthermore, you might want to sort your data in a different manner. If you want to do this by cylinders, it would look like this:
+
+```{r}
+arrange(ger_car_manufacturer_longer_sep_cyl, cylinders)
+```
+
+### Insertion: the pipe
+
+Have you noticed the `|>`? That's the pipe. It can be considered a conjunction in coding. Usually, you will use it when working with tibbles. What it does is pretty straight-forward: it takes what is on its left -- the input -- and provides it to the function on its right as the first argument. Hence, the code in the last chunk, which looks like this
+
+```{r}
+arrange(ger_car_manufacturer_longer_sep_cyl, cylinders)
+```
+
+could have also been written like this
+
+```{r}
+ger_car_manufacturer_longer_sep_cyl |> arrange(cylinders)
+```
+
+because the tibble is the first argument in the function call.
+
+Because the pipe (its precedessor was `%>%`) has really gained traction in the R community, many functions are now optimized for being used with the pipe. However, there are still some around which are not. A function for fitting a basic linear model with one dependent and one independent variable which are both stored in a tibble looks like this: `lm(formula = dv ~ iv, data = tibble)`. Here, the tibble is not the first argument. To be able to fit a linear model in a "pipeline," you need to employ a little hack: you can use an underscore `_` as a placeholder. Here, it is important that the argument is named.
+
+Let's check out the effect the number of cylinders has on the number of models:
+
+```{r}
+ger_car_manufacturer_longer_sep_cyl |> 
+  lm(frequency ~ cylinders, data = _) |> 
+  summary()
+```
+
+As `|>` is a bit tedious to type, a shortcut exists: `shift-ctrl-m`.
+
+### Splitting and merging cells
+
+If there are multiple values in one column/cell and you want to split them and put them into two rows instead of columns, `tidyr` offers you the `separate_rows()` function.
+
+```{r}
+german_cars_vec <- c(Audi = "A1, A3, A4, A5, A6, A7, A8", 
+                     BMW = "1 Series, 2 Series, 3 Series, 4 Series, 5 Series, 6 Series, 7 Series, 8 Series")
+german_cars_tbl <- enframe(
+  german_cars_vec, 
+  name = "brand", 
+  value = "model"
+  )
+
+german_cars_tbl
+
+tidy_german_cars_tbl <- german_cars_tbl |> 
+  separate_rows(model, sep = ", ")
+```
+
+`enframe()` enables you to create a tibble from a (named) vector. It outputs a tibble with two columns (`name` and `value` by default): `name` contains the names of the elements (if the elements are unnamed, it contains a serial number), `value` the element. Both can be renamed in the function call by providing a character vector.
+
+If you want to achieve the opposite, i.e., merge cells' content, you can use the counterpart, `unite()`. Let's take the following dataframe which consists of the names of the professors of the Institute for Political Science of the University of Regensburg:
+
+```{r}
+professor_names_df <- data.frame(first_name = c("Karlfriedrich", "Martin", "Jerzy", "Stephan", "Melanie"),
+                                 last_name = c("Herb", "Sebaldt", "Maćków", "Bierling", "Walter-Rogg"))
+
+professor_names_tbl <- professor_names_df |> 
+  as_tibble() |> 
+  unite(first_name, last_name, col = "name", sep = " ", remove = TRUE, na.rm = FALSE)
+
+professor_names_tbl
+```
+
+`unite()` takes the tibble it should be applied to as the first argument (not necessary if you use the pipe). Then, it takes the two or more columns as arguments (actually, this is not necessary if you want to unite all columns). `col =` takes a character vector to specify the name of the resulting, new column. `remove = TRUE` indicates that the columns that are united are removed as well. You can, of course, set it to false, too. `na.rm = FALSE` finally indicates that missing values are not to be removed prior to the uniting process.
+
+Here, the final variant of creating tibbles is introduced as well: you can apply the function `as_tibble()` to a data frame and it will then be transformed into a tibble.
+
+### Further links
+
+-   Hadley on [tidy data](https://vita.had.co.nz/papers/tidy-data.pdf)\
+-   The two `pivot_*()` functions lie at the heart of `tidyr`. [This article](https://www.storybench.org/pivoting-data-from-columns-to-rows-and-back-in-the-tidyverse/) from the Northeastern University's School of Journalism explains it in further detail.
+
+### Exercises
+
+Bring the data sets you read into R in the "Reading data in R" section into a tidy format. Store the tidy data sets in a new object, named like the former object plus the suffix "\_tidy" -- e.g., `books_tidy`. If no tidying is needed, you do not have to create a new object. The pipe operator should be used to connect the different steps.
+
+## Wrangling data with `dplyr`
+
+The last chapter showed you four things: how you get data sets into R, a couple of ways to create tibbles, how to pass data to functions using the pipe (`|>`), and an introduction to tidy data and how to make data sets tidy using the `tidyr` package [@wickham_tidyr_2020]. What you haven't learned was how you can actually manipulate the data themselves. In the `tidyverse` framework [@wickham_welcome_2019], the package which enables you to accomplish those tasks is `dplyr` [@wickham_dplyr_2020].
+
+`dplyr` joined the party in 2014, building upon the `plyr` package. The d in `dplyr` stands for data set and `dplyr` works with tibbles (or data frames) only.
+
+It consists of five main functions, the "verbs":
+
+-   `arrange()` -- sort values
+-   `filter()` -- pick observations
+-   `mutate()` -- create new variables (columns)
+-   `select()` -- select variables
+-   `summarize()` -- create summaries from multiple values
+
+They are joined by `group_by()`, a function that changes the scope on which entities the functions are applied to.
+
+Furthermore, diverse `bind_` functions and `_join`s enable you to combine multiple tibbles into one. They will be introduced later.
+
+In the following, I will guide you through how you can use the verbs to accomplish whatever goals which require data wrangling you might have.
+
+The data set I will use here consists of the 1,000 most popular movies on IMDb which were published between 2006 and 2016 and some data on them. It was created by PromptCloud and DataStock and published on Kaggle, more information can be found [here](https://www.kaggle.com/PromptCloudHQ/imdb-data).
+
+```{r message=FALSE, warning=FALSE}
+imdb_raw <- read_csv("https://www.dropbox.com/s/wfwyxjkpo24e3yq/imdb2006-2016.csv?dl=1")
+```
+
+The data set hasn't been modified by me before. I will show you how I would go across it using a couple of `dplyr` functions.
+
+### `select()`
+
+`select` enables you to *select* columns. Since we are dealing with tidy data, every variable has its own column.
+
+`glimpse()` provides you with an overview of the data set and its columns.
+
+```{r}
+glimpse(imdb_raw)
+```
+
+The columns I want to keep are: `Title`, `Director`, `Year`, `Runtime (Minutes)`, `Rating`, `Votes`, and `Revenue (Millions)`. Furthermore, I want to rename the columns: every column's name should be in lowercase and a regular name that does not need to be surrounded by back ticks -- i.e., a name that only consists of characters, numbers, underscores, or dots.
+
+This can be achieved in a couple of ways:
+
+First, by choosing the columns column by column and subsequently renaming them:
+
+```{r}
+imdb_raw |> 
+  select(Title, Director, Year, `Runtime (Minutes)`, Rating, Votes, `Revenue (Millions)`) |> 
+  rename(title = Title, director = Director, year = Year, runtime = `Runtime (Minutes)`, rating = Rating, votes = Votes, revenue_million = `Revenue (Millions)`) |> 
+  glimpse()
+```
+
+Second, the columns can also be chosen vice versa: unnecessary columns can be dropped using a minus:
+
+```{r}
+imdb_raw |> 
+  select(-Rank, -Genre, -Description, -Actors, -Metascore) |> 
+  rename(title = Title, director = Director, year = Year, runtime = `Runtime (Minutes)`, rating = Rating, votes = Votes, revenue_million = `Revenue (Millions)`) |> 
+  glimpse()
+```
+
+Columns can also be renamed in the selecting process:
+
+```{r}
+imdb_raw |> 
+  select(title = Title, director = Director, year = Year, runtime = `Runtime (Minutes)`, rating = Rating, votes = Votes, revenue_million = `Revenue (Millions)`) |> 
+  glimpse()
+```
+
+You can also make your expressions shorter by using a couple of hacks:
+
+`:` can be used to select all columns between two:
+
+```{r}
+imdb_raw |> 
+  select(Title, Director, Year:`Revenue (Millions)`) |> 
+  rename(title = Title, director = Director, year = Year, runtime = `Runtime (Minutes)`, rating = Rating, votes = Votes, revenue_million = `Revenue (Millions)`) |> 
+  glimpse()
+```
+
+`starts_with()` select columns whose names start with the same character string:
+
+```{r}
+imdb_selected <- imdb_raw |> 
+  select(Title, Director, Votes, Year, starts_with("R")) |> 
+  select(-Rank) |> 
+  rename(title = Title, director = Director, year = Year, runtime = `Runtime (Minutes)`, rating = Rating, votes = Votes, revenue_million = `Revenue (Millions)`) |> 
+  glimpse()
+```
+
+As you may have noticed, the order in the `select()` matters: columns will be ordered in the same order as they are chosen.
+
+A couple of further shortcuts for `select()` do exist. An overview can be found in the [`dplyr` cheatsheet](https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf).
+
+### `filter()`
+
+Whereas `select()` enables you to choose variables (i.e., columns), `filter()` lets you choose observations (i.e., rows).
+
+In this case, I only want movies with a revenue above \$100,000,000:
+
+```{r}
+imdb_selected |> 
+  filter(revenue_million > 100) |> 
+  glimpse()
+```
+
+Besides, I am especially interested in the director Christopher Nolan. Therefore, I want to look at movies that were directed by him and made more than \$100,000,000:
+
+```{r}
+imdb_selected |> 
+  filter(revenue_million > 100 & director == "Christopher Nolan") |> 
+  glimpse()
+```
+
+The following overview is taken from the [`dplyr` cheatsheet](https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf) and shows the operators you can use in `filter()`:
+
+![Overview of comparison operators](figures/operators.png)
+
+#### Exemplary application
+
+To demonstrate how a real-world application of this stuff could look like, I will now provide you a brief insight into my private life and how I organize movie nights. JK. You could definitely try this at home and surprise your loved ones with such hot applications. If you are brave and surprise your latest Tinder match with an .RDS file containing suggestions for Netflix&Chill, please let me know what their response looked like.
+
+Tonight, I will hang out with a real nerd. Probably because they (nerds have all kinds of genders) know about my faible for R, they have sent me a vector containing a couple of movies we could watch tonight:
+
+```{r}
+set.seed(123) # guarantees that movie_vec will always be the same thing
+movie_vec <- imdb_raw$Title[sample(1000, 10, replace = FALSE)]
+movie_vec
+```
+
+However, I want to make a more informed decision and decide to obtain some more information on the movies from my IMDb data set:
+
+```{r}
+imdb_selected |> 
+  filter(title %in% movie_vec) |> 
+  glimpse()
+```
+
+I have convinced them to watch either one of the movies they have suggested or one directed by Christopher Nolan or one with a rating greater or equal to 8.5 and send them back this data set:
+
+```{r}
+imdb_selected |> 
+  filter(title %in% movie_vec | director == "Christopher Nolan" | rating >= 8.5) |> 
+  glimpse()
+```
+
+"I deteste 'Interstellar'," is the response. "All right," I say to myself, "I can easily exclude it."
+
+```{r}
+imdb_selected |> 
+  filter(title %in% movie_vec | director == "Christopher Nolan" | rating >= 8.5 & title != "Interstellar") |> # if you want to negate something, put the ! in front of it
+  glimpse()
+```
+
+Oh, that did not work. I should wrap them in columns:
+
+```{r}
+imdb_selected |> 
+  filter((title %in% movie_vec | director == "Christopher Nolan" | rating >= 8.5) & title != "Interstellar") |> 
+  glimpse()
+```
+
+They come up with a new idea: we have a Scottish evening with a movie directed by the Scottish director Gillies MacKinnon:
+
+```{r}
+imdb_selected |> 
+  filter(director == "Gillies MacKinnon") |> 
+  glimpse()
+```
+
+"Well, apparently there is a problem in the data set," I notice. "There is an NA in the revenue column. I should probably have a further look at this."
+
+```{r}
+imdb_selected |> 
+  filter(is.na(revenue_million)) |> 
+  glimpse()
+```
+
+Well, that's quite a significant number of NAs. I will need to exclude these cases:
+
+```{r}
+imdb_selected |> 
+  filter(!is.na(revenue_million)) |> 
+  glimpse()
+```
+
+#### Other possibilities to subset observations
+
+`slice()` selects rows by positions:
+
+```{r}
+imdb_selected |> 
+  slice(1:10) |> 
+  glimpse()
+```
+
+```{r}
+imdb_selected |> 
+  slice_min(revenue_million, n = 10) |> 
+  glimpse()
+```
+
+`distinct` removes duplicate rows:
+
+```{r}
+imdb_selected |> 
+  distinct(director) |> 
+  glimpse()
+```
+
+By default, it will remove all other columns apart from the one(s) you have specified. You can avoid that by setting `.keep_all = TRUE`:
+
+```{r}
+imdb_selected |> 
+  distinct(title, .keep_all = TRUE) |> 
+  glimpse()
+```
+
+Oh, interesting, there is apparently one movie which is in there twice. How could we find this movie?
+
+### `mutate()`
+
+My data set looks pretty nice already, but one flaw catches the eye: the column `revenue_million` should probably be converted to `revenue`. Hence, I need to create a new variable which contains the values from `revenue_million` multiplied by 1,000,000 and drop the now obsolete `revenue_million`.
+
+```{r}
+imdb_selected |> 
+  mutate(revenue = revenue_million * 1000000) |> 
+  select(-revenue_million) |> 
+  glimpse()
+```
+
+The structure of the `mutate()` call looks like this: first, you need to provide the name of the new variable. If the variable exists already, it will be replaced. Second, the equal sign tells R what the new variable should contain. Third, a function that outputs a vector which is as long as the tibble has rows or 1.
+
+If we want to drop all other columns and just keep the new one: `transmute()` drops all the original columns.
+
+```{r}
+imdb_selected |> 
+  transmute(revenue = revenue_million * 1000000) |> 
+  glimpse()
+```
+
+`mutate()` uses so-called *window functions*. They take one vector of values and return another vector of values. An overview -- again, from the cheat sheet:
+
+![Window functions](figures/window_functions.png)
+
+Another feature of `dplyr`, which is useful in combination with `mutate()`, is `case_when()`.
+
+`case_when()` can for instance be used to create binary indicator variables. In this example I want it to be 0 if the movie was made before 2010 and 1 if not. `case_when()` works like this: first, you provide a condition (e.g., `year < 2010`). Second, you provide what the output should be if the condition is met (here, `0`). Third, you can provide as many conditions as you want. Finally, you can provide a default value using `TRUE ~ value`. If none of the conditions are met, the default value will be assigned.
+
+```{r}
+imdb_selected |> 
+  mutate(indicator = case_when(year < 2010 ~ 0,
+                               year >= 2010 ~ 1,
+                               TRUE ~ 2)) |> 
+  glimpse()
+```
+
+Keep in mind that you can throw any function into `mutate()` as long as it is vectorized and the output has the same length as the tibble or 1.
+
+`case_when()` also has a sibling called `case_match()`. It is used when you want to create a new variable based on the values of a categorical variable. It works similar to `case_when()`, but instead of providing conditions, you provide the exact values you want to match. `case_match()` provides a cleaner syntax when you're matching exact values. It's particularly useful when you want to recode or map specific values to new ones.
+
+```{r}
+imdb_selected |> 
+  mutate(
+    # Match specific years to decades
+    decade = case_match(
+      year,
+      2006:2009 ~ "2000s",
+      2010:2016 ~ "2010s",
+      .default = "Unknown"
+    )
+  ) |> 
+  count(decade)
+```
+
+You can also use case_match() with character values:
+
+```{r}
+imdb_selected |> 
+  mutate(
+    director_type = case_match(
+      director,
+      c("Christopher Nolan", "Steven Spielberg", "Martin Scorsese") ~ "Famous",
+      .default = "Other"
+    )
+  ) |> 
+  count(director_type)
+```
+
+Key differences between `case_when()` and `case_match()`:
+
+- Syntax: `case_match()` uses the value to match on the left side, while `case_when()` uses conditions
+- Use case: `case_match()` is for exact matching, `case_when()` is for complex conditions
+- Performance: `case_match()` can be faster for simple value matching
+- Readability: `case_match()` is often cleaner when recoding variables
+
+### `summarize()`, `group_by()`, and `reframe()`
+
+When you analyze data, you often want to compare entities according to some sort of summary statistic. This means that you, first, need to split up your data set into certain groups which share one or more characteristics, and, second, collapse the rows together into single-row summaries. The former challenge is accomplished using `group_by()` whose argument is one or more variables, the latter requires the `summarize()` function. This function works similar to `mutate()` but uses *summary functions* -- which take a vector of multiple values and return a single value -- instead of window functions -- which return a vector of the same length as the input.
+
+Let me provide you an example.
+
+I am interested in the director's average ratings:
+
+```{r}
+imdb_selected |> 
+  group_by(director, year) |> 
+  summarize(avg_rating = mean(rating),
+            avg_revenue = mean(revenue_million, na.rm = TRUE))
+```
+
+In general, `summarize()` always works like this: first, you change the scope from the entire tibble to different groups. Then, you calculate your summary. If you then want to further manipulate your data or calculate something else based on the new summary, you need to call `ungroup()`.
+
+You can see the summary functions below:
+
+![Summary functions in R](figures/summary_functions.png)
+
+Another handy function akin to this is `count()`. It counts all occurrences of a singular value in the tibble.
+
+If I were interested in how many movies of the different directors have made it into the data set, I could use this code:
+
+```{r}
+imdb_selected |> 
+  count(director)
+```
+
+While `summarize()` is powerful, it has a limitation: it always returns exactly one row per group. Sometimes you need more flexibility - that's where `reframe()` comes in. Introduced in dplyr 1.1.0, `reframe()` allows you to return any number of rows per group.
+
+With reframe(), we can for instance calculate the rating quantiles per director:
+
+```{r}
+imdb_selected |> 
+  group_by(director) |> 
+  reframe(
+    rating_quantiles = quantile(rating, probs = c(0.25, 0.5, 0.75)),
+    quantile = rep(c(0.25, 0.5, 0.75))
+  ) |> 
+    ungroup()
+```
+
+This example calculates the 25th, 50th, and 75th percentiles of ratings. Each director will have one row with their average rating and a list of quantiles.
+
+When to use reframe() vs summarize():
+
+Use `summarize()` when you want:
+
+- One summary value per group (mean, sum, count, etc.)
+- A single row of results per group
+
+Use `reframe()` when you need:
+
+- Multiple rows per group
+- To return quantiles, ranges, or other multi-value summaries
+- More flexibility in your output structure
+
+Note that both functions return a grouped tibble, so you may want to `ungroup()` afterwards if you're doing further operations.
+
+### `arrange()`
+
+Finally, you can also sort values using `arrange()`. In the last section, I was interested in directors' respective average ratings. The values were ordered according to their name (hence, "Aamir Khan" was first). In this case, the order dos not make too much sense, because the first name does not say too much about the director's ratings. Therefore, I want to sort them according to their average ratings:
+
+```{r}
+imdb_selected |> 
+  group_by(director) |> 
+  summarize(avg_rating = mean(rating)) |> 
+  arrange(avg_rating)
+```
+
+All right, Jason Friedberg is apparently the director of the worst rated movie in my data set. But it would be more handy, if they were arranged in descending order. I can use `desc()` for this:
+
+```{r}
+imdb_selected |> 
+  group_by(director) |> 
+  summarize(avg_rating = mean(rating)) |> 
+  arrange(-avg_rating)
+```
+
+Chapeau, Nitesh Tiwari!
+
+### Introducing `joins`
+
+The last session showed you three things: how you get data sets into R, a couple of ways to create tibbles, and an introduction to tidy data and how to make data sets tidy using the `tidyr` package. As you may recall from the last session, it was not able to solve the last two problems with only the tools `tidyr` offers. In particular, the problems were:
+
+-   Multiple types of observational units are stored in the same table.
+-   A single observational unit is stored in multiple tables.
+
+Both problems need some different kind of tools: joins. Joins can be used to merge tibbles together. This tutorial, again, builds heavily on the R for Data Science book [@wickham_data_2016]
+
+#### Multiple types of units are in the same table
+
+Let's look at the following data set. It contains the billboard charts in 2000 and was obtained from the [`tidyr` GitHub repo](https://github.com/tidyverse/tidyr/blob/master/data/billboard.rda). The example below is taken from the `tidyr` vignette which can be loaded using `vignette("tidy-data", package = "tidyr")`.
+
+```{r}
+load("data/billboard.rda")
+```
+
+```{r}
+glimpse(billboard)
+```
+
+Here, you can immediately see the problem: it contains two types of observations: songs and ranks. Hence, the data set needs to be split up. However, there should be a pointer from the rank data set to the song data set. First, I add an ID column to `song_tbl`. Then, I can add it to `rank_tbl` and drop the unnecessary columns which contain the name of the artist and the track.
+
+```{r}
+song_tbl <- billboard |> 
+  rowid_to_column("song_id") |> 
+  distinct(artist, track, .keep_all = TRUE) |> 
+  select(song_id:track)
+
+glimpse(song_tbl)
+```
+
+```{r}
+rank_tbl <- billboard |> 
+  pivot_longer(cols = starts_with("wk"), 
+               names_to = "week", 
+               names_prefix = "wk", 
+               values_to = "rank") |> 
+  mutate(week = as.numeric(week),
+         date = date.entered + (week-1) * 7) |> 
+  drop_na() |> 
+  left_join(song_tbl, by = c("artist", "track")) |> 
+  select(song_id, date, week, rank)
+
+glimpse(rank_tbl)
+```
+
+#### One unit is in multiple tables
+
+For this example, I have split up a data set from the `socviz` package containing data on the 2016 elections in the U.S. according to census region and stored them in a folder. I can scrape the file names in the folder and read it into a list in an automated manner. (Note that the functions used to read the files in in an automated fashion are beyond the scope of this course. They come from the [`fs`](https://github.com/r-lib/fs) [@hester_fs_2021] and the [`purrr`](https://r4ds.had.co.nz/iteration.html) package [@henry_purrr_2020].)[^catch-up-3]
+
+[^catch-up-3]: If you want the code on your machine, download the files behind the following links and store them in a folder called `socviz_us` which is again stored in a folder named `data` which lives in the same folder as the .qmd file. https://www.dropbox.com/s/14k6bkmaq6l47p2/midwest.csv?dl=0 ; https://www.dropbox.com/s/t3057jf9evt6vjz/northeast.csv?dl=0 ; https://www.dropbox.com/s/lbdde4udlrfea46/south.csv?dl=0 ; https://www.dropbox.com/s/vcvl90dbegagv4z/west.csv?dl=0
+
+```{r}
+file_list <- dir_ls(path = "data/socviz_us") |> 
+  map(read_csv,
+      col_types = cols(
+        id = col_double(),
+        name = col_character(),
+        state = col_character(),
+        census_region = col_character(),
+        pop_dens = col_character(),
+        pop_dens4 = col_character(),
+        pop_dens6 = col_character(),
+        pct_black = col_character(),
+        pop = col_double(),
+        female = col_double(),
+        white = col_double(),
+        black = col_double(),
+        travel_time = col_double(),
+        land_area = col_double(),
+        hh_income = col_double(),
+        su_gun4 = col_character(),
+        su_gun6 = col_character(),
+        fips = col_double(),
+        votes_dem_2016 = col_double(),
+        votes_gop_2016 = col_double(),
+        total_votes_2016 = col_double(),
+        per_dem_2016 = col_double(),
+        per_gop_2016 = col_double(),
+        diff_2016 = col_double(),
+        per_dem_2012 = col_double(),
+        per_gop_2012 = col_double(),
+        diff_2012 = col_double(),
+        winner = col_character(),
+        partywinner16 = col_character(),
+        winner12 = col_character(),
+        partywinner12 = col_character(),
+        flipped = col_character()
+))
+```
+
+The list now consists of four tibbles in a list which need to be bound together. You can achieve this using `list_rbind()`. Its counterpart is `list_cbind()` which binds columns together. It matches rows by position.
+
+```{r eval=TRUE}
+election_data <- file_list |> list_rbind()
+glimpse(election_data)
+```
+
+
+However, the topic of this script is different joins. The `dplyr` package offers six different joins: `left_join()`, `right_join()`, `inner_join()`, `full_join()`, `semi_join()`, and `anti_join()`. The former four are mutating joins, they add columns. The latter two can be used to filter rows in a data set. Below is an overview from the `dplyr` cheat sheet:
+
+![Overview of the different joins](figures/joins.png)
+
+In the following, I will illustrate this using the election data. I split up the data set into three: data on the elections 2016 and 2012, and demographic data. The column they have in common is the county's respective name.
+
+```{r}
+election_data16 <- election_data |> 
+  select(name, state, votes_dem_2016:diff_2016, winner, partywinner16)
+
+election_data12 <- election_data |> 
+  select(name, state, per_dem_2012:partywinner12)
+
+demographic_data <- election_data |> 
+  select(name, state, pop:hh_income) |> 
+  slice(1:2000) #you will see later why I do this
+```
+
+#### `left_join()` and `right_join()`
+
+If we want to add the demographic data to the election data 2016, we can use a `left_join()` or a `right_join()`. The former adds all columns of `y` to `x`, the latter all columns of `x` to `y`. Here, I want to add the demographic data to the election data 2016. Therefore, I use a `left_join()`:
+```{r}
+election_data16 |> 
+  left_join(demographic_data)
+```
+
+If the column that both data sets have in common has the same name, there's no need to provide it. If this is not the case, you need to provide it in a character vector:
+
+```{r}
+election_data16 |> 
+  rename(county = name) |> 
+  right_join(demographic_data, by = join_by("county" == "name"))
+```
+
+Here, the problem is that the same counties exist in different states. Therefore, all combinations are returned. Hence, I need to specify two arguments: the county's name and state.
+
+```{r}
+election_data16 |> 
+  rename(county = name) |> 
+  right_join(demographic_data, by = join_by("county" == "name", "state"))
+```
+
+Left joins return all rows which are in `x`. If a column is in `x` but not in `y`, an `NA` will be included at this position. Right joins work vice versa and return all rows which are in `y`.
+
+#### `inner_join()`
+
+An `inner_join()` returns all rows which are in `x` and `y`.
+
+```{r}
+election_data16 |> 
+  inner_join(demographic_data)
+```
+
+#### `full_join()`
+
+A `full_join()` returns rows and columns from both `x` and `y`.
+```{r}
+election_data16 |> 
+  full_join(demographic_data)
+```
+
+
+#### `semi_join()`
+
+Filtering joins only keep the cases from `x`, no data set is added.
+
+The `semi_join()` returns all rows from `x` with matching values in `y`. You can compare it to a `right_join()` but without adding the columns of `y`.
+
+```{r}
+election_data16 |> 
+  semi_join(demographic_data)
+```
+
+#### `anti_join()`
+
+`anti_join()` returns all rows from `x` with no matching rows in `y`.
+
+```{r}
+election_data16 |> 
+  anti_join(demographic_data)
+```
+
+### `bind_rows()` and `bind_cols()`
+
+Binding tibbles together is made easy using the `bind_*()` functions. `bind_rows()` binds them together by rows, `bind_cols()` by columns. For the former, it is important that column names are matching. Otherwise, the non-matching ones will be added as separate columns and NAs introduced. IDs can be added by using the `.id =` argument, where the name of the id column can be specified.
+
+```{r}
+election_data16 |> 
+  semi_join(demographic_data) |> 
+  bind_rows(election_data16 |>
+              anti_join(demographic_data),
+            .id = "id")
+```
+
+For `bind_cols()`, the length has to be the same. Duplicated column names will be changed.
+
+```{r}
+election_data12 |> bind_cols(election_data16)
+```
+
+### Further links
+
+-   [Chapter in R4DS](https://r4ds.had.co.nz/transform.html)
+-   More on window functions in the vignette: `vignette("window-functions")`
+-   Again, [the cheatsheet](https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf)
+-   A [tutorial on YouTube](https://www.youtube.com/watch?v=jWjqLW-u3hc)
+-   Another introduction can be found [here](https://stat545.com/join-cheatsheet.html).
+-   The [chapter in R4DS](https://r4ds.had.co.nz/relational-data.html) has some nice diagrams.
+-   You can also consult the `introverse` package if you need help with the packages covered here -- `introverse::show_topics("dplyr")` will give you an overview of `dplyr`'s functions, and `get_help("name of function")` will help you with the respective function.
+
+### Exercises
+
+Open the [IMDb file](https://www.dropbox.com/s/81o3zzdkw737vt0/imdb2006-2016.csv?dl=1) (click to download).
+
+1.  Find the duplicated movie. How could you go across this?
+2.  Which director has made the longest movie?
+3.  What's the highest ranked movie?
+4.  Which movie got the most votes?
+5.  Which movie had the biggest revenue in 2016?
+6.  How much revenue did the movies in the data set make each year in total?
+7.  Filter movies following some conditions:
+    a.  More runtime than the average runtime (hint: you could also use `mutate()` before).
+    b.  Movies directed by J. J. Abrams.
+    c.  More votes than the median of all of the votes.
+    d.  The movies which have the most common value (the mode) in terms of rating (`mode()` does exist but will not work in the way you might like it to work -- run the script below and use the `my_mode` function).
+
+```{r eval=FALSE}
+## helper function for mode
+
+my_mode <- function(x){ 
+    ta = table(x)
+    tam = max(ta)
+    if (all(ta == tam))
+         mod = NA
+    else
+         if(is.numeric(x))
+    mod = as.numeric(names(ta)[ta == tam])
+    else
+         mod = names(ta)[ta == tam]
+    return(mod)
+}
+
+```
+
+## Visualizations with `ggplot2` {#visualization}
+
+> "The purpose of visualization is insight, not pictures." -- Ben A. Shneiderman
+
+In R, the dominant package for visualizing data is `ggplot2` which belongs to the tidyverse.
+
+### The "layered grammar of graphics"
+
+`ggplot2` works with tibbles and the data needs to be in a tidy format. It builds graphics using "the layered grammar of graphics." [@wickham_layered_2010]
+
+```{r message=FALSE, warning=FALSE}
+publishers <- read_csv("data/publishers_with_places.csv")
+  
+publishers_filtered <- publishers |> 
+  group_by(city) |> 
+  filter(n() > 5) |> 
+  drop_na()
+```
+
+This implies that you start with a base layer -- the initial `ggplot2` call.
+
+```{r}
+publishers_filtered |> 
+ggplot()
+```
+
+The initial call produces an empty coordinate system. It can be filled with additional layers.
+
+```{r}
+ggplot(data = publishers_filtered) +
+  geom_bar(aes(x = city)) 
+```
+
+Unlike the remainder of the tidyverse, `ggplot2` uses a `+` instead of the pipe `|>`. If you use the pipe by accident, it will not work and an (informative) error message will appear.
+
+```{r}
+# ggplot(data = publishers_filtered) |> 
+#   geom_bar(aes(x = city)) 
+```
+
+### The layers
+
+In general, a call looks like this:
+
+```{r eval=FALSE, include=TRUE}
+ggplot(data = <DATA>) + 
+  <GEOM_FUNCTION>(mapping = aes(<MAPPINGS>))
+```
+
+As you might have seen above, I provided the data in the initial `ggplot` call. Then, when I added the layer -- the `geom_bar()` for a bar plot -- I had to provide the mapping -- which variables I wanted to plot -- using `aes()`. This is referred to as the `aesthetics`. In my case, I wanted the cities to be projected to the x-axis. Since I was using `geom_bar` to create a bar plot, the number of occurrences of the respective cities were automatically counted and depicted on the y-axis. There are more `geom_*` functions and they all create different plots. Whether you can use them or not depends on the data you have at hand and/or the number of variables you want to plot. In the following, I will give you a brief overview of the most important geoms.
+
+#### One variable
+
+If you only want to display one variable, the x- or y-axis, as you choose, will depict the variable's value. The counterpart will display the frequency or density of those values.
+
+##### One variable -- discrete
+
+Here, the only possible kind of visualization is a bar plot as shown above. If the visualization should look more fancy, e.g., with colored bars, you have several arguments at hand. If they should not be different for different kinds of data, they need to be specified outside the `aes()`. There are always different arguments and you can look them up using `?<GEOM_FUNCTION>` and then looking at the Aesthetics section. Apart from that, you can also look at the [`ggplot2` cheatsheet](https://rstudio.com/wp-content/uploads/2015/12/ggplot2-cheatsheet-2.0.pdf).
+
+```{r}
+ggplot(data = publishers_filtered) +
+  geom_bar(aes(x = city), fill = "blue") 
+```
+
+##### One variable -- continuous
+
+If you want to display a continuous variable's distribution of values, you can use a histogram. Its `geom_*` function is `geom_histogram()`:
+
+```{r}
+billboard <- read_csv("data/billboard.csv")
+
+song_tbl <- billboard |> 
+  distinct(artist, track) |> 
+  mutate(song_id = row_number())
+
+rank_tbl <- billboard |> 
+  pivot_longer(cols = starts_with("wk"), 
+               names_to = "week", 
+               names_prefix = "wk", 
+               values_to = "rank") |> 
+  mutate(week = as.numeric(week),
+         date = date.entered + (week-1) * 7) |> 
+  drop_na() |> 
+  left_join(song_tbl, by = c("artist", "track")) |> 
+  select(song_id, date, week, rank)
+```
+
+How does the distribution of songs over the weeks look like?
+
+```{r}
+ggplot(data = rank_tbl) +
+  geom_histogram(aes(x = week))
+```
+
+A smoothed histogram is `geom_density()`:
+
+```{r}
+ggplot(data = rank_tbl) +
+  geom_density(aes(x = week))
+```
+
+#### Two variables
+
+In the majority of cases, you will want to display the relationship between two variables, one on the x- and the other one on the y-axis.
+
+##### Both continuous
+
+```{r}
+county_data_midwest <- socviz::county_data |> 
+  filter(census_region == "Midwest") |> 
+  drop_na()
+```
+
+If both variables are continuous, the easiest option is to use a scatter plot.
+
+```{r}
+ggplot(data = county_data_midwest) +
+  geom_point(aes(x = per_dem_2016, y = per_gop_2016))
+```
+
+If you don't like dots, the `shape =` argument allows you to change the shape of the data points. There are also other arguments to change, for instance, transparency (`alpha =`) or size (`size =`). Find an overview of the allowed aesthetic specifications [here](https://ggplot2.tidyverse.org/articles/ggplot2-specs.html).
+
+```{r}
+ggplot(data = county_data_midwest) +
+  geom_point(aes(x = per_dem_2016, y = per_gop_2016), 
+             shape = "cross", 
+             size = 2)
+```
+
+Here, it might make sense to color the points according to a categorical variable (state, in this case). If so, a legend is added which maps the colors to their respective values.
+
+```{r}
+ggplot(data = county_data_midwest) +
+  geom_point(aes(x = per_dem_2016, y = per_gop_2016)) 
+```
+
+Since I look at the relationship between votes for the Republicans and the Democrats, and the U.S. is a two-party system, there is a fairly clear relationship between them both. This can also be depicted using `geom_smooth()`:
+
+```{r}
+ggplot(data = county_data_midwest) +
+  geom_smooth(aes(x = per_dem_2016, y = per_gop_2016, color = state))
+```
+
+Here, `color = state` has a different effect: each dimension of the categorical variable gets its own line.
+
+If you do not want it to be smoothed, just use `geom_line()`.
+
+```{r}
+ggplot(data = county_data_midwest) +
+  geom_line(aes(x = per_dem_2016, y = per_gop_2016), color = "grey") 
+```
+
+##### Discrete X, continuous Y
+
+In this case, different categories of data will be put on the x-axis and some of their properties will be displayed on the y-axis. The probably most prominent example for this type of plot is a box plot:
+
+```{r}
+ggplot(data = county_data_midwest) +
+  geom_boxplot(aes(x = state, y = per_gop_2016))
+```
+
+##### Both discrete
+
+It is rarely the case that you want to depict two categorical variables in one plot. If so, you can use `geom_jitter()`. It is related to `geom_point()`. The difference is that with `geom_jitter()`, a little bit of noise is added to the dots, making them appear distinct.
+
+```{r}
+ggplot(data = county_data_midwest) +
+  geom_jitter(aes(x = state, y = winner))
+```
+
+As opposed to:
+
+```{r}
+ggplot(data = county_data_midwest) +
+  geom_point(aes(x = state, y = winner))
+```
+
+### Making graphs "publishable"
+
+So far, I have only added one layer to the plot. This suffices for the most basic visualizations. The good thing about R and RMarkdown is, however, that you can write entire publications only using their means. Hence, the plots need to look awesome. This section is dedicated to how you can achieve this. First, I will touch upon how you can make them look good using `scales`. `labs()` allow you to add titles, captions, and axis labels. Finally, `facet_*` allows you to plot multiple plots into one.
+
+#### Scales
+
+Scales can be used to take control of how the data's values are mapped to the aesthetic's visual values. You can find a more exhaustive tutorial on them [here](https://www3.nd.edu/~steve/computing_with_data/12_Scales_themes/scales_themes.html).
+
+-   `scale_*_continuous` -- for dealing with continuous values. (you can find an exhaustive list of colors in R [here](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf))
+
+```{r}
+ggplot(data = county_data_midwest) +
+  geom_point(aes(x = per_dem_2016, y = per_gop_2016, color = white)) +
+  scale_x_continuous(limits = c(0, 1)) +
+  scale_y_continuous(limits = c(0, 1)) +
+  scale_color_gradient(low = "green",
+                       high = "red")
+```
+
+-   `scale_*_discrete` -- for dealing with discrete values
+-   `scale_*_manual` -- manually mapping discrete values to visual values
+
+```{r}
+socviz::county_data |> 
+  filter(state %in% c("IA", "IL", "IN", "KS")) |> 
+  ggplot() +
+    geom_point(aes(x = per_dem_2016, y = per_gop_2016, color = state)) +
+    scale_color_manual(values = c("IA" = "blue", 
+                                  "IL" = "green", 
+                                  "IN" = "red", 
+                                  "KS" = "purple"),
+                       name = "State",
+                       labels = c("Iowa", "Illinois", "Indiana", "Kansas")) 
+```
+
+#### Adding titles, captions, etc.
+
+Now you have modified the scales and colors -- there is a lot more to be modified if you want to -- but you have not added a meaningful title, a nice caption (where were the data obtained?), and the axes do not have proper names, too. This can be achieved using `labs()` (which is the abbreviation for labels).
+
+```{r}
+socviz::county_data |> 
+  filter(state %in% c("IA", "IL", "IN", "KS")) |> 
+  ggplot() +
+    geom_point(aes(x = per_dem_2016, y = per_gop_2016, color = state)) +
+    scale_color_manual(values = c("IA" = "blue", 
+                                  "IL" = "green", 
+                                  "IN" = "red", 
+                                  "KS" = "purple"),
+                       name = "State",
+                       breaks = waiver(),
+                       labels = c("Iowa", "Illinois", "Indiana", "Kansas")) +
+    scale_x_continuous(limits = c(0, 1)) +
+    scale_y_continuous(limits = c(0, 1)) +
+    ggtitle("Relationship between percentages of votes for Democrats and Republicans in selected states in the Midwest") +
+    xlab("Percentage of votes for the Democrats in 2016") +
+    ylab("Percentage of votes for the Republicans in 2016") 
+```
+
+Well, that doesn't look good, the title is too long. Inserting `\n` -- for new line -- will do the trick.
+
+```{r}
+socviz::county_data |> 
+  filter(state %in% c("IA", "IL", "IN", "KS")) |> 
+  ggplot() +
+    geom_point(aes(x = per_dem_2016, y = per_gop_2016, color = state)) +
+    scale_color_manual(values = c("IA" = "blue", "IL" = "green", "IN" = "red", "KS" = "purple"),
+                      name = "State",
+                      breaks = waiver(),
+                      labels = c("Iowa", "Illinois", "Indiana", "Kansas")) +
+    scale_x_continuous(limits = c(0, 1)) +
+    scale_y_continuous(limits = c(0, 1)) +
+    ggtitle("Relationship between percentages of votes for Democrats \nand Republicans in selected states in the Midwest") +
+    xlab("Percentage of votes for the Democrats in 2016") +
+    ylab("Percentage of votes for the Republicans in 2016") 
+```
+
+However, providing it with three different layers just for labeling is pretty tedious. This is where `labs()` comes in handy.
+
+```{r}
+socviz::county_data |> 
+  filter(state %in% c("IA", "IL", "IN", "KS")) |> 
+  ggplot() +
+    geom_point(aes(x = per_dem_2016, y = per_gop_2016, color = state)) +
+    scale_color_manual(values = c("IA" = "blue", "IL" = "green", "IN" = "red", "KS" = "purple"),
+                      name = "State",
+                      breaks = waiver(),
+                      labels = c("Iowa", "Illinois", "Indiana", "Kansas")) +
+    scale_x_continuous(limits = c(0, 1)) +
+    scale_y_continuous(limits = c(0, 1)) +
+    labs(title = "Relationship between percentages of votes for Democrats \nand Republicans in selected states in the Midwest",
+         caption = "Data obtained from the socviz R package",
+         x = "Percentage of votes for the Democrats in 2016",
+         y = "Percentage of votes for the Republicans in 2016") 
+```
+
+#### Facets
+
+The original data set consists of four different census regions. If I were to compare them, I could color them accordingly.
+
+```{r}
+socviz::county_data |> 
+  drop_na() |> 
+  ggplot() +
+    geom_point(aes(x = per_dem_2016, y = per_gop_2016, color = census_region)) +
+    scale_x_continuous(limits = c(0, 1)) +
+    scale_y_continuous(limits = c(0, 1)) +
+    scale_color_discrete()
+```
+
+Despite the coloring according to the different states, it is still hard to assess whether there really are differences. Apart from that, I would like to assess the impact the percentage of white people in the population has. This would be easier if I put them into individual graphs. I can achieve this using so-called facets. Facets enable me to divide the plot into subplots based on categorical variables. `facet_wrap()` puts them into a rectangular layout. The categorical variable needs to be provided prefixed with a tilde `~`, `nrow` determines the number of rows.
+
+```{r}
+socviz::county_data |> 
+  drop_na() |> 
+  ggplot() +
+    geom_point(aes(x = per_dem_2016, y = per_gop_2016, color = white)) +
+    scale_x_continuous(limits = c(0, 1)) +
+    scale_y_continuous(limits = c(0, 1)) +
+    scale_color_gradient(low = "green",
+                         high = "red") +
+    facet_wrap(vars(census_region),
+               nrow = 2)
+```
+
+Apart from that, I can also spread it out using two different variables. Here, I will look at differences in the distribution of whites in the counties split up by who won in 2016 and 2012. This can be achieved using `facet_grid(categorical_variable_1~categorical_variable_2)`. The former one will be put into rows, the latter into columns.
+
+```{r}
+socviz::county_data |> 
+  drop_na() |> 
+  ggplot() +
+    geom_point(aes(x = per_dem_2016, y = per_gop_2016, color = white)) +
+    scale_x_continuous(limits = c(0, 1)) +
+    scale_y_continuous(limits = c(0, 1)) +
+    scale_color_gradient(low = "green",
+                         high = "red") +
+    facet_grid(winner~winner12)
+```
+
+If you want to facet using only one variable, put a dot at where the other variable would stand otherwise...
+
+```{r}
+socviz::county_data |> 
+  drop_na() |> 
+  ggplot() +
+    geom_point(aes(x = per_dem_2016, y = per_gop_2016, color = white)) +
+    scale_x_continuous(limits = c(0, 1)) +
+    scale_y_continuous(limits = c(0, 1)) +
+    scale_color_gradient(low = "green",
+                         high = "red") +
+    facet_grid(.~winner)
+```
+
+... or just use `facet_wrap()`.
+
+### Exporting graphics
+
+If you include the graphics in an RMarkdown document, make sure you use the proper chunk options (i.e., `{r echo=FALSE, message=FALSE, warning=FALSE}`).
+
+If you, however, want to export it and put it into an MS Word document or so, you can just use the `ggsave()` function. By default, it just takes the last plot that has been created and saves it to a path that needs to be specified. If it contains a file extension, `ggsave()` just uses this one.
+
+```{r eval=FALSE}
+ggplot(mtcars, aes(mpg, wt)) +
+  geom_point()
+
+ggsave("mtcars.pdf", device = "pdf") #save it to pdf
+ggsave("mtcars.png") #save it to png
+
+ggsave("mtcars.pdf", width = 4, height = 4) #specify width and height -- in inches by default
+ggsave("mtcars.pdf", width = 20, height = 20, units = "cm") #change unit using the units argument
+```
+
+### Further readings
+
+-   [ggplot2 cheatsheet.](https://github.com/rstudio/cheatsheets/blob/main/data-visualization-2.1.pdf)
+-   [ggplot2 -- the book.](https://ggplot2-book.org)
+-   The [graphic cookbook for R](http://www.cookbook-r.com/Graphs/).
+-   Another [tutorial](http://r-statistics.co/ggplot2-Tutorial-With-R.html).
+-   A [full-on online course by Kieran Healy](https://socviz.co) (comes with an R package as well).
+-   Need some inspiration? Check out the [graph gallery](https://r-graph-gallery.com).
+-   The `ggsave()` function [in further detail](https://ggplot2.tidyverse.org/reference/ggsave.html).
+-   You can also consult the `introverse` package. `introverse::show_topics("ggplot2")` will give you overviews of the respective package's functions, and `get_help("name of function")` will help you with the respective function.
+
+### Exercises
+
+Take the [IMDb file](https://www.dropbox.com/s/81o3zzdkw737vt0/imdb2006-2016.csv?dl=1).
+
+Try to think about how you could answer the following questions graphically. If you fail, take a look at the hints.
+
+1.  Do higher rated movies generate more revenue?
+    a.  Plot revenue and rating as a scatter plot.
+    b.  Do you think there is a correlation? How could you make stronger claims about it? Maybe even graphically?
+    c.  Interpret the plot.
+    d.  Add a nice title and labels.
+2.  How evenly are the different years' movies represented? (Why would it be pointless to make claims about the productivity of directors?)
+    a.  Make a bar plot.
+    b.  Interpret the plot.
+    c.  Add a nice title and labels.
+3.  Which year was the best for cinema fetishists? (When could they watch the most highest rated movies?)
+    a.  Make a box plot.
+    b.  Interpret the plot.
+    c.  Add a nice title and labels.
+
+## Iteration
+
+We also will work with lists. Lists can contain elements of different lengths (which distinguishes them from tibbles). This makes them especially suitable for web scraping. Other than (atomic) vectors they are not just vectorized since they can contain elements of all different kinds of format.
+
+To iterate over lists, we have the `map()` family from the `purrr` package, which applies functions over lists. `pluck()` extracts elements from the list.
+
+```{r}
+raw_list <- list(first_element = 1:4, 4:6, 10:42)
+str(raw_list) # shows you the elements of the list
+
+map(raw_list, mean)
+map(raw_list, ~{mean(.x) |> sqrt()})
+map_dbl(raw_list, mean) # by specifying the type of output, you can reduce the list
+
+raw_list |> pluck(1) == raw_list |> pluck("first_element")
+```
+
+This can also be achieved using a loop. Here, you use an index to loop over objects and do something to their elements. Typically, you create an empty list before and put the new output at the respective new position.
+
+```{r}
+new_list <- vector(mode = "list", length = length(raw_list))
+for (i in seq_along(raw_list)){
+  new_list[[i]] <- mean(raw_list[[i]])
+}
+```
+
+## Flow Control, Functional programming, and iterations {#functionalprogramming}
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+#vembedr::embed_youtube()
+```
+
+So far, you have learned heaps of data wrangling and analyses, but no real customization of R. This will change now, as you will be introduced to functions. Furthermore, the operations have only been applied to one singular object (read vector or data.frame/tibble). Iteration means that you perform the same operation on multiple objects/data sets/you name it.
+
+Today's session will all be about following the DRY principle. DRY stands for Don't Repeat Yourself. 
+
+"Why not?," you may ask. Well, the problem with copy-and-pasting code is that you have to change all the variable names in every instance of your code. RStudio has a nice Search-and-Replace function which might facilitate that, but this practice still bears the danger of writing code that contains errors. This is where you will need to make use of the tools that R offers to iterate over a couple of elements, perform operations on them, and return the results. An example:
+
+```{r}
+example_strings <- c("this", "is", "how", "a", "for", "loop", "works")
+
+for (i in seq_along(example_strings)) {
+  print(example_strings[[i]])
+}
+```
+
+Another option -- from the tidyverse -- is the `purrr` package:
+
+```{r message=FALSE, warning=FALSE}
+walk(example_strings, print)
+```
+
+So, what has this code done? In both cases, it has taken the function `print()` and applied it to every element of our vector. Copying-and-pasting would have looked like this:
+
+```{r}
+print(example_strings[[1]])
+print(example_strings[[2]])
+print(example_strings[[3]])
+print(example_strings[[4]])
+print(example_strings[[5]])
+print(example_strings[[6]])
+print(example_strings[[7]])
+print(example_strings[[7]])
+```
+
+Damn, I pasted the last instance twice. In this case, the mistake is obvious, but oftentimes it is not.
+
+In the following, I will provide you a more extensive introduction into conditional statements, functions, loops, and the `purrr` (and it's parallelized counter-part `furrr`) package.
+
+### Flow control
+
+Sometimes you want your code to only run in specific cases. For `mutate()`, I have already showed you conditional imputation of values with `case_when()`. A more generalized approach for conditionally running code in R are `if` statements. They look as follows:
+
+```{r eval=FALSE}
+if (conditional_statement evaluates to TRUE) {
+  do_something
+}
+```
+
+They also have an extension -- `if…else`:
+
+```{r eval=FALSE}
+if (conditional_statement evaluates to TRUE) {
+  do_something
+} else {
+  do_something_else
+}
+```
+
+Imagine that I want R to tell me whether a number it draws is smaller than or equal to five:
+
+```{r}
+set.seed(1234)
+x <- sample(10, 1)
+
+if (x <= 5) {
+  print("x is smaller than or equals 5")
+} 
+```
+
+In this case, x is 3, so the if statement returns something. If this is not the case, nothing happens:
+
+```{r}
+set.seed(12345)
+x <- sample(10, 1)
+
+if (x <= 5) {
+  print("x is smaller than or equals 5")
+}
+```
+
+Now I could extend it by another `if` statement:
+
+```{r}
+set.seed(1234)
+
+x <- sample(10, 1)
+
+if (x <= 5) {
+  print("x is smaller than or equals 5")
+}
+if (x > 5) {
+  print("x is greater than 5")
+}
+```
+
+Here, x is 10, so only the second if statement returns something.
+
+But the `else` allows me to take a shortcut and write it more concisely:
+
+```{r}
+if (x <= 5) {
+  print("x is smaller than or equals 5")
+} else {
+  print("x is greater than 5")
+}
+```
+
+Please note that the condition inside the if statement needs to be a vector of type logical (hence, either `TRUE` or `FALSE`). Apart from that, only vectors of length 1 are allowed. The following will not work:
+
+```{r eval=FALSE, include=TRUE}
+if (c(TRUE, FALSE, TRUE)) {
+  print("example")
+} #This will throw an error!!!
+```
+
+### Functions
+
+So far, every call you have made within R contained a function. Even the most basic operations, such as `c()` for building vectors, rely on functions. Functions are the verbs of R, they *do* something to your objects. Hence, you as someone who obeys the principles of DRY can make good use of them. Whenever you need to copy code to perform certain tasks to an object, you can also put those tasks into a function and just provide the function with the objects.
+
+Imagine you want to rescale some variables in a tibble (an example I took from the OG version of R4DS [@wickham2016a]):
+
+```{r}
+set.seed(1234)
+
+df <- tibble(
+  a = rnorm(10),
+  b = rnorm(10),
+  c = rnorm(10),
+  d = rnorm(10)
+)
+
+df$a <- (df$a - min(df$a, na.rm = TRUE)) / 
+  (max(df$a, na.rm = TRUE) - min(df$a, na.rm = TRUE))
+df$b <- (df$b - min(df$b, na.rm = TRUE)) / 
+  (max(df$b, na.rm = TRUE) - min(df$b, na.rm = TRUE))
+df$c <- (df$c - min(df$c, na.rm = TRUE)) / 
+  (max(df$c, na.rm = TRUE) - min(df$c, na.rm = TRUE))
+df$d <- (df$d - min(df$d, na.rm = TRUE)) / 
+  (max(df$d, na.rm = TRUE) - min(df$d, na.rm = TRUE))
+```
+
+Given that you now know how to loop over the tibble, you can certainly reduce the amount of copy-pasting here.
+
+```{r}
+df <- tibble(
+  a = rnorm(10),
+  b = rnorm(10),
+  c = rnorm(10),
+  d = rnorm(10)
+)
+
+for (i in seq_along(df)) {
+  df[[i]] <- (df[[i]] - min(df[[i]], na.rm = TRUE)) / 
+  (max(df[[i]], na.rm = TRUE) - min(df[[i]], na.rm = TRUE))
+}
+```
+
+However, the operation within the loop is generalizable: it always only takes a vector of numeric values as input, performs some actions on them and returns another vector of the same length, but rescaled into a range from 0 to 1. Hence, the operation fulfills the requirements for putting it into a function.
+
+Doing so has some advantages:
+
+-   If an error occurs, you can simply change the function in one place -- when you define it -- instead of changing all the occurrences in your code
+-   It will certainly make your code easier to read -- `rescale0to1` is a more concise description than `(x - min(x, na.rm = TRUE)) / (max(x, na.rm = TRUE) - min(x, na.rm = TRUE))` (--> you see what I did here? I already replaced the arguments with a generic variable. You can use it to write the function yourself.)
+
+#### Writing your own functions
+
+When you define functions in R, you need to follow a certain structure:
+
+```{r eval=FALSE}
+function_name <- function(argument_1, argument_2, argument_n) {
+  function_body
+}
+```
+
+-   The `function_name` is the thing you will call (e.g., `mean()`). In general, it should be a verb, it should be concise, and it should be in_snakecase.
+-   The `argument`s are what you need to provide the function with (e.g., `mean(`*1:10*`)`).
+-   The `function body` contains the operations which are performed to the arguments. It can contain other functions as well -- which need to be defined beforehand (e.g., `sum(1:10) / length(1:10)`)). It is advisable to split up the function body into as little pieces as you can.
+
+#### An example: Roulette
+
+In the following, I will guide you through a quick example on how you could use functions to play an extremely basic game of Roulette with R. You provide it with two values (how much you bet and which number you choose) and R takes care of the rest.
+
+So what does the function need to do? First, it needs to draw a number between 0 and 36. Second, it needs to compare the bet and its corresponding number. Third, it needs to return the respective result.
+
+```{r}
+play_roulette <- function(bet, number) {
+  draw <- sample(0:36, 1)
+  tibble(
+    winning_number = draw,
+    your_number = number,
+    your_bet = bet,
+    your_return = if (number == draw) {
+      bet * 36
+    } else {
+      0
+    }
+  )
+}
+
+play_roulette(bet = 1, number = 35)
+```
+
+But how to make sure that I do not bet on a number which I cannot bet on (i.e., numbers greater than 36)? Or, put differently, how to forbid values? Use `stop()`. Besides, how to set default values for the arguments? Just use `argument = default`.
+
+```{r}
+play_roulette_restricted <- function(bet = 1, number) {
+  if (number > 36) stop("You can only bet on numbers between 0 and 36.")
+  draw <- sample(0:36, 1)
+  tibble(
+    winning_number = draw,
+    your_number = number,
+    your_bet = bet,
+    your_return = if (number == draw) {
+      bet * 36
+    } else {
+      0
+    }
+  )
+  #return(tbl_return)
+}
+play_roulette_restricted(number = 3)
+```
+
+The function returns the results of the last call, i.e., the tibble. If you want to be more concrete about what it should return -- or make an earlier return -- use `return()`. The function will stop as soon as it hits a `return()` statement.
+
+```{r}
+play_roulette_basic <- function(bet = 1, number) {
+  if (number > 36) stop("You can only bet on numbers between 0 and 36.")
+  draw <- sample(0:36, 1)
+  if (number == draw) {
+    return(str_c("Nice, you won", as.character(bet * 36), "Dollars", sep = " "))
+  } else {
+    return("I'm sorry, you lost.")
+  }
+}
+play_roulette_basic(number = 35)
+```
+
+#### Functional programming with `tidyverse` functions
+
+The majority of `dplyr` verbs uses so-called tidy evaluation which is a framework for controlling how expressions and variables in your code are evaluated by the tidyverse functions. The two main things here are **data masking** and **tidy selection**. The former facilitates computing on values within the data set and refers to functions such as `filter()`, where you can just type in variable names instead of tediously typing `name_of_df$var_name`. The latter aims to facilitate working with the columns in the data set. It is provided by the `tidyselect` package and allows you, for instance, to work with code such as `tbl |> select(starts_with("a"))`. More examples can be acquired using `?dplyr_tidy_select`.
+
+I will not go into detail here but rather stick to what implications this has to you. If you are interested in the theoretical underpinnings, read the chapter on "Metaprogramming" in [Advanced R by Hadley Wickham](http://adv-r.had.co.nz).
+
+If your function takes a user-supplied variable as an argument, you need to consider this arguments in the pipeline. For instance, the following function calculates the mean, median, and standard deviation of a variable.
+
+```{r}
+my_summary <- function(tbl, var) {
+  tbl |> 
+    summarize(
+      mean = mean({{ var }}),
+      median = median({{ var }}),
+      sd = sd({{ var }})
+    )
+}
+
+mtcars |> my_summary(cyl) 
+```
+
+If the variable names are supplied in a character vector, you need `all_of()`:
+
+```{r}
+summarize_mean <- function(data, vars) {
+  data |> summarize(n = n(), across({{ vars }}, mean))
+}
+
+mtcars |> 
+  group_by(cyl) |> 
+  summarize_mean(all_of(c("hp", "mpg"))) |> 
+  glimpse()
+```
+
+Another handy thing is changing the variable names in the output depending on the input names. Here, you can use [glue](https://github.com/tidyverse/glue) syntax and `:=`:
+
+```{r}
+my_summary_w_names <- function(tbl, var){
+  tbl |> 
+    summarize(
+      "mean_{{ var }}" := mean({{ var }}),
+      "median_{{ var }}" := median({{ var }}),
+      "sd_{{ var }}" := sd({{ var }})
+    )
+}
+
+mtcars |> my_summary_w_names(cyl)
+```
+
+Find more on programming with `dplyr` in [this vignette](https://cran.r-project.org/web/packages/dplyr/vignettes/programming.html).
+
+#### Further readings
+
+If you want to learn more about functional programming, check out the following resources:
+
+-   The [R4DS chapter](https://r4ds.had.co.nz/functions.html)
+-   [A basic tutorial](https://www.tutorialspoint.com/r/r_functions.htm)
+-   A [book chapter](https://b-rodrigues.github.io/modern_R/defining-your-own-functions.html#writing-your-own-functions) about control-flow and functions
+-   [Hadley on functional programming](http://adv-r.had.co.nz/Functional-programming.html)
+
+### Iteration
+
+Strictly speaking, there are three kinds of loops: `for`, `repeat`, and `while`. I will touch upon `for` and `while`, because they are more straight-forward than `repeat`. `repeat loops` will repeat a task until you tell it to stop by hitting the escape button or adding a condition up front. Interactive programming -- sitting in front of your machine and hitting the escape button to break a loop -- is no desired practice and `while loops` have internalized the condition already. Hence, `repeat loops` do not appear to have any advantage and I leave them out deliberately.
+
+#### `for` loops
+
+`for` loops are the sort of loops you will have to work with more often as they allow you to loop *over* a predefined number of elements. For this sake, I will briefly revise how you index vectors, lists, and tibbles.
+
+The ith element of a vector can be accessed by using either `[[i]]` or `[i]`.
+
+The ith element of a list can be obtained by using `[[i]]` -- `[i]` would return a sub-list instead of the element. The second element of the ith element in a list (if it were a vector or a list) can be obtained using `[[i]][[2]]` etc.
+
+The ith column of a tibble can be accessed as a vector using `[[i]]`. The second value of the ith column of a tibble can be accessed using `[[i]][[2]]`
+
+How does that matter for `for` loops? Remember the example I showed you in the beginning? All a `for` loop does is iterating over a vector of values and imputing them instead of a placeholder.
+
+```{r}
+example_strings <- c("this", "is", "how", "a", "for", "loop", "works")
+
+for (i in example_strings) {
+  print(i)
+}
+```
+
+For a more general approach, you can also loop over the indices of the vector using `seq_along()` which creates a `seq`uence `along` a vector. 
+
+```{r}
+seq_along(example_strings) # seq_along looks like this
+```
+
+This is especially useful if you want to modify the elements of a vector or a tibble.
+
+```{r}
+for (i in seq_along(example_strings)) {
+  print(example_strings[[i]])
+}
+
+#Hence, the first iteration looks like this.
+print(example_strings[[seq_along(example_strings)[[1]]]])
+# translates to
+print(example_strings[[1]])
+```
+
+
+Now that you have seen the general approach for using a `for` loop, how can you use them in practice for data manipulation? Whenever you use a `for` loop, you need to follow a three step approach:
+
+-   Output: In the beginning, you need to create a vector that we can fill with output. You also need to determine the length of the vector in the beginning. This is due to efficiency: if you were to grow the vector by every iteration (using `c`), the loop becomes very slow. This is especially important if you work with large data sets. An example for creating an empty vector of a certain length is `output <- vector(mode = "numeric", length = length_of_output)`.
+-   Sequence: `i in seq_along(variable)` tells the `for loop` what to loop over.\
+-   Body: The actual code. Performs the operation on the respective instance and stores the resulting value in the pre-defined output vector at position `i`. 
+
+`for loops` are considered slow. They are not, at least not if you stick to the following rules:
+
+-   Always pre-allocate space -- make sure that R does not have to expand your objects
+-   Do as much as you can outside the loop -- every operation inside the loop will be repeated every time the loop is repeated
+
+In general, you will come across three different problems with `for loops`.
+
+-   Modifying an existing object
+-   Length of output is unknown
+-   Sequences are of unknown length
+
+##### Modifying the existing object
+
+Sometimes you want to modify an existing object rather than creating a new one. This is useful when working with large datasets or when you need to update values in place.
+
+Basic example: Standardizing columns
+Let's say you have a dataset with test scores that you want to standardize (mean = 0, sd = 1):
+
+```{r}
+scores <- tibble(
+  student_id = 1:5,
+  math = c(85, 92, 78, 88, 95),
+  science = c(90, 85, 80, 92, 88),
+  english = c(88, 90, 85, 86, 92)
+)
+
+for (col in c("math", "science", "english")) {
+  scores[[col]] <- (scores[[col]] - mean(scores[[col]])) / sd(scores[[col]])
+}
+
+scores |> 
+  summarize(across(c(math, science, english), 
+                   list(mean = mean, sd = sd)))
+```
+
+##### Length of output is unknown
+
+Sometimes, you do not know how long your output object is. This is, for instance, if you simulate vectors of random length. Normally, you would just put the values into a vector. However, if you do not know the length, then you would have to ask R to grow the vector every iteration. But this is extremely inefficient. 
+
+For this, the solution is `lists`. You always know how many iterations your loop will have. Hence, you can create a list of this exact length and then just store the results in the list (as lists do not care about the length of the singular elements). Afterwards, you can `unlist()` or `flatten_*()` the list into a vector. 
+
+```{r}
+a_list <- vector(mode = "list", length = 10L)
+
+for (i in seq_along(a_list)) {
+  len <- sample(1:10, 1)
+  a_list[[i]] <- rnorm(len)
+}
+
+a_list |> 
+  unlist() # or unlist(a_list)
+```
+
+If we wanted to add the information in a tibble, we could add it during the run and use `bind_rows()` afterwards.
+
+```{r}
+a_list <- vector(mode = "list", length = 10L)
+
+for (i in seq_along(a_list)) {
+  len <- sample(1:10, 1)
+  a_list[[i]] <- list(
+    run = i,
+    values = rnorm(len)
+  )
+}
+
+df <- a_list |> 
+  bind_rows()
+
+df
+```
+
+##### Unknown sequence length
+
+Sometimes, you also do not know how long your input sequence is. Instead, you want to loop until a certain condition is met. This is for instance the case when looping across multiple pages in web-scraping. Here, `while` loops come in handy (but this is the only use case I could think of).
+
+The basic structure of `while loops` is as follows:
+
+```{r eval=FALSE}
+while (condition) {
+  code
+}
+```
+
+What could an example look like?[^catch-up-4] The following loop keeps running until three heads appeared in a row and the condition is met.
+
+[^catch-up-4]: I have taken this example from the R for Data Science book. I hardly ever work with `while loops`. The only use case from my day-to-day work is web-scraping, where I want to loop over pages until a certain threshold is reached. Therefore, I could not really come up with an example myself.
+
+Please note that both vectors which are to be modified within the loop -- `indicator` and `head` -- need to be created beforehand. If I had not created `head` beforehand, the loop would not have started because there would not have been any vector to assess the length.
+
+```{r}
+indicator <- 0
+head <- c()
+while (length(head) < 3) {
+  if (sample(2, 1) == 1) {
+    x <- "head"
+  } else {
+    x <- "tail"
+  }
+  if (x == "head") {
+    head <- c(head, 1)
+  } else {
+    length(head) <- 0
+  }
+  indicator <- indicator + 1
+}
+```
+
+In this case, you still want to pre-allocate space. Hence, you could also use a list here. You can just do a very long list and afterwards cut it down to size using `purrr::compact()`.
+
+```{r}
+indicator <- 0
+values <- vector(mode = "list", length = 1000)
+head <- c()
+while (length(head) < 3) {
+  if (sample(2, 1) == 1) {
+    x <- "head"
+  } else {
+    x <- "tail"
+  }
+  if (x == "head") {
+    head <- c(head, 1)
+  } else {
+    length(head) <- 0
+  }
+  values[[indicator + 1]] <- x
+  indicator <- indicator + 1
+}
+
+length(values)
+values |> tail(5) #last 5 values
+values |> compact() #removes all NULL elements
+```
+
+#### purrr::map()
+
+Loops are good because they make everything very explicit. However, it is often tedious to type. The `purrr` package provides functions which enable you to iterate over vectors, data frames/tibbles, and lists. Apart from that, it has a lot of functions to work with lists as well. I will only cover the former functions. If you are interested in using `purrr` for working with lists, check out [this extensive tutorial by Jenny Bryan](https://jennybc.github.io/purrr-tutorial/).
+
+In the beginning of this chapter, I used the `walk()` function. This function is related to `map()` as it iterates over a vector and applies a function to its respective elements. The difference is that `walk()` doesn't store the results, `map()` does.
+
+##### The basics
+
+The structure of the `map()` function looks like this:
+
+```{r eval=FALSE}
+map(vector or list, function(, if you need it, additional arguments of function))
+```
+
+`map()` always returns a list.
+
+If you want the output to be in a different format, there are different, type-specific `map()` functions.
+
+-   `map_dfr()` returns a data frame -- by binding the rows
+-   `map_dfc()` returns a data frame -- by binding the columns
+-   `map_dbl()` returns a double vector
+-   `map_chr()` returns a character vector
+-   `map_lgl()` returns a logical vector
+
+In the following I will demonstrate the function of `map()` with a simple example. The basic vector I will map over is:
+
+```{r}
+example_dbl <- c(1.5, 1.3, 1.8, 1.9, 2.3)
+```
+
+In the first example, I just add 10 to the vector. In order to do so, I first need to create a function which adds 10.
+
+```{r}
+add_10 <- function(x) {
+  x + 10
+}
+```
+
+```{r}
+map(example_dbl, add_10)
+```
+
+```{r}
+map_dbl(example_dbl, add_10)
+```
+
+```{r}
+map_chr(example_dbl, add_10) # does not make sense though
+```
+
+##### Anonymous functions
+
+In the former example, I did specify the function beforehand. `map()` also allows you to define the function within the call using a so-called anonymous function `\(x)`. The function's argument is pre-defined (x in this case, but could be any placeholder) which stands for the respective input.
+
+```{r}
+map_dbl(example_dbl, \(x){
+  x + 10
+  })
+```
+
+You can also map across tibbles. Here, you iterate over columns. For instance, calculating a mean for each column of the `cars_tbl` would have looked like this in `purrr`:
+
+```{r}
+cars_tbl <- mtcars
+map(cars_tbl, mean)
+```
+
+When I put it into a tibble, names are preserved:
+
+```{r}
+map_dfc(cars_tbl, mean)
+```
+
+##### Mapping over multiple arguments
+
+Sometimes you want to apply things to multiple arguments. Think for example of the `sample()`function. It requires at least two arguments: the size of the sample you draw and the element space `x` you draw the sample from.
+
+```{r}
+map2(10, 1:5, sample, replace = TRUE)
+```
+
+However, the `map2()` functions do not provide you with the possibility to control the type of output you get. You can take care of this using `flatten_*()`.
+
+```{r}
+map2(10, 5, sample) |> flatten_dbl()
+```
+
+If you provide it with a vector which is longer than 1, `map2()` will not perform the operation on every possible combination of the two vectors. Instead, it iterates over both vectors simultaneously, hence, the first iteration uses the first two values, the second iteration the second two values etc. Also note that it matches the arguments by position, not by name, hence the second argument is the size of the sample, the first one the element space.
+
+```{r}
+map2(c(10, 5), c(5, 3), sample) 
+```
+
+If you want to use an anonymous function, you can do so as well:
+
+```{r}
+map2(c(10, 5), c(5, 3), \(x, y) sample(x, size = y))
+```
+
+If you want to map over more than two arguments, `pmap()` is the way to go. If you work with functions which need multiple values as arguments, you can store the vectors containing the respective values in a tibble. You should name the columns according to the function's arguments.
+
+An example here is drawing numbers from a normal distribution -- `rnorm()`. The function takes three arguments: `n`-- the number of values to be drawn, `mean`, and `sd`.
+
+```{r}
+tibble(
+  n = 10,
+  mean = 1:10,
+  sd = 0.5
+) |> 
+  pmap(rnorm)
+```
+
+If you want to use an anonymous function, you can do so as well:
+```{r}
+tibble(
+  n = 10,
+  mean = 1:10,
+  sd = 0.5
+) |> 
+  pmap(\(n, mean, sd) rnorm(n, mean, sd))
+```
+
+##### Speeding up with `furrr`
+
+If you work with large data sets or have to perform a lot of iterations, you might want to speed up your code. The `furrr` package provides the same functionality as `purrr`, but allows for parallelization. This means that it can split up the tasks and distribute them across multiple CPU cores.
+
+Its functionalities are the same as in `purrr`, just with a `future_` prefix. In order to use it, you need to set up a plan first. Here, I use `multisession`, which works on all platforms (Windows, Mac, Linux). If you work on a Linux machine, you can also use `multicore`, which is faster.
+
+```{r message=FALSE, warning=FALSE}
+needs(furrr)
+plan(multisession) #set up parallelization
+future_map_dbl(example_dbl, add_10)
+```
+
+Note that speed benefits are not apparent when working with small data sets or few iterations. The overhead of setting up parallel processes can outweigh the benefits. However, if you work with large data sets or have to perform a lot of iterations, you will see a speed increase.
+
+Let's make `add_10` slow and benchmark `furrr` and `purrr` using the `tictoc` package. I have set the sleep time to 0.5 seconds to make the difference more apparent. My laptop has 8 cores, hence I create 24 tasks which will be distributed across the 8 workers (3 tasks per worker).
+
+```{r}
+needs(tictoc)
+
+# Create more tasks than workers
+example_long <- 1:24 
+
+add_10_slow <- function(x) {
+  Sys.sleep(0.5)  # Shorter sleep time
+  x + 10
+}
+
+# Sequential version
+tic("Sequential (purrr)")
+result_seq <- map_dbl(example_long, add_10_slow)
+toc()
+
+# Parallel version
+tic("Parallel (furrr)")
+result_par <- future_map_dbl(example_long, add_10_slow)
+toc()
+```
+
+You can see that the parallel version is much faster than the sequential one. However, the speed increase is not linear. This is due to the overhead of setting up parallel processes. Setting up worker processes, transferring data between them, and collecting results all take time. With my 0.5 second tasks, this overhead becomes a significant fraction of the total runtime. Also, following Amdahl's Law, not everything can be parallelized. Some parts like initial setup and final result collection must run sequentially. This creates a fundamental limit on speedup. Finally, there are system constraints, as my CPU shares resources with other processes, memory bandwidth can become a bottleneck, and modern CPUs can't maintain peak single-core performance across all cores simultaneously.
+
+So, when should we use `furrr`?
+
+-   When you have a large number of tasks that can be executed independently.
+-   When each task takes a significant amount of time to complete.
+-   When you have access to a multi-core machine.
+
+When should we avoid `furrr`?
+
+-   When tasks are very quick to execute (the overhead of parallelization may outweigh the benefits).
+-   When tasks depend on each other (parallelization won't help).
+-   When working in an environment where parallel processing is restricted (e.g., some cloud services or shared servers).
+-   When debugging (parallel code can be harder to debug).
+
+#### Further links
+
+-   [Chapter about loops in Hands-on Programming with R](https://rstudio-education.github.io/hopr/loops.html#for-loops)
+-   On [control flow](https://resbaz.github.io/2014-r-materials/lessons/30-control-flow/)
+-   A [basic introduction to `purrr::map`](http://www.rebeccabarter.com/blog/2019-08-19_purrr/)
+-   The [corresponding chapter in R4DS](https://r4ds.had.co.nz/iteration.html#introduction-14)
