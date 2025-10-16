@@ -12,7 +12,7 @@ jupyter:
     display_name: "Python (toolbox_env)"
 ---
 
-## Using Python in R with reticulate
+## Using Python in R with `reticulate`
 The `reticulate` package provides a comprehensive set of tools for interoperability between Python and R. It allows you to call Python from R in a variety of ways, including importing Python modules, sourcing Python scripts, and using Python interactively from R.
 
 ```{r}
@@ -20,9 +20,9 @@ needs(reticulate, tidyverse)
 ```
 
 ### Setting up Python
-Before you can use Python in R, you need to ensure Python is installed on your system. The reticulate package will try to find Python automatically, but you can also specify which Python to use.
+Before you can use Python in R, you need to ensure Python is installed on your system. The `reticulate` package will try to find Python automatically, but you can also specify which Python to use.
 
-For a consistent experience across Windows and Mac, I recommend using reticulate's built-in miniconda installation helper:
+For a consistent experience across Windows and Mac, I recommend using `reticulate`'s built-in miniconda installation helper:
 ```{r}
 #| eval: false
 install_miniconda()
@@ -30,7 +30,7 @@ install_miniconda()
 
 This will install a minimal version of conda, which is a package and environment management system that works well for both R and Python.
 
-I would recommend using a conda environment for managing Python packages, as it helps avoid conflicts. When creating the environment, you can specify the Python version (this is important since not all Python versions are compatible with all package versions, unlike R) and packages you need. For example, to create an environment named "toolbox_env" with common data science packages:
+I would recommend using a conda environment for managing Python packages, as it helps avoid conflicts. When creating the environment, you can specify the Python version (this is important since not all Python versions are compatible with all package versions, unlike R) and packages you need. For example, to create an environment named "toolbox_env" with the `numpy` package:
 
 ```{r}
 #| eval: false
