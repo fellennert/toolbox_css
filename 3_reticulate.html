@@ -178,7 +178,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#using-python-in-r-with-reticulate" id="toc-using-python-in-r-with-reticulate" class="nav-link active" data-scroll-target="#using-python-in-r-with-reticulate">Using Python in R with reticulate</a>
+  <li><a href="#using-python-in-r-with-reticulate" id="toc-using-python-in-r-with-reticulate" class="nav-link active" data-scroll-target="#using-python-in-r-with-reticulate">Using Python in R with <code>reticulate</code></a>
   <ul class="collapse">
   <li><a href="#setting-up-python" id="toc-setting-up-python" class="nav-link" data-scroll-target="#setting-up-python">Setting up Python</a></li>
   <li><a href="#basic-python-usage-in-r" id="toc-basic-python-usage-in-r" class="nav-link" data-scroll-target="#basic-python-usage-in-r">Basic Python usage in R</a></li>
@@ -210,20 +210,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <section id="using-python-in-r-with-reticulate" class="level2">
-<h2 class="anchored" data-anchor-id="using-python-in-r-with-reticulate">Using Python in R with reticulate</h2>
+<h2 class="anchored" data-anchor-id="using-python-in-r-with-reticulate">Using Python in R with <code>reticulate</code></h2>
 <p>The <code>reticulate</code> package provides a comprehensive set of tools for interoperability between Python and R. It allows you to call Python from R in a variety of ways, including importing Python modules, sourcing Python scripts, and using Python interactively from R.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(reticulate, tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="setting-up-python" class="level3">
 <h3 class="anchored" data-anchor-id="setting-up-python">Setting up Python</h3>
-<p>Before you can use Python in R, you need to ensure Python is installed on your system. The reticulate package will try to find Python automatically, but you can also specify which Python to use.</p>
-<p>For a consistent experience across Windows and Mac, I recommend using reticulate’s built-in miniconda installation helper:</p>
+<p>Before you can use Python in R, you need to ensure Python is installed on your system. The <code>reticulate</code> package will try to find Python automatically, but you can also specify which Python to use.</p>
+<p>For a consistent experience across Windows and Mac, I recommend using <code>reticulate</code>’s built-in miniconda installation helper:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install_miniconda</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This will install a minimal version of conda, which is a package and environment management system that works well for both R and Python.</p>
-<p>I would recommend using a conda environment for managing Python packages, as it helps avoid conflicts. When creating the environment, you can specify the Python version (this is important since not all Python versions are compatible with all package versions, unlike R) and packages you need. For example, to create an environment named “toolbox_env” with common data science packages:</p>
+<p>I would recommend using a conda environment for managing Python packages, as it helps avoid conflicts. When creating the environment, you can specify the Python version (this is important since not all Python versions are compatible with all package versions, unlike R) and packages you need. For example, to create an environment named “toolbox_env” with the <code>numpy</code> package:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">conda_create</span>(<span class="st">"toolbox_env"</span>, <span class="at">packages =</span> <span class="fu">c</span>(<span class="st">"python=3.9"</span>, <span class="st">"numpy"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
