@@ -26,8 +26,8 @@ website:
       - text: R Script
         menu: 
           - href: 1_r_index.qmd
-         # - href: 2_r_catch-up.qmd
-         # - href: 3_stringr_regex.qmd
+          - href: 2_r_catch-up.qmd
+          - href: 3_reticulate.qmd
          # - href: 4_crawling.qmd
          # - href: 5_apis.qmd
          # - href: 6_selenium.qmd

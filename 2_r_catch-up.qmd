@@ -9,9 +9,13 @@ csl: ASA.csl
 
 I assume your familiarity with R. However, I am fully aware that nobody can have all these things avaible in their head all the time (that's what they invented StackOverflow for, new AI helpers are also pretty good). In the following, I show some basics of how I use R (i.e., RStudio Projects, scripts, Quarto) as well as some data wrangling stuff (`readr`, `tidyr`, `dplyr`), visualization with `ggplot2`, functions, loops, and `purrr`. If you need more info, check out the "further links" I have added after each section. There are also exercises after each section.
 
+You can find the files for this chapter in the [GitHub repository](https://github.com/fellennert/toolbox_css/tree/main/data).
+
 ```{r}
 needs(tidyverse, lubridate, fs, socviz)
 ```
+
+One quick thing upfront: AI coding helpers have become increasingly popular. You can, for instance, use GitHub Copilot in RStudio (if you have access to it) or ChatGPT/Claude (the free versions are already pretty good). However, please note that those tools are not perfect and can produce wrong code. Hence, you need to understand what they do and check the code they provide you with. If you do not understand what a piece of code does, do not use it. If you want to learn R properly, I strongly recommend you to try to write the code yourself first and only use those tools if you get stuck.
 
 ## RStudio Projects
 
@@ -93,7 +97,10 @@ The visual editor is quite similar to what we know from word processing software
 
 Data is typically stored in csv-files and can be read in using `readr`. For "normal," comma-separated values `read_csv("file_path")` suffices. Sometimes, a semicolon is used instead of a comma (e.g., in countries that use the commas as a decimal sign). For these files, `read_csv2("file_path)` is the way to go.
 
-```{r eval=FALSE, include=TRUE}
+```{r}
+#| eval: false
+#| include: false
+
 twitter_edgelist <- read_csv("data/edgelist_sen_twitter.csv")#,
 #                            col_types = cols(from = col_character(),
 #                                             to = col_character()))
@@ -121,7 +128,7 @@ Please note that tidying and cleaning data are not equivalent: I refer to tidyin
 
 ### The concept of *tidy data*
 
-data sets can be structured in many ways. To make them tidy, they must be organized in the following way (this is taken from the R for Data Science book [@wickham_r_2016]):
+data sets can be structured in many ways. To make them tidy, they must be organized in the following way (this is taken from the R for Data Science book [@wickham_data_2016]):
 
 1.  Each variable must have its own column.\
 2.  Each observation must have its own row.\
@@ -351,8 +358,11 @@ In the following, I will guide you through how you can use the verbs to accompli
 
 The data set I will use here consists of the 1,000 most popular movies on IMDb which were published between 2006 and 2016 and some data on them. It was created by PromptCloud and DataStock and published on Kaggle, more information can be found [here](https://www.kaggle.com/PromptCloudHQ/imdb-data).
 
-```{r message=FALSE, warning=FALSE}
-imdb_raw <- read_csv("https://www.dropbox.com/s/wfwyxjkpo24e3yq/imdb2006-2016.csv?dl=1")
+```{r}
+#| message: false
+#| warning: false
+
+imdb_raw <- read_csv("data/imdb2006-2016.csv")
 ```
 
 The data set hasn't been modified by me before. I will show you how I would go across it using a couple of `dplyr` functions.
@@ -758,7 +768,7 @@ glimpse(rank_tbl)
 
 For this example, I have split up a data set from the `socviz` package containing data on the 2016 elections in the U.S. according to census region and stored them in a folder. I can scrape the file names in the folder and read it into a list in an automated manner. (Note that the functions used to read the files in in an automated fashion are beyond the scope of this course. They come from the [`fs`](https://github.com/r-lib/fs) [@hester_fs_2021] and the [`purrr`](https://r4ds.had.co.nz/iteration.html) package [@henry_purrr_2020].)[^catch-up-3]
 
-[^catch-up-3]: If you want the code on your machine, download the files behind the following links and store them in a folder called `socviz_us` which is again stored in a folder named `data` which lives in the same folder as the .qmd file. https://www.dropbox.com/s/14k6bkmaq6l47p2/midwest.csv?dl=0 ; https://www.dropbox.com/s/t3057jf9evt6vjz/northeast.csv?dl=0 ; https://www.dropbox.com/s/lbdde4udlrfea46/south.csv?dl=0 ; https://www.dropbox.com/s/vcvl90dbegagv4z/west.csv?dl=0
+[^catch-up-3]: If you want to run the code on your machine, download the files behind the following links and store them in a folder called `socviz_us` which is again stored in a folder named `data` which lives in the same folder as the .qmd file. 
 
 ```{r}
 file_list <- dir_ls(path = "data/socviz_us") |> 
@@ -801,7 +811,7 @@ file_list <- dir_ls(path = "data/socviz_us") |>
 
 The list now consists of four tibbles in a list which need to be bound together. You can achieve this using `list_rbind()`. Its counterpart is `list_cbind()` which binds columns together. It matches rows by position.
 
-```{r eval=TRUE}
+```{r}
 election_data <- file_list |> list_rbind()
 glimpse(election_data)
 ```
@@ -919,7 +929,7 @@ election_data12 |> bind_cols(election_data16)
 
 ### Exercises
 
-Open the [IMDb file](https://www.dropbox.com/s/81o3zzdkw737vt0/imdb2006-2016.csv?dl=1) (click to download).
+Open the IMDb file.
 
 1.  Find the duplicated movie. How could you go across this?
 2.  Which director has made the longest movie?
@@ -933,7 +943,8 @@ Open the [IMDb file](https://www.dropbox.com/s/81o3zzdkw737vt0/imdb2006-2016.csv
     c.  More votes than the median of all of the votes.
     d.  The movies which have the most common value (the mode) in terms of rating (`mode()` does exist but will not work in the way you might like it to work -- run the script below and use the `my_mode` function).
 
-```{r eval=FALSE}
+```{r}
+#| eval: false
 ## helper function for mode
 
 my_mode <- function(x){ 
@@ -961,7 +972,10 @@ In R, the dominant package for visualizing data is `ggplot2` which belongs to th
 
 `ggplot2` works with tibbles and the data needs to be in a tidy format. It builds graphics using "the layered grammar of graphics." [@wickham_layered_2010]
 
-```{r message=FALSE, warning=FALSE}
+```{r}
+#| message: false
+#| warning: false
+
 publishers <- read_csv("data/publishers_with_places.csv")
   
 publishers_filtered <- publishers |> 
@@ -995,7 +1009,10 @@ Unlike the remainder of the tidyverse, `ggplot2` uses a `+` instead of the pipe 
 
 In general, a call looks like this:
 
-```{r eval=FALSE, include=TRUE}
+```{r}
+#| eval: false
+#| include: false
+
 ggplot(data = <DATA>) + 
   <GEOM_FUNCTION>(mapping = aes(<MAPPINGS>))
 ```
@@ -1288,7 +1305,9 @@ If you include the graphics in an RMarkdown document, make sure you use the prop
 
 If you, however, want to export it and put it into an MS Word document or so, you can just use the `ggsave()` function. By default, it just takes the last plot that has been created and saves it to a path that needs to be specified. If it contains a file extension, `ggsave()` just uses this one.
 
-```{r eval=FALSE}
+```{r}
+#| eval: false
+
 ggplot(mtcars, aes(mpg, wt)) +
   geom_point()
 
@@ -1312,7 +1331,7 @@ ggsave("mtcars.pdf", width = 20, height = 20, units = "cm") #change unit using t
 
 ### Exercises
 
-Take the [IMDb file](https://www.dropbox.com/s/81o3zzdkw737vt0/imdb2006-2016.csv?dl=1).
+Use the IMDb file.
 
 Try to think about how you could answer the following questions graphically. If you fail, take a look at the hints.
 
@@ -1378,7 +1397,10 @@ for (i in seq_along(example_strings)) {
 
 Another option -- from the tidyverse -- is the `purrr` package:
 
-```{r message=FALSE, warning=FALSE}
+```{r}
+#| message: false
+#| warning: false
+
 walk(example_strings, print)
 ```
 
@@ -1403,7 +1425,9 @@ In the following, I will provide you a more extensive introduction into conditio
 
 Sometimes you want your code to only run in specific cases. For `mutate()`, I have already showed you conditional imputation of values with `case_when()`. A more generalized approach for conditionally running code in R are `if` statements. They look as follows:
 
-```{r eval=FALSE}
+```{r}
+#| eval: false
+
 if (conditional_statement evaluates to TRUE) {
   do_something
 }
@@ -1411,7 +1435,9 @@ if (conditional_statement evaluates to TRUE) {
 
 They also have an extension -- `if…else`:
 
-```{r eval=FALSE}
+```{r}
+#| eval: false
+
 if (conditional_statement evaluates to TRUE) {
   do_something
 } else {
@@ -1470,7 +1496,10 @@ if (x <= 5) {
 
 Please note that the condition inside the if statement needs to be a vector of type logical (hence, either `TRUE` or `FALSE`). Apart from that, only vectors of length 1 are allowed. The following will not work:
 
-```{r eval=FALSE, include=TRUE}
+```{r}
+#| eval: false
+#| include: true
+
 if (c(TRUE, FALSE, TRUE)) {
   print("example")
 } #This will throw an error!!!
@@ -1480,7 +1509,7 @@ if (c(TRUE, FALSE, TRUE)) {
 
 So far, every call you have made within R contained a function. Even the most basic operations, such as `c()` for building vectors, rely on functions. Functions are the verbs of R, they *do* something to your objects. Hence, you as someone who obeys the principles of DRY can make good use of them. Whenever you need to copy code to perform certain tasks to an object, you can also put those tasks into a function and just provide the function with the objects.
 
-Imagine you want to rescale some variables in a tibble (an example I took from the OG version of R4DS [@wickham2016a]):
+Imagine you want to rescale some variables in a tibble (an example I took from the OG version of R4DS [@wickham_data_2016]):
 
 ```{r}
 set.seed(1234)
@@ -1529,7 +1558,9 @@ Doing so has some advantages:
 
 When you define functions in R, you need to follow a certain structure:
 
-```{r eval=FALSE}
+```{r}
+#| eval: false
+
 function_name <- function(argument_1, argument_2, argument_n) {
   function_body
 }
@@ -1787,7 +1818,9 @@ Sometimes, you also do not know how long your input sequence is. Instead, you wa
 
 The basic structure of `while loops` is as follows:
 
-```{r eval=FALSE}
+```{r}
+#| eval: false
+
 while (condition) {
   code
 }
@@ -1853,7 +1886,9 @@ In the beginning of this chapter, I used the `walk()` function. This function is
 
 The structure of the `map()` function looks like this:
 
-```{r eval=FALSE}
+```{r}
+#| eval: false
+
 map(vector or list, function(, if you need it, additional arguments of function))
 ```
 
@@ -1971,7 +2006,8 @@ If you work with large data sets or have to perform a lot of iterations, you mig
 
 Its functionalities are the same as in `purrr`, just with a `future_` prefix. In order to use it, you need to set up a plan first. Here, I use `multisession`, which works on all platforms (Windows, Mac, Linux). If you work on a Linux machine, you can also use `multicore`, which is faster.
 
-```{r message=FALSE, warning=FALSE}
+```{r}
+
 needs(furrr)
 plan(multisession) #set up parallelization
 future_map_dbl(example_dbl, add_10)
