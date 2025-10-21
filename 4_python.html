@@ -189,6 +189,14 @@ window.Quarto = {
     <a class="dropdown-item" href="./3_reticulate.html">
  <span class="dropdown-text">Chapter 3: <code>reticulate</code></span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./4_python.html">
+ <span class="dropdown-text">Chapter 4: Introduction to Python for R Users</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./5_pandas.html">
+ <span class="dropdown-text">Chapter 5: <code>pandas</code></span></a>
+  </li>  
     </ul>
   </li>
 </ul>
@@ -270,15 +278,6 @@ window.Quarto = {
   <li><a href="#correct-indentation" id="toc-correct-indentation" class="nav-link" data-scroll-target="#correct-indentation">Correct indentation</a>
   <ul class="collapse">
   <li><a href="#naming-conventions" id="toc-naming-conventions" class="nav-link" data-scroll-target="#naming-conventions">Naming Conventions</a></li>
-  <li><a href="#pandas" id="toc-pandas" class="nav-link" data-scroll-target="#pandas"><code>pandas</code></a>
-  <ul class="collapse">
-  <li><a href="#what-is-pandas" id="toc-what-is-pandas" class="nav-link" data-scroll-target="#what-is-pandas">What is Pandas?</a></li>
-  <li><a href="#creating-dataframes" id="toc-creating-dataframes" class="nav-link" data-scroll-target="#creating-dataframes">Creating DataFrames</a></li>
-  <li><a href="#basic-dataframe-operations" id="toc-basic-dataframe-operations" class="nav-link" data-scroll-target="#basic-dataframe-operations">Basic DataFrame Operations</a></li>
-  <li><a href="#pandas-in-action" id="toc-pandas-in-action" class="nav-link" data-scroll-target="#pandas-in-action"><code>pandas</code> in action</a></li>
-  <li><a href="#method-chaining" id="toc-method-chaining" class="nav-link" data-scroll-target="#method-chaining">Method Chaining</a></li>
-  <li><a href="#key-differences-between-pandas-and-r" id="toc-key-differences-between-pandas-and-r" class="nav-link" data-scroll-target="#key-differences-between-pandas-and-r">Key Differences between <code>pandas</code> and R</a></li>
-  </ul></li>
   <li><a href="#finally-the-zen-of-python" id="toc-finally-the-zen-of-python" class="nav-link" data-scroll-target="#finally-the-zen-of-python">Finally: The Zen of Python</a></li>
   <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
   <li><a href="#further-resources" id="toc-further-resources" class="nav-link" data-scroll-target="#further-resources">Further Resources</a></li>
@@ -1362,7 +1361,7 @@ Compared to R
 <span id="cb157-2"><a href="#cb157-2" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [<span class="st">"red"</span>, <span class="st">"green"</span>, <span class="st">"blue"</span>]</span>
 <span id="cb157-3"><a href="#cb157-3" aria-hidden="true" tabindex="-1"></a><span class="bu">enumerate</span>(colors)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;enumerate object at 0x12046d700&gt;</code></pre>
+<pre><code>&lt;enumerate object at 0x131621980&gt;</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb159"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb159-1"><a href="#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> index, color <span class="kw">in</span> <span class="bu">enumerate</span>(colors):</span>
 <span id="cb159-2"><a href="#cb159-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Color </span><span class="sc">{</span>index<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>color<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1524,21 +1523,22 @@ Compared to R
 <span id="cb178-11"><a href="#cb178-11" aria-hidden="true" tabindex="-1"></a>    attempts <span class="op">+=</span> <span class="dv">1</span></span>
 <span id="cb178-12"><a href="#cb178-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Attempt </span><span class="sc">{</span>attempts<span class="sc">}</span><span class="ss">: guessed </span><span class="sc">{</span>guess<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Attempt 1: guessed 4
+<pre><code>Attempt 1: guessed 9
 Attempt 2: guessed 5
-Attempt 3: guessed 8
-Attempt 4: guessed 1
-Attempt 5: guessed 4
-Attempt 6: guessed 10
-Attempt 7: guessed 8
-Attempt 8: guessed 10
-Attempt 9: guessed 2
-Attempt 10: guessed 1
-Attempt 11: guessed 7</code></pre>
+Attempt 3: guessed 5
+Attempt 4: guessed 10
+Attempt 5: guessed 9
+Attempt 6: guessed 9
+Attempt 7: guessed 4
+Attempt 8: guessed 4
+Attempt 9: guessed 5
+Attempt 10: guessed 4
+Attempt 11: guessed 6
+Attempt 12: guessed 7</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb180"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb180-1"><a href="#cb180-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Found </span><span class="sc">{</span>target<span class="sc">}</span><span class="ss"> in </span><span class="sc">{</span>attempts<span class="sc">}</span><span class="ss"> attempts!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Found 7 in 11 attempts!</code></pre>
+<pre><code>Found 7 in 12 attempts!</code></pre>
 </div>
 </div>
 </section>
@@ -1717,412 +1717,11 @@ This too</code></pre>
 <span id="cb198-6"><a href="#cb198-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sum</span>(values) <span class="op">/</span> <span class="bu">len</span>(values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="pandas" class="level2">
-<h2 class="anchored" data-anchor-id="pandas"><code>pandas</code></h2>
-<p>Introduction to Pandas Now that you understand Python basics, let’s look at <code>pandas</code> - Python’s most popular library for data manipulation. If you’re familiar with R’s tidyverse (especially dplyr and tidyr), pandas will feel conceptually familiar, though the syntax differs.</p>
-<section id="what-is-pandas" class="level3">
-<h3 class="anchored" data-anchor-id="what-is-pandas">What is Pandas?</h3>
-<p>Pandas provides two main data structures:</p>
-<ul>
-<li>Series: Like an R vector or a single column</li>
-<li>DataFrame: Like an R tibble/data.frame</li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb199"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb199-1"><a href="#cb199-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd  <span class="co"># Standard convention: import pandas as pd -- equivalent to library(tidyverse)</span></span>
-<span id="cb199-2"><a href="#cb199-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np   <span class="co"># NumPy often used alongside pandas</span></span>
-<span id="cb199-3"><a href="#cb199-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb199-4"><a href="#cb199-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check version</span></span>
-<span id="cb199-5"><a href="#cb199-5" aria-hidden="true" tabindex="-1"></a>pd.__version__</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>'2.3.1'</code></pre>
-</div>
-</div>
-</section>
-<section id="creating-dataframes" class="level3">
-<h3 class="anchored" data-anchor-id="creating-dataframes">Creating DataFrames</h3>
-<p>You can create DataFrames in several ways:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb201"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb201-1"><a href="#cb201-1" aria-hidden="true" tabindex="-1"></a><span class="co"># From a dictionary (like tibble() in R)</span></span>
-<span id="cb201-2"><a href="#cb201-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb201-3"><a href="#cb201-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'name'</span>: [<span class="st">'Alice'</span>, <span class="st">'Bob'</span>, <span class="st">'Charlie'</span>, <span class="st">'Diana'</span>],</span>
-<span id="cb201-4"><a href="#cb201-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'age'</span>: [<span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">35</span>, <span class="dv">28</span>],</span>
-<span id="cb201-5"><a href="#cb201-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'city'</span>: [<span class="st">'New York'</span>, <span class="st">'London'</span>, <span class="st">'Paris'</span>, <span class="st">'Tokyo'</span>]</span>
-<span id="cb201-6"><a href="#cb201-6" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb201-7"><a href="#cb201-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb201-8"><a href="#cb201-8" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>      name  age      city
-0    Alice   25  New York
-1      Bob   30    London
-2  Charlie   35     Paris
-3    Diana   28     Tokyo</code></pre>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip callout-titled" title="Compared to R">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Compared to R
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>rdf &lt;- tibble( name = c(‘Alice’, ‘Bob’, ‘Charlie’, ‘Diana’), age = c(25, 30, 35, 28), city = c(‘New York’, ‘London’, ‘Paris’, ‘Tokyo’) )</p>
-</div>
-</div>
-</section>
-<section id="basic-dataframe-operations" class="level3">
-<h3 class="anchored" data-anchor-id="basic-dataframe-operations">Basic DataFrame Operations</h3>
-<p><code>pandas</code> works through methods rather than functions. Methods are attached to specific object types. A string has string methods, a list has list methods, a DataFrame has DataFrame methods.</p>
-<p>There are several differences:</p>
-<p>Functions are called by putting the object as an argument:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb203"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb203-1"><a href="#cb203-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function syntax: function(object, arguments)</span></span>
-<span id="cb203-2"><a href="#cb203-2" aria-hidden="true" tabindex="-1"></a>my_list <span class="op">=</span> [<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">5</span>]</span>
-<span id="cb203-3"><a href="#cb203-3" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(my_list)        <span class="co"># len is a function</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>5</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb205"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb205-1"><a href="#cb205-1" aria-hidden="true" tabindex="-1"></a><span class="bu">sorted</span>(my_list)     <span class="co"># sorted is a function</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1, 1, 3, 4, 5]</code></pre>
-</div>
-</div>
-<p>Methods are functions that “belong to” an object and are called using dot notation:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb207"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb207-1"><a href="#cb207-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Method syntax: object.method(arguments)</span></span>
-<span id="cb207-2"><a href="#cb207-2" aria-hidden="true" tabindex="-1"></a>my_string <span class="op">=</span> <span class="st">"hello world"</span></span>
-<span id="cb207-3"><a href="#cb207-3" aria-hidden="true" tabindex="-1"></a>my_string.upper()      <span class="co"># upper() is a method of strings</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>'HELLO WORLD'</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb209"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb209-1"><a href="#cb209-1" aria-hidden="true" tabindex="-1"></a>my_string.split()      <span class="co"># split() is a method of strings</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>['hello', 'world']</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb211"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb211-1"><a href="#cb211-1" aria-hidden="true" tabindex="-1"></a>my_string              <span class="co"># object remains unchanged</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>'hello world'</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb213"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb213-1"><a href="#cb213-1" aria-hidden="true" tabindex="-1"></a>my_list.append(<span class="dv">9</span>)      <span class="co"># append() is a method of lists; note that this modifies the list in place</span></span>
-<span id="cb213-2"><a href="#cb213-2" aria-hidden="true" tabindex="-1"></a>my_list</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[3, 1, 4, 1, 5, 9]</code></pre>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip callout-titled" title="Compared to R">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Compared to R
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>R primarily uses functions - you write head(df), nrow(df), names(df). Python often uses methods - you write df.head(), df.shape, df.columns.</p>
-</div>
-</div>
-<p>This matters for pandas, since almost everything is a method and hence the syntax differs significantly.</p>
-</section>
-<section id="pandas-in-action" class="level3">
-<h3 class="anchored" data-anchor-id="pandas-in-action"><code>pandas</code> in action</h3>
-<p>Viewing Data (note that objects remain unchanged):</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb215"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb215-1"><a href="#cb215-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First few rows (like head() in R)</span></span>
-<span id="cb215-2"><a href="#cb215-2" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>    name  age      city
-0  Alice   25  New York
-1    Bob   30    London</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb217"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb217-1"><a href="#cb217-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Last few rows (like tail() in R)</span></span>
-<span id="cb217-2"><a href="#cb217-2" aria-hidden="true" tabindex="-1"></a>df.tail(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>      name  age   city
-2  Charlie   35  Paris
-3    Diana   28  Tokyo</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb219"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb219-1"><a href="#cb219-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Info about the DataFrame (like glimpse() or str() in R)</span></span>
-<span id="cb219-2"><a href="#cb219-2" aria-hidden="true" tabindex="-1"></a>df.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
-RangeIndex: 4 entries, 0 to 3
-Data columns (total 3 columns):
- #   Column  Non-Null Count  Dtype 
----  ------  --------------  ----- 
- 0   name    4 non-null      object
- 1   age     4 non-null      int64 
- 2   city    4 non-null      object
-dtypes: int64(1), object(2)
-memory usage: 224.0+ bytes</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb221"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb221-1"><a href="#cb221-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary statistics (like summary() in R)</span></span>
-<span id="cb221-2"><a href="#cb221-2" aria-hidden="true" tabindex="-1"></a>df.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>             age
-count   4.000000
-mean   29.500000
-std     4.203173
-min    25.000000
-25%    27.250000
-50%    29.000000
-75%    31.250000
-max    35.000000</code></pre>
-</div>
-</div>
-<p>Selecting Columns:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb223"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb223-1"><a href="#cb223-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select single column (returns a Series)</span></span>
-<span id="cb223-2"><a href="#cb223-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'name'</span>]           <span class="co"># in R: df$name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>0      Alice
-1        Bob
-2    Charlie
-3      Diana
-Name: name, dtype: object</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb225"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb225-1"><a href="#cb225-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select single column (returns a DataFrame)</span></span>
-<span id="cb225-2"><a href="#cb225-2" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">'name'</span>]]         <span class="co"># in R: df |&gt; select(name)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>      name
-0    Alice
-1      Bob
-2  Charlie
-3    Diana</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb227"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb227-1"><a href="#cb227-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select multiple columns (returns a DataFrame)</span></span>
-<span id="cb227-2"><a href="#cb227-2" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">'name'</span>, <span class="st">'age'</span>]]  <span class="co"># in R: df |&gt; select(name, age)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>      name  age
-0    Alice   25
-1      Bob   30
-2  Charlie   35
-3    Diana   28</code></pre>
-</div>
-</div>
-<p>Filtering Rows:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb229"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb229-1"><a href="#cb229-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter rows where age &gt; 28</span></span>
-<span id="cb229-2"><a href="#cb229-2" aria-hidden="true" tabindex="-1"></a>df[df[<span class="st">'age'</span>] <span class="op">&gt;</span> <span class="dv">28</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>      name  age    city
-1      Bob   30  London
-2  Charlie   35   Paris</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb231"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb231-1"><a href="#cb231-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiple conditions (use &amp; for AND, | for OR)</span></span>
-<span id="cb231-2"><a href="#cb231-2" aria-hidden="true" tabindex="-1"></a>df[(df[<span class="st">'age'</span>] <span class="op">&gt;</span> <span class="dv">25</span>) <span class="op">&amp;</span> (df[<span class="st">'city'</span>] <span class="op">==</span> <span class="st">'London'</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  name  age    city
-1  Bob   30  London</code></pre>
-</div>
-</div>
-<p>Adding New Columns</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb233"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb233-1"><a href="#cb233-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a new column (like mutate() in R)</span></span>
-<span id="cb233-2"><a href="#cb233-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'age_in_months'</span>] <span class="op">=</span> df[<span class="st">'age'</span>] <span class="op">*</span> <span class="dv">12</span>    <span class="co"># in R: df$age_in_months &lt;- df$age * 12</span></span>
-<span id="cb233-3"><a href="#cb233-3" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>      name  age      city  age_in_months
-0    Alice   25  New York            300
-1      Bob   30    London            360
-2  Charlie   35     Paris            420
-3    Diana   28     Tokyo            336</code></pre>
-</div>
-</div>
-<p>Sorting:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb235"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb235-1"><a href="#cb235-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort by age (like arrange() in R)</span></span>
-<span id="cb235-2"><a href="#cb235-2" aria-hidden="true" tabindex="-1"></a>df.sort_values(<span class="st">'age'</span>)                    <span class="co"># in R: df |&gt; arrange(age)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>      name  age      city  age_in_months
-0    Alice   25  New York            300
-3    Diana   28     Tokyo            336
-1      Bob   30    London            360
-2  Charlie   35     Paris            420</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb237"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb237-1"><a href="#cb237-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort descending</span></span>
-<span id="cb237-2"><a href="#cb237-2" aria-hidden="true" tabindex="-1"></a>df.sort_values(<span class="st">'age'</span>, ascending<span class="op">=</span><span class="va">False</span>)   <span class="co"># in R: df |&gt; arrange(desc(age))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>      name  age      city  age_in_months
-2  Charlie   35     Paris            420
-1      Bob   30    London            360
-3    Diana   28     Tokyo            336
-0    Alice   25  New York            300</code></pre>
-</div>
-</div>
-<p>Read in Data:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb239"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb239-1"><a href="#cb239-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read CSV (like read_csv() in R)</span></span>
-<span id="cb239-2"><a href="#cb239-2" aria-hidden="true" tabindex="-1"></a>imdb_df <span class="op">=</span> pd.read_csv(<span class="st">'data/imdb2006-2016.csv'</span>)</span>
-<span id="cb239-3"><a href="#cb239-3" aria-hidden="true" tabindex="-1"></a>imdb_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>   Rank                    Title  ... Revenue (Millions) Metascore
-0     1  Guardians of the Galaxy  ...             333.13      76.0
-1     2               Prometheus  ...             126.46      65.0
-2     3                    Split  ...             138.12      62.0
-3     4                     Sing  ...             270.32      59.0
-4     5            Suicide Squad  ...             325.02      40.0
-
-[5 rows x 12 columns]</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb241"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb241-1"><a href="#cb241-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read Excel</span></span>
-<span id="cb241-2"><a href="#cb241-2" aria-hidden="true" tabindex="-1"></a>publishers_df <span class="op">=</span> pd.read_excel(<span class="st">'data/publishers_with_places.xlsx'</span>)</span>
-<span id="cb241-3"><a href="#cb241-3" aria-hidden="true" tabindex="-1"></a>publishers_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>        publisher               city
-0    37 ink atria  New York City, NY
-1          abrams  New York City, NY
-2             ace  New York City, NY
-3  alfred a knopf  New York City, NY
-4       algonquin    Chapel Hill, NC</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb243"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb243-1"><a href="#cb243-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read from URL</span></span>
-<span id="cb243-2"><a href="#cb243-2" aria-hidden="true" tabindex="-1"></a>df_example <span class="op">=</span> pd.read_csv(<span class="st">'https://raw.githubusercontent.com/mwaskom/seaborn-data/master/tips.csv'</span>)</span>
-<span id="cb243-3"><a href="#cb243-3" aria-hidden="true" tabindex="-1"></a>df_example.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>   total_bill   tip     sex smoker  day    time  size
-0       16.99  1.01  Female     No  Sun  Dinner     2
-1       10.34  1.66    Male     No  Sun  Dinner     3
-2       21.01  3.50    Male     No  Sun  Dinner     3
-3       23.68  3.31    Male     No  Sun  Dinner     2
-4       24.59  3.61  Female     No  Sun  Dinner     4</code></pre>
-</div>
-</div>
-<p>Quick Data Exploration:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb245"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb245-1"><a href="#cb245-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Shape (rows, columns)</span></span>
-<span id="cb245-2"><a href="#cb245-2" aria-hidden="true" tabindex="-1"></a>df_example.shape                                  <span class="co"># in R: dim(df)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>(244, 7)</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb247"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb247-1"><a href="#cb247-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Column names </span></span>
-<span id="cb247-2"><a href="#cb247-2" aria-hidden="true" tabindex="-1"></a>df_example.columns.tolist()                       <span class="co"># in R: colnames(df)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>['total_bill', 'tip', 'sex', 'smoker', 'day', 'time', 'size']</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb249"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb249-1"><a href="#cb249-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Value counts</span></span>
-<span id="cb249-2"><a href="#cb249-2" aria-hidden="true" tabindex="-1"></a>df_example[<span class="st">'day'</span>].value_counts()                  <span class="co"># in R: df |&gt; count(day)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>day
-Sat     87
-Sun     76
-Thur    62
-Fri     19
-Name: count, dtype: int64</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb251"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb251-1"><a href="#cb251-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by and aggregate</span></span>
-<span id="cb251-2"><a href="#cb251-2" aria-hidden="true" tabindex="-1"></a>df_example.groupby(<span class="st">'day'</span>)[<span class="st">'total_bill'</span>].mean()    <span class="co"># in R: df |&gt; group_by(day) |&gt; summarize(mean_bill = mean(total_bill))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>day
-Fri     17.151579
-Sat     20.441379
-Sun     21.410000
-Thur    17.682742
-Name: total_bill, dtype: float64</code></pre>
-</div>
-</div>
-</section>
-<section id="method-chaining" class="level3">
-<h3 class="anchored" data-anchor-id="method-chaining">Method Chaining</h3>
-<p>Pandas supports method chaining (similar to the pipe <code>|&gt;</code>/<code>%&gt;%</code> in R):</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb253"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb253-1"><a href="#cb253-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Chain multiple operations</span></span>
-<span id="cb253-2"><a href="#cb253-2" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> (df_example</span>
-<span id="cb253-3"><a href="#cb253-3" aria-hidden="true" tabindex="-1"></a>    .query(<span class="st">'total_bill &gt; 20'</span>)  <span class="co"># Filter</span></span>
-<span id="cb253-4"><a href="#cb253-4" aria-hidden="true" tabindex="-1"></a>    .assign(tip_pct <span class="op">=</span> <span class="kw">lambda</span> x: x[<span class="st">'tip'</span>] <span class="op">/</span> x[<span class="st">'total_bill'</span>])  <span class="co"># New column</span></span>
-<span id="cb253-5"><a href="#cb253-5" aria-hidden="true" tabindex="-1"></a>    .sort_values(<span class="st">'tip_pct'</span>, ascending<span class="op">=</span><span class="va">False</span>)  <span class="co"># Sort</span></span>
-<span id="cb253-6"><a href="#cb253-6" aria-hidden="true" tabindex="-1"></a>    .head(<span class="dv">5</span>)  <span class="co"># Top 5</span></span>
-<span id="cb253-7"><a href="#cb253-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb253-8"><a href="#cb253-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb253-9"><a href="#cb253-9" aria-hidden="true" tabindex="-1"></a>result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>     total_bill   tip     sex smoker   day    time  size   tip_pct
-183       23.17  6.50    Male    Yes   Sun  Dinner     4  0.280535
-181       23.33  5.65    Male    Yes   Sun  Dinner     2  0.242177
-185       20.69  5.00    Male     No   Sun  Dinner     5  0.241663
-88        24.71  5.85    Male     No  Thur   Lunch     2  0.236746
-214       28.17  6.50  Female    Yes   Sat  Dinner     3  0.230742</code></pre>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip callout-titled" title="Compared to R">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Compared to R
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb255"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb255-1"><a href="#cb255-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> df_example <span class="sc">|&gt;</span></span>
-<span id="cb255-2"><a href="#cb255-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(total_bill <span class="sc">&gt;</span> <span class="dv">20</span>) <span class="sc">|&gt;</span></span>
-<span id="cb255-3"><a href="#cb255-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">tip_pct =</span> tip <span class="sc">/</span> total_bill) <span class="sc">|&gt;</span></span>
-<span id="cb255-4"><a href="#cb255-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(tip_pct)) <span class="sc">|&gt;</span></span>
-<span id="cb255-5"><a href="#cb255-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</div>
-</section>
-<section id="key-differences-between-pandas-and-r" class="level3">
-<h3 class="anchored" data-anchor-id="key-differences-between-pandas-and-r">Key Differences between <code>pandas</code> and R</h3>
-<ul>
-<li>Indexing: Pandas uses 0-based indexing</li>
-<li>Missing values: Pandas uses NaN (from NumPy), not NA</li>
-<li>Syntax: Methods instead of functions (e.g., df.head() not head(df))</li>
-</ul>
-<p>There is one important pitfall you need to pay attention to: <code>pandas</code> modifies in place unless you use <code>.copy()</code>!</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb256"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb256-1"><a href="#cb256-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({<span class="st">'A'</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], <span class="st">'B'</span>: [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]})</span>
-<span id="cb256-2"><a href="#cb256-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb256-3"><a href="#cb256-3" aria-hidden="true" tabindex="-1"></a><span class="co"># This creates a reference, NOT a copy</span></span>
-<span id="cb256-4"><a href="#cb256-4" aria-hidden="true" tabindex="-1"></a>df2 <span class="op">=</span> df</span>
-<span id="cb256-5"><a href="#cb256-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb256-6"><a href="#cb256-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Modify df2</span></span>
-<span id="cb256-7"><a href="#cb256-7" aria-hidden="true" tabindex="-1"></a>df2[<span class="st">'A'</span>] <span class="op">=</span> [<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>]</span>
-<span id="cb256-8"><a href="#cb256-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb256-9"><a href="#cb256-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Surprise! df is also changed</span></span>
-<span id="cb256-10"><a href="#cb256-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>    A  B
-0  10  4
-1  20  5
-2  30  6</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb258"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb258-1"><a href="#cb258-1" aria-hidden="true" tabindex="-1"></a><span class="co">### FIX</span></span>
-<span id="cb258-2"><a href="#cb258-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({<span class="st">'A'</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], <span class="st">'B'</span>: [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]})</span>
-<span id="cb258-3"><a href="#cb258-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb258-4"><a href="#cb258-4" aria-hidden="true" tabindex="-1"></a><span class="co"># This creates a copy, NOT a reference</span></span>
-<span id="cb258-5"><a href="#cb258-5" aria-hidden="true" tabindex="-1"></a>df2 <span class="op">=</span> df.copy()</span>
-<span id="cb258-6"><a href="#cb258-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb258-7"><a href="#cb258-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Modify df2</span></span>
-<span id="cb258-8"><a href="#cb258-8" aria-hidden="true" tabindex="-1"></a>df2[<span class="st">'A'</span>] <span class="op">=</span> [<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>]</span>
-<span id="cb258-9"><a href="#cb258-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb258-10"><a href="#cb258-10" aria-hidden="true" tabindex="-1"></a><span class="co"># thank god! df did not change</span></span>
-<span id="cb258-11"><a href="#cb258-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>   A  B
-0  1  4
-1  2  5
-2  3  6</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb260"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb260-1"><a href="#cb260-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>    A  B
-0  10  4
-1  20  5
-2  30  6</code></pre>
-</div>
-</div>
-</section>
-</section>
 <section id="finally-the-zen-of-python" class="level2">
 <h2 class="anchored" data-anchor-id="finally-the-zen-of-python">Finally: The Zen of Python</h2>
 <p>Python has a philosophy! Type <code>import this</code> to see it:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb262"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb262-1"><a href="#cb262-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> this</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb199"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb199-1"><a href="#cb199-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> this</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>The Zen of Python, by Tim Peters
 
@@ -2157,16 +1756,16 @@ Namespaces are one honking great idea -- let's do more of those!</code></pre>
 <li>Store each Celsius value and its Fahrenheit equivalent in a DataFrame.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb264"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb264-1"><a href="#cb264-1" aria-hidden="true" tabindex="-1"></a>temperatures_celsius <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>]</span>
-<span id="cb264-2"><a href="#cb264-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb201"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb201-1"><a href="#cb201-1" aria-hidden="true" tabindex="-1"></a>temperatures_celsius <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>]</span>
+<span id="cb201-2"><a href="#cb201-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Exercise 2: Word Counter</strong></p>
 <p>Given a sentence, count how many times each word appears.</p>
 <p>Hint: Use sentence.split() to get a list of words, and a dictionary to store counts.</p>
 <p>Store the result in a <code>pandas</code> DataFrame.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb265"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb265-1"><a href="#cb265-1" aria-hidden="true" tabindex="-1"></a>python_sentence <span class="op">=</span> <span class="st">"the quick brown fox jumps over the lazy dog the fox"</span></span>
-<span id="cb265-2"><a href="#cb265-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Expected output: {'the': 3, 'quick': 1, 'brown': 1, ...}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb202"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb202-1"><a href="#cb202-1" aria-hidden="true" tabindex="-1"></a>python_sentence <span class="op">=</span> <span class="st">"the quick brown fox jumps over the lazy dog the fox"</span></span>
+<span id="cb202-2"><a href="#cb202-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Expected output: {'the': 3, 'quick': 1, 'brown': 1, ...}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Exercise 3: Prime Numbers</strong></p>
 <p>Write a function that checks if a number is prime. Then use it to find all prime numbers between 1 and 50.</p>
@@ -2186,8 +1785,6 @@ Namespaces are one honking great idea -- let's do more of those!</code></pre>
 <li><a href="https://learnpythonthehardway.org/">Learn Python the Hard Way</a></li>
 <li><a href="https://automatetheboringstuff.com/">Automate the Boring Stuff with Python</a></li>
 <li><a href="https://realpython.com/">Real Python</a></li>
-<li>A very helpful <a href="https://github.com/meganzhou62/stat5702cc/blob/main/cheatsheet.pdf">R vs.&nbsp;<code>pandas</code> cheatsheet</a></li>
-<li><a href="https://wesmckinney.com/book/">Python for Data Analysis</a> by Wes McKinney (pandas creator)</li>
 </ul>
 
 
