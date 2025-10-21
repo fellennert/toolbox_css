@@ -28,8 +28,8 @@ website:
           - href: 1_r_index.qmd
           - href: 2_r_catch-up.qmd
           - href: 3_reticulate.qmd
-         # - href: 4_crawling.qmd
-         # - href: 5_apis.qmd
+          - href: 4_python.qmd
+          - href: 5_pandas.qmd
          # - href: 6_selenium.qmd
          # - href: 7_tesseract.qmd
          # - href: 8_transcription.qmd

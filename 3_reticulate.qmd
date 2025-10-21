@@ -5,11 +5,6 @@ engine: knitr
 freeze: auto
 bibliography: literature.bib
 csl: ASA.csl
-jupyter: 
-  kernelspec:
-    name: "toolbox_env"
-    language: python
-    display_name: "Python (toolbox_env)"
 ---
 
 ## Using Python in R with `reticulate`
@@ -37,7 +32,6 @@ I would recommend using a conda environment for managing Python packages, as it 
 
 ```{r}
 #| eval: false
-
 conda_create("toolbox_env", packages = c("python=3.9", "numpy"))
 ```
 
@@ -51,7 +45,6 @@ Side note: you can remove an environment with
 
 ```{r}
 #| eval: false
-
 conda_remove("r-reticulate")
 ```
 
@@ -67,7 +60,6 @@ Further, post-creation, you can install Python packages into this environment di
 
 ```{r}
 #| eval: false
-
 py_install(c("pandas", "scikit-learn"))
 ```
 

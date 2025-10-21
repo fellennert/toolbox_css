@@ -12,8 +12,6 @@ csl: ASA.csl
 reticulate::use_condaenv("toolbox_env", required = TRUE)
 ```
 
-## `pandas`
-
 Now that you understand Python basics, let's look at `pandas` -- Python's most popular library for data manipulation. If you're familiar with R's tidyverse (especially `dplyr` and `tidyr`), `pandas` will feel conceptually familiar, though the syntax differs.
 
 ### What is Pandas?
