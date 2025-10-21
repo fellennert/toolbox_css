@@ -1,0 +1,261 @@
+---
+title: "Chapter 5: `pandas`"
+published-title: pandas
+engine: knitr
+freeze: auto
+bibliography: literature.bib
+csl: ASA.csl
+---
+
+```{r}
+#| include: false
+reticulate::use_condaenv("toolbox_env", required = TRUE)
+```
+
+## `pandas`
+
+Now that you understand Python basics, let's look at `pandas` -- Python's most popular library for data manipulation. If you're familiar with R's tidyverse (especially `dplyr` and `tidyr`), `pandas` will feel conceptually familiar, though the syntax differs.
+
+### What is Pandas?
+
+`pandas` provides two main data structures:
+
+- `Series`: Like an R vector or a single column
+- `DataFrame`: Like an R tibble/data.frame
+
+```{python}
+import pandas as pd  # Standard convention: import pandas as pd -- equivalent to library(tidyverse)
+import numpy as np   # NumPy often used alongside pandas
+
+# Check version
+pd.__version__
+```
+
+### Creating DataFrames
+
+You can create DataFrames in several ways:
+
+```{python}
+# From a dictionary (like tibble() in R)
+df = pd.DataFrame({
+    'name': ['Alice', 'Bob', 'Charlie', 'Diana'],
+    'age': [25, 30, 35, 28],
+    'city': ['New York', 'London', 'Paris', 'Tokyo']
+})
+
+df
+
+# from a list of dictionaries
+data = [
+    {'name': 'Alice', 'age': 25, 'city': 'New York'},
+    {'name': 'Bob', 'age': 30, 'city': 'Paris'},
+    {'name': 'Charlie', 'age': 35, 'city': 'London'}
+]
+df = pd.DataFrame(data)
+
+# from a list of lists (specify column names)
+data = [
+    ['Alice', 25, 'New York'],
+    ['Bob', 30, 'Paris'],
+    ['Charlie', 35, 'London']
+]
+df = pd.DataFrame(data, columns=['name', 'age', 'city'])
+
+# from a numpy array (essentially a matrix, specify column names)
+import numpy as np
+
+data = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+data
+df = pd.DataFrame(data, columns=['A', 'B', 'C'])
+```
+
+
+::: {.callout-tip title="Compared to R"}
+rdf <- tibble(
+  name = c('Alice', 'Bob', 'Charlie', 'Diana'),
+  age = c(25, 30, 35, 28),
+  city = c('New York', 'London', 'Paris', 'Tokyo')
+)
+::: 
+
+### Basic DataFrame Operations
+
+`pandas` works through methods rather than functions. Methods are attached to specific object types. A string has string methods, a list has list methods, a DataFrame has DataFrame methods.
+
+There are several differences:
+
+- Functions are called by putting the object as an argument:
+```{python}
+# Function syntax: function(object, arguments)
+my_list = [3, 1, 4, 1, 5]
+len(my_list)        # len is a function
+sorted(my_list)     # sorted is a function
+```
+
+- Methods are functions that "belong to" an object and are called using dot notation:
+```{python}
+# Method syntax: object.method(arguments)
+my_string = "hello world"
+my_string.upper()      # upper() is a method of strings
+my_string.split()      # split() is a method of strings
+my_string              # object remains unchanged
+
+my_list.append(9)      # append() is a method of lists; note that this modifies the list in place
+my_list
+```
+
+
+::: {.callout-tip title="Compared to R"}
+R primarily uses functions - you write head(df), nrow(df), names(df). Python often uses methods - you write df.head(), df.shape, df.columns.
+::: 
+
+This matters for pandas, since almost everything is a method and hence the syntax differs significantly.
+
+### `pandas` in action
+
+Viewing Data (note that objects remain unchanged):
+
+```{python}
+df = pd.DataFrame({
+    'name': ['Alice', 'Bob', 'Charlie', 'Diana'],
+    'age': [25, 30, 35, 28],
+    'city': ['New York', 'London', 'Paris', 'Tokyo']
+})
+
+# First few rows (like head() in R)
+df.head(2)
+# Last few rows (like tail() in R)
+df.tail(2)
+# Info about the DataFrame (like glimpse() or str() in R)
+df.info()
+# Summary statistics (like summary() in R)
+df.describe()
+```
+
+Selecting Columns:
+```{python}
+# Select single column (returns a Series)
+df['name']           # in R: df$name
+# Select single column (returns a DataFrame)
+df[['name']]         # in R: df |> select(name)
+# Select multiple columns (returns a DataFrame)
+df[['name', 'age']]  # in R: df |> select(name, age)
+```
+
+
+Filtering Rows:
+```{python}
+# Filter rows where age > 28
+df[df['age'] > 28]
+# Multiple conditions (use & for AND, | for OR)
+df[(df['age'] > 25) & (df['city'] == 'London')]
+```
+
+
+Adding New Columns
+```{python}
+# Add a new column (like mutate() in R)
+df['age_in_months'] = df['age'] * 12    # in R: df$age_in_months <- df$age * 12
+df
+```
+
+Sorting:
+```{python}
+# Sort by age (like arrange() in R)
+df.sort_values('age')                    # in R: df |> arrange(age)
+# Sort descending
+df.sort_values('age', ascending=False)   # in R: df |> arrange(desc(age))
+```
+
+Read in Data:
+```{python}
+# Read CSV (like read_csv() in R)
+imdb_df = pd.read_csv('data/imdb2006-2016.csv')
+imdb_df.head()
+
+# Read Excel
+publishers_df = pd.read_excel('data/publishers_with_places.xlsx')
+publishers_df.head()
+
+# Read from URL
+df_example = pd.read_csv('https://raw.githubusercontent.com/mwaskom/seaborn-data/master/tips.csv')
+df_example.head()
+```
+
+Quick Data Exploration:
+```{python}
+# Shape (rows, columns)
+df_example.shape                                  # in R: dim(df)
+# Column names 
+df_example.columns.tolist()                       # in R: colnames(df)
+# Value counts
+df_example['day'].value_counts()                  # in R: df |> count(day)
+# Group by and aggregate
+df_example.groupby('day')['total_bill'].mean()    # in R: df |> group_by(day) |> summarize(mean_bill = mean(total_bill))
+```
+
+### Method Chaining
+`pandas` supports method chaining (similar to the pipe `|>`/`%>%` in R):
+```{python}
+# Chain multiple operations
+result = (df_example
+    .query('total_bill > 20')  # Filter
+    .assign(tip_pct = lambda x: x['tip'] / x['total_bill'])  # New column
+    .sort_values('tip_pct', ascending=False)  # Sort
+    .head(5)  # Top 5
+)
+
+result
+```
+
+::: {.callout-tip title="Compared to R"}
+
+```{r}
+#| eval: false
+result <- df_example |>
+  filter(total_bill > 20) |>
+  mutate(tip_pct = tip / total_bill) |>
+  arrange(desc(tip_pct)) |>
+  slice(5)
+```
+
+::: 
+
+### Key Differences between `pandas` and R
+
+- Indexing: `pandas` uses 0-based indexing
+- Missing values: `pandas` uses NaN (from NumPy), not NA
+- Syntax: Methods instead of functions (e.g., df.head() not head(df))
+
+There is one important pitfall you need to pay attention to: `pandas` modifies in place unless you use `.copy()`!
+
+```{python}
+df = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})
+
+# This creates a reference, NOT a copy
+df2 = df
+
+# Modify df2
+df2['A'] = [10, 20, 30]
+
+# Surprise! df is also changed
+print(df)
+
+### FIX
+df = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})
+
+# This creates a copy, NOT a reference
+df2 = df.copy()
+
+# Modify df2
+df2['A'] = [10, 20, 30]
+
+# thank god! df did not change
+print(df)
+print(df2)
+```
+
+## Further Resources
+
+- A very helpful [R vs. `pandas` cheatsheet](https://github.com/meganzhou62/stat5702cc/blob/main/cheatsheet.pdf)
+- [Python for Data Analysis](https://wesmckinney.com/book/) by Wes McKinney (`pandas` creator)

@@ -1,0 +1,1233 @@
+---
+title: "Chapter 4: Introduction to Python for R Users"
+published-title: python_for_r_users
+engine: knitr
+freeze: auto
+bibliography: literature.bib
+csl: ASA.csl
+---
+
+```{r}
+#| include: false
+reticulate::use_condaenv("toolbox_env", required = TRUE)
+```
+
+## Introduction
+
+This tutorial introduces Python programming with a focus on comparisons to R. If you're familiar with R, you'll find many concepts translate directly, though the syntax differs. Python is a general-purpose programming language that's become increasingly popular in data science, offering powerful libraries for data manipulation, visualization, and machine learning.
+
+### Setting Up
+
+Python can be run in various environments:
+
+-   RStudio/Positron (see this blog post: [Using Python in RStudio](https://posit.co/blog/three-ways-to-program-in-python-with-rstudio/))
+-   Jupyter notebooks (similar to RMarkdown/Quarto)
+-   VSCode with Python extensions
+
+For this tutorial, we'll use Python code chunks in Quarto, which can execute Python code just like it executes R code.
+
+```{python}
+# This is a comment in Python (like # in R)
+print("Hello from Python!")
+```
+
+## Python Environments
+
+### What Are Environments?
+
+One of the biggest differences between Python and R is how they handle packages and dependencies. In R, when you install a package with `install.packages()`, it typically goes into a central library that all your R projects share. Python takes a different approach with **virtual environments**.
+
+A Python environment is an isolated directory that contains: - A specific Python version - Installed packages and their specific versions - Dependencies for those packages
+
+Imagine you have Project A that needs version 1.0 of a package, and Project B needs version 2.0 of the same package. In R, you'd typically have one version installed. In Python, you create separate environments for each project.
+
+### Common Environment Tools
+
+We will use conda for all things environment management in this tutorial. Other options include: - `venv` (built-in Python tool) - `virtualenv` (third-party tool)
+
+`conda` is more powerful and manages both Python versions and packages. It's popular in data science.
+
+```{bash}
+#| eval: false
+# Create environment with specific Python version
+conda create -n toolbox_env python=3.9
+
+# Activate
+conda activate toolbox_env
+
+# Install packages
+conda install pandas numpy matplotlib selenium openpyxl
+
+# Deactivate
+conda deactivate
+```
+
+Or do it the `reticulate` way in Quarto:
+
+```{r}
+#| eval: false
+reticulate::conda_create("toolbox_env", packages = "python=3.9")
+reticulate::conda_install("toolbox_env", packages = c("pandas", "numpy", "matplotlib", "selenium", "openpyxl"))
+reticulate::use_condaenv("toolbox_env", required = TRUE)
+```
+```{r}
+#| include: false
+reticulate::use_condaenv("toolbox_env", required = TRUE)
+```
+
+### Why Environments Matter for This Tutorial
+
+If you're working through this tutorial:
+
+1.  **Using Jupyter/Quarto**: These typically run in their own environment. Your code chunks will execute in whatever environment is active.
+
+2.  **Installing packages**: When we eventually use packages like `NumPy`, `selenium`, or `Pandas`, you'll want to install them in an environment:
+
+```{bash}
+#| eval: false
+conda install pandas numpy matplotlib selenium
+```
+
+3.  **Checking your environment**: You can see what's installed with:
+
+```{bash}
+#| eval: false
+conda list            # for conda
+```
+
+### Quick Setup Recommendation
+
+If you have not created your environment using `reticulate` yet, I recommend doing it manually in the console.
+
+```{bash}
+#| eval: false
+# Create a dedicated environment
+conda create -n toolbox_env python=3.9 pandas numpy matplotlib jupyter
+
+# Activate it
+conda activate toolbox_env
+
+# When working on exercises, make sure this environment is active!
+```
+
+::: {.callout-tip title="Compared to R"}
+Think of it this way: In R, you might use RStudio Projects to organize your work. In Python, you use Projects *plus* environments to isolate not just files, but also package versions.
+:::
+
+### Checking Your Current Environment
+
+```{python}
+#| eval: false
+import sys
+
+# Where is Python running from?
+print(f"Python executable: {sys.executable}")
+
+# What version?
+print(f"Python version: {sys.version}")
+```
+
+If you're using conda, you can also check in your terminal:
+
+```{bash}
+#| eval: false
+conda info --envs  # List all environments
+```
+
+## Data Types
+
+Python has several fundamental data types. Unlike R, where everything is a vector by default, Python distinguishes between individual values (scalars) and collections. You will also use an assignment operator `=` instead of `<-`.
+
+### Numbers
+
+Python has two main numeric types: integers (`int`) and floating-point numbers (`float`).
+
+```{python}
+# Integer
+x = 42
+print(type(x))  # Check the type
+print(x)
+
+# Float
+y = 3.14159
+print(type(y))
+print(y)
+```
+
+::: {.callout-tip title="Compared to R"}
+In R, you'd use `class()` instead of `type()`. R doesn't strictly distinguish between integers and doubles unless you explicitly create an integer with `42L`.
+:::
+
+### Strings
+
+Strings represent text data. Python treats single quotes `'` and double quotes `"` identically (unlike R where they're essentially the same but double quotes are conventional).
+
+```{python}
+# Strings in Python
+greeting = "Hello"
+name = 'World'
+
+# String concatenation uses +
+message = greeting + " " + name + "!"
+print(message)
+
+# Or use f-strings (formatted string literals) -- Python 3.6+
+message_formatted = f"{greeting} {name}!"
+print(message_formatted)
+```
+
+::: {.callout-tip title="Compared to R"}
+In R, you'd use `paste()` or `paste0()` for concatenation, or `str_c()` from the tidyverse. Python's f-strings are similar to `glue::glue()` in R.
+:::
+
+### Booleans
+
+Boolean values are `True` and `False` (note the capitalization - this matters in Python!).
+
+```{python}
+# Booleans in Python
+is_python_fun = True
+is_this_hard = False
+
+print(is_python_fun)
+print(type(is_python_fun))
+```
+
+::: {.callout-tip title="Compared to R"}
+R uses `TRUE` and `FALSE` (all caps), while Python uses `True` and `False` (capitalized). Python is case-sensitive, so `true` would throw an error.
+:::
+
+### None
+
+Python's equivalent of R's `NULL` or `NA` is `None`.
+
+```{python}
+# None represents absence of value
+nothing = None
+print(nothing)
+print(type(nothing))
+```
+
+## Collections: Lists, Tuples, and Dictionaries
+
+Python has several built-in collection types. These are roughly analogous to R's vectors and lists, but with important differences.
+
+### Lists
+
+Python lists are ordered, mutable (changeable) collections. They're similar to R's lists, not R's atomic vectors.
+
+```{python}
+# Creating a list
+numbers = [1, 2, 3, 4, 5]
+mixed_list = [1, "two", 3.0, True]  # Can contain different types
+
+print(numbers)
+print(mixed_list)
+```
+
+**Indexing**: Python uses 0-based indexing (the first element is at position 0), unlike R's 1-based indexing.
+
+```{python}
+# Accessing elements
+fruits = ["apple", "banana", "cherry", "date"]
+
+print(fruits[0])      # First element (R would use fruits[1])
+print(fruits[-1])     # Last element (negative indexing from end)
+print(fruits[1:3])    # Slicing: elements 1 and 2 (end index is exclusive)
+```
+
+::: {.callout-tip title="Compared to R"}
+R's `c(1, 2, 3, 4, 5)` creates an atomic vector. Python's `[1, 2, 3, 4, 5]` is more like R's `list(1, 2, 3, 4, 5)`, though it can be used for numeric operations when converted to a NumPy array.
+:::
+
+Some common list operations:
+```{python}
+# List operations
+numbers = [1, 2, 3]
+
+# Append (like R's c() or append())
+numbers.append(4)
+print(numbers)
+
+# Extend with another list
+numbers.extend([5, 6])
+print(numbers)
+
+# Length
+print(len(numbers))  # R's length()
+```
+
+### Tuples
+
+Tuples are like lists but immutable (can't be changed after creation). They use parentheses `()` instead of square brackets.
+
+```{python}
+# Creating a tuple
+coordinates = (10, 20)
+print(coordinates)
+print(type(coordinates))
+
+# Accessing works the same as lists
+print(coordinates[0])
+
+# But you can't modify them
+# coordinates[0] = 15  # This would raise an error!
+```
+
+::: {.callout-tip title="Compared to R"}
+R doesn't have a direct equivalent to tuples, though you could think of them as named lists that are "frozen."
+:::
+
+### Dictionaries
+
+Dictionaries store key-value pairs. They're similar to R's named lists or named vectors.
+
+```{python}
+# Creating a dictionary
+person = {
+    "name": "Alice",
+    "age": 30,
+    "city": "Leipzig"
+}
+
+print(person)
+
+# Accessing values by key
+print(person["name"])
+print(person["age"])
+
+# Adding new key-value pairs
+person["occupation"] = "Data Scientist"
+print(person)
+```
+
+::: {.callout-tip title="Compared to R"}
+
+This is similar to:
+```{r}
+#| eval: false
+person <- list(
+  name = "Alice",
+  age = 30,
+  city = "Leipzig"
+)
+person$name  # or person[["name"]]
+```
+:::
+
+## Simple Operations
+
+### Arithmetic Operations
+
+Python supports standard arithmetic operators, similar to R.
+
+```{python}
+# Basic arithmetic
+a = 10
+b = 3
+
+a + b       # Addition
+a - b       # Subtraction
+a * b       # Multiplication
+a / b       # Division (always returns float)
+a // b      # Floor division (integer division - R uses %/%)
+a % b       # Modulus (remainder)
+a ** b      # Exponentiation (R uses a^b or a**b in newer versions)
+```
+
+::: {.callout-tip title="Compared to R"}
+Most operators are the same. Key differences: - `/` always returns float in Python 3 (R returns integer if both are integers) - `//` for integer division (R: `%/%`) - `**` for exponentiation (R traditionally uses `^`, though `**` now works)
+::: 
+
+### Comparison Operations
+
+```{python}
+# Comparison operators
+x = 5
+y = 10
+
+x == y #Equal
+x != y # Not equal
+x > y  # Greater than
+x <= y # Less than or equal to
+```
+
+::: {.callout-tip title="Compared to R"}
+Same operators, but Python uses `!=` for "not equal" (R can use `!=` or `<>`).
+:::
+
+### Logical Operations
+
+Python uses words instead of symbols for logical operations.
+
+```{python}
+# Logical operators
+a = True
+b = False
+
+a and b # R equ: a & b
+a or b # R equ: a | b
+not a # R equ: !a
+```
+
+::: {.callout-tip title="Compared to R"}
+
+- Python: `and`, `or`, `not` 
+- R: `&`, `|`, `!` (for element-wise); `&&`, `||` (for scalar)
+
+::: 
+
+## Flow Control with `if`, `elif`, `else`
+
+Sometimes you want your code to only run in specific cases. Python uses if statements for conditional execution.
+
+```{python}
+# Basic if statement
+x = 3
+
+if x <= 5:
+    print("x is smaller than or equal to 5")
+```
+
+Add an else block for an alternative action:
+
+```{python}
+x = 10
+
+if x <= 5:
+    print("x is smaller than or equal to 5")
+else:
+    print("x is greater than 5")
+```
+
+### elif - Multiple Conditions
+
+When you need to check multiple conditions sequentially, use `elif` (short for "else if"). Python will check each condition in order and execute the first block where the condition is `True`.
+
+```{python}
+score = 75
+
+if score >= 90:
+    print("Grade: A")
+elif score >= 80:
+    print("Grade: B")
+elif score >= 70:
+    print("Grade: C")
+elif score >= 60:
+    print("Grade: D")
+else:
+    print("Grade: F")
+```
+
+You can have as many elif statements as you need. Python checks them from top to bottom and stops at the first `True` condition. Note that the final `else` is optional but highly recommended as a catch-all.
+
+```{python}
+temperature = 25
+
+if temperature < 0:
+    print("Freezing!")
+elif temperature < 10:
+    print("Cold")
+elif temperature < 20:
+    print("Cool")
+elif temperature < 30:
+    print("Warm")
+else:
+    print("Hot!")
+```
+
+::: {.callout-tip title="Compared to R"}
+Comparison to R: R uses else if (two words) instead of elif:
+
+```{r}
+temperature = 25
+if (temperature < 0) {
+  print("Freezing")
+} else if (temperature >= 10) {
+  print("Cold")
+} else if (temperature < 20) {
+  print("Cool")
+} else if (temperature < 30) {
+  print("Warm")
+} else {
+  print("Hot!")
+}
+```
+::: 
+
+Important: The condition must evaluate to a single boolean value (True or False).
+
+## Functions
+
+Functions allow you to package code into reusable blocks. Just like in R, functions are essential for writing clean, maintainable code that follows the DRY (Don't Repeat Yourself) principle.
+
+### Defining Functions
+The basic syntax for defining a function in Python:
+
+```{python}
+def function_name(parameter1, parameter2):
+    """This is a docstring - describes what the function does."""
+    # Function body
+    result = parameter1 + parameter2
+    return result
+
+# Call the function
+answer = function_name(5, 3)
+answer
+```
+
+::: {.callout-tip title="Compared to R"}
+
+```{r}
+function_name <- function(parameter1, parameter2) {
+  result <- parameter1 + parameter2
+  return(result)
+}
+```
+
+:::
+
+### A Simple Example
+```{python}
+def greet(name):
+    """Greet someone by name."""
+    return f"Hello, {name}!"
+
+greet("Alice")
+greet("Bob")
+
+### Hint: Python coders tend to use "" around real text/natural language and '' around symbol-like expressions (e.g., column names -- see below)
+```
+
+### Default Arguments
+You can provide default values for parameters, just like in R.
+
+```{python}
+def greet_with_title(name, title = "Dr."):
+    """Greet someone with their title."""
+    return f"Hello, {title} {name}!"
+
+greet_with_title("Smith")                    # Uses default title
+greet_with_title("Smith", "Prof.")           # Overrides default
+greet_with_title("Smith", title = "Mr.")       # Named argument (more explicit)
+```
+
+::: {.callout-tip title="Compared to R"}
+
+```{r}
+rgreet_with_title <- function(name, title = "Dr.") {
+  paste0("Hello, ", title, " ", name, "!")
+}
+```
+::: 
+
+### `return`
+
+Per the [official style guide](https://peps.python.org/pep-0008/#programming-recommendations) it is idiomatic to be consistent with return statements:
+
+> Be consistent in return statements. Either all return statements in a function should return an expression, or none of them should. If any return statement returns an expression, any return statements where no value is returned should explicitly state this as return None, and an explicit return statement should be present at the end of the function (if reachable)
+
+::: {.callout-tip title="Compared to R"}
+
+The object created in the last call will automatically be returned. `return(object)` shall be avoided unless you need an early return.
+
+::: 
+
+
+### Multiple Return Values
+Python can return multiple values as a tuple (similar to R's lists).
+
+```{python}
+def calculate_stats(numbers):
+    """Calculate mean and standard deviation."""
+    n = len(numbers)
+    mean = sum(numbers) / n
+    
+    # Calculate standard deviation
+    squared_diff = [(x - mean) ** 2 for x in numbers] # this is a list comprehension, an abbreviated for loop
+    variance = sum(squared_diff) / n
+    std_dev = variance ** 0.5
+    
+    return mean, std_dev  # Returns a tuple
+
+data = [2, 4, 4, 4, 5, 5, 7, 9]
+
+mean_value, std_value = calculate_stats(data) # make sure to define both objects, or unpack the tuple later
+mean_value
+std_value
+
+#this is the same as:
+results = calculate_stats(data)
+mean_value = results[0]
+std_value = results[1]
+mean_value
+std_value
+```
+
+::: {.callout-tip title="Compared to R"}
+Comparison to R: R typically returns a list or vector:
+
+```{r}
+rcalculate_stats <- function(numbers) {
+  list(mean = mean(numbers), sd = sd(numbers))
+}
+```
+
+::: 
+
+### Docstrings
+Python uses triple-quoted strings ("""...""") right after the function definition to document what the function does. This is similar to roxygen2 comments in R.
+
+```{python}
+def convert_temperature(celsius):
+    """
+    Convert temperature from Celsius to Fahrenheit.
+    
+    Parameters:
+    -----------
+    celsius : float
+        Temperature in Celsius
+        
+    Returns:
+    --------
+    float
+        Temperature in Fahrenheit
+    """
+    fahrenheit = (celsius * 9/5) + 32
+    return fahrenheit
+
+convert_temperature(0)
+convert_temperature(100)
+
+#'You can access the docstring with `help()` in an interactive session (e.g., Jupyter):
+#help(convert_temperature)
+```
+
+### Lambda Functions (Anonymous Functions)
+
+Python has lambda functions for short, one-line functions. These are similar to R's anonymous functions `function(x) x + 1` or the shorthand `\(x) x + 1` in purrr.
+
+```{python}
+# Regular function
+def add_ten(x):
+    return x + 10
+
+# Lambda function (anonymous)
+add_ten_lambda = lambda x: x + 10
+
+add_ten(5)
+add_ten_lambda(5)
+```
+
+Lambda functions are especially useful when you need a simple function as an argument:
+
+```{python}
+# Sort a list of tuples by the second element
+pairs = [(1, 'one'), (3, 'three'), (2, 'two')]
+sorted_pairs = sorted(pairs, key=lambda x: x[1])
+sorted_pairs
+```
+
+::: {.callout-tip title="Compared to R"}
+R equivalent
+
+```{r}
+add_ten <- function(x) x + 10
+# or in purrr
+add_ten <- \(x) + 10
+```
+:::
+
+### Variable Scope
+
+Python follows similar scoping rules to R: variables defined inside functions are local to that function.
+
+```{python}
+x = 10  # Global variable
+
+def modify_variable():
+    x = 5  # Local variable - doesn't affect global x
+    return x
+
+modify_variable()  # Returns 5
+x                  # Still 10
+```
+
+To modify a global variable inside a function, you need the global keyword (though this is generally discouraged):
+
+```{python}
+counter = 0
+
+def increment_counter():
+    global counter
+    counter += 1
+    return counter
+
+increment_counter()
+increment_counter()
+counter
+```
+
+::: {.callout-tip title="Compared to R"}
+Comparison to R: R uses <<- for assigning to parent environments, which is also discouraged.
+:::
+
+## Loops
+
+Loops allow you to repeat operations. Python has `for` loops and `while` loops, similar to R.
+
+### For Loops
+
+`for` loops in Python iterate over sequences (lists, tuples, strings, ranges, etc.).
+
+```{python}
+# Basic for loop
+fruits = ["apple", "banana", "cherry"]
+
+for fruit in fruits:
+    print(f"I like {fruit}")
+```
+
+::: {.callout-tip title="Compared to R"}
+R's equivalent would be:
+```{r}
+fruits = c("apple", "banana", "cherry")
+for (fruit in fruits) {
+  print(paste("I like", fruit))
+}
+```
+::: 
+
+#### The range() Function
+
+`range()` generates a sequence of numbers and is commonly used with `for` loops. It's similar to R's `seq()` or `:` operator.
+
+```{python}
+# range(stop) - from 0 to stop-1
+for i in range(5):
+    print(i)
+```
+
+```{python}
+# range(start, stop) - from start to stop-1
+for i in range(2, 7):
+    print(i)
+```
+
+```{python}
+# range(start, stop, step) - with custom step
+for i in range(0, 10, 2):
+    print(i)
+```
+
+::: {.callout-tip title="Compared to R"}
+R equivalents:
+
+```{r}
+#| eval: false
+for (i in 0:4) { }           # range(5)
+for (i in 2:6) { }           # range(2, 7)
+for (i in seq(0, 8, by=2)) { } # range(0, 10, 2)
+```
+:::
+
+### Enumerate
+When you need both the index and the value, use `enumerate()`.
+
+```{python}
+# enumerate provides index and value
+colors = ["red", "green", "blue"]
+enumerate(colors)
+
+for index, color in enumerate(colors):
+    print(f"Color {index}: {color}")
+
+# Start counting from 1 instead of 0
+for index, color in enumerate(colors, start=1):
+    print(f"Color {index}: {color}")
+```
+
+::: {.callout-tip title="Compared to R"}
+R's `seq_along()` is similar:
+```{r}
+colors = c("red", "green", "blue")
+for (i in seq_along(colors)) {
+  print(paste("Color", i, ":", colors[i]))
+}
+```
+::: 
+
+### Nested Loops
+
+You can nest loops just like in R.
+
+```{python}
+# Nested loops - multiplication table
+for i in range(1, 4):
+    for j in range(1, 4):
+        print(f"{i} x {j} = {i * j}")
+```
+
+### List Comprehensions
+
+One of Python's most powerful features is list comprehensions -- a concise way to create lists. This is similar to R's `sapply()` or `purrr::map()`. 
+
+Now that you understand `for` loops, list comprehensions will make more sense as they're essentially condensed `for` loops. List comprehensions will yield a list.
+
+```{python}
+# Traditional loop approach
+squares = [] # define list
+for i in range(1, 6):
+    squares.append(i ** 2) # build list as you go -- more efficient than vector growing in R
+print(squares)
+
+# List comprehension - more Pythonic
+squares = [i ** 2 for i in range(1, 6)]
+print(squares)
+
+# With condition (like dplyr::filter)
+even_squares = [i ** 2 for i in range(1, 11) if i % 2 == 0]
+print(even_squares)
+```
+
+
+::: {.callout-tip title="Compared to R"}
+R equivalent:
+
+```{r}
+needs(tidyverse)
+squares <- sapply(1:5, function(x) x^2)
+# or with purrr
+squares <- map_dbl(1:5, \(x) x^2)
+```
+
+::: 
+
+The general syntax for list comprehensions is:
+
+`[expression *for* item *in* iterable *if* condition]`
+
+This reads almost like English: 
+"Create a list of expression *for* each item *in* iterable *if* condition is true."
+
+### While Loops
+
+`while` loops continue executing as long as a condition is `True`. They're identical in concept to R's while loops.
+```{python}
+# Basic while loop
+count = 0
+
+while count < 5:
+    print(f"Count is: {count}")
+    count += 1  # Increment (Python doesn't have count++)
+
+print("Loop finished!")
+```
+
+::: {.callout-tip title="Compared to R"}
+Very similar syntax, though Python uses count += 1 instead of count <- count + 1.
+:::
+
+```{python}
+# while loop with user input simulation
+# Let's simulate checking until we find a value
+import random
+
+target = 7
+attempts = 0
+guess = 0
+
+while guess != target:
+    guess = random.randint(1, 10)
+    attempts += 1
+    print(f"Attempt {attempts}: guessed {guess}")
+
+print(f"Found {target} in {attempts} attempts!")
+```
+
+### `break` and `continue`
+
+Control loop execution with break and continue.
+
+```{python}
+# break - exit the loop immediately
+for i in range(10):
+    if i == 5:
+        break
+    print(i)
+
+
+# continue - skip rest of current iteration
+for i in range(10):
+    if i % 2 == 0:  # Skip even numbers
+        continue
+    print(i)
+```
+
+::: {.callout-tip title="Compared to R"}
+`break` and `next` work the same way (next in R is continue in Python).
+::: 
+
+### Practical Examples
+
+**Example 1: Filter and Transform Data** 
+Let's say we have a list of student grades and we want to filter out those who passed (grade >= 70) and calculate the average grade.
+```{python}
+# Sample data
+students = [
+    {"name": "Alice", "grade": 85},
+    {"name": "Bob", "grade": 72},
+    {"name": "Charlie", "grade": 90},
+    {"name": "Diana", "grade": 68},
+    {"name": "Eve", "grade": 95}
+]
+
+# Filter students who passed (grade >= 70)
+passing_students = [s for s in students if s["grade"] >= 70]
+
+print("Passing students:")
+for student in passing_students:
+    print(f"{student['name']}: {student['grade']}")
+
+# Calculate average grade
+grades = [s["grade"] for s in students]
+average = sum(grades) / len(grades)
+print(f"\nClass average: {average:.2f}")
+```
+
+::: {.callout-tip title="Compared to R"}
+This is similar to using `dplyr::filter()` and `summarize()`.
+:::
+
+**Example 2: FizzBuzz** 
+
+A classic programming exercise - counting with special rules.
+```{python}
+# FizzBuzz: Print numbers 1-20, but:
+# - "Fizz" for multiples of 3
+# - "Buzz" for multiples of 5
+# - "FizzBuzz" for multiples of both
+
+for i in range(1, 21):
+    if i % 3 == 0 and i % 5 == 0:
+        print("FizzBuzz")
+    elif i % 3 == 0:
+        print("Fizz")
+    elif i % 5 == 0:
+        print("Buzz")
+    else:
+        print(i)
+```
+
+
+## Key Python Conventions
+
+### Indentation
+
+Python uses indentation to define code blocks (unlike R which uses {}). This is not optional -- incorrect indentation will cause errors!
+
+# Correct indentation
+
+```{python}
+if True:
+    print("This is indented")
+    print("This too")
+print("This is not in the if block")
+```
+
+Important: Use 4 spaces (not tabs) for indentation. Most Python editors handle this automatically.
+
+### Naming Conventions
+
+Python follows PEP 8 style guide:
+
+- Variables and functions: snake_case (like R's tidyverse)
+- Constants: UPPER_CASE
+- Classes: PascalCase
+
+```{python}
+# Good Python style
+student_name = "Alice"
+MAX_ATTEMPTS = 3
+
+def calculate_average(values):
+    return sum(values) / len(values)
+```
+
+## `pandas`
+
+Introduction to Pandas
+Now that you understand Python basics, let's look at `pandas` - Python's most popular library for data manipulation. If you're familiar with R's tidyverse (especially dplyr and tidyr), pandas will feel conceptually familiar, though the syntax differs.
+
+### What is Pandas?
+
+Pandas provides two main data structures:
+
+- Series: Like an R vector or a single column
+- DataFrame: Like an R tibble/data.frame
+
+```{python}
+import pandas as pd  # Standard convention: import pandas as pd -- equivalent to library(tidyverse)
+import numpy as np   # NumPy often used alongside pandas
+
+# Check version
+pd.__version__
+```
+
+### Creating DataFrames
+
+You can create DataFrames in several ways:
+
+```{python}
+# From a dictionary (like tibble() in R)
+df = pd.DataFrame({
+    'name': ['Alice', 'Bob', 'Charlie', 'Diana'],
+    'age': [25, 30, 35, 28],
+    'city': ['New York', 'London', 'Paris', 'Tokyo']
+})
+
+df
+```
+
+
+::: {.callout-tip title="Compared to R"}
+rdf <- tibble(
+  name = c('Alice', 'Bob', 'Charlie', 'Diana'),
+  age = c(25, 30, 35, 28),
+  city = c('New York', 'London', 'Paris', 'Tokyo')
+)
+::: 
+
+### Basic DataFrame Operations
+
+`pandas` works through methods rather than functions. Methods are attached to specific object types. A string has string methods, a list has list methods, a DataFrame has DataFrame methods.
+
+There are several differences:
+
+Functions are called by putting the object as an argument:
+```{python}
+# Function syntax: function(object, arguments)
+my_list = [3, 1, 4, 1, 5]
+len(my_list)        # len is a function
+sorted(my_list)     # sorted is a function
+```
+
+Methods are functions that "belong to" an object and are called using dot notation:
+```{python}
+# Method syntax: object.method(arguments)
+my_string = "hello world"
+my_string.upper()      # upper() is a method of strings
+my_string.split()      # split() is a method of strings
+my_string              # object remains unchanged
+
+my_list.append(9)      # append() is a method of lists; note that this modifies the list in place
+my_list
+```
+
+
+::: {.callout-tip title="Compared to R"}
+R primarily uses functions - you write head(df), nrow(df), names(df). Python often uses methods - you write df.head(), df.shape, df.columns.
+::: 
+
+This matters for pandas, since almost everything is a method and hence the syntax differs significantly.
+
+### `pandas` in action
+
+Viewing Data (note that objects remain unchanged):
+
+```{python}
+# First few rows (like head() in R)
+df.head(2)
+# Last few rows (like tail() in R)
+df.tail(2)
+# Info about the DataFrame (like glimpse() or str() in R)
+df.info()
+# Summary statistics (like summary() in R)
+df.describe()
+```
+
+Selecting Columns:
+```{python}
+# Select single column (returns a Series)
+df['name']           # in R: df$name
+# Select single column (returns a DataFrame)
+df[['name']]         # in R: df |> select(name)
+# Select multiple columns (returns a DataFrame)
+df[['name', 'age']]  # in R: df |> select(name, age)
+```
+
+
+Filtering Rows:
+```{python}
+# Filter rows where age > 28
+df[df['age'] > 28]
+# Multiple conditions (use & for AND, | for OR)
+df[(df['age'] > 25) & (df['city'] == 'London')]
+```
+
+
+Adding New Columns
+```{python}
+# Add a new column (like mutate() in R)
+df['age_in_months'] = df['age'] * 12    # in R: df$age_in_months <- df$age * 12
+df
+```
+
+Sorting:
+```{python}
+# Sort by age (like arrange() in R)
+df.sort_values('age')                    # in R: df |> arrange(age)
+# Sort descending
+df.sort_values('age', ascending=False)   # in R: df |> arrange(desc(age))
+```
+
+Read in Data:
+```{python}
+# Read CSV (like read_csv() in R)
+imdb_df = pd.read_csv('data/imdb2006-2016.csv')
+imdb_df.head()
+
+# Read Excel
+publishers_df = pd.read_excel('data/publishers_with_places.xlsx')
+publishers_df.head()
+
+# Read from URL
+df_example = pd.read_csv('https://raw.githubusercontent.com/mwaskom/seaborn-data/master/tips.csv')
+df_example.head()
+```
+
+Quick Data Exploration:
+```{python}
+# Shape (rows, columns)
+df_example.shape                                  # in R: dim(df)
+# Column names 
+df_example.columns.tolist()                       # in R: colnames(df)
+# Value counts
+df_example['day'].value_counts()                  # in R: df |> count(day)
+# Group by and aggregate
+df_example.groupby('day')['total_bill'].mean()    # in R: df |> group_by(day) |> summarize(mean_bill = mean(total_bill))
+```
+
+### Method Chaining
+Pandas supports method chaining (similar to the pipe `|>`/`%>%` in R):
+```{python}
+# Chain multiple operations
+result = (df_example
+    .query('total_bill > 20')  # Filter
+    .assign(tip_pct = lambda x: x['tip'] / x['total_bill'])  # New column
+    .sort_values('tip_pct', ascending=False)  # Sort
+    .head(5)  # Top 5
+)
+
+result
+```
+
+::: {.callout-tip title="Compared to R"}
+
+```{r}
+#| eval: false
+result <- df_example |>
+  filter(total_bill > 20) |>
+  mutate(tip_pct = tip / total_bill) |>
+  arrange(desc(tip_pct)) |>
+  slice(5)
+```
+
+::: 
+
+### Key Differences between `pandas` and R
+
+- Indexing: Pandas uses 0-based indexing
+- Missing values: Pandas uses NaN (from NumPy), not NA
+- Syntax: Methods instead of functions (e.g., df.head() not head(df))
+
+There is one important pitfall you need to pay attention to: `pandas` modifies in place unless you use `.copy()`!
+
+```{python}
+df = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})
+
+# This creates a reference, NOT a copy
+df2 = df
+
+# Modify df2
+df2['A'] = [10, 20, 30]
+
+# Surprise! df is also changed
+print(df)
+
+### FIX
+df = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})
+
+# This creates a copy, NOT a reference
+df2 = df.copy()
+
+# Modify df2
+df2['A'] = [10, 20, 30]
+
+# thank god! df did not change
+print(df)
+print(df2)
+```
+
+
+## Finally: The Zen of Python
+Python has a philosophy! Type `import this` to see it:
+
+```{python}
+import this
+```
+
+## Exercises
+
+**Exercise 1: Temperature Converter**
+Write a program that converts temperatures between Celsius and Fahrenheit.
+Formula: $F = (C \times 9/5) + 32$
+
+a. Convert each to Fahrenheit using a for loop
+b. Print the results
+c. Store each Celsius value and its Fahrenheit equivalent in a DataFrame.
+
+```{python}
+temperatures_celsius = [0, 10, 20, 30, 40]
+# Your code here
+```
+
+**Exercise 2: Word Counter**
+
+Given a sentence, count how many times each word appears. 
+
+Hint: Use sentence.split() to get a list of words, and a dictionary to store counts.
+
+Store the result in a `pandas` DataFrame.
+
+```{python}
+python_sentence = "the quick brown fox jumps over the lazy dog the fox"
+# Expected output: {'the': 3, 'quick': 1, 'brown': 1, ...}
+```
+
+**Exercise 3: Prime Numbers**
+
+Write a function that checks if a number is prime. Then use it to find all prime numbers between 1 and 50.
+
+```{python}
+
+```
+
+**Exercise 4: List Manipulation**
+
+a. Create a list of numbers from 1 to 20:
+b. Create a new list with only even numbers
+c. Create a new list with squares of odd numbers
+d. Calculate the sum of numbers divisible by 3
+
+The syntax might be different, but the concepts you know from R will translate well!
+
+## Further Resources
+
+-  [Official Python Tutorial](https://docs.python.org/3/tutorial/)
+-  [Learn Python the Hard Way](https://learnpythonthehardway.org/)
+-  [Automate the Boring Stuff with Python](https://automatetheboringstuff.com/)
+-  [Real Python](https://realpython.com/)
+- A very helpful [R vs. `pandas` cheatsheet](https://github.com/meganzhou62/stat5702cc/blob/main/cheatsheet.pdf)
+- [Python for Data Analysis](https://wesmckinney.com/book/) by Wes McKinney (pandas creator)
+

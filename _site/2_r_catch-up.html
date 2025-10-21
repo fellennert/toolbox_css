@@ -453,11 +453,11 @@ However, if you have ever worked on an R project with other people in a group an
 <pre><code># A tibble: 5 × 9
   manufacturer `3 cyl` `4 cyl` `5 cyl` `6 cyl` `8 cyl` `10 cyl` `12 cyl`
   &lt;chr&gt;          &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt;    &lt;int&gt;    &lt;int&gt;
-1 Audi               2      88       2      41      30        8        1
-2 BMW                5      93       9      49      29        8        7
-3 Mercedes           2      50       6      49      22        2        8
-4 Opel               3      54       3      43      25       10       19
-5 VW                 4      70      10      35      39        3       19
+1 Audi              12      65       1      48      39        8        1
+2 BMW               19      94       4      36      31        4       14
+3 Mercedes           4      79       5      36      33        6        9
+4 Opel              15      50       9      30      34        9       14
+5 VW                15      89       1      47      22        6       11
 # ℹ 1 more variable: `16 cyl` &lt;dbl&gt;</code></pre>
 </div>
 </div>
@@ -471,16 +471,16 @@ However, if you have ever worked on an R project with other people in a group an
 <pre><code># A tibble: 40 × 3
    manufacturer cylinders frequency
    &lt;chr&gt;        &lt;chr&gt;         &lt;dbl&gt;
- 1 Audi         3 cyl             2
- 2 Audi         4 cyl            88
- 3 Audi         5 cyl             2
- 4 Audi         6 cyl            41
- 5 Audi         8 cyl            30
+ 1 Audi         3 cyl            12
+ 2 Audi         4 cyl            65
+ 3 Audi         5 cyl             1
+ 4 Audi         6 cyl            48
+ 5 Audi         8 cyl            39
  6 Audi         10 cyl            8
  7 Audi         12 cyl            1
  8 Audi         16 cyl            0
- 9 BMW          3 cyl             5
-10 BMW          4 cyl            93
+ 9 BMW          3 cyl            19
+10 BMW          4 cyl            94
 # ℹ 30 more rows</code></pre>
 </div>
 </div>
@@ -556,16 +556,16 @@ However, if you have ever worked on an R project with other people in a group an
 <pre><code># A tibble: 40 × 3
    manufacturer cylinders frequency
    &lt;chr&gt;            &lt;dbl&gt;     &lt;dbl&gt;
- 1 Audi                 3         2
- 2 BMW                  3         5
- 3 Mercedes             3         2
- 4 Opel                 3         3
- 5 VW                   3         4
- 6 Audi                 4        88
- 7 BMW                  4        93
- 8 Mercedes             4        50
- 9 Opel                 4        54
-10 VW                   4        70
+ 1 Audi                 3        12
+ 2 BMW                  3        19
+ 3 Mercedes             3         4
+ 4 Opel                 3        15
+ 5 VW                   3        15
+ 6 Audi                 4        65
+ 7 BMW                  4        94
+ 8 Mercedes             4        79
+ 9 Opel                 4        50
+10 VW                   4        89
 # ℹ 30 more rows</code></pre>
 </div>
 </div>
@@ -580,16 +580,16 @@ However, if you have ever worked on an R project with other people in a group an
 <pre><code># A tibble: 40 × 3
    manufacturer cylinders frequency
    &lt;chr&gt;            &lt;dbl&gt;     &lt;dbl&gt;
- 1 Audi                 3         2
- 2 BMW                  3         5
- 3 Mercedes             3         2
- 4 Opel                 3         3
- 5 VW                   3         4
- 6 Audi                 4        88
- 7 BMW                  4        93
- 8 Mercedes             4        50
- 9 Opel                 4        54
-10 VW                   4        70
+ 1 Audi                 3        12
+ 2 BMW                  3        19
+ 3 Mercedes             3         4
+ 4 Opel                 3        15
+ 5 VW                   3        15
+ 6 Audi                 4        65
+ 7 BMW                  4        94
+ 8 Mercedes             4        79
+ 9 Opel                 4        50
+10 VW                   4        89
 # ℹ 30 more rows</code></pre>
 </div>
 </div>
@@ -600,16 +600,16 @@ However, if you have ever worked on an R project with other people in a group an
 <pre><code># A tibble: 40 × 3
    manufacturer cylinders frequency
    &lt;chr&gt;            &lt;dbl&gt;     &lt;dbl&gt;
- 1 Audi                 3         2
- 2 BMW                  3         5
- 3 Mercedes             3         2
- 4 Opel                 3         3
- 5 VW                   3         4
- 6 Audi                 4        88
- 7 BMW                  4        93
- 8 Mercedes             4        50
- 9 Opel                 4        54
-10 VW                   4        70
+ 1 Audi                 3        12
+ 2 BMW                  3        19
+ 3 Mercedes             3         4
+ 4 Opel                 3        15
+ 5 VW                   3        15
+ 6 Audi                 4        65
+ 7 BMW                  4        94
+ 8 Mercedes             4        79
+ 9 Opel                 4        50
+10 VW                   4        89
 # ℹ 30 more rows</code></pre>
 </div>
 </div>
@@ -627,18 +627,18 @@ lm(formula = frequency ~ cylinders, data = ger_car_manufacturer_longer_sep_cyl)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--31.852 -15.302  -0.957  10.285  61.678 
+-33.174 -14.016   0.978   9.000  59.761 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)  41.4435     7.7946   5.317 4.91e-06 ***
-cylinders    -2.5304     0.8647  -2.926  0.00576 ** 
+(Intercept)  45.9783     7.6060   6.045 4.94e-07 ***
+cylinders    -2.9348     0.8438  -3.478  0.00128 ** 
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 22.71 on 38 degrees of freedom
-Multiple R-squared:  0.1839,    Adjusted R-squared:  0.1624 
-F-statistic: 8.563 on 1 and 38 DF,  p-value: 0.005762</code></pre>
+Residual standard error: 22.17 on 38 degrees of freedom
+Multiple R-squared:  0.2415,    Adjusted R-squared:  0.2215 
+F-statistic:  12.1 on 1 and 38 DF,  p-value: 0.001282</code></pre>
 </div>
 </div>
 <p>As <code>|&gt;</code> is a bit tedious to type, a shortcut exists: <code>shift-ctrl-m</code>.</p>
@@ -3403,14 +3403,14 @@ $carb
 <span id="cb272-13"><a href="#cb272-13" aria-hidden="true" tabindex="-1"></a>result_seq <span class="ot">&lt;-</span> <span class="fu">map_dbl</span>(example_long, add_10_slow)</span>
 <span id="cb272-14"><a href="#cb272-14" aria-hidden="true" tabindex="-1"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Sequential (purrr): 12.084 sec elapsed</code></pre>
+<pre><code>Sequential (purrr): 12.158 sec elapsed</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb274"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb274-1"><a href="#cb274-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Parallel version</span></span>
 <span id="cb274-2"><a href="#cb274-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tic</span>(<span class="st">"Parallel (furrr)"</span>)</span>
 <span id="cb274-3"><a href="#cb274-3" aria-hidden="true" tabindex="-1"></a>result_par <span class="ot">&lt;-</span> <span class="fu">future_map_dbl</span>(example_long, add_10_slow)</span>
 <span id="cb274-4"><a href="#cb274-4" aria-hidden="true" tabindex="-1"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Parallel (furrr): 2.993 sec elapsed</code></pre>
+<pre><code>Parallel (furrr): 3.219 sec elapsed</code></pre>
 </div>
 </div>
 <p>You can see that the parallel version is much faster than the sequential one. However, the speed increase is not linear. This is due to the overhead of setting up parallel processes. Setting up worker processes, transferring data between them, and collecting results all take time. With my 0.5 second tasks, this overhead becomes a significant fraction of the total runtime. Also, following Amdahl’s Law, not everything can be parallelized. Some parts like initial setup and final result collection must run sequentially. This creates a fundamental limit on speedup. Finally, there are system constraints, as my CPU shares resources with other processes, memory bandwidth can become a bottleneck, and modern CPUs can’t maintain peak single-core performance across all cores simultaneously.</p>
@@ -3554,7 +3554,7 @@ Wickham, Hadley and Garrett Grolemund. 2016. <em>R for Data Science: Import, Tid
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/fellennert\.github\.io\/toolbox_css\/");
+        var filterRegex = new RegExp('/' + window.location.host + '/');
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

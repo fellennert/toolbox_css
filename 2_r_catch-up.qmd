@@ -1360,7 +1360,7 @@ raw_list <- list(first_element = 1:4, 4:6, 10:42)
 str(raw_list) # shows you the elements of the list
 
 map(raw_list, mean)
-map(raw_list, ~{mean(.x) |> sqrt()})
+map(raw_list, \(x) mean(x) |> sqrt())
 map_dbl(raw_list, mean) # by specifying the type of output, you can reduce the list
 
 raw_list |> pluck(1) == raw_list |> pluck("first_element")
@@ -1393,6 +1393,7 @@ example_strings <- c("this", "is", "how", "a", "for", "loop", "works")
 for (i in seq_along(example_strings)) {
   print(example_strings[[i]])
 }
+i <- 2
 ```
 
 Another option -- from the tidyverse -- is the `purrr` package:
@@ -1448,7 +1449,7 @@ if (conditional_statement evaluates to TRUE) {
 Imagine that I want R to tell me whether a number it draws is smaller than or equal to five:
 
 ```{r}
-set.seed(1234)
+set.seed(12345)
 x <- sample(10, 1)
 
 if (x <= 5) {
@@ -1459,7 +1460,7 @@ if (x <= 5) {
 In this case, x is 3, so the if statement returns something. If this is not the case, nothing happens:
 
 ```{r}
-set.seed(12345)
+set.seed(1234)
 x <- sample(10, 1)
 
 if (x <= 5) {
@@ -1564,11 +1565,17 @@ When you define functions in R, you need to follow a certain structure:
 function_name <- function(argument_1, argument_2, argument_n) {
   function_body
 }
+
+rescale0to1 <- function(x) {
+  (x - min(x, na.rm = TRUE)) / (max(x, na.rm = TRUE) - min(x, na.rm = TRUE))
+}
+
+map(df, rescale0to1)
 ```
 
 -   The `function_name` is the thing you will call (e.g., `mean()`). In general, it should be a verb, it should be concise, and it should be in_snakecase.
 -   The `argument`s are what you need to provide the function with (e.g., `mean(`*1:10*`)`).
--   The `function body` contains the operations which are performed to the arguments. It can contain other functions as well -- which need to be defined beforehand (e.g., `sum(1:10) / length(1:10)`)). It is advisable to split up the function body into as little pieces as you can.
+-   The `function body` contains the operations which are performed to the arguments. It can contain other functions as well -- which need to be defined beforehand (e.g., `sum(1:10) / length(1:10)`). It is advisable to split up the function body into as little pieces as you can.
 
 #### An example: Roulette
 
@@ -1592,6 +1599,14 @@ play_roulette <- function(bet, number) {
 }
 
 play_roulette(bet = 1, number = 35)
+
+outcome <- vector("list", length = 1000)
+for (i in 1:1000) {
+  outcome[[i]] <- play_roulette(bet = 1, number = 20)
+}
+
+bind_rows(outcome) |> 
+  summarize(total_return = sum(your_return), profit = total_return - 1000)
 ```
 
 But how to make sure that I do not bet on a number which I cannot bet on (i.e., numbers greater than 36)? Or, put differently, how to forbid values? Use `stop()`. Besides, how to set default values for the arguments? Just use `argument = default`.
@@ -1612,14 +1627,14 @@ play_roulette_restricted <- function(bet = 1, number) {
   )
   #return(tbl_return)
 }
-play_roulette_restricted(number = 3)
+play_roulette_restricted(number = 37)
 ```
 
 The function returns the results of the last call, i.e., the tibble. If you want to be more concrete about what it should return -- or make an earlier return -- use `return()`. The function will stop as soon as it hits a `return()` statement.
 
 ```{r}
 play_roulette_basic <- function(bet = 1, number) {
-  if (number > 36) stop("You can only bet on numbers between 0 and 36.")
+  if (number > 36) stop("You can only bet on numbers between 0 and 36, dumbass.")
   draw <- sample(0:36, 1)
   if (number == draw) {
     return(str_c("Nice, you won", as.character(bet * 36), "Dollars", sep = " "))
@@ -2007,7 +2022,6 @@ If you work with large data sets or have to perform a lot of iterations, you mig
 Its functionalities are the same as in `purrr`, just with a `future_` prefix. In order to use it, you need to set up a plan first. Here, I use `multisession`, which works on all platforms (Windows, Mac, Linux). If you work on a Linux machine, you can also use `multicore`, which is faster.
 
 ```{r}
-
 needs(furrr)
 plan(multisession) #set up parallelization
 future_map_dbl(example_dbl, add_10)

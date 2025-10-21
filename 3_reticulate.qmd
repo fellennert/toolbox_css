@@ -13,6 +13,7 @@ jupyter:
 ---
 
 ## Using Python in R with `reticulate`
+
 The `reticulate` package provides a comprehensive set of tools for interoperability between Python and R. It allows you to call Python from R in a variety of ways, including importing Python modules, sourcing Python scripts, and using Python interactively from R.
 
 ```{r}
@@ -20,9 +21,11 @@ needs(reticulate, tidyverse)
 ```
 
 ### Setting up Python
+
 Before you can use Python in R, you need to ensure Python is installed on your system. The `reticulate` package will try to find Python automatically, but you can also specify which Python to use.
 
 For a consistent experience across Windows and Mac, I recommend using `reticulate`'s built-in miniconda installation helper:
+
 ```{r}
 #| eval: false
 install_miniconda()
@@ -38,12 +41,14 @@ I would recommend using a conda environment for managing Python packages, as it 
 conda_create("toolbox_env", packages = c("python=3.9", "numpy"))
 ```
 
-If you work in Positron, you might need to go to settings and select the Python interpreter from this environment. In RStudio, this can be done by navigating to `Tools` -> `Global Options` -> `Python` and selecting the appropriate interpreter. An overview of all conda environments and their paths can be found with:
+If you work in Positron, you might need to go to settings and select the Python interpreter from this environment. In RStudio, this can be done by navigating to `Tools` -\> `Global Options` -\> `Python` and selecting the appropriate interpreter. An overview of all conda environments and their paths can be found with:
+
 ```{r}
 conda_list()
 ```
 
-Side note: you can remove an environment with:
+Side note: you can remove an environment with
+
 ```{r}
 #| eval: false
 
@@ -53,6 +58,7 @@ conda_remove("r-reticulate")
 ### Basic Python usage in R
 
 Before you can get started, you need to tell `reticulate` to use this environment:
+
 ```{r}
 use_condaenv("toolbox_env", required = TRUE)
 ```
@@ -141,4 +147,4 @@ read_csv("data/people_w_index.csv")
 
 ### Further links
 
-- [reticulate documentation](https://rstudio.github.io/reticulate/)
+-   [reticulate documentation](https://rstudio.github.io/reticulate/)

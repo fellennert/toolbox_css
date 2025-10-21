@@ -28,5 +28,11 @@
   },
   "2_r_catch-up.qmd": {
     "2_r_catch-up.html": "3badcbfb"
+  },
+  "4_python.qmd": {
+    "4_python.html": "2e0bda81"
+  },
+  "5_pandas.qmd": {
+    "5_pandas.html": "5ffa9ed4"
   }
 }
