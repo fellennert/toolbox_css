@@ -144,6 +144,18 @@ div.csl-indent {
     <a class="dropdown-item" href="./3_reticulate.html">
  <span class="dropdown-text">Chapter 3: <code>reticulate</code></span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./4_python.html">
+ <span class="dropdown-text">Chapter 4: Introduction to Python for R Users</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./5_pandas.html">
+ <span class="dropdown-text">Chapter 5: <code>pandas</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./6_stringr_regex.html">
+ <span class="dropdown-text">Chapter 3: <code>stringr</code> and RegExes</span></a>
+  </li>  
     </ul>
   </li>
 </ul>
@@ -197,19 +209,19 @@ div.csl-indent {
 <h2 class="anchored" data-anchor-id="outline">Outline</h2>
 <p>This script will unfold as follows:</p>
 <p>Chapter 2, “Brief R Recap,” briefly introduces RStudio Projects, Quarto, tidy data and <code>tidyr</code>, <code>dplyr</code>, <code>ggplot</code>, functions, loops, and <code>purrr</code>. These techniques are vital for the things that will come next.</p>
-<p>Chapter 3, “R vs.&nbsp;Python” introduces Python and the <code>reticulate</code> package, which allows you to use Python in an R environment. It also introduces <code>pandas</code>, a powerful data manipulation package for Python.</p>
-<p>Chapter 4, “<code>stringr</code> and RegExes,” deals with string manipulation using, you guessed it, <code>stringr</code> and RegExes.</p>
-<p>Chapters 5 and 6, “Crawling the Web and Extracting Data” and “APIs,” introduce the reader to the basics of <code>rvest</code>, HTML, and CSS selectors and how these can be used to acquire data from the web. Moreover, I introduce the <code>httr</code> package and explain how you can use it to make requests to APIs.</p>
-<p>Chapter 7, “<code>selenium</code>,” introduces <code>selenium</code>, a Python package that allows you to control a “headless browser” – this is invaluable if you want to scrape dynamic web sites. It will also feature an introduction to <code>reticulate</code>, an R package that allows you to use Python code in an R environment.</p>
-<p>Chapter 8, “Chapter 7: OCR with <code>tesseract</code>,” shows you how to digitize text from pdf files or images in an automated fashion using <code>tesseract</code>.</p>
-<p>Chapter 9, “<code>OpenAI whisper</code>” focuses on the transcription of audio files. This includes diarization.</p>
-<p>Chapter 10, “Text Preprocessing and Featurization,” touches upon the basics of bringing text into a numeric format that lends itself to quantitative analyses. It also introduces feature weighting using TF-IDF (i.e., determining which tokens matter more than others), Named-Entity Recognition, and Part-of-Speech-tagging.</p>
-<p>Chapter 11, “Dictionary-based analysis,” covers dictionary-based text analysis.</p>
-<p>Chapter 12, “Supervised Classification,” deals with the classification of text in a supervised manner using <code>tidymodels</code>.</p>
-<p>Chapter 13, “Unsupervised Classification,” deals with the classification of text in an unsupervised manner using “classic” Laten Dirichlet Allocation, Structural Topic Models, and Seeded Topic Models.</p>
-<p>Chapter 14, “Word Embeddings,” showcases new text analysis techniques that are based on distributional representations of words, commonly referred to as word embeddings.</p>
-<p>Chapter 15, “BERT” demonstrates how you can use BERT for supervised classification. This script will only contain small data-sets, since these large language models require more computing power (e.g., a server with plenty of RAM as well as sufficient CPU and/or GPU power)</p>
-<p>Chapter 16, “Local LLMs,” introduces local large language models (LLMs) and showcases how you can use them for information extraction.</p>
+<p>Chapter 3, 4, and 5 introduce Python and the <code>reticulate</code> package, which allows you to use Python in an R environment. It also introduces <code>pandas</code>, a powerful data manipulation package for Python.</p>
+<p>Chapter 6, “<code>stringr</code> and RegExes,” deals with string manipulation using, you guessed it, <code>stringr</code> and RegExes.</p>
+<p>Chapters 7 and 8, “Crawling the Web and Extracting Data” and “APIs,” introduce the reader to the basics of <code>rvest</code>, HTML, and CSS selectors and how these can be used to acquire data from the web. Moreover, I introduce the <code>httr</code> package and explain how you can use it to make requests to APIs.</p>
+<p>Chapter 9, “<code>selenium</code>,” introduces <code>selenium</code>, a Python package that allows you to control a “headless browser” – this is invaluable if you want to scrape dynamic web sites. It will also feature an introduction to <code>reticulate</code>, an R package that allows you to use Python code in an R environment.</p>
+<p>Chapter 10, “OCR with <code>tesseract</code>,” shows you how to digitize text from pdf files or images in an automated fashion using <code>tesseract</code>.</p>
+<p>Chapter 11, “<code>OpenAI whisper</code>” focuses on the transcription of audio files. This includes diarization.</p>
+<p>Chapter 12, “Text Preprocessing and Featurization,” touches upon the basics of bringing text into a numeric format that lends itself to quantitative analyses. It also introduces feature weighting using TF-IDF (i.e., determining which tokens matter more than others), Named-Entity Recognition, and Part-of-Speech-tagging.</p>
+<p>Chapter 13, “Dictionary-based analysis,” covers dictionary-based text analysis.</p>
+<p>Chapter 14, “Supervised Classification,” deals with the classification of text in a supervised manner using <code>tidymodels</code>.</p>
+<p>Chapter 15, “Unsupervised Classification,” deals with the classification of text in an unsupervised manner using “classic” Laten Dirichlet Allocation, Structural Topic Models, and Seeded Topic Models.</p>
+<p>Chapter 16, “Word Embeddings,” showcases new text analysis techniques that are based on distributional representations of words, commonly referred to as word embeddings.</p>
+<p>Chapter 17, “BERT” demonstrates how you can use BERT for supervised classification. This script will only contain small data-sets, since these large language models require more computing power (e.g., a server with plenty of RAM as well as sufficient CPU and/or GPU power)</p>
+<p>Chapter 18, “Local LLMs,” introduces local large language models (LLMs) and showcases how you can use them for information extraction.</p>
 <p>All chapters try to deal with social scientific examples. Data sets will be provided via Dropbox, therefore the script shall run more or less out of the box. I tried to include “Further links” for the avid readers or the ones that are dissatisfied with my coverage of the content. Exercises are included, the respective solutions will be added as the course unfolds (except for the R recap, please contact me in case you are interested).</p>
 
 
@@ -296,7 +308,7 @@ Wickham, Hadley, Mine Çetinkaya-Rundel, and Garrett Grolemund. 2023. <em>R for 
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/fellennert\.github\.io\/toolbox_css\/");
+        var filterRegex = new RegExp('/' + window.location.host + '/');
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

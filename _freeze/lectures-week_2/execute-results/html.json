@@ -1,0 +1,15 @@
+{
+  "hash": "29669a9e1331a21f49ffb841d30c3a44",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Week 1: What Is Computational Social Science (CSS)?\"\npublished-title: week_1\nengine: knitr\nfreeze: auto\n---\n\nThis week, you will learn the answers to the following questions:\n\n- What are Python basics and how do they compare to R?\n- How to use pandas?\n- What are Regular Expressions and why will they alter your life?\n\n## Slides \n\nThere are no slides, just code script.\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

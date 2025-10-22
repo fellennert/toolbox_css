@@ -1,0 +1,17 @@
+---
+title: "Week 1: What Is Computational Social Science (CSS)?"
+published-title: week_1
+engine: knitr
+freeze: auto
+---
+
+This week, you will learn the answers to the following questions:
+
+- What are Python basics and how do they compare to R?
+- How to use pandas?
+- What are Regular Expressions and why will they alter your life?
+
+## Slides 
+
+There are no slides, just code script.
+

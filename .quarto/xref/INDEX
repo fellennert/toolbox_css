@@ -34,5 +34,11 @@
   },
   "5_pandas.qmd": {
     "5_pandas.html": "5ffa9ed4"
+  },
+  "6_stringr_regex.qmd": {
+    "6_stringr_regex.html": "3eb2c83e"
+  },
+  "lectures-week_2.qmd": {
+    "lectures-week_2.html": "e53c8237"
   }
 }

@@ -24,7 +24,7 @@ Python can be run in various environments:
 -   Jupyter notebooks (similar to RMarkdown/Quarto)
 -   VSCode with Python extensions
 
-For this tutorial, we'll use Python code chunks in Quarto, which can execute Python code just like it executes R code.
+For this tutorial, we'll use Python code chunks in Quarto, which can execute Python code just like they execute R code.
 
 ```{python}
 # This is a comment in Python (like # in R)
@@ -37,7 +37,11 @@ print("Hello from Python!")
 
 One of the biggest differences between Python and R is how they handle packages and dependencies. In R, when you install a package with `install.packages()`, it typically goes into a central library that all your R projects share. Python takes a different approach with **virtual environments**.
 
-A Python environment is an isolated directory that contains: - A specific Python version - Installed packages and their specific versions - Dependencies for those packages
+A Python environment is an isolated directory that contains: 
+
+- A specific Python version 
+- Installed packages and their specific versions 
+- Dependencies for those packages
 
 Imagine you have Project A that needs version 1.0 of a package, and Project B needs version 2.0 of the same package. In R, you'd typically have one version installed. In Python, you create separate environments for each project.
 
@@ -232,7 +236,7 @@ print(mixed_list)
 fruits = ["apple", "banana", "cherry", "date"]
 
 print(fruits[0])      # First element (R would use fruits[1])
-print(fruits[-1])     # Last element (negative indexing from end)
+print(fruits[-2])     # Last element (negative indexing from end)
 print(fruits[1:3])    # Slicing: elements 1 and 2 (end index is exclusive)
 ```
 
@@ -271,7 +275,7 @@ print(type(coordinates))
 print(coordinates[0])
 
 # But you can't modify them
-# coordinates[0] = 15  # This would raise an error!
+#coordinates[0] = 15  # This would raise an error!
 ```
 
 ::: {.callout-tip title="Compared to R"}
@@ -323,7 +327,7 @@ Python supports standard arithmetic operators, similar to R.
 
 ```{python}
 # Basic arithmetic
-a = 10
+a = 11
 b = 3
 
 a + b       # Addition
@@ -336,7 +340,15 @@ a ** b      # Exponentiation (R uses a^b or a**b in newer versions)
 ```
 
 ::: {.callout-tip title="Compared to R"}
-Most operators are the same. Key differences: - `/` always returns float in Python 3 (R returns integer if both are integers) - `//` for integer division (R: `%/%`) - `**` for exponentiation (R traditionally uses `^`, though `**` now works)
+
+Most operators are the same. 
+
+Key differences: 
+
+- `/` always returns float in Python 3 (R returns integer if both are integers) 
+- `//` for integer division (R: `%/%`) 
+- `**` for exponentiation (R traditionally uses `^`, though `**` now works)
+
 ::: 
 
 ### Comparison Operations
@@ -453,6 +465,7 @@ if (temperature < 0) {
   print("Hot!")
 }
 ```
+
 ::: 
 
 Important: The condition must evaluate to a single boolean value (True or False).
@@ -523,7 +536,7 @@ rgreet_with_title <- function(name, title = "Dr.") {
 
 ### `return`
 
-Per the [official style guide](https://peps.python.org/pep-0008/#programming-recommendations) it is idiomatic to be consistent with return statements:
+Per the [official style guide](https://peps.python.org/pep-0008/#programming-recommendations) it is idiomatic to be consistent with `return` statements:
 
 > Be consistent in return statements. Either all return statements in a function should return an expression, or none of them should. If any return statement returns an expression, any return statements where no value is returned should explicitly state this as return None, and an explicit return statement should be present at the end of the function (if reachable)
 
@@ -576,7 +589,7 @@ rcalculate_stats <- function(numbers) {
 ::: 
 
 ### Docstrings
-Python uses triple-quoted strings ("""...""") right after the function definition to document what the function does. This is similar to roxygen2 comments in R.
+Python uses triple-quoted strings ("""...""") right after the function definition to document what the function does. This is similar to `roxygen2` comments in R.
 
 ```{python}
 def convert_temperature(celsius):
@@ -634,7 +647,7 @@ R equivalent
 ```{r}
 add_ten <- function(x) x + 10
 # or in purrr
-add_ten <- \(x) + 10
+add_ten <- \(x) x + 10
 ```
 :::
 
@@ -786,6 +799,7 @@ squares = [i ** 2 for i in range(1, 6)]
 print(squares)
 
 # With condition (like dplyr::filter)
+#[expression *for* item *in* iterable *if* condition]
 even_squares = [i ** 2 for i in range(1, 11) if i % 2 == 0]
 print(even_squares)
 ```
@@ -798,7 +812,7 @@ R equivalent:
 needs(tidyverse)
 squares <- sapply(1:5, function(x) x^2)
 # or with purrr
-squares <- map_dbl(1:5, \(x) x^2)
+squares <- map(1:5, \(x) x^2)
 ```
 
 ::: 
@@ -819,7 +833,7 @@ count = 0
 
 while count < 5:
     print(f"Count is: {count}")
-    count += 1  # Increment (Python doesn't have count++)
+    count += 1  # Increment 
 
 print("Loop finished!")
 ```
@@ -847,7 +861,7 @@ print(f"Found {target} in {attempts} attempts!")
 
 ### `break` and `continue`
 
-Control loop execution with break and continue.
+Control loop execution with `break` and `continue`.
 
 ```{python}
 # break - exit the loop immediately
@@ -981,7 +995,7 @@ temperatures_celsius = [0, 10, 20, 30, 40]
 
 Given a sentence, count how many times each word appears. 
 
-Hint: Use sentence.split() to get a list of words, and a dictionary to store counts.
+Hint: Use `sentence.split()` to get a list of words, and a dictionary to store counts.
 
 Store the result in a `pandas` DataFrame.
 
