@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://fellennert.github.io/toolbox_css/6_stringr_regex.html</loc>
+    <lastmod>2025-10-22T14:13:08.152Z</lastmod>
+  </url>
+  <url>
     <loc>https://fellennert.github.io/toolbox_css/lectures-week_1.html</loc>
     <lastmod>2025-10-13T05:26:12.629Z</lastmod>
   </url>
@@ -10,7 +14,7 @@
   </url>
   <url>
     <loc>https://fellennert.github.io/toolbox_css/1_r_index.html</loc>
-    <lastmod>2025-10-13T05:33:02.007Z</lastmod>
+    <lastmod>2025-10-22T14:16:37.024Z</lastmod>
   </url>
   <url>
     <loc>https://fellennert.github.io/toolbox_css/index.html</loc>
@@ -34,6 +38,10 @@
   </url>
   <url>
     <loc>https://fellennert.github.io/toolbox_css/4_python.html</loc>
-    <lastmod>2025-10-21T12:41:48.366Z</lastmod>
+    <lastmod>2025-10-21T14:38:09.360Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fellennert.github.io/toolbox_css/lectures-week_2.html</loc>
+    <lastmod>2025-10-22T14:18:21.152Z</lastmod>
   </url>
 </urlset>

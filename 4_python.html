@@ -197,6 +197,10 @@ window.Quarto = {
     <a class="dropdown-item" href="./5_pandas.html">
  <span class="dropdown-text">Chapter 5: <code>pandas</code></span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./6_stringr_regex.html">
+ <span class="dropdown-text">Chapter 3: <code>stringr</code> and RegExes</span></a>
+  </li>  
     </ul>
   </li>
 </ul>
@@ -333,7 +337,12 @@ window.Quarto = {
 <section id="what-are-environments" class="level3">
 <h3 class="anchored" data-anchor-id="what-are-environments">What Are Environments?</h3>
 <p>One of the biggest differences between Python and R is how they handle packages and dependencies. In R, when you install a package with <code>install.packages()</code>, it typically goes into a central library that all your R projects share. Python takes a different approach with <strong>virtual environments</strong>.</p>
-<p>A Python environment is an isolated directory that contains: - A specific Python version - Installed packages and their specific versions - Dependencies for those packages</p>
+<p>A Python environment is an isolated directory that contains:</p>
+<ul>
+<li>A specific Python version</li>
+<li>Installed packages and their specific versions</li>
+<li>Dependencies for those packages</li>
+</ul>
 <p>Imagine you have Project A that needs version 1.0 of a package, and Project B needs version 2.0 of the same package. In R, you’d typically have one version installed. In Python, you create separate environments for each project.</p>
 </section>
 <section id="common-environment-tools" class="level3">
@@ -574,9 +583,9 @@ Compared to R
 <div class="cell-output cell-output-stdout">
 <pre><code>apple</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(fruits[<span class="op">-</span><span class="dv">1</span>])     <span class="co"># Last element (negative indexing from end)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(fruits[<span class="op">-</span><span class="dv">2</span>])     <span class="co"># Last element (negative indexing from end)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>date</code></pre>
+<pre><code>cherry</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(fruits[<span class="dv">1</span>:<span class="dv">3</span>])    <span class="co"># Slicing: elements 1 and 2 (end index is exclusive)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -641,7 +650,7 @@ Compared to R
 </div>
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="co"># But you can't modify them</span></span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="co"># coordinates[0] = 15  # This would raise an error!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="co">#coordinates[0] = 15  # This would raise an error!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled" title="Compared to R">
 <div class="callout-header d-flex align-content-center">
@@ -718,24 +727,24 @@ Compared to R
 <p>Python supports standard arithmetic operators, similar to R.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Basic arithmetic</span></span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">11</span></span>
 <span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="dv">3</span></span>
 <span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>a <span class="op">+</span> b       <span class="co"># Addition</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>13</code></pre>
+<pre><code>14</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">-</span> b       <span class="co"># Subtraction</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>7</code></pre>
+<pre><code>8</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">*</span> b       <span class="co"># Multiplication</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>30</code></pre>
+<pre><code>33</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">/</span> b       <span class="co"># Division (always returns float)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>3.3333333333333335</code></pre>
+<pre><code>3.6666666666666665</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">//</span> b      <span class="co"># Floor division (integer division - R uses %/%)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -743,11 +752,11 @@ Compared to R
 </div>
 <div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">%</span> b       <span class="co"># Modulus (remainder)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>1</code></pre>
+<pre><code>2</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">**</span> b      <span class="co"># Exponentiation (R uses a^b or a**b in newer versions)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>1000</code></pre>
+<pre><code>1331</code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled" title="Compared to R">
@@ -760,7 +769,13 @@ Compared to R
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Most operators are the same. Key differences: - <code>/</code> always returns float in Python 3 (R returns integer if both are integers) - <code>//</code> for integer division (R: <code>%/%</code>) - <code>**</code> for exponentiation (R traditionally uses <code>^</code>, though <code>**</code> now works)</p>
+<p>Most operators are the same.</p>
+<p>Key differences:</p>
+<ul>
+<li><code>/</code> always returns float in Python 3 (R returns integer if both are integers)</li>
+<li><code>//</code> for integer division (R: <code>%/%</code>)</li>
+<li><code>**</code> for exponentiation (R traditionally uses <code>^</code>, though <code>**</code> now works)</li>
+</ul>
 </div>
 </div>
 </section>
@@ -1036,7 +1051,7 @@ Compared to R
 </section>
 <section id="return" class="level3">
 <h3 class="anchored" data-anchor-id="return"><code>return</code></h3>
-<p>Per the <a href="https://peps.python.org/pep-0008/#programming-recommendations">official style guide</a> it is idiomatic to be consistent with return statements:</p>
+<p>Per the <a href="https://peps.python.org/pep-0008/#programming-recommendations">official style guide</a> it is idiomatic to be consistent with <code>return</code> statements:</p>
 <blockquote class="blockquote">
 <p>Be consistent in return statements. Either all return statements in a function should return an expression, or none of them should. If any return statement returns an expression, any return statements where no value is returned should explicitly state this as return None, and an explicit return statement should be present at the end of the function (if reachable)</p>
 </blockquote>
@@ -1115,7 +1130,7 @@ Compared to R
 </section>
 <section id="docstrings" class="level3">
 <h3 class="anchored" data-anchor-id="docstrings">Docstrings</h3>
-<p>Python uses triple-quoted strings (“““…”““) right after the function definition to document what the function does. This is similar to roxygen2 comments in R.</p>
+<p>Python uses triple-quoted strings (“““…”““) right after the function definition to document what the function does. This is similar to <code>roxygen2</code> comments in R.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb124"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> convert_temperature(celsius):</span>
 <span id="cb124-2"><a href="#cb124-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
@@ -1191,7 +1206,7 @@ Compared to R
 <div class="cell">
 <div class="sourceCode cell-code" id="cb135"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a>add_ten <span class="ot">&lt;-</span> <span class="cf">function</span>(x) x <span class="sc">+</span> <span class="dv">10</span></span>
 <span id="cb135-2"><a href="#cb135-2" aria-hidden="true" tabindex="-1"></a><span class="co"># or in purrr</span></span>
-<span id="cb135-3"><a href="#cb135-3" aria-hidden="true" tabindex="-1"></a>add_ten <span class="ot">&lt;-</span> \(x) <span class="sc">+</span> <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb135-3"><a href="#cb135-3" aria-hidden="true" tabindex="-1"></a>add_ten <span class="ot">&lt;-</span> \(x) x <span class="sc">+</span> <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1361,7 +1376,7 @@ Compared to R
 <span id="cb157-2"><a href="#cb157-2" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [<span class="st">"red"</span>, <span class="st">"green"</span>, <span class="st">"blue"</span>]</span>
 <span id="cb157-3"><a href="#cb157-3" aria-hidden="true" tabindex="-1"></a><span class="bu">enumerate</span>(colors)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;enumerate object at 0x12514c4c0&gt;</code></pre>
+<pre><code>&lt;enumerate object at 0x11f5d1d80&gt;</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb159"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb159-1"><a href="#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> index, color <span class="kw">in</span> <span class="bu">enumerate</span>(colors):</span>
 <span id="cb159-2"><a href="#cb159-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Color </span><span class="sc">{</span>index<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>color<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1445,8 +1460,9 @@ Compared to R
 <pre><code>[1, 4, 9, 16, 25]</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb171"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb171-1"><a href="#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="co"># With condition (like dplyr::filter)</span></span>
-<span id="cb171-2"><a href="#cb171-2" aria-hidden="true" tabindex="-1"></a>even_squares <span class="op">=</span> [i <span class="op">**</span> <span class="dv">2</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>) <span class="cf">if</span> i <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span>]</span>
-<span id="cb171-3"><a href="#cb171-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(even_squares)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb171-2"><a href="#cb171-2" aria-hidden="true" tabindex="-1"></a><span class="co">#[expression *for* item *in* iterable *if* condition]</span></span>
+<span id="cb171-3"><a href="#cb171-3" aria-hidden="true" tabindex="-1"></a>even_squares <span class="op">=</span> [i <span class="op">**</span> <span class="dv">2</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>) <span class="cf">if</span> i <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span>]</span>
+<span id="cb171-4"><a href="#cb171-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(even_squares)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[4, 16, 36, 64, 100]</code></pre>
 </div>
@@ -1466,7 +1482,7 @@ Compared to R
 <div class="sourceCode cell-code" id="cb173"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb173-1"><a href="#cb173-1" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(tidyverse)</span>
 <span id="cb173-2"><a href="#cb173-2" aria-hidden="true" tabindex="-1"></a>squares <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="cf">function</span>(x) x<span class="sc">^</span><span class="dv">2</span>)</span>
 <span id="cb173-3"><a href="#cb173-3" aria-hidden="true" tabindex="-1"></a><span class="co"># or with purrr</span></span>
-<span id="cb173-4"><a href="#cb173-4" aria-hidden="true" tabindex="-1"></a>squares <span class="ot">&lt;-</span> <span class="fu">map_dbl</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, \(x) x<span class="sc">^</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb173-4"><a href="#cb173-4" aria-hidden="true" tabindex="-1"></a>squares <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, \(x) x<span class="sc">^</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -1483,7 +1499,7 @@ Compared to R
 <span id="cb174-3"><a href="#cb174-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb174-4"><a href="#cb174-4" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> count <span class="op">&lt;</span> <span class="dv">5</span>:</span>
 <span id="cb174-5"><a href="#cb174-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Count is: </span><span class="sc">{</span>count<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb174-6"><a href="#cb174-6" aria-hidden="true" tabindex="-1"></a>    count <span class="op">+=</span> <span class="dv">1</span>  <span class="co"># Increment (Python doesn't have count++)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb174-6"><a href="#cb174-6" aria-hidden="true" tabindex="-1"></a>    count <span class="op">+=</span> <span class="dv">1</span>  <span class="co"># Increment </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Count is: 0
 Count is: 1
@@ -1523,17 +1539,19 @@ Compared to R
 <span id="cb178-11"><a href="#cb178-11" aria-hidden="true" tabindex="-1"></a>    attempts <span class="op">+=</span> <span class="dv">1</span></span>
 <span id="cb178-12"><a href="#cb178-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Attempt </span><span class="sc">{</span>attempts<span class="sc">}</span><span class="ss">: guessed </span><span class="sc">{</span>guess<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Attempt 1: guessed 7</code></pre>
+<pre><code>Attempt 1: guessed 3
+Attempt 2: guessed 3
+Attempt 3: guessed 7</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb180"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb180-1"><a href="#cb180-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Found </span><span class="sc">{</span>target<span class="sc">}</span><span class="ss"> in </span><span class="sc">{</span>attempts<span class="sc">}</span><span class="ss"> attempts!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Found 7 in 1 attempts!</code></pre>
+<pre><code>Found 7 in 3 attempts!</code></pre>
 </div>
 </div>
 </section>
 <section id="break-and-continue" class="level3">
 <h3 class="anchored" data-anchor-id="break-and-continue"><code>break</code> and <code>continue</code></h3>
-<p>Control loop execution with break and continue.</p>
+<p>Control loop execution with <code>break</code> and <code>continue</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb182"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb182-1"><a href="#cb182-1" aria-hidden="true" tabindex="-1"></a><span class="co"># break - exit the loop immediately</span></span>
 <span id="cb182-2"><a href="#cb182-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
@@ -1750,7 +1768,7 @@ Namespaces are one honking great idea -- let's do more of those!</code></pre>
 </div>
 <p><strong>Exercise 2: Word Counter</strong></p>
 <p>Given a sentence, count how many times each word appears.</p>
-<p>Hint: Use sentence.split() to get a list of words, and a dictionary to store counts.</p>
+<p>Hint: Use <code>sentence.split()</code> to get a list of words, and a dictionary to store counts.</p>
 <p>Store the result in a <code>pandas</code> DataFrame.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb202"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb202-1"><a href="#cb202-1" aria-hidden="true" tabindex="-1"></a>python_sentence <span class="op">=</span> <span class="st">"the quick brown fox jumps over the lazy dog the fox"</span></span>
