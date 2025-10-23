@@ -22,8 +22,8 @@ Now that you understand Python basics, let's look at `pandas` -- Python's most p
 - `DataFrame`: Like an R tibble/data.frame
 
 ```{python}
-import pandas as pd  # Standard convention: import pandas as pd -- equivalent to library(tidyverse)
-import numpy as np   # NumPy often used alongside pandas
+import pandas as pd # Standard convention: import pandas as pd -- equivalent to library(tidyverse)
+import numpy as np  # NumPy often used alongside pandas
 
 # Check version
 pd.__version__
@@ -50,6 +50,7 @@ data = [
     {'name': 'Charlie', 'age': 35, 'city': 'London'}
 ]
 df_dic_list = pd.DataFrame(data)
+df_dic_list
 
 # from a list of lists (specify column names)
 data = [
@@ -63,6 +64,7 @@ df_list_of_lists = pd.DataFrame(data, columns=['name', 'age', 'city'])
 data = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
 data
 df_array = pd.DataFrame(data, columns=['A', 'B', 'C'])
+df_array
 ```
 
 
@@ -92,7 +94,7 @@ sorted(my_list)     # sorted is a function
 ```{python}
 # Method syntax: object.method(arguments)
 my_string = "hello world"
-my_string.upper()      # upper() is a method of strings
+upper_string = my_string.upper()      # upper() is a method of strings
 my_string.split()      # split() is a method of strings
 my_string              # object remains unchanged
 
@@ -159,7 +161,6 @@ Adding New Columns:
 ```{python}
 # Add a new column (like mutate() in R)
 df['age_in_months'] = df['age'] * 12    # in R: df$age_in_months <- df$age * 12
-
 df
 
 # or using .assign()
@@ -289,7 +290,7 @@ Keep all rows from the right DataFrame.
 ```{python}
 # Right join - all orders, even if customer doesn't exist
 right = pd.merge(customers, orders, on='customer_id', how='right')
-print(right)
+right
 ```
 
 ::: {.callout-tip title="Compared to R"}
@@ -410,11 +411,11 @@ inner_join(df1, df2, by = "id", suffix = c("_left", "_right"))
 
 For simply stacking DataFrames vertically or horizontally without matching keys:
 ```{python}
-# Vertical concatenation (like rbind in R)
+# Vertical concatenation (like rbind/bind_rows() in R)
 df1 = pd.DataFrame({'A': [1, 2], 'B': [3, 4]})
 df2 = pd.DataFrame({'A': [5, 6], 'B': [7, 8]})
 
-vertical = pd.concat([df1, df2], ignore_index=True)
+vertical = pd.concat([df1, df2], ignore_index=True, axis=0)
 vertical
 
 # Horizontal concatenation (like cbind in R)
@@ -434,7 +435,7 @@ bind_cols(df1, df3)    # horizontal
 
 #### Chaining Joins
 
-In pr
+
 ```{python}
 # Real-world scenario: combining customer, order, and product data
 customers = pd.DataFrame({
