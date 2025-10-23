@@ -1,5 +1,5 @@
 ---
-title: "Chapter 3: `stringr` and RegExes"
+title: "Chapter 6: `stringr` and RegExes"
 published-title: stringr_regex
 engine: knitr
 freeze: auto
