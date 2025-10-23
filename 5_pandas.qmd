@@ -35,13 +35,13 @@ You can create DataFrames in several ways:
 
 ```{python}
 # From a dictionary (like tibble() in R)
-df = pd.DataFrame({
+df_dic = pd.DataFrame({
     'name': ['Alice', 'Bob', 'Charlie', 'Diana'],
     'age': [25, 30, 35, 28],
     'city': ['New York', 'London', 'Paris', 'Tokyo']
 })
 
-df
+df_dic
 
 # from a list of dictionaries
 data = [
@@ -49,7 +49,7 @@ data = [
     {'name': 'Bob', 'age': 30, 'city': 'Paris'},
     {'name': 'Charlie', 'age': 35, 'city': 'London'}
 ]
-df = pd.DataFrame(data)
+df_dic_list = pd.DataFrame(data)
 
 # from a list of lists (specify column names)
 data = [
@@ -57,14 +57,12 @@ data = [
     ['Bob', 30, 'Paris'],
     ['Charlie', 35, 'London']
 ]
-df = pd.DataFrame(data, columns=['name', 'age', 'city'])
+df_list_of_lists = pd.DataFrame(data, columns=['name', 'age', 'city'])
 
 # from a numpy array (essentially a matrix, specify column names)
-import numpy as np
-
 data = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
 data
-df = pd.DataFrame(data, columns=['A', 'B', 'C'])
+df_array = pd.DataFrame(data, columns=['A', 'B', 'C'])
 ```
 
 
@@ -147,13 +145,25 @@ Filtering Rows:
 df[df['age'] > 28]
 # Multiple conditions (use & for AND, | for OR)
 df[(df['age'] > 25) & (df['city'] == 'London')]
+
+# Filter something depending on its presence in another list using .isin() (R equivalent: %in%)
+cities_ive_been_to = ["Paris", "New York", "London"]
+df[df['city'].isin(cities_ive_been_to)]
+
+# or using .query()
+df.query('age > 25') #R: df |> filter(age > 25)
 ```
 
 
-Adding New Columns
+Adding New Columns:
 ```{python}
 # Add a new column (like mutate() in R)
 df['age_in_months'] = df['age'] * 12    # in R: df$age_in_months <- df$age * 12
+
+df
+
+# or using .assign()
+df = df.assign(year_of_birth = lambda x: 2025-x['age'])
 df
 ```
 
@@ -188,8 +198,11 @@ df_example.shape                                  # in R: dim(df)
 df_example.columns.tolist()                       # in R: colnames(df)
 # Value counts
 df_example['day'].value_counts()                  # in R: df |> count(day)
-# Group by and aggregate
-df_example.groupby('day')['total_bill'].mean()    # in R: df |> group_by(day) |> summarize(mean_bill = mean(total_bill))
+
+# Group by and aggregate (yields a Series)
+df_example.groupby('day')['total_bill'].mean()    # in R: df |> group_by(day) |> summarize(mean_bill = mean(total_bill)) |> pull(mean_bill) |> set_names(day)
+# Group by and aggregate (yields a DataFrame)
+df_example.groupby('day')['total_bill'].mean().reset_index() # in R: df |> group_by(day) |> summarize(mean_bill = mean(total_bill))
 ```
 
 ### Method Chaining
@@ -218,6 +231,260 @@ result <- df_example |>
 ```
 
 ::: 
+
+### Joining DataFrames
+
+Joining (or merging) DataFrames is a fundamental operation in data analysis. `pandas` provides several ways to combine DataFrames, similar to SQL joins or R's `dplyr` join functions.
+
+#### Basic Join Types
+```{python}
+# Create sample DataFrames
+customers = pd.DataFrame({
+    'customer_id': [1, 2, 3, 4],
+    'name': ['Alice', 'Bob', 'Charlie', 'Diana'],
+    'city': ['New York', 'London', 'Paris', 'Tokyo']
+})
+
+orders = pd.DataFrame({
+    'order_id': [101, 102, 103, 104, 105],
+    'customer_id': [1, 2, 2, 3, 5],
+    'amount': [100, 150, 200, 75, 300]
+})
+```
+
+#### Inner Join
+Keep only rows that match in both DataFrames.
+```{python}
+# Inner join (default) - only matching rows
+inner = pd.merge(customers, orders, on='customer_id', how='inner')
+inner
+```
+
+::: {.callout-tip title="Compared to R"}
+```{r}
+#| eval: false
+# R equivalent
+inner_join(customers, orders, by = "customer_id")
+```
+:::
+
+#### Left Join
+Keep all rows from the left DataFrame, fill missing values with NaN.
+```{python}
+# Left join - all customers, even if no orders
+left = pd.merge(customers, orders, on='customer_id', how='left')
+left
+```
+
+::: {.callout-tip title="Compared to R"}
+```{r}
+#| eval: false
+# R equivalent
+left_join(customers, orders, by = "customer_id")
+```
+:::
+
+#### Right Join
+Keep all rows from the right DataFrame.
+```{python}
+# Right join - all orders, even if customer doesn't exist
+right = pd.merge(customers, orders, on='customer_id', how='right')
+print(right)
+```
+
+::: {.callout-tip title="Compared to R"}
+```{r}
+#| eval: false
+# R equivalent
+right_join(customers, orders, by = "customer_id")
+```
+:::
+
+#### Outer Join
+Keep all rows from both DataFrames.
+```{python}
+# Outer join - all customers and all orders
+outer = pd.merge(customers, orders, on='customer_id', how='outer')
+outer
+```
+
+::: {.callout-tip title="Compared to R"}
+```{r}
+#| eval: false
+# R equivalent
+full_join(customers, orders, by = "customer_id")
+```
+:::
+
+#### Joining on Different Column Names
+```{python}
+# When join columns have different names
+products = pd.DataFrame({
+    'prod_id': [1, 2, 3],
+    'product': ['Laptop', 'Phone', 'Tablet']
+})
+
+sales = pd.DataFrame({
+    'product_id': [1, 1, 2, 3],
+    'quantity': [5, 3, 8, 2]
+})
+
+# Specify left_on and right_on
+merged = pd.merge(products, sales, 
+                  left_on='prod_id', 
+                  right_on='product_id', 
+                  how='inner')
+print(merged)
+
+# Clean up: drop redundant column
+merged = pd.merge(products, sales, 
+                  left_on='prod_id', 
+                  right_on='product_id', 
+                  how='inner').drop('product_id', axis=1) #axis=0 would drop the row with id 'product_id' (doesn't exist)
+merged
+```
+
+::: {.callout-tip title="Compared to R"}
+```{r}
+#| eval: false
+# R equivalent
+inner_join(products, sales, by = join_by("prod_id" == "product_id"))
+```
+:::
+
+#### Joining on Multiple Columns
+```{python}
+# Join on multiple columns
+df1 = pd.DataFrame({
+    'year': [2020, 2020, 2021, 2021],
+    'quarter': [1, 2, 1, 2],
+    'revenue': [100, 120, 110, 130]
+})
+
+df2 = pd.DataFrame({
+    'year': [2020, 2020, 2021],
+    'quarter': [1, 2, 1],
+    'costs': [80, 90, 85]
+})
+
+# Join on both year and quarter
+merged = pd.merge(df1, df2, on=['year', 'quarter'], how='left')
+merged
+```
+
+::: {.callout-tip title="Compared to R"}
+```{r}
+#| eval: false
+# R equivalent
+left_join(df1, df2, by = join_by("year", "quarter"))
+```
+:::
+
+#### Handling Duplicate Column Names
+```{python}
+# When both DataFrames have columns with same names (besides join key)
+df1 = pd.DataFrame({
+    'id': [1, 2, 3],
+    'value': [10, 20, 30]
+})
+
+df2 = pd.DataFrame({
+    'id': [1, 2, 3],
+    'value': [100, 200, 300]
+})
+
+# pandas adds suffixes to distinguish columns
+merged = pd.merge(df1, df2, on='id', suffixes=('_left', '_right'))
+merged
+```
+
+::: {.callout-tip title="Compared to R"}
+```{r}
+#| eval: false
+# R equivalent (default suffixes are .x and .y)
+inner_join(df1, df2, by = "id", suffix = c("_left", "_right"))
+```
+:::
+
+#### Concatenating DataFrames (Stacking)
+
+For simply stacking DataFrames vertically or horizontally without matching keys:
+```{python}
+# Vertical concatenation (like rbind in R)
+df1 = pd.DataFrame({'A': [1, 2], 'B': [3, 4]})
+df2 = pd.DataFrame({'A': [5, 6], 'B': [7, 8]})
+
+vertical = pd.concat([df1, df2], ignore_index=True)
+vertical
+
+# Horizontal concatenation (like cbind in R)
+df3 = pd.DataFrame({'C': [9]})
+horizontal = pd.concat([df1, df3], axis=1)
+horizontal
+```
+
+::: {.callout-tip title="Compared to R"}
+```{r}
+#| eval: false
+# R equivalents
+bind_rows(df1, df2)    # vertical
+bind_cols(df1, df3)    # horizontal
+```
+:::
+
+#### Chaining Joins
+
+In pr
+```{python}
+# Real-world scenario: combining customer, order, and product data
+customers = pd.DataFrame({
+    'customer_id': [1, 2, 3],
+    'customer_name': ['Alice', 'Bob', 'Charlie']
+})
+
+orders = pd.DataFrame({
+    'order_id': [101, 102, 103],
+    'customer_id': [1, 2, 1],
+    'product_id': [1, 2, 3]
+})
+
+products = pd.DataFrame({
+    'product_id': [1, 2, 3],
+    'product_name': ['Laptop', 'Phone', 'Tablet'],
+    'price': [1000, 800, 500]
+})
+
+# Chain multiple joins
+result = (orders
+    .merge(customers, on='customer_id', how='left')
+    .merge(products, on='product_id', how='left')
+    .assign(total = lambda x: x['price'])
+)
+
+result
+```
+
+::: {.callout-tip title="Compared to R"}
+```{r}
+#| eval: false
+# R equivalent with pipe
+result <- orders |>
+  left_join(customers, by = "customer_id") |>
+  left_join(products, by = "product_id") |>
+  mutate(total = price)
+```
+:::
+
+#### Join Summary Table
+
+| pandas | R dplyr | Description |
+|--------|---------|-------------|
+| `pd.merge(df1, df2, how='inner')` | `inner_join(df1, df2)` | Keep only matching rows |
+| `pd.merge(df1, df2, how='left')` | `left_join(df1, df2)` | Keep all rows from left |
+| `pd.merge(df1, df2, how='right')` | `right_join(df1, df2)` | Keep all rows from right |
+| `pd.merge(df1, df2, how='outer')` | `full_join(df1, df2)` | Keep all rows from both |
+| `pd.concat([df1, df2])` | `bind_rows(df1, df2)` | Stack vertically |
+| `pd.concat([df1, df2], axis=1)` | `bind_cols(df1, df2)` | Stack horizontally |
 
 ### Key Differences between `pandas` and R
 
@@ -252,6 +519,10 @@ df2['A'] = [10, 20, 30]
 print(df)
 print(df2)
 ```
+
+## Exercises
+
+Take the `dplyr` exercises from Chapter 2 and perform them using pandas.
 
 ## Further Resources
 

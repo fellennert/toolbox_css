@@ -986,31 +986,79 @@ a. Convert each to Fahrenheit using a for loop
 b. Print the results
 c. Store each Celsius value and its Fahrenheit equivalent in a DataFrame.
 
+<details>
+  <summary>Solution. Click to expand!</summary>
 ```{python}
 temperatures_celsius = [0, 10, 20, 30, 40]
-# Your code here
+temperatures_fahrenheit = []
+
+for temp in temperatures_celsius:
+    fahrenheit = (temp * 9/5) + 32
+    temperatures_fahrenheit.append(fahrenheit)
+
+temperatures_fahrenheit
 ```
+</details>
 
 **Exercise 2: Word Counter**
 
 Given a sentence, count how many times each word appears. 
 
-Hint: Use `sentence.split()` to get a list of words, and a dictionary to store counts.
+Hint: Use `sentence.split()` to get a list of words, and a dictionary to store counts. The operator in yields True if an element is in another list, e.g., `if word in word_counts`
 
-Store the result in a `pandas` DataFrame.
 
+<details>
+  <summary>Solution. Click to expand!</summary>
 ```{python}
 python_sentence = "the quick brown fox jumps over the lazy dog the fox"
+
+# Split sentence into words
+words = python_sentence.split()
+
+# Count occurrences using a dictionary
+word_counts = {}
+for word in words:
+    if word in word_counts:
+        word_counts[word] += 1
+    else:
+        word_counts[word] = 1
+
+word_counts
 # Expected output: {'the': 3, 'quick': 1, 'brown': 1, ...}
 ```
+</details>
 
 **Exercise 3: Prime Numbers**
 
 Write a function that checks if a number is prime. Then use it to find all prime numbers between 1 and 50.
 
+<details>
+  <summary>Solution. Click to expand!</summary>
 ```{python}
+def is_prime(n):
+    """Check if a number is prime"""
+    if n < 2:
+        return False
+    if n == 2:
+        return True
+    if n % 2 == 0:
+        return False
+    for i in range(3, n):
+        if n % i == 0:
+            return False
+    return True
 
+is_prime(50)
+
+# Find all prime numbers between 1 and 50
+primes = []
+for num in range(1, 51):
+    if is_prime(num):
+        primes.append(num)
+
+primes
 ```
+</details>
 
 **Exercise 4: List Manipulation**
 
@@ -1019,6 +1067,25 @@ b. Create a new list with only even numbers
 c. Create a new list with squares of odd numbers
 d. Calculate the sum of numbers divisible by 3
 
+<details>
+  <summary>Solution. Click to expand!</summary>
+```{python}
+# a. Create a list of numbers from 1 to 20
+numbers = list(range(1, 21))
+
+# b. Create a new list with only even numbers
+even_numbers = [num for num in numbers if num % 2 == 0]
+even_numbers
+
+# c. Create a new list with squares of odd numbers
+odd_squares = [num ** 2 for num in numbers if num % 2 != 0]
+odd_squares
+
+# d. Calculate the sum of numbers divisible by 3
+divisible_by_3 = [num for num in numbers if num % 3 == 0]
+sum(divisible_by_3)
+```
+</details>
 The syntax might be different, but the concepts you know from R will translate well!
 
 ## Further Resources
