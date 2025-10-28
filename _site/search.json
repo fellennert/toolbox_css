@@ -46,7 +46,7 @@
     "href": "lectures-week_1.html#slides",
     "title": "Week 1: What Is Computational Social Science (CSS)?",
     "section": "Slides",
-    "text": "Slides\nPlease click here to download the latest version of the slides.\n\n\n\nAlternatively, read it here (probably not the best if you’re visiting this page on a mobile device):"
+    "text": "Slides\nPlease click here to download the latest version of the slides.\n\n\n\nAlternatively, read them here (probably not the best if you’re visiting this page on a mobile device):"
   },
   {
     "objectID": "2_r_catch-up.html",
@@ -537,5 +537,19 @@
     "title": "Week 1: What Is Computational Social Science (CSS)?",
     "section": "Slides",
     "text": "Slides\nThere are no slides, just code script."
+  },
+  {
+    "objectID": "lectures-week_3.html",
+    "href": "lectures-week_3.html",
+    "title": "Week 3: Regexes & Crawling the web",
+    "section": "",
+    "text": "This lecture answers the following questions:"
+  },
+  {
+    "objectID": "lectures-week_3.html#slides",
+    "href": "lectures-week_3.html#slides",
+    "title": "Week 3: Regexes & Crawling the web",
+    "section": "Slides",
+    "text": "Slides\nPlease click here to download the slides for Tuesday, October 28, 2025. Caveat: the original slides contain recordings of my screen demonstrating web scraping. These could not be included due to storage constraints.\n\n\n\nAlternatively, read them here (probably not the best if you’re visiting this page on a mobile device):"
   }
 ]

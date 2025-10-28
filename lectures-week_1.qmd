@@ -37,7 +37,7 @@ Please click [here to download the latest version of the slides](./slides/202510
 
 ```
 
-Alternatively, read it here (probably not the best if you're visiting this page on a mobile device):
+Alternatively, read them here (probably not the best if you're visiting this page on a mobile device):
 
 <div class="embed-container">
   <iframe src="./slides/20251014-intro.pdf" style="border: 0.5px"></iframe>

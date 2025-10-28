@@ -1,0 +1,46 @@
+---
+title: "Week 3: Regexes & Crawling the web"
+published-title: week_1
+engine: knitr
+freeze: auto
+---
+
+This lecture answers the following questions:
+
+- Why will Regexes change your life? (not in slides, code script only.)
+- What do I have to bear in mind when scraping websites?
+- How do I harness how the web is written to scrape websites? 
+
+## Slides 
+
+Please click [here to download the slides for Tuesday, October 28, 2025](./slides/20251028-crawling_web-novids.pdf). Caveat: the original slides contain recordings of my screen demonstrating web scraping. These could not be included due to storage constraints.
+
+```{css echo=FALSE}
+
+.embed-container {
+    position: relative;
+    padding-bottom: 129%;
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+.embed-container iframe,
+.embed-container object,
+.embed-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+```
+
+Alternatively, read them here (probably not the best if you're visiting this page on a mobile device):
+
+<div class="embed-container">
+  <iframe src="./slides/20251028-crawling_web-novids.pdf)" style="border: 0.5px"></iframe>
+</div>
+
+
