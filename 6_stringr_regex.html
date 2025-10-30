@@ -483,47 +483,51 @@ div.csl-indent {
 <span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> </span>
 <span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(title_raw, <span class="at">sep =</span> <span class="st">" "</span>, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"rank"</span>, <span class="st">"title"</span>), <span class="at">extra =</span> <span class="st">"merge"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<details>
-<summary>
-Solution. Click to expand!
-</summary>
+<div class="callout callout-style-default callout-note callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>movies_clean <span class="ot">&lt;-</span> movies <span class="sc">|&gt;</span> </span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">str_sub</span>(year_raw, <span class="at">start =</span> <span class="dv">1</span>, <span class="at">end =</span> <span class="dv">4</span>) <span class="sc">|&gt;</span> <span class="fu">as.double</span>(),</span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">rank =</span> <span class="fu">str_sub</span>(rank, <span class="at">start =</span> <span class="sc">-</span><span class="dv">4</span>, <span class="at">end =</span> <span class="sc">-</span><span class="dv">2</span>) <span class="sc">|&gt;</span> <span class="fu">as.integer</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</details>
+</div>
+</div>
+</div>
 <ol start="2" type="1">
 <li>Convert the following sentence to different cases:</li>
 </ol>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>sentence <span class="ot">&lt;-</span> <span class="st">"The quick brown fox jumps over the lazy dog."</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<details>
-<summary>
-Solution. Click to expand!
-</summary>
+<p>::: {.callout-note collapse=“true” title=“Solution”}</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_to_lower</span>(sentence)</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str_to_sentence</span>(sentence)</span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str_to_title</span>(sentence)</span>
 <span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str_to_upper</span>(sentence)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</details>
+<p>:::</p>
 <ol start="3" type="1">
 <li>What’s the length of the following string?</li>
 </ol>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>text <span class="ot">&lt;-</span> <span class="st">"I enjoy studying Sociology at Leipzig University."</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<details>
-<summary>
-Solution. Click to expand!
-</summary>
+<p>::: {.callout-note collapse=“true” title=“Solution”}</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_length</span>(text)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</details>
+<p>:::</p>
 <ol start="4" type="1">
 <li>Using the following vectors, create a full sentence:</li>
 </ol>
@@ -533,14 +537,11 @@ Solution. Click to expand!
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>end <span class="ot">&lt;-</span> <span class="st">"Haha, do you really think I asked ChatGPT to give you these exercises?"</span></span>
 <span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>ps <span class="ot">&lt;-</span> <span class="st">"(Of course I did, I am lazy AF.)"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<details>
-<summary>
-Solution. Click to expand!
-</summary>
+<p>::: {.callout-note collapse=“true” title=“Solution”}</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_c</span>(start, attributes, end, ps, <span class="at">sep =</span> <span class="st">" "</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</details>
+<p>:::</p>
 </section>
 </section>
 <section id="regular-expressions" class="level2">
@@ -923,21 +924,15 @@ Solution. Click to expand!
 <ol type="1">
 <li>Write a RegEx for Swedish mobile numbers. Test it with <code>str_detect("+46 71-738 25 33", "[insert your RegEx here]")</code>.</li>
 </ol>
-<details>
-<summary>
-Solution. Click to expand!
-</summary>
+<p>::: {.callout-note collapse=“true” title=“Solution”}</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb118"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_detect</span>(<span class="st">"+46 71-738 25 33"</span>, <span class="st">"</span><span class="sc">\\</span><span class="st">+46 [0-9]{2}</span><span class="sc">\\</span><span class="st">-[0-9]{3} [0-9]{2} [0-9]{2}"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</details>
+<p>:::</p>
 <ol start="2" type="1">
 <li>Given the vector <code>c("apple", "banana", "cherry", "date", "elderberry")</code>, use a regular expression to identify fruits that contain the letter “a” exactly three times.</li>
 </ol>
-<details>
-<summary>
-Solution. Click to expand!
-</summary>
+<p>::: {.callout-note collapse=“true” title=“Solution”}</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a>fruits <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"apple"</span>, <span class="st">"banana"</span>, <span class="st">"cherry"</span>, <span class="st">"date"</span>, <span class="st">"elderberry"</span>)</span>
 <span id="cb119-2"><a href="#cb119-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str_detect</span>(fruits, <span class="st">"^([^a]*a){3}[^a]*$"</span>)</span>
@@ -945,39 +940,30 @@ Solution. Click to expand!
 <span id="cb119-4"><a href="#cb119-4" aria-hidden="true" tabindex="-1"></a><span class="co"># alternatively</span></span>
 <span id="cb119-5"><a href="#cb119-5" aria-hidden="true" tabindex="-1"></a><span class="fu">str_count</span>(fruits, <span class="st">"a"</span>) <span class="sc">==</span> <span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</details>
+<p>:::</p>
 <ol start="3" type="1">
 <li>Given the sentence vector <code>c("The cat sat on the mat.", "Mat is what it sat on.", "On the mat, it sat.")</code>, write a regular expression to identify sentences that start with “The” and end with “mat.”.</li>
 </ol>
-<details>
-<summary>
-Solution. Click to expand!
-</summary>
+<p>::: {.callout-note collapse=“true” title=“Solution”}</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb120"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a>cats <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"The cat sat on the mat."</span>, <span class="st">"Mat is what it sat on."</span>, <span class="st">"On the mat, it sat."</span>)</span>
 <span id="cb120-2"><a href="#cb120-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str_detect</span>(cats, <span class="st">"^The.*mat.$"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</details>
+<p>:::</p>
 <ol start="4" type="1">
 <li>Extract all email addresses from the following vector: <code>c("john.doe@example.com", "alice_smith@company.net", "r.user@domain.org", "I am @ the office RN", "facebook.com")</code>.</li>
 </ol>
-<details>
-<summary>
-Solution. Click to expand!
-</summary>
+<p>::: {.callout-note collapse=“true” title=“Solution”}</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb121"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a>addresses <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"john.doe@example.com"</span>, <span class="st">"alice_smith@company.net"</span>, <span class="st">"r.user@domain.org"</span>, <span class="st">"I am @ the office RN"</span>, <span class="st">"facebook.com"</span>)</span>
 <span id="cb121-2"><a href="#cb121-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb121-3"><a href="#cb121-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str_detect</span>(addresses, <span class="st">"[a-z.</span><span class="sc">\\</span><span class="st">_]+</span><span class="sc">\\</span><span class="st">@[a-z]+</span><span class="sc">\\</span><span class="st">.[a-z]+"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</details>
+<p>:::</p>
 <ol start="5" type="1">
 <li>Check a vector of passwords for strength. A strong password should have at least 8 characters, include an uppercase and a lowercase letter, a number, and a special character (e.g., !@#$%^&amp;*).</li>
 </ol>
-<details>
-<summary>
-Solution. Click to expand!
-</summary>
+<p>::: {.callout-note collapse=“true” title=“Solution”}</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a>password <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Hi!123456"</span>)</span>
 <span id="cb122-2"><a href="#cb122-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -991,19 +977,16 @@ Solution. Click to expand!
 <span id="cb122-10"><a href="#cb122-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"weak password"</span></span>
 <span id="cb122-11"><a href="#cb122-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</details>
+<p>:::</p>
 <ol start="6" type="1">
 <li>From “The theme of this theater is therapeutic.”, extract all words that start with “the” but are not followed by “me”.</li>
 </ol>
-<details>
-<summary>
-Solution. Click to expand!
-</summary>
+<p>::: {.callout-note collapse=“true” title=“Solution”}</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb123"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a>sentence <span class="ot">&lt;-</span> <span class="st">"The theme of this theater is therapeutic."</span> <span class="sc">|&gt;</span> <span class="fu">str_to_lower</span>()</span>
 <span id="cb123-2"><a href="#cb123-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str_extract_all</span>(sentence, <span class="st">"</span><span class="sc">\\</span><span class="st">bthe(?!me)</span><span class="sc">\\</span><span class="st">w*</span><span class="sc">\\</span><span class="st">b"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</details>
+<p>:::</p>
 </section>
 </section>
 <section id="more-advanced-string-manipulation" class="level2">
@@ -1217,27 +1200,21 @@ dbl (7): Rank, Year, Runtime (Minutes), Rating, Votes, Revenue (Millions), M...
 <span id="cb149-5"><a href="#cb149-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_elements</span>(<span class="st">".cli-title .ipc-title__text"</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb149-6"><a href="#cb149-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_text2</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<details>
-<summary>
-Solution. Click to expand!
-</summary>
+<p>::: {.callout-note collapse=“true” title=“Solution”}</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb150"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb150-1"><a href="#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(</span>
 <span id="cb150-2"><a href="#cb150-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">rank =</span> raw_title <span class="sc">|&gt;</span> <span class="fu">str_extract</span>(<span class="st">"^[0-9]{1,3}"</span>) <span class="sc">|&gt;</span> <span class="fu">as.integer</span>(),</span>
 <span id="cb150-3"><a href="#cb150-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> raw_title <span class="sc">|&gt;</span> <span class="fu">str_remove</span>(<span class="st">"^[0-9]{1,3}</span><span class="sc">\\</span><span class="st">. "</span>)</span>
 <span id="cb150-4"><a href="#cb150-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</details>
+<p>:::</p>
 <ol start="2" type="1">
 <li>Replace m and cm appropriately in the vector of heights.</li>
 </ol>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb151"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb151-1"><a href="#cb151-1" aria-hidden="true" tabindex="-1"></a>heights <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"1m30cm"</span>, <span class="st">"2m01cm"</span>, <span class="st">"3m10cm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<details>
-<summary>
-Solution. Click to expand!
-</summary>
+<p>::: {.callout-note collapse=“true” title=“Solution”}</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb152"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb152-1"><a href="#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_replace_all</span>(heights, <span class="fu">c</span>(<span class="st">"(?&lt;=[2-9]{1})m"</span> <span class="ot">=</span> <span class="st">"meters"</span>, </span>
 <span id="cb152-2"><a href="#cb152-2" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"(?&lt;=[0-9]{2})m"</span> <span class="ot">=</span> <span class="st">"meters"</span>, </span>
@@ -1245,7 +1222,7 @@ Solution. Click to expand!
 <span id="cb152-4"><a href="#cb152-4" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"(?&lt;=01)cm$"</span> <span class="ot">=</span> <span class="st">"centimeter"</span>, </span>
 <span id="cb152-5"><a href="#cb152-5" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"cm$"</span> <span class="ot">=</span> <span class="st">"centimeters"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</details>
+<p>:::</p>
 <ol start="3" type="1">
 <li>Run the following code and clean up the resulting table.</li>
 </ol>
@@ -1262,40 +1239,31 @@ Solution. Click to expand!
 <ol type="a">
 <li>Remove the footnotes in the “party” column.</li>
 </ol>
-<details>
-<summary>
-Solution. Click to expand!
-</summary>
+<p>::: {.callout-note collapse=“true” title=“Solution”}</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb154"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb154-1"><a href="#cb154-1" aria-hidden="true" tabindex="-1"></a>senator_table_party_cleaned <span class="ot">&lt;-</span> senator_table_raw <span class="sc">|&gt;</span> </span>
 <span id="cb154-2"><a href="#cb154-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">party =</span> <span class="fu">str_remove_all</span>(party, <span class="st">"</span><span class="sc">\\</span><span class="st">[.</span><span class="sc">\\</span><span class="st">]|</span><span class="sc">\\</span><span class="st">(.+</span><span class="sc">\\</span><span class="st">)"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</details>
+<p>:::</p>
 <ol start="2" type="a">
 <li>Bring their date of birth (“born”) in proper shape.</li>
 </ol>
-<details>
-<summary>
-Solution. Click to expand!
-</summary>
+<p>::: {.callout-note collapse=“true” title=“Solution”}</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb155"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb155-1"><a href="#cb155-1" aria-hidden="true" tabindex="-1"></a>senator_table_born_party_cleaned <span class="ot">&lt;-</span> senator_table_party_cleaned <span class="sc">|&gt;</span> </span>
 <span id="cb155-2"><a href="#cb155-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">born =</span> <span class="fu">str_extract</span>(born, <span class="st">"19[0-9]{2}</span><span class="sc">\\</span><span class="st">-[01][0-9]</span><span class="sc">\\</span><span class="st">-[0-3][0-9]"</span>) <span class="sc">|&gt;</span> <span class="fu">ymd</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</details>
+<p>:::</p>
 <ol start="3" type="a">
 <li>Bonus: fix their “occupation” by separating the single jobs (combine look-ahead and -behind for that.)</li>
 </ol>
-<details>
-<summary>
-Solution. Click to expand!
-</summary>
+<p>::: {.callout-note collapse=“true” title=“Solution”}</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb156"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb156-1"><a href="#cb156-1" aria-hidden="true" tabindex="-1"></a>senator_table_cleaned <span class="ot">&lt;-</span> senator_table_born_party_cleaned <span class="sc">|&gt;</span> </span>
 <span id="cb156-2"><a href="#cb156-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">occupation_clean =</span> <span class="fu">str_replace_all</span>(occupations, <span class="fu">c</span>(<span class="st">"(?&lt;=[a-z])(?=[A-Z])"</span> <span class="ot">=</span> <span class="st">"; "</span>, <span class="st">"CEO"</span> <span class="ot">=</span> <span class="st">"CEO "</span>)) <span class="sc">|&gt;</span> </span>
 <span id="cb156-3"><a href="#cb156-3" aria-hidden="true" tabindex="-1"></a>           <span class="fu">str_squish</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</details>
+<p>:::</p>
 
 
 
