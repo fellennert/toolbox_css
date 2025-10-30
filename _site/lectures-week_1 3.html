@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Welcome – Toolbox CSS</title>
+<title>Week 1: What Is Computational Social Science (CSS)? – Toolbox CSS</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -90,7 +90,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -145,10 +145,6 @@ ul.task-list li input[type="checkbox"] {
     <a class="dropdown-item" href="./6_stringr_regex.html">
  <span class="dropdown-text">Chapter 6: <code>stringr</code> and RegExes</span></a>
   </li>  
-        <li>
-    <a class="dropdown-item" href="./7_scraping.html">
- <span class="dropdown-text">Chapter 7: Scraping Static Pages with <code>rvest</code></span></a>
-  </li>  
     </ul>
   </li>
 </ul>
@@ -167,8 +163,7 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#course-structure" id="toc-course-structure" class="nav-link active" data-scroll-target="#course-structure">Course Structure</a></li>
-  <li><a href="#syllabus" id="toc-syllabus" class="nav-link" data-scroll-target="#syllabus">Syllabus</a></li>
+  <li><a href="#slides" id="toc-slides" class="nav-link active" data-scroll-target="#slides">Slides</a></li>
   </ul>
 </nav>
     </div>
@@ -177,7 +172,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Welcome</h1>
+<h1 class="title">Week 1: What Is Computational Social Science (CSS)?</h1>
 </div>
 
 
@@ -194,138 +189,18 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This is a Quarto website for the “Forschungsseminar CSS” course at Leipzig University. It covers different techniques for the aspiring computational social scientist, hence I have dubbed it “Toolbox CSS.” You can reach me anytime at <a href="mailto:felix.lennert@uni-leipzig.de">felix.lennert@uni-leipzig.de</a>. If you’re interested in my academic work, you can visit <a href="https://felix-lennert.netlify.app">my website</a>.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="figures/data_pic.jpg" class="img-fluid figure-img" width="300"></p>
-<figcaption>In the field, harvesting some fresh raw material before transforming it to insights (© Alexandra Gibbons)</figcaption>
-</figure>
-</div>
-<p>Here’s the official description:</p>
-<blockquote class="blockquote">
-<p>The Forschungsseminar in Computational Social Science (CSS) equips you with the tools to analyze human behavior, predict social trends, and tackle complex societal issues using cutting-edge data science techniques. From web scraping to AI-powered text analysis, you’ll learn to use your computer in new ways to gain insights into social phenomena.</p>
-</blockquote>
-<p>The curriculum covers a range of topics including data management, web scraping, speech-to-text, and computational text analysis. Students will hone their R and develop skills in Python, applying these languages to real-world social science problems. The course progresses from fundamental concepts to advanced techniques, including the use of state-of-the-art AI models for text analysis.</p>
-<p>The course structure consists of one lecture and one lab session per week, providing a balance of theoretical knowledge and practical application. Throughout the semester, students will benefit from hands-on coding exercises, one-on-one mentoring, and collaborative projects. The course culminates in a research paper, allowing students to apply their new skills to a topic of their choice.</p>
-<section id="course-structure" class="level2">
-<h2 class="anchored" data-anchor-id="course-structure">Course Structure</h2>
-<p>The course consists of <a href="./lectures-overview.html">lectures</a> introducing each week’s content and a <a href="./1_r_index.html">course script</a> that provides hands-on coding examples for the content. It is mostly containing R with some Python mixed in for good measure when no great R alternatives exist (e.g., for web scraping with Selenium, text classification with <code>transformer</code> models).</p>
-<p>At the beginning of the course, students are encouraged to form groups based on research interests and general vibes. I require each student group to check in with me at the beginning of each week to report their progress (even if there’s nothing to report – no progress, no problem). This does not count towards any grade but rather serves the purpose of me receiving feedback on the learning experience (this is a new course!) – and will hopefully help me with providing more appropriate guidance.</p>
-<p>Here’s an overview of the topics covered:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 15%">
-<col style="width: 18%">
-<col style="width: 23%">
-<col style="width: 42%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>WEEK</th>
-<th>TITLE</th>
-<th>CONTENT</th>
-<th>INFORMAL TITLE</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1</td>
-<td>Kick Off</td>
-<td>Housekeeping; Setting up workstation; R recap</td>
-<td>Whatever you want to know about CSS</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>Brief Intro to Python &amp; Regexes</td>
-<td>Python basics (<code>reticulate</code>, data types, loops, functions, <code>pandas</code>); Regular expressions with stringr</td>
-<td>REGEXES – tame your data</td>
-</tr>
-<tr class="odd">
-<td>3</td>
-<td>Data Acquisition I</td>
-<td>How the web is written and ethics; <code>rvest</code> web scraping</td>
-<td>stealing data from websites without them noticing it</td>
-</tr>
-<tr class="even">
-<td>4</td>
-<td>Data Acquisition II</td>
-<td>Dynamic pages and forms with <code>selenium</code>; APIs with <code>httr2</code></td>
-<td>stealing MORE data from websites</td>
-</tr>
-<tr class="odd">
-<td>5</td>
-<td>Data Acquisition III</td>
-<td>Intro to OCR and transcription</td>
-<td>making images and audio readable</td>
-</tr>
-<tr class="even">
-<td>6</td>
-<td>Data Acquisition IV</td>
-<td>Optical Character Recognition (<code>tesseract</code>); Speech transcription (OpenAI Whisper); Project discussion</td>
-<td>making the computer your transcription servant</td>
-</tr>
-<tr class="odd">
-<td>7</td>
-<td>Student Project Week</td>
-<td>Work on projects in class</td>
-<td>time to get your hands dirty</td>
-</tr>
-<tr class="even">
-<td>8</td>
-<td>Text as Data I</td>
-<td>Bag of words; Sentiment analysis, TF-IDF, NER/POS</td>
-<td>basic text analysis</td>
-</tr>
-<tr class="odd">
-<td>9</td>
-<td>Text as Data II</td>
-<td>Supervised machine learning in theory and practice</td>
-<td>advanced text analysis with training data</td>
-</tr>
-<tr class="even">
-<td>10</td>
-<td>Text as Data III</td>
-<td>Unsupervised ML (topic modeling); Remote counseling pre-Christmas</td>
-<td>finding patterns without labels</td>
-</tr>
-<tr class="odd">
-<td>11</td>
-<td>Text as Data IV</td>
-<td>Measuring similarity and distributional hypothesis; Word embeddings</td>
-<td>cutting-edge text analysis with vector spaces</td>
-</tr>
-<tr class="even">
-<td>12</td>
-<td>Text as Data V</td>
-<td>Supervised learning on steroids (BERT); Active learning with BERT</td>
-<td>holy shit…transformer models</td>
-</tr>
-<tr class="odd">
-<td>13</td>
-<td>Text as Data VI</td>
-<td>LLMs for information extraction; Local LLMs primer</td>
-<td>unleashing the power of large language models</td>
-</tr>
-<tr class="even">
-<td>14</td>
-<td>Presentation Preparation Week</td>
-<td>Work on presentations (deadline Jan 30, 6PM)</td>
-<td>polish your masterpiece</td>
-</tr>
-<tr class="odd">
-<td>15</td>
-<td>Presentations &amp; Wrap Up</td>
-<td>Peer-reviewed presentations; Course wrap-up</td>
-<td>show off your work</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="syllabus" class="level2">
-<h2 class="anchored" data-anchor-id="syllabus">Syllabus</h2>
-<p>Please click <a href="./syllabus/syllabus_toolboxCSS_winter2526.pdf">here to download the latest version of the syllabus</a>.</p>
+<p>This lecture answers the following questions:</p>
+<ul>
+<li>What does the term CSS mean?</li>
+<li>Which principles underly a new CSS?</li>
+<li>Which methods does CSS encompass?</li>
+</ul>
+<section id="slides" class="level2">
+<h2 class="anchored" data-anchor-id="slides">Slides</h2>
+<p>Please click <a href="./slides/20251014-intro.pdf">here to download the latest version of the slides</a>.</p>
 <div class="cell">
 <style type="text/css">
+
 .embed-container {
     position: relative;
     padding-bottom: 129%;
@@ -343,11 +218,12 @@ ul.task-list li input[type="checkbox"] {
     width: 100%;
     height: 100%;
 }
+
 </style>
 </div>
-<p>Alternatively, read it here (probably not the best if you’re visiting this page on a mobile device):</p>
+<p>Alternatively, read them here (probably not the best if you’re visiting this page on a mobile device):</p>
 <div class="embed-container">
-<p><iframe src="./syllabus/syllabus_toolboxCSS_winter2526.pdf" style="border: 0.5px"></iframe></p>
+<p><iframe src="./slides/20251014-intro.pdf" style="border: 0.5px"></iframe></p>
 </div>
 
 
@@ -426,7 +302,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/fellennert\.github\.io\/toolbox_css\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

@@ -11,7 +11,11 @@ csl: ASA.csl
 needs(tidyverse, rvest)
 ```
 
-```{r echo=FALSE, message=FALSE, warning=FALSE, eval=TRUE}
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
 vembedr::embed_youtube("phFPddPPcUk")
 ```
 
@@ -221,7 +225,11 @@ str_c(start, attributes, end, ps, sep = " ")
 
 ## Regular expressions
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
 vembedr::embed_youtube("e6noZ3zmDxA")
 ```
 
@@ -595,7 +603,11 @@ str_extract_all(sentence, "\\bthe(?!me)\\w*\\b")
 
 Now that you have learned about RegExes, you can unleash the full power of `stringr`.
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
 vembedr::embed_youtube("D7H6fe9bXU8")
 ```
 

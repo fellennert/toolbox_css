@@ -33,8 +33,8 @@ Here's an overview of the topics covered:
 | 2 | Brief Intro to Python & Regexes | Python basics (`reticulate`, data types, loops, functions, `pandas`); Regular expressions with stringr | REGEXES -- tame your data |
 | 3 | Data Acquisition I | How the web is written and ethics; `rvest` web scraping | stealing data from websites without them noticing it |
 | 4 | Data Acquisition II | Dynamic pages and forms with `selenium`; APIs with `httr2` | stealing MORE data from websites |
-| 5 | Data Acquisition III | Intro to OCR and transcription | making images and audio readable |
-| 6 | Data Acquisition IV | Optical Character Recognition (`tesseract`); Speech transcription (OpenAI Whisper); Project discussion | making the computer your transcription servant |
+| 5 | Data Acquisition III | Intro to OCR with `tesseract` and transcription (OpenAI Whisper) | making the computer your transcription servant |
+| 6 | Data Acquisition IV | Buffer sessions ; Project discussion | Questions? |
 | 7 | Student Project Week | Work on projects in class | time to get your hands dirty |
 | 8 | Text as Data I | Bag of words; Sentiment analysis, TF-IDF, NER/POS | basic text analysis |
 | 9 | Text as Data II | Supervised machine learning in theory and practice | advanced text analysis with training data |

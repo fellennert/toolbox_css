@@ -31,7 +31,7 @@ website:
           - href: 4_python.qmd
           - href: 5_pandas.qmd
           - href: 6_stringr_regex.qmd
-         # - href: 7_tesseract.qmd
+          - href: 7_scraping.qmd
          # - href: 8_transcription.qmd
          # - href: 9_text-preprocessing.qmd
          # - href: 10_dictionary-based-analysis.qmd

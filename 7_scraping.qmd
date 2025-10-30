@@ -1,5 +1,5 @@
 ---
-title: "Chapter 7: Crawling the Web and Extracting Data (Static Pages with `rvest`)"
+title: "Chapter 7: Scraping Static Pages with `rvest`"
 published-title: crawling_extracting
 engine: knitr
 freeze: auto
