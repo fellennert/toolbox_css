@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://fellennert.github.io/toolbox_css/6_stringr_regex.html</loc>
-    <lastmod>2025-10-28T12:36:26.760Z</lastmod>
+    <lastmod>2025-10-28T15:15:57.001Z</lastmod>
   </url>
   <url>
     <loc>https://fellennert.github.io/toolbox_css/lectures-week_3.html</loc>
-    <lastmod>2025-10-28T14:11:59.562Z</lastmod>
+    <lastmod>2025-10-30T07:55:33.921Z</lastmod>
   </url>
   <url>
     <loc>https://fellennert.github.io/toolbox_css/4_python.html</loc>
@@ -17,20 +17,24 @@
     <lastmod>2025-10-10T05:41:10.000Z</lastmod>
   </url>
   <url>
-    <loc>https://fellennert.github.io/toolbox_css/syllabus/syllabus_toolboxCSS_winter2526.html</loc>
-    <lastmod>2025-10-16T09:20:45.479Z</lastmod>
+    <loc>https://fellennert.github.io/toolbox_css/7_scraping.html</loc>
+    <lastmod>2025-10-30T07:49:18.596Z</lastmod>
   </url>
   <url>
-    <loc>https://fellennert.github.io/toolbox_css/5_pandas.html</loc>
-    <lastmod>2025-10-27T13:43:44.632Z</lastmod>
+    <loc>https://fellennert.github.io/toolbox_css/index.html</loc>
+    <lastmod>2025-10-10T05:41:10.000Z</lastmod>
   </url>
   <url>
     <loc>https://fellennert.github.io/toolbox_css/3_reticulate.html</loc>
     <lastmod>2025-10-21T12:36:56.403Z</lastmod>
   </url>
   <url>
-    <loc>https://fellennert.github.io/toolbox_css/index.html</loc>
-    <lastmod>2025-10-10T05:41:10.000Z</lastmod>
+    <loc>https://fellennert.github.io/toolbox_css/5_pandas.html</loc>
+    <lastmod>2025-10-29T06:22:45.674Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fellennert.github.io/toolbox_css/syllabus/syllabus_toolboxCSS_winter2526.html</loc>
+    <lastmod>2025-10-30T07:49:42.908Z</lastmod>
   </url>
   <url>
     <loc>https://fellennert.github.io/toolbox_css/1_r_index.html</loc>

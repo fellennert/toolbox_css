@@ -1341,7 +1341,7 @@ Compared to R
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb134"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a><span class="co">#a </span></span>
+<div class="sourceCode cell-code" id="cb134"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a><span class="co">#c</span></span>
 <span id="cb134-2"><a href="#cb134-2" aria-hidden="true" tabindex="-1"></a>imdb.assign(median_votes <span class="op">=</span> <span class="kw">lambda</span> x: x[<span class="st">'Votes'</span>].median()).query(<span class="st">'Votes &gt; median_votes'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     Rank                           Title  ... Metascore median_votes
@@ -1379,8 +1379,9 @@ Compared to R
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb138"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb138-1"><a href="#cb138-1" aria-hidden="true" tabindex="-1"></a>rating_mode <span class="op">=</span> imdb[<span class="st">'Rating'</span>].mode()</span>
-<span id="cb138-2"><a href="#cb138-2" aria-hidden="true" tabindex="-1"></a>imdb[imdb[<span class="st">'Rating'</span>].isin(rating_mode)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb138"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb138-1"><a href="#cb138-1" aria-hidden="true" tabindex="-1"></a><span class="co">#d</span></span>
+<span id="cb138-2"><a href="#cb138-2" aria-hidden="true" tabindex="-1"></a>rating_mode <span class="op">=</span> imdb[<span class="st">'Rating'</span>].mode()</span>
+<span id="cb138-3"><a href="#cb138-3" aria-hidden="true" tabindex="-1"></a>imdb[imdb[<span class="st">'Rating'</span>].isin(rating_mode)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     Rank  ... Metascore
 8       9  ...      78.0

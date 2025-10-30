@@ -1,0 +1,1820 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Chapter 7: Crawling the Web and Extracting Data (Static Pages with rvest) – Toolbox CSS</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-2fef5ea3f8957b3e4ecc936fc74692ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-c09f7992e7ad36c4a4c784d127ab2153.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link href="site_libs/vembedr-0.1.5/css/vembedr.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Toolbox CSS</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lectures" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lectures</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lectures">    
+        <li>
+    <a class="dropdown-item" href="./lectures-overview.html">
+ <span class="dropdown-text">Overview – week by week</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_1.html">
+ <span class="dropdown-text">Week 1: What Is Computational Social Science (CSS)?</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_2.html">
+ <span class="dropdown-text">Week 1: What Is Computational Social Science (CSS)?</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_3.html">
+ <span class="dropdown-text">Week 3: Regexes &amp; Crawling the web</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-r-script" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">R Script</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-r-script">    
+        <li>
+    <a class="dropdown-item" href="./1_r_index.html">
+ <span class="dropdown-text">Chapter 1: Preface</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./2_r_catch-up.html">
+ <span class="dropdown-text">Chapter 2: Brief R Recap</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./3_reticulate.html">
+ <span class="dropdown-text">Chapter 3: <code>reticulate</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./4_python.html">
+ <span class="dropdown-text">Chapter 4: Introduction to Python for R Users</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./5_pandas.html">
+ <span class="dropdown-text">Chapter 5: <code>pandas</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./6_stringr_regex.html">
+ <span class="dropdown-text">Chapter 6: <code>stringr</code> and RegExes</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#intro" id="toc-intro" class="nav-link active" data-scroll-target="#intro">Intro</a></li>
+  <li><a href="#getting-started-with-rvest" id="toc-getting-started-with-rvest" class="nav-link" data-scroll-target="#getting-started-with-rvest">Getting started with <code>rvest</code></a>
+  <ul class="collapse">
+  <li><a href="#making-requests" id="toc-making-requests" class="nav-link" data-scroll-target="#making-requests">Making requests</a></li>
+  <li><a href="#sessions" id="toc-sessions" class="nav-link" data-scroll-target="#sessions"><code>session()</code>s</a></li>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise">Exercise</a></li>
+  <li><a href="#forms" id="toc-forms" class="nav-link" data-scroll-target="#forms">Forms</a></li>
+  <li><a href="#exercise-1" id="toc-exercise-1" class="nav-link" data-scroll-target="#exercise-1">Exercise</a></li>
+  <li><a href="#scraping-hacks" id="toc-scraping-hacks" class="nav-link" data-scroll-target="#scraping-hacks">Scraping hacks</a></li>
+  </ul></li>
+  <li><a href="#extracting-data" id="toc-extracting-data" class="nav-link" data-scroll-target="#extracting-data">Extracting Data</a></li>
+  <li><a href="#html-101" id="toc-html-101" class="nav-link" data-scroll-target="#html-101">HTML 101</a></li>
+  <li><a href="#extracting-content-in-rvest" id="toc-extracting-content-in-rvest" class="nav-link" data-scroll-target="#extracting-content-in-rvest">Extracting content in <code>rvest</code></a></li>
+  <li><a href="#tying-it-together-scraping-html-pages-with-rvest" id="toc-tying-it-together-scraping-html-pages-with-rvest" class="nav-link" data-scroll-target="#tying-it-together-scraping-html-pages-with-rvest">Tying it Together: Scraping HTML pages with <code>rvest</code></a>
+  <ul class="collapse">
+  <li><a href="#html_text-and-html_text2" id="toc-html_text-and-html_text2" class="nav-link" data-scroll-target="#html_text-and-html_text2"><code>html_text()</code> and <code>html_text2()</code></a></li>
+  <li><a href="#extracting-tables" id="toc-extracting-tables" class="nav-link" data-scroll-target="#extracting-tables">Extracting tables</a></li>
+  <li><a href="#extracting-attributes" id="toc-extracting-attributes" class="nav-link" data-scroll-target="#extracting-attributes">Extracting attributes</a></li>
+  <li><a href="#exercise-2" id="toc-exercise-2" class="nav-link" data-scroll-target="#exercise-2">Exercise</a></li>
+  </ul></li>
+  <li><a href="#automating-scraping" id="toc-automating-scraping" class="nav-link" data-scroll-target="#automating-scraping">Automating scraping</a>
+  <ul class="collapse">
+  <li><a href="#looping-over-pages" id="toc-looping-over-pages" class="nav-link" data-scroll-target="#looping-over-pages">Looping over pages</a></li>
+  <li><a href="#letting-the-scraper-navigate-on-its-own" id="toc-letting-the-scraper-navigate-on-its-own" class="nav-link" data-scroll-target="#letting-the-scraper-navigate-on-its-own">Letting the scraper navigate on its own</a></li>
+  <li><a href="#exercise-3" id="toc-exercise-3" class="nav-link" data-scroll-target="#exercise-3">Exercise</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Chapter 7: Crawling the Web and Extracting Data (Static Pages with <code>rvest</code>)</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="intro" class="level2">
+<h2 class="anchored" data-anchor-id="intro">Intro</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div class="vembedr">
+<div>
+<iframe src="https://www.youtube.com/embed/Yg0wUkHjigs" width="533" height="300" frameborder="0" allowfullscreen="" data-external="1"></iframe>
+</div>
+</div>
+</div>
+</div>
+<p>Today’s session will be dedicated to getting data from the web. This process is also called scraping since we scrape data off from the surface (and remodel it for our purposes). The following picture shows you the <a href="https://github.com/yusuzech/r-web-scraping-cheat-sheet/">web scraping cheat sheet</a> that outlines the process of scraping the web. On the left side, you can see the first step in scraping the web which is requesting the information from the server. This is basically what is going under the hood when you make requests using a browser. The response is the website, usually stored in an XML document, which is then the starting point for your subsequent queries and data extraction.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://raw.githubusercontent.com/yusuzech/r-web-scraping-cheat-sheet/master/resources/functions_and_classes.png" class="img-fluid figure-img"></p>
+<figcaption>Web scraping cheat sheet</figcaption>
+</figure>
+</div>
+<p>In the first part of this chapter, you will learn different techniques to get your hands on data. In particular, this will encompass making simple URL requests with <code>read_html()</code>, using <code>session()</code>s to navigate around on a web page, and submitting <code>html_form()</code>s to fill in forms on a web page. The second part will be dedicated to only choosing particular contents of the page.</p>
+</section>
+<section id="getting-started-with-rvest" class="level2">
+<h2 class="anchored" data-anchor-id="getting-started-with-rvest">Getting started with <code>rvest</code></h2>
+<div class="cell">
+<div class="cell-output-display">
+<div class="vembedr">
+<div>
+<iframe src="https://www.youtube.com/embed/NZsULhv0lmE" width="533" height="300" frameborder="0" allowfullscreen="" data-external="1"></iframe>
+</div>
+</div>
+</div>
+</div>
+<section id="making-requests" class="level3">
+<h3 class="anchored" data-anchor-id="making-requests">Making requests</h3>
+<p>The most basic form of making a request is by using <code>read_html()</code> from the <code>xml2</code> package.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(httr, rvest, tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>page <span class="ot">&lt;-</span> <span class="fu">read_html</span>(<span class="st">"https://en.wikipedia.org/wiki/Tidyverse"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>page <span class="sc">|&gt;</span> <span class="fu">str</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>List of 2
+ $ node:&lt;externalptr&gt; 
+ $ doc :&lt;externalptr&gt; 
+ - attr(*, "class")= chr [1:2] "xml_document" "xml_node"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>page <span class="sc">|&gt;</span> <span class="fu">as.character</span>() <span class="sc">|&gt;</span> <span class="fu">write_lines</span>(<span class="st">"wiki.html"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#page |&gt; html_text()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This is perfectly fine for making requests to static pages where you do not need to take any further action. Sometimes, however, this is not enough, and you want to accept cookies or move on the page.</p>
+</section>
+<section id="sessions" class="level3">
+<h3 class="anchored" data-anchor-id="sessions"><code>session()</code>s</h3>
+<p>However, the slickest way to do this is by using a <code>session()</code>. In a session, R behaves like a normal browser, stores cookies, allows you to navigate between pages, by going <code>session_forward()</code> or <code>session_back()</code>, <code>session_follow_link()</code>s on the page itself or <code>session_jump_to()</code> a different URL, or submit <code>form()</code>s with <code>session_submit()</code>.</p>
+<p>First, you start the session by simply calling <code>session()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>my_session <span class="ot">&lt;-</span> <span class="fu">session</span>(<span class="st">"https://scrapethissite.com/"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Some servers may not want robots to make requests and block you for this reason. To circumnavigate this, we can set a “user agent” in a session. The user agent contains data that the server receives from us when we make the request. Hence, by adapting it we can trick the server into thinking that we are humans instead of robots. Let’s check the current user agent first:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>my_session<span class="sc">$</span>response<span class="sc">$</span>request<span class="sc">$</span>options<span class="sc">$</span>useragent</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "libcurl/8.14.1 r-curl/7.0.0 httr/1.4.7"</code></pre>
+</div>
+</div>
+<p>Not very human. We can set it to a common one using the <code>httr</code> package (which powers <code>rvest</code>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>user_a <span class="ot">&lt;-</span> <span class="fu">user_agent</span>(<span class="st">"Mozilla/5.0 (Macintosh; Intel Mac OS X 12_0_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>session_with_ua <span class="ot">&lt;-</span> <span class="fu">session</span>(<span class="st">"https://scrapethissite.com/"</span>, user_a)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>session_with_ua<span class="sc">$</span>response<span class="sc">$</span>request<span class="sc">$</span>options<span class="sc">$</span>useragent</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_0_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36"</code></pre>
+</div>
+</div>
+<p>You can check the response using <code>session$response$status_code</code> – 200 is good.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>my_session<span class="sc">$</span>response<span class="sc">$</span>status_code</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 200</code></pre>
+</div>
+</div>
+<p>When you want to save a page from the session, do so using <code>read_html()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>page <span class="ot">&lt;-</span> <span class="fu">read_html</span>(session_with_ua)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If you want to open a new URL, use <code>session_jump_to()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>session_with_ua <span class="ot">&lt;-</span> session_with_ua <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">session_jump_to</span>(<span class="st">"https://www.scrapethissite.com/pages/"</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>session_with_ua</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;session&gt; https://www.scrapethissite.com/pages/
+  Status: 200
+  Type:   text/html; charset=utf-8
+  Size:   10603</code></pre>
+</div>
+</div>
+<p>You can also click buttons on the page using CSS selectors or XPATHs (more on them next session!):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>session_with_ua <span class="ot">&lt;-</span> session_with_ua <span class="sc">|&gt;</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">session_jump_to</span>(<span class="st">"https://www.scrapethissite.com/"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">session_follow_link</span>(<span class="at">css =</span> <span class="st">".btn-primary"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Navigating to &lt;/lessons/&gt;.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>session_with_ua</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;session&gt; http://www.scrapethissite.com/lessons/sign-up/
+  Status: 200
+  Type:   text/html; charset=utf-8
+  Size:   24168</code></pre>
+</div>
+</div>
+<p>Wanna go back – <code>session_back()</code>; thereafter you can go <code>session_forward()</code>, too.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>session_with_ua <span class="ot">&lt;-</span> session_with_ua <span class="sc">|&gt;</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">session_back</span>()</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>session_with_ua</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;session&gt; https://www.scrapethissite.com/
+  Status: 200
+  Type:   text/html; charset=utf-8
+  Size:   8117</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>session_with_ua <span class="ot">&lt;-</span> session_with_ua <span class="sc">|&gt;</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">session_forward</span>()</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>session_with_ua</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;session&gt; http://www.scrapethissite.com/lessons/sign-up/
+  Status: 200
+  Type:   text/html; charset=utf-8
+  Size:   24168</code></pre>
+</div>
+</div>
+<p>You can look at what your scraper has done with <code>session_history()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>session_with_ua <span class="sc">|&gt;</span> <span class="fu">session_history</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  https://www.scrapethissite.com/
+  https://www.scrapethissite.com/pages/
+  https://www.scrapethissite.com/
+- http://www.scrapethissite.com/lessons/sign-up/</code></pre>
+</div>
+</div>
+</section>
+<section id="exercise" class="level3">
+<h3 class="anchored" data-anchor-id="exercise">Exercise</h3>
+<ol type="1">
+<li>Start a session with the tidyverse Wikipedia page. Adapt your user agent to some sort of different value. Proceed to Hadley Wickham’s page. Go back. Go forth. Jump to Pierre Bourdieu’s Wikipedia page. Check the <code>session_history()</code> to see if it has worked.</li>
+</ol>
+<details>
+<summary>
+Solution. Click to expand!
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(tidyverse, rvest, httr)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>tidyverse_wiki <span class="ot">&lt;-</span> <span class="st">"https://en.wikipedia.org/wiki/Tidyverse"</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>pierre_wiki <span class="ot">&lt;-</span> <span class="st">"https://en.wikipedia.org/wiki/Pierre_Bourdieu"</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>user_agent <span class="ot">&lt;-</span> <span class="fu">user_agent</span>(<span class="st">"Hi, I'm Felix and I'm trying to steal your data."</span>) <span class="co">#can be changed</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>wiki_session <span class="ot">&lt;-</span> <span class="fu">session</span>(tidyverse_wiki, user_agent)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>wiki_session_jumped <span class="ot">&lt;-</span> wiki_session <span class="sc">|&gt;</span>  </span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">session_jump_to</span>(tidyverse_wiki) <span class="sc">|&gt;</span> </span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">session_back</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">session_forward</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">session_jump_to</span>(pierre_wiki)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>wiki_session_jumped <span class="sc">|&gt;</span> <span class="fu">session_history</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</details>
+</section>
+<section id="forms" class="level3">
+<h3 class="anchored" data-anchor-id="forms">Forms</h3>
+<div class="cell">
+<div class="cell-output-display">
+<div class="vembedr">
+<div>
+<iframe src="https://www.youtube.com/embed/KA4RGlL1jjE" width="533" height="300" frameborder="0" allowfullscreen="" data-external="1"></iframe>
+</div>
+</div>
+</div>
+</div>
+<p>Sometimes we also want to provide certain input, e.g., to provide login credentials or to scrape a website more systematically. That information is usually provided using so-called <a href="https://www.w3schools.com/html/html_forms.asp">forms</a>. A <code>&lt;form&gt;</code> element can contain different other elements such as text fields or check boxes. Basically, we use <code>html_form()</code> to extract the form, <code>html_form_set()</code> to define what we want to submit, and <code>html_form_submit()</code> to finally submit it. <a href="https://rvest.tidyverse.org/reference/html_form.html">For a basic example, we search for something on Google.</a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>google <span class="ot">&lt;-</span> <span class="fu">read_html</span>(<span class="st">"http://www.google.com"</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>search <span class="ot">&lt;-</span> <span class="fu">html_form</span>(google) <span class="sc">|&gt;</span> <span class="fu">pluck</span>(<span class="dv">1</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>search <span class="sc">|&gt;</span> <span class="fu">str</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>List of 5
+ $ name   : chr "f"
+ $ method : chr "GET"
+ $ action : chr "http://www.google.com/search"
+ $ enctype: chr "form"
+ $ fields :List of 10
+  ..$ ie    :List of 4
+  .. ..$ type : chr "hidden"
+  .. ..$ name : chr "ie"
+  .. ..$ value: chr "ISO-8859-1"
+  .. ..$ attr :List of 3
+  .. .. ..$ name : chr "ie"
+  .. .. ..$ value: chr "ISO-8859-1"
+  .. .. ..$ type : chr "hidden"
+  .. ..- attr(*, "class")= chr "rvest_field"
+  ..$ hl    :List of 4
+  .. ..$ type : chr "hidden"
+  .. ..$ name : chr "hl"
+  .. ..$ value: chr "de"
+  .. ..$ attr :List of 3
+  .. .. ..$ value: chr "de"
+  .. .. ..$ name : chr "hl"
+  .. .. ..$ type : chr "hidden"
+  .. ..- attr(*, "class")= chr "rvest_field"
+  ..$ source:List of 4
+  .. ..$ type : chr "hidden"
+  .. ..$ name : chr "source"
+  .. ..$ value: chr "hp"
+  .. ..$ attr :List of 3
+  .. .. ..$ name : chr "source"
+  .. .. ..$ type : chr "hidden"
+  .. .. ..$ value: chr "hp"
+  .. ..- attr(*, "class")= chr "rvest_field"
+  ..$ biw   :List of 4
+  .. ..$ type : chr "hidden"
+  .. ..$ name : chr "biw"
+  .. ..$ value: NULL
+  .. ..$ attr :List of 2
+  .. .. ..$ name: chr "biw"
+  .. .. ..$ type: chr "hidden"
+  .. ..- attr(*, "class")= chr "rvest_field"
+  ..$ bih   :List of 4
+  .. ..$ type : chr "hidden"
+  .. ..$ name : chr "bih"
+  .. ..$ value: NULL
+  .. ..$ attr :List of 2
+  .. .. ..$ name: chr "bih"
+  .. .. ..$ type: chr "hidden"
+  .. ..- attr(*, "class")= chr "rvest_field"
+  ..$ q     :List of 4
+  .. ..$ type : chr "text"
+  .. ..$ name : chr "q"
+  .. ..$ value: chr ""
+  .. ..$ attr :List of 8
+  .. .. ..$ class       : chr "lst"
+  .. .. ..$ style       : chr "margin:0;padding:5px 8px 0 6px;vertical-align:top;color:#1f1f1f"
+  .. .. ..$ autocomplete: chr "off"
+  .. .. ..$ value       : chr ""
+  .. .. ..$ title       : chr "Google Suche"
+  .. .. ..$ maxlength   : chr "2048"
+  .. .. ..$ name        : chr "q"
+  .. .. ..$ size        : chr "57"
+  .. ..- attr(*, "class")= chr "rvest_field"
+  ..$ btnG  :List of 4
+  .. ..$ type : chr "submit"
+  .. ..$ name : chr "btnG"
+  .. ..$ value: chr "Google Suche"
+  .. ..$ attr :List of 4
+  .. .. ..$ class: chr "lsb"
+  .. .. ..$ value: chr "Google Suche"
+  .. .. ..$ name : chr "btnG"
+  .. .. ..$ type : chr "submit"
+  .. ..- attr(*, "class")= chr "rvest_field"
+  ..$ btnI  :List of 4
+  .. ..$ type : chr "submit"
+  .. ..$ name : chr "btnI"
+  .. ..$ value: chr "Auf gut GlÃck!"
+  .. ..$ attr :List of 5
+  .. .. ..$ class: chr "lsb"
+  .. .. ..$ id   : chr "tsuid_gxgDac3KAdXmxc8P0ayDoQE_1"
+  .. .. ..$ value: chr "Auf gut GlÃck!"
+  .. .. ..$ name : chr "btnI"
+  .. .. ..$ type : chr "submit"
+  .. ..- attr(*, "class")= chr "rvest_field"
+  ..$ iflsig:List of 4
+  .. ..$ type : chr "hidden"
+  .. ..$ name : chr "iflsig"
+  .. ..$ value: chr "AOw8s4IAAAAAaQMmk1UsGIpsJrL5LwX4z-KrKVbTrHtt"
+  .. ..$ attr :List of 3
+  .. .. ..$ value: chr "AOw8s4IAAAAAaQMmk1UsGIpsJrL5LwX4z-KrKVbTrHtt"
+  .. .. ..$ name : chr "iflsig"
+  .. .. ..$ type : chr "hidden"
+  .. ..- attr(*, "class")= chr "rvest_field"
+  ..$ gbv   :List of 4
+  .. ..$ type : chr "hidden"
+  .. ..$ name : chr "gbv"
+  .. ..$ value: chr "1"
+  .. ..$ attr :List of 4
+  .. .. ..$ id   : chr "gbv"
+  .. .. ..$ name : chr "gbv"
+  .. .. ..$ type : chr "hidden"
+  .. .. ..$ value: chr "1"
+  .. ..- attr(*, "class")= chr "rvest_field"
+ - attr(*, "class")= chr "rvest_form"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>search_something <span class="ot">&lt;-</span> search <span class="sc">|&gt;</span> <span class="fu">html_form_set</span>(<span class="at">q =</span> <span class="st">"something"</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">html_form_submit</span>(search_something, <span class="at">submit =</span> <span class="st">"btnG"</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">read_html</span>(resp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{html_document}
+&lt;html lang="de"&gt;
+[1] &lt;head&gt;\n&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8 ...
+[2] &lt;body jsmodel="hspDDf "&gt;\n&lt;script nonce="ts2qbvnsg6ARs8H84ASf3Q"&gt;(functio ...</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>vals <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">q =</span> <span class="st">"web scraping"</span>, <span class="at">hl =</span> <span class="st">"fr"</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>search_1 <span class="ot">&lt;-</span> search <span class="sc">|&gt;</span> <span class="fu">html_form_set</span>(<span class="sc">!!!</span>vals)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>search_2 <span class="ot">&lt;-</span> search <span class="sc">|&gt;</span> <span class="fu">html_form_set</span>(<span class="at">q =</span> <span class="st">"web scraping"</span>, <span class="at">hl =</span> <span class="st">"fr"</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>resp <span class="ot">&lt;-</span> <span class="fu">html_form_submit</span>(search_1)</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="fu">read_html</span>(resp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{html_document}
+&lt;html lang="fr-DE"&gt;
+[1] &lt;head&gt;\n&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8 ...
+[2] &lt;body jsmodel="hspDDf "&gt;\n&lt;script nonce="XnnEvqo2Hta0y_i0ksoZEw"&gt;(functio ...</code></pre>
+</div>
+</div>
+<p>If you are working with a session, the workflow is as follows:</p>
+<ol type="1">
+<li>Extract the form.</li>
+<li>Set it.</li>
+<li>Start your session on the page with the form.</li>
+<li>Submit the form using <code>session_submit()</code>.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>google_form <span class="ot">&lt;-</span> <span class="fu">read_html</span>(<span class="st">"http://www.google.com"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_form</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="dv">1</span>) <span class="co">#another way to do [[1]]</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>search_something <span class="ot">&lt;-</span> google_form <span class="sc">|&gt;</span> <span class="fu">html_form_set</span>(<span class="at">q =</span> <span class="st">"something"</span>)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>google_session <span class="ot">&lt;-</span> <span class="fu">session</span>(<span class="st">"http://www.google.com"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">session_submit</span>(search_something, <span class="at">submit =</span> <span class="st">"btnG"</span>)</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>google_session <span class="sc">|&gt;</span> </span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_html</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{html_document}
+&lt;html lang="de"&gt;
+[1] &lt;head&gt;\n&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8 ...
+[2] &lt;body jsmodel="hspDDf "&gt;\n&lt;script nonce="mJc3DzS34k8OqhS4NUyftQ"&gt;(functio ...</code></pre>
+</div>
+</div>
+</section>
+<section id="exercise-1" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-1">Exercise</h3>
+<ol start="2" type="1">
+<li>Start a session on “https://www.scrapethissite.com/pages/forms/”, fill out, and submit the form to search for a Hockey team called Toronto Maple Leafs. Store the resulting output in “base_session”.</li>
+</ol>
+<p>You can check your code by looking at the output of <code>base_session |&gt; read_html() |&gt; html_table() |&gt; pluck(1)</code> and checking whether there are only Maple Leaf entries.</p>
+<details>
+<summary>
+Solution. Click to expand!
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://www.scrapethissite.com/pages/forms/"</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>search_form <span class="ot">&lt;-</span> <span class="fu">read_html</span>(url) <span class="sc">|&gt;</span> </span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_form</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="dv">1</span>) <span class="co">#extract </span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>set_form <span class="ot">&lt;-</span> search_form <span class="sc">|&gt;</span> </span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_form_set</span>(<span class="at">q =</span> <span class="st">"Toronto Maple Leafs"</span>) <span class="co">#set login form </span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>base_session <span class="ot">&lt;-</span> <span class="fu">session</span>(url) <span class="sc">|&gt;</span> </span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">session_submit</span>(set_form) </span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>base_session <span class="sc">|&gt;</span> </span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_html</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_table</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</details>
+</section>
+<section id="scraping-hacks" class="level3">
+<h3 class="anchored" data-anchor-id="scraping-hacks">Scraping hacks</h3>
+<p>Some web pages are a bit fancier than the ones we have looked at so far (i.e., they use JavaScript). <code>rvest</code> works nicely for static web pages, but for more advanced ones you need different tools such as <code>selenium</code> – see chapter 7.</p>
+<p>A web page may sometimes give you time-outs (i.e., it doesn’t respond within a given time). This can break your loop. Wrapping your code in <code>safely()</code> or <code>insistently()</code> from the <code>purrr</code> package might help. The former moves on and notes down what has gone wrong, the latter keeps sending requests until it has been successful. They both work easiest if you put your scraping code in functions and wrap those with either <a href="https://purrr.tidyverse.org/reference/insistently.html"><code>insistently()</code></a> or <a href="https://purrr.tidyverse.org/reference/safely.html"><code>safely()</code></a>.</p>
+<p>Sometimes a web page keeps blocking you. Consider using a proxy server.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>my_proxy <span class="ot">&lt;-</span> httr<span class="sc">::</span><span class="fu">use_proxy</span>(<span class="at">url =</span> <span class="st">"http://example.com"</span>,</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">user_name =</span> <span class="st">"myusername"</span>,</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">password =</span> <span class="st">"mypassword"</span>,</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>                            <span class="at">auth =</span> <span class="st">"one of basic, digest, digest_ie, gssnegotiate, ntlm, any"</span>)</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>my_session <span class="ot">&lt;-</span> <span class="fu">session</span>(<span class="st">"https://scrapethissite.com/"</span>, my_proxy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Find more useful information – including the stuff we just described – and links on <a href="https://github.com/yusuzech/r-web-scraping-cheat-sheet/blob/master/README.md">this GitHub page</a>.</p>
+</section>
+</section>
+<section id="extracting-data" class="level2">
+<h2 class="anchored" data-anchor-id="extracting-data">Extracting Data</h2>
+<p>In the prior section you learned how to make calls to web pages and get responses. Now it will be all about how you can extract content from web pages in a structured way. The (in our opinion) easiest way to achieve that is by harnessing the way the web is written.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="vembedr">
+<div>
+<iframe src="https://www.youtube.com/embed/U6aJoeR6_nA" width="533" height="300" frameborder="0" allowfullscreen="" data-external="1"></iframe>
+</div>
+</div>
+</div>
+</div>
+<p>Before we start to extract data from the web, we will briefly touch upon how the web is written. This is since we will harness this structure to extract content in an automated manner. Basic commands will be shown thereafter.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("needs")</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>needs<span class="sc">::</span><span class="fu">needs</span>(janitor, polite, rvest, tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="html-101" class="level2">
+<h2 class="anchored" data-anchor-id="html-101">HTML 101</h2>
+<p>Web content is usually written in HTML (<strong>H</strong>yper <strong>T</strong>ext <strong>M</strong>arkup <strong>L</strong>anguage). An HTML document is comprised of elements that are letting its content appear in a certain way.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://www.w3schools.com/js/pic_htmltree.gif" class="img-fluid figure-img"></p>
+<figcaption>The tree-like structure of an HTML document</figcaption>
+</figure>
+</div>
+<p>The way these elements look is defined by so-called tags.</p>
+<p><img src="https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/HTML_basics/grumpy-cat-small.png" class="img-fluid"></p>
+<p>The opening tag is the name of the element (<code>p</code> in this case) in angle brackets, and the closing tag is the same with a forward slash before the name. <code>p</code> stands for a paragraph element and would look like this (since RMarkdown can handle HTML tags, the second line will showcase how it would appear on a web page):</p>
+<p><code>&lt;p&gt; My cat is very grumpy. &lt;p/&gt;</code></p>
+<p>
+</p><p>My cat is very grumpy.</p>
+<p>
+</p><p>The <code>&lt;p&gt;</code> tag makes sure that the text is standing by itself and that a line break is included thereafter:</p>
+<p><code>&lt;p&gt;My cat is very grumpy&lt;/p&gt;. And so is my dog.</code> would look like this:</p>
+<p>
+My cat is very grumpy
+</p>
+<p>. And so is my dog.</p>
+<p>There do exist many types of tags indicating different kinds of elements (about 100). Every page’s content must be in an <code>&lt;html&gt;</code> element with two children <code>&lt;head&gt;</code> and <code>&lt;body&gt;</code>. The former contains the page title and some metadata, the latter the contents you are seeing in your browser. So-called <strong>block tags</strong>, e.g., <code>&lt;h1&gt;</code> (heading 1), <code>&lt;p&gt;</code> (paragraph), or <code>&lt;ol&gt;</code> (ordered list), structure the page. <strong>Inline tags</strong> (<code>&lt;b&gt;</code> – bold, <code>&lt;a&gt;</code> – link) format text inside block tags.</p>
+<p>You can nest elements, e.g., if you want to make certain things bold, you can wrap text in <code>&lt;b&gt;</code>:</p>
+<p><code>&lt;p&gt;My cat is &lt;b&gt; very &lt;/b&gt; grumpy&lt;/p&gt;</code></p>
+<p>
+My cat is <b> very </b> grumpy
+</p>
+<p>Then, the <code>&lt;b&gt;</code> element is considered the <em>child</em> of the <code>&lt;p&gt;</code> element.</p>
+<p>Elements can also bear attributes:</p>
+<p><img src="https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/HTML_basics/grumpy-cat-attribute-small.png" class="img-fluid"></p>
+<p>Those attributes will not appear in the actual content. Moreover, they are super-handy for us as scrapers. Here, <code>class</code> is the attribute name and <code>"editor-note"</code> the value. Another important attribute is <code>id</code>. Combined with CSS, they control the appearance of the element on the actual page. A <code>class</code> can be used by multiple HTML elements whereas an <code>id</code> is unique.</p>
+</section>
+<section id="extracting-content-in-rvest" class="level2">
+<h2 class="anchored" data-anchor-id="extracting-content-in-rvest">Extracting content in <code>rvest</code></h2>
+<p>To scrape the web, the first step is to simply read in the web page. <code>rvest</code> then stores it in the XML format – just another format to store information. For this, we use <code>rvest</code>’s <code>read_html()</code> function.</p>
+<p>To demonstrate the usage of CSS selectors, I create my own, basic web page using the <code>rvest</code> function <code>minimal_html()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>basic_html <span class="ot">&lt;-</span> <span class="fu">minimal_html</span>(<span class="st">'</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="st">  &lt;html&gt;</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="st">  &lt;head&gt;</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;title&gt;Page title&lt;/title&gt;</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="st">  &lt;/head&gt;</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="st">  &lt;body&gt;</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;h1 id="first"&gt;A heading&lt;/h1&gt;</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;p class="paragraph"&gt;Some text &amp;amp; &lt;b&gt;some bold text.&lt;/b&gt;&lt;/p&gt;</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;a&gt; Some more &lt;i&gt; italicized text which is not in a paragraph. &lt;/i&gt; &lt;/a&gt;</span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;a class="paragraph"&gt;even more text &amp;amp; &lt;i&gt;some italicized text.&lt;/i&gt;&lt;/p&gt;</span></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a><span class="st">    &lt;a id="link" href="www.nyt.com"&gt; The New York Times &lt;/a&gt;</span></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a><span class="st">  &lt;/body&gt;</span></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a><span class="st">'</span>)</span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>basic_html</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{html_document}
+&lt;html&gt;
+[1] &lt;head&gt;\n&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8 ...
+[2] &lt;body&gt;\n    &lt;h1 id="first"&gt;A heading&lt;/h1&gt;\n    &lt;p class="paragraph"&gt;Some  ...</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co">#https://htmledit.squarefree.com</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>CSS is the abbreviation for cascading style sheets and is used to define the visual styling of HTML documents. CSS selectors map elements in the HTML code to the relevant styles in the CSS. Hence, they define patterns that allow us to easily select certain elements on the page. CSS selectors can be used in conjunction with the <code>rvest</code> function <code>html_elements()</code> which takes as arguments the read-in page and a CSS selector. Alternatively, you can also provide an XPath which is usually a bit more complicated and will not be covered in this tutorial.</p>
+<ul>
+<li><code>p</code> selects all <code>&lt;p&gt;</code> elements.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>basic_html <span class="sc">|&gt;</span> <span class="fu">html_elements</span>(<span class="at">css =</span> <span class="st">"p"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{xml_nodeset (1)}
+[1] &lt;p class="paragraph"&gt;Some text &amp;amp; &lt;b&gt;some bold text.&lt;/b&gt;&lt;/p&gt;</code></pre>
+</div>
+</div>
+<ul>
+<li><code>.title</code> selects all elements that are of <code>class</code> “title”</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>basic_html <span class="sc">|&gt;</span> <span class="fu">html_elements</span>(<span class="at">css =</span> <span class="st">".title"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{xml_nodeset (0)}</code></pre>
+</div>
+</div>
+<p>There are no elements of <code>class</code> “title”. But some of <code>class</code> “paragraph”.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>basic_html <span class="sc">|&gt;</span> <span class="fu">html_elements</span>(<span class="at">css =</span> <span class="st">".paragraph"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{xml_nodeset (2)}
+[1] &lt;p class="paragraph"&gt;Some text &amp;amp; &lt;b&gt;some bold text.&lt;/b&gt;&lt;/p&gt;
+[2] &lt;a class="paragraph"&gt;even more text &amp;amp; &lt;i&gt;some italicized text.&lt;/i&gt;\n  ...</code></pre>
+</div>
+</div>
+<ul>
+<li><code>p.paragraph</code> analogously takes every <code>&lt;p&gt;</code> element which is of <code>class</code> “paragraph”.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>basic_html <span class="sc">|&gt;</span> <span class="fu">html_elements</span>(<span class="at">css =</span> <span class="st">"p.paragraph"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{xml_nodeset (1)}
+[1] &lt;p class="paragraph"&gt;Some text &amp;amp; &lt;b&gt;some bold text.&lt;/b&gt;&lt;/p&gt;</code></pre>
+</div>
+</div>
+<ul>
+<li><code>#link</code> scrapes elements that are of <code>id</code> “link”</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>basic_html <span class="sc">|&gt;</span> <span class="fu">html_elements</span>(<span class="at">css =</span> <span class="st">"#link"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{xml_nodeset (1)}
+[1] &lt;a id="link" href="www.nyt.com"&gt; The New York Times &lt;/a&gt;</code></pre>
+</div>
+</div>
+<p>You can also connect children with their parents by using the combinator. For instance, to extract the italicized text from “a.paragraph,” I can do “a.paragraph i”.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>basic_html <span class="sc">|&gt;</span> <span class="fu">html_elements</span>(<span class="at">css =</span> <span class="st">"a.paragraph i"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{xml_nodeset (1)}
+[1] &lt;i&gt;some italicized text.&lt;/i&gt;</code></pre>
+</div>
+</div>
+<p>You can also look at the children by using <code>html_children()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>basic_html <span class="sc">|&gt;</span> <span class="fu">html_elements</span>(<span class="at">css =</span> <span class="st">"a.paragraph"</span>) <span class="sc">|&gt;</span> <span class="fu">html_children</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{xml_nodeset (1)}
+[1] &lt;i&gt;some italicized text.&lt;/i&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_html</span>(<span class="st">"https://rvest.tidyverse.org"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_elements</span>(<span class="st">"#installation , p"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{xml_nodeset (6)}
+[1] &lt;p&gt;rvest helps you scrape (or harvest) data from web pages. It is designe ...
+[2] &lt;p&gt;If you’re scraping multiple pages, I highly recommend using rvest in c ...
+[3] &lt;h2 id="installation"&gt;Installation&lt;a class="anchor" aria-label="anchor" h ...
+[4] &lt;p&gt;If the page contains tabular data you can convert it directly to a dat ...
+[5] &lt;p&gt;Developed by &lt;a href="https://hadley.nz" class="external-link"&gt;Hadley  ...
+[6] &lt;p&gt;Site built with &lt;a href="https://pkgdown.r-lib.org/" class="external-l ...</code></pre>
+</div>
+</div>
+<p>Unfortunately, web pages in the wild are usually not as easily readable as the small example one I came up with. Hence, I would recommend you to use the <a href="javascript:(function()%7Bvar%20s=document.createElement('div');s.innerHTML='Loading...';s.style.color='black';s.style.padding='20px';s.style.position='fixed';s.style.zIndex='9999';s.style.fontSize='3.0em';s.style.border='2px%20solid%20black';s.style.right='40px';s.style.top='40px';s.setAttribute('class','selector_gadget_loading');s.style.background='white';document.body.appendChild(s);s=document.createElement('script');s.setAttribute('type','text/javascript');s.setAttribute('src','https://dv0akt2986vzh.cloudfront.net/unstable/lib/selectorgadget.js');document.body.appendChild(s);%7D)();">SelectorGadget</a> – just drag it into your bookmarks list.</p>
+<p>Its usage could hardly be simpler:</p>
+<ol type="1">
+<li>Activate it – i.e., click on the bookmark.</li>
+<li>Click on the content you want to scrape – the things the CSS selector selects will appear green.</li>
+<li>Click on the green things that you don’t want – they will turn red; click on what’s not green yet but what you want – it will turn green.</li>
+<li>copy the CSS selector the gadget provides you with and paste it into the <code>html_elements()</code> function.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_html</span>(<span class="st">"https://en.wikipedia.org/wiki/Hadley_Wickham"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_elements</span>(<span class="at">css =</span> <span class="st">"p:nth-child(4)"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>character(0)</code></pre>
+</div>
+</div>
+</section>
+<section id="tying-it-together-scraping-html-pages-with-rvest" class="level2">
+<h2 class="anchored" data-anchor-id="tying-it-together-scraping-html-pages-with-rvest">Tying it Together: Scraping HTML pages with <code>rvest</code></h2>
+<div class="cell">
+<div class="cell-output-display">
+<div class="vembedr">
+<div>
+<iframe src="https://www.youtube.com/embed/1n6Iq_16UNA" width="533" height="300" frameborder="0" allowfullscreen="" data-external="1"></iframe>
+</div>
+</div>
+</div>
+</div>
+<p>So far, I have shown you how HTML is written and how to select elements. However, what we want to achieve is extracting the data the elements contained in a proper format and storing it in some sort of tibble. Therefore, we need functions that allow us to grab the data.</p>
+<p>The following overview taken from the <a href="https://github.com/yusuzech/r-web-scraping-cheat-sheet">web scraping cheatsheet</a> shows you the basic “flow” of scraping web pages plus the corresponding functions. In this tutorial, I will limit myself to <code>rvest</code> functions. Those are of course perfectly compatible with things, for instance, <code>RSelenium</code>, as long as you feed the content in XML format (i.e., by using <code>read_html()</code>).</p>
+<p><img src="https://raw.githubusercontent.com/yusuzech/r-web-scraping-cheat-sheet/master/resources/functions_and_classes.png" class="img-fluid"></p>
+<p>In the prior chapter, I have introduced you to acquiring the contents of singular pages. Given that you now know how to choose the content you want, all that you are lacking for successful scraping is the tools to extract these contents in a proper format.</p>
+<section id="html_text-and-html_text2" class="level3">
+<h3 class="anchored" data-anchor-id="html_text-and-html_text2"><code>html_text()</code> and <code>html_text2()</code></h3>
+<p>Extracting text from HTML is easy. You use <code>html_text()</code> or <code>html_text2()</code>. The former is faster but will give you not-so-nice results. The latter will give you the text like it would be returned in a web browser.</p>
+<p>The following example is taken from <a href="https://rvest.tidyverse.org/reference/html_text.html">the documentation</a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To understand the difference between html_text() and html_text2()</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="co"># take the following html:</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>html <span class="ot">&lt;-</span> <span class="fu">minimal_html</span>(</span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&lt;p&gt;This is a paragraph.</span></span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a><span class="st">    This is another sentence.&lt;br&gt;This should start on a new line&lt;p/&gt;"</span></span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># html_text() returns the raw underlying text, which includes white space</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="co"># that would be ignored by a browser, and ignores the &lt;br&gt;</span></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>html <span class="sc">|&gt;</span> <span class="fu">html_element</span>(<span class="st">"p"</span>) <span class="sc">|&gt;</span> <span class="fu">html_text</span>() <span class="sc">|&gt;</span> <span class="fu">writeLines</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>This is a paragraph.
+    This is another sentence.This should start on a new line</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="co"># html_text2() simulates what a browser would display. Non-significant</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="co"># white space is collapsed, and &lt;br&gt; is turned into a line break</span></span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>html <span class="sc">|&gt;</span> <span class="fu">html_element</span>(<span class="st">"p"</span>) <span class="sc">|&gt;</span> <span class="fu">html_text2</span>() <span class="sc">|&gt;</span> <span class="fu">writeLines</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>This is a paragraph. This is another sentence.
+This should start on a new line</code></pre>
+</div>
+</div>
+<p>A “real example” would then look like this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>us_senators <span class="ot">&lt;-</span> <span class="fu">read_html</span>(<span class="st">"https://en.wikipedia.org/wiki/List_of_current_United_States_senators"</span>)</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>text <span class="ot">&lt;-</span> us_senators <span class="sc">|&gt;</span></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_elements</span>(<span class="at">css =</span> <span class="st">"p:nth-child(6)"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text2</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="extracting-tables" class="level3">
+<h3 class="anchored" data-anchor-id="extracting-tables">Extracting tables</h3>
+<p>The general output format we strive for is a tibble. Oftentimes, data is already stored online in a table format, basically ready for us to analyze them. In the next example, I want to get a table from the Wikipedia page that contains the senators of different States in the United States I have used before. For this first, basic example, I do not use selectors for extracting the right table. You can use <code>rvest::html_table()</code>. It will give you a list containing all tables on this particular page. We can inspect it using <code>str()</code> which returns an overview of the list and the tibbles it contains.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>tables <span class="ot">&lt;-</span> us_senators <span class="sc">|&gt;</span> </span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_table</span>()</span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(tables)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>List of 26
+ $ : tibble [4 × 3] (S3: tbl_df/tbl/data.frame)
+  ..$ Affiliation: chr [1:4] "" "" "" "Total"
+  ..$ Affiliation: chr [1:4] "Republican Party" "Democratic Party" "Independent" "Total"
+  ..$ Members    : int [1:4] 53 45 2 100
+ $ : tibble [11 × 1] (S3: tbl_df/tbl/data.frame)
+  ..$ X1: chr [1:11] "This article is part of a series on the" "United States Senate" "Great Seal of the United States Senate" "History of the United States Senate" ...
+ $ : tibble [2 × 5] (S3: tbl_df/tbl/data.frame)
+  ..$ Office : chr [1:2] "President of the Senate[a]" "President pro tempore"
+  ..$ Party  : chr [1:2] "Republican" "Republican"
+  ..$ Officer: chr [1:2] "JD Vance" "Chuck Grassley"
+  ..$ State  : chr [1:2] "OH[b]" "IA"
+  ..$ Since  : chr [1:2] "January 20, 2025" "January 3, 2025Party dean since January 3, 2019"
+ $ : tibble [8 × 4] (S3: tbl_df/tbl/data.frame)
+  ..$ Office : chr [1:8] "Senate Majority Leader" "Senate Majority Whip" "Chair of the Senate Republican Conference" "Chair of the Senate Republican Policy Committee" ...
+  ..$ Officer: chr [1:8] "John Thune" "John Barrasso" "Tom Cotton" "Shelley Moore Capito" ...
+  ..$ State  : chr [1:8] "SD" "WY" "AR" "WV" ...
+  ..$ Since  : chr [1:8] "January 3, 2025Party leader since January 3, 2025" "January 3, 2025Party whip since January 3, 2025" "January 3, 2025" "January 3, 2025" ...
+ $ : tibble [14 × 4] (S3: tbl_df/tbl/data.frame)
+  ..$ Office : chr [1:14] "Senate Minority LeaderChair of the Senate Democratic Caucus" "Senate Minority Whip" "Chair of the Senate Democratic Steering and Policy Committee" "Chair of the Senate Democratic Strategic Communications Committee" ...
+  ..$ Officer: chr [1:14] "Chuck Schumer" "Dick Durbin" "Amy Klobuchar" "Cory Booker" ...
+  ..$ State  : chr [1:14] "NY" "IL" "MN" "NJ" ...
+  ..$ Since  : chr [1:14] "January 3, 2025Party leader since January 3, 2017" "January 3, 2025Party whip since January 3, 2005" "January 3, 2025" "January 3, 2025" ...
+ $ : tibble [100 × 12] (S3: tbl_df/tbl/data.frame)
+  ..$ State                     : chr [1:100] "Alabama" "Alabama" "Alaska" "Alaska" ...
+  ..$ Portrait                  : logi [1:100] NA NA NA NA NA NA ...
+  ..$ Senator                   : chr [1:100] "Tommy Tuberville" "Katie Britt" "Lisa Murkowski" "Dan Sullivan" ...
+  ..$ Party                     : logi [1:100] NA NA NA NA NA NA ...
+  ..$ Party                     : chr [1:100] "Republican" "Republican" "Republican" "Republican" ...
+  ..$ Born                      : chr [1:100] "(1954-09-18) September 18, 1954 (age&nbsp;71)" "(1982-02-02) February 2, 1982 (age&nbsp;43)" "(1957-05-22) May 22, 1957 (age&nbsp;68)" "(1964-11-13) November 13, 1964 (age&nbsp;60)" ...
+  ..$ Occupation(s)             : chr [1:100] "Investment management firm partner\nCollege football coach" "Alabama Wildlife Federation Board Member\nBusiness Council of Alabama President and CEO \nCampaign manager\nLaw"| __truncated__ "Lawyer" "Assistant Secretary of State for Economic and Business Affairs\nLawyer\nU.S. Marine Corps officer" ...
+  ..$ Previous electiveoffice(s): chr [1:100] "None" "None" "Alaska House of Representatives" "Alaska Attorney General" ...
+  ..$ Education                 : chr [1:100] "Southern Arkansas University (BS)" "University of Alabama (BS, JD)" "Georgetown University (AB)Willamette University (JD)" "Harvard University (AB)Georgetown University (MS, JD)" ...
+  ..$ Assumed office            : chr [1:100] "January 3, 2021" "January 3, 2023" "December 20, 2002[c]" "January 3, 2015" ...
+  ..$ Class                     : chr [1:100] "2026Class 2" "2028Class 3" "2028Class 3" "2026Class 2" ...
+  ..$ Residence[4]              : chr [1:100] "Auburn[5]" "Montgomery" "Girdwood" "Anchorage" ...
+ $ : tibble [3 × 3] (S3: tbl_df/tbl/data.frame)
+  ..$ vteCurrent United States senators: chr [1:3] "President: ▌ JD Vance (R) ‧ President pro tempore: ▌ Chuck Grassley (R)" "AL: ▌ Tuberville (R)⎣ ▌ Britt (R)\nAK: ▌ Murkowski (R)⎣ ▌ Sullivan (R)\nAZ: ▌ Kelly (D)⎣ ▌ Gallego (D)\nAR: ▌ B"| __truncated__ "▌ Republican: 53\n▌ Democratic: 45\n▌ Independent: 2"
+  ..$ vteCurrent United States senators: chr [1:3] "President: ▌ JD Vance (R) ‧ President pro tempore: ▌ Chuck Grassley (R)" "AL: ▌ Tuberville (R)⎣ ▌ Britt (R)\nAK: ▌ Murkowski (R)⎣ ▌ Sullivan (R)\nAZ: ▌ Kelly (D)⎣ ▌ Gallego (D)\nAR: ▌ B"| __truncated__ "▌ Republican: 53\n▌ Democratic: 45\n▌ Independent: 2"
+  ..$ vteCurrent United States senators: chr [1:3] "President: ▌ JD Vance (R) ‧ President pro tempore: ▌ Chuck Grassley (R)" "" "▌ Republican: 53\n▌ Democratic: 45\n▌ Independent: 2"
+ $ : tibble [4 × 6] (S3: tbl_df/tbl/data.frame)
+  ..$ vteLeadership of the United States Senate: chr [1:4] "President: JD Vance (R)President pro tempore: Chuck Grassley (R)" "Majority (Republican)Minority (Democratic)\nJohn Thune (Leader)\nJohn Barrasso (Whip)\nTom Cotton (Conference C"| __truncated__ "Majority (Republican)" "John Thune (Leader)\nJohn Barrasso (Whip)\nTom Cotton (Conference Chair)\nShelley Moore Capito (Policy Committe"| __truncated__
+  ..$ vteLeadership of the United States Senate: chr [1:4] "President: JD Vance (R)President pro tempore: Chuck Grassley (R)" "Majority (Republican)Minority (Democratic)\nJohn Thune (Leader)\nJohn Barrasso (Whip)\nTom Cotton (Conference C"| __truncated__ "Minority (Democratic)" "Chuck Schumer (Leader and Caucus Chair)\nDick Durbin (Whip)\nAmy Klobuchar (Steering/Policy Committee Chair)\nC"| __truncated__
+  ..$                                          : chr [1:4] NA "Majority (Republican)" NA NA
+  ..$                                          : chr [1:4] NA "Minority (Democratic)" NA NA
+  ..$                                          : chr [1:4] NA "John Thune (Leader)\nJohn Barrasso (Whip)\nTom Cotton (Conference Chair)\nShelley Moore Capito (Policy Committe"| __truncated__ NA NA
+  ..$                                          : chr [1:4] NA "Chuck Schumer (Leader and Caucus Chair)\nDick Durbin (Whip)\nAmy Klobuchar (Steering/Policy Committee Chair)\nC"| __truncated__ NA NA
+ $ : tibble [2 × 2] (S3: tbl_df/tbl/data.frame)
+  ..$ X1: chr [1:2] "Majority (Republican)" "John Thune (Leader)\nJohn Barrasso (Whip)\nTom Cotton (Conference Chair)\nShelley Moore Capito (Policy Committe"| __truncated__
+  ..$ X2: chr [1:2] "Minority (Democratic)" "Chuck Schumer (Leader and Caucus Chair)\nDick Durbin (Whip)\nAmy Klobuchar (Steering/Policy Committee Chair)\nC"| __truncated__
+ $ : tibble [3 × 6] (S3: tbl_df/tbl/data.frame)
+  ..$ vteChairs and ranking members of United States Senate committees: chr [1:3] "Chairs (Republican)Ranking members (Democratic)\nAging (Special): Rick Scott\nAgriculture, Nutrition and Forest"| __truncated__ "Chairs (Republican)" "Aging (Special): Rick Scott\nAgriculture, Nutrition and Forestry: John Boozman\nAppropriations: Susan Collins\n"| __truncated__
+  ..$ vteChairs and ranking members of United States Senate committees: chr [1:3] "Chairs (Republican)Ranking members (Democratic)\nAging (Special): Rick Scott\nAgriculture, Nutrition and Forest"| __truncated__ "Ranking members (Democratic)" "Aging (Special): Kirsten Gillibrand\nAgriculture, Nutrition and Forestry: Amy Klobuchar\nAppropriations: Patty "| __truncated__
+  ..$                                                                 : chr [1:3] "Chairs (Republican)" NA NA
+  ..$                                                                 : chr [1:3] "Ranking members (Democratic)" NA NA
+  ..$                                                                 : chr [1:3] "Aging (Special): Rick Scott\nAgriculture, Nutrition and Forestry: John Boozman\nAppropriations: Susan Collins\n"| __truncated__ NA NA
+  ..$                                                                 : chr [1:3] "Aging (Special): Kirsten Gillibrand\nAgriculture, Nutrition and Forestry: Amy Klobuchar\nAppropriations: Patty "| __truncated__ NA NA
+ $ : tibble [2 × 2] (S3: tbl_df/tbl/data.frame)
+  ..$ X1: chr [1:2] "Chairs (Republican)" "Aging (Special): Rick Scott\nAgriculture, Nutrition and Forestry: John Boozman\nAppropriations: Susan Collins\n"| __truncated__
+  ..$ X2: chr [1:2] "Ranking members (Democratic)" "Aging (Special): Kirsten Gillibrand\nAgriculture, Nutrition and Forestry: Amy Klobuchar\nAppropriations: Patty "| __truncated__
+ $ : tibble [49 × 36] (S3: tbl_df/tbl/data.frame)
+  ..$ vteUnited States Congress: chr [1:49] "House of Representatives\nSenate\nJoint session\n(118th&nbsp;→&nbsp;119th&nbsp;→&nbsp;120th)\nLists of the United States Congress" "Members and leadersMembershipMembers\nBy length of service\nBy shortness of service\nNew members\nNon-voting me"| __truncated__ "Members and leaders" "MembershipMembers\nBy length of service\nBy shortness of service\nNew members\nNon-voting members\nUnseated mem"| __truncated__ ...
+  ..$ vteUnited States Congress: chr [1:49] "House of Representatives\nSenate\nJoint session\n(118th&nbsp;→&nbsp;119th&nbsp;→&nbsp;120th)\nLists of the United States Congress" "Members and leadersMembershipMembers\nBy length of service\nBy shortness of service\nNew members\nNon-voting me"| __truncated__ "Members and leaders" "MembershipMembers\nBy length of service\nBy shortness of service\nNew members\nNon-voting members\nUnseated mem"| __truncated__ ...
+  ..$                          : chr [1:49] NA "Members and leaders" NA "Membership" ...
+  ..$                          : chr [1:49] NA "Members and leaders" NA "Members\nBy length of service\nBy shortness of service\nNew members\nNon-voting members\nUnseated members\nYoun"| __truncated__ ...
+  ..$                          : chr [1:49] NA "MembershipMembers\nBy length of service\nBy shortness of service\nNew members\nNon-voting members\nUnseated mem"| __truncated__ NA "Members" ...
+  ..$                          : chr [1:49] NA "MembershipMembers\nBy length of service\nBy shortness of service\nNew members\nNon-voting members\nUnseated mem"| __truncated__ NA "By length of service\nBy shortness of service\nNew members\nNon-voting members\nUnseated members\nYoungest members" ...
+  ..$                          : chr [1:49] NA "Membership" NA "Senate" ...
+  ..$                          : chr [1:49] NA "Members\nBy length of service\nBy shortness of service\nNew members\nNon-voting members\nUnseated members\nYoun"| __truncated__ NA "Members\nseniority\nDean\nFormer\nExpelled or censured\nClasses\nBorn outside the U.S.\nResigned\nAppointed\nSwitched parties" ...
+  ..$                          : chr [1:49] NA "Members" NA "House" ...
+  ..$                          : chr [1:49] NA "By length of service\nBy shortness of service\nNew members\nNon-voting members\nUnseated members\nYoungest members" NA "Members\nseniority\nDean\nFormer\nExpelled, censured, and reprimanded\nServed a single term\nLost re-election i"| __truncated__ ...
+  ..$                          : chr [1:49] NA "Senate" NA "Leaders" ...
+  ..$                          : chr [1:49] NA "Members\nseniority\nDean\nFormer\nExpelled or censured\nClasses\nBorn outside the U.S.\nResigned\nAppointed\nSwitched parties" NA "Senate\nPresident\nlist\nPresident pro tempore\nlist\nLeaders\nDemocratic Caucus\nChair\nSecretary\nPolicy Comm"| __truncated__ ...
+  ..$                          : chr [1:49] NA "House" NA "Senate" ...
+  ..$                          : chr [1:49] NA "Members\nseniority\nDean\nFormer\nExpelled, censured, and reprimanded\nServed a single term\nLost re-election i"| __truncated__ NA "President\nlist\nPresident pro tempore\nlist\nLeaders\nDemocratic Caucus\nChair\nSecretary\nPolicy Committee Ch"| __truncated__ ...
+  ..$                          : chr [1:49] NA "Leaders" NA "House" ...
+  ..$                          : chr [1:49] NA "Senate\nPresident\nlist\nPresident pro tempore\nlist\nLeaders\nDemocratic Caucus\nChair\nSecretary\nPolicy Comm"| __truncated__ NA "Speaker\nlist\nLeaders\nBipartisan Legal Advisory Group\nDemocratic Caucus\nRepublican Conference" ...
+  ..$                          : chr [1:49] NA "Senate" NA "Districts" ...
+  ..$                          : chr [1:49] NA "President\nlist\nPresident pro tempore\nlist\nLeaders\nDemocratic Caucus\nChair\nSecretary\nPolicy Committee Ch"| __truncated__ NA "List\nApportionment\nGerrymandering" ...
+  ..$                          : chr [1:49] NA "House" NA "Groups" ...
+  ..$                          : chr [1:49] NA "Speaker\nlist\nLeaders\nBipartisan Legal Advisory Group\nDemocratic Caucus\nRepublican Conference" NA "Congressional caucus\nCaucuses of the United States CongressEthnic and racial\nAfrican-American members\nSenate"| __truncated__ ...
+  ..$                          : chr [1:49] NA "Districts" NA "Congressional caucus" ...
+  ..$                          : chr [1:49] NA "List\nApportionment\nGerrymandering" NA "Caucuses of the United States Congress" ...
+  ..$                          : chr [1:49] NA "Groups" NA "Ethnic and racial" ...
+  ..$                          : chr [1:49] NA "Congressional caucus\nCaucuses of the United States CongressEthnic and racial\nAfrican-American members\nSenate"| __truncated__ NA "African-American members\nSenate\nHouse\nBlack Caucus\nArab and Middle Eastern members\nAsian Pacific American "| __truncated__ ...
+  ..$                          : chr [1:49] NA "Congressional caucus" NA "Gender and sexual identity" ...
+  ..$                          : chr [1:49] NA "Caucuses of the United States Congress" NA "LGBTQ members\nEquality Caucus\nWomen\nSenate\nHouse\nIssues Caucus\ncurrent House" ...
+  ..$                          : chr [1:49] NA "Ethnic and racial" NA "Occupation" ...
+  ..$                          : chr [1:49] NA "African-American members\nSenate\nHouse\nBlack Caucus\nArab and Middle Eastern members\nAsian Pacific American "| __truncated__ NA "Physicians" ...
+  ..$                          : chr [1:49] NA "Gender and sexual identity" NA "Religion" ...
+  ..$                          : chr [1:49] NA "LGBTQ members\nEquality Caucus\nWomen\nSenate\nHouse\nIssues Caucus\ncurrent House" NA "Buddhist members\nHindu members\nJewish members\nMormon (LDS) members\nMuslim members\nQuaker members\nSikh members" ...
+  ..$                          : chr [1:49] NA "Occupation" NA "Related" ...
+  ..$                          : chr [1:49] NA "Physicians" NA "By length of service historically\nCurrent members by wealth\nFrom multiple states\nDied in office\n1790–1899\n"| __truncated__ ...
+  ..$                          : chr [1:49] NA "Religion" NA NA ...
+  ..$                          : chr [1:49] NA "Buddhist members\nHindu members\nJewish members\nMormon (LDS) members\nMuslim members\nQuaker members\nSikh members" NA NA ...
+  ..$                          : chr [1:49] NA "Related" NA NA ...
+  ..$                          : chr [1:49] NA "By length of service historically\nCurrent members by wealth\nFrom multiple states\nDied in office\n1790–1899\n"| __truncated__ NA NA ...
+ $ : tibble [16 × 32] (S3: tbl_df/tbl/data.frame)
+  ..$ Members and leaders: chr [1:16] "MembershipMembers\nBy length of service\nBy shortness of service\nNew members\nNon-voting members\nUnseated mem"| __truncated__ "Membership" "Members" "Senate" ...
+  ..$ Members and leaders: chr [1:16] "MembershipMembers\nBy length of service\nBy shortness of service\nNew members\nNon-voting members\nUnseated mem"| __truncated__ "Members\nBy length of service\nBy shortness of service\nNew members\nNon-voting members\nUnseated members\nYoun"| __truncated__ "By length of service\nBy shortness of service\nNew members\nNon-voting members\nUnseated members\nYoungest members" "Members\nseniority\nDean\nFormer\nExpelled or censured\nClasses\nBorn outside the U.S.\nResigned\nAppointed\nSwitched parties" ...
+  ..$                    : chr [1:16] "Membership" "Members" NA NA ...
+  ..$                    : chr [1:16] "Members\nBy length of service\nBy shortness of service\nNew members\nNon-voting members\nUnseated members\nYoun"| __truncated__ "By length of service\nBy shortness of service\nNew members\nNon-voting members\nUnseated members\nYoungest members" NA NA ...
+  ..$                    : chr [1:16] "Members" "Senate" NA NA ...
+  ..$                    : chr [1:16] "By length of service\nBy shortness of service\nNew members\nNon-voting members\nUnseated members\nYoungest members" "Members\nseniority\nDean\nFormer\nExpelled or censured\nClasses\nBorn outside the U.S.\nResigned\nAppointed\nSwitched parties" NA NA ...
+  ..$                    : chr [1:16] "Senate" "House" NA NA ...
+  ..$                    : chr [1:16] "Members\nseniority\nDean\nFormer\nExpelled or censured\nClasses\nBorn outside the U.S.\nResigned\nAppointed\nSwitched parties" "Members\nseniority\nDean\nFormer\nExpelled, censured, and reprimanded\nServed a single term\nLost re-election i"| __truncated__ NA NA ...
+  ..$                    : chr [1:16] "House" NA NA NA ...
+  ..$                    : chr [1:16] "Members\nseniority\nDean\nFormer\nExpelled, censured, and reprimanded\nServed a single term\nLost re-election i"| __truncated__ NA NA NA ...
+  ..$                    : chr [1:16] "Leaders" NA NA NA ...
+  ..$                    : chr [1:16] "Senate\nPresident\nlist\nPresident pro tempore\nlist\nLeaders\nDemocratic Caucus\nChair\nSecretary\nPolicy Comm"| __truncated__ NA NA NA ...
+  ..$                    : chr [1:16] "Senate" NA NA NA ...
+  ..$                    : chr [1:16] "President\nlist\nPresident pro tempore\nlist\nLeaders\nDemocratic Caucus\nChair\nSecretary\nPolicy Committee Ch"| __truncated__ NA NA NA ...
+  ..$                    : chr [1:16] "House" NA NA NA ...
+  ..$                    : chr [1:16] "Speaker\nlist\nLeaders\nBipartisan Legal Advisory Group\nDemocratic Caucus\nRepublican Conference" NA NA NA ...
+  ..$                    : chr [1:16] "Districts" NA NA NA ...
+  ..$                    : chr [1:16] "List\nApportionment\nGerrymandering" NA NA NA ...
+  ..$                    : chr [1:16] "Groups" NA NA NA ...
+  ..$                    : chr [1:16] "Congressional caucus\nCaucuses of the United States CongressEthnic and racial\nAfrican-American members\nSenate"| __truncated__ NA NA NA ...
+  ..$                    : chr [1:16] "Congressional caucus" NA NA NA ...
+  ..$                    : chr [1:16] "Caucuses of the United States Congress" NA NA NA ...
+  ..$                    : chr [1:16] "Ethnic and racial" NA NA NA ...
+  ..$                    : chr [1:16] "African-American members\nSenate\nHouse\nBlack Caucus\nArab and Middle Eastern members\nAsian Pacific American "| __truncated__ NA NA NA ...
+  ..$                    : chr [1:16] "Gender and sexual identity" NA NA NA ...
+  ..$                    : chr [1:16] "LGBTQ members\nEquality Caucus\nWomen\nSenate\nHouse\nIssues Caucus\ncurrent House" NA NA NA ...
+  ..$                    : chr [1:16] "Occupation" NA NA NA ...
+  ..$                    : chr [1:16] "Physicians" NA NA NA ...
+  ..$                    : chr [1:16] "Religion" NA NA NA ...
+  ..$                    : chr [1:16] "Buddhist members\nHindu members\nJewish members\nMormon (LDS) members\nMuslim members\nQuaker members\nSikh members" NA NA NA ...
+  ..$                    : chr [1:16] "Related" NA NA NA ...
+  ..$                    : chr [1:16] "By length of service historically\nCurrent members by wealth\nFrom multiple states\nDied in office\n1790–1899\n"| __truncated__ NA NA NA ...
+ $ : tibble [15 × 12] (S3: tbl_df/tbl/data.frame)
+  ..$ X1 : chr [1:15] "Membership" "Members" "Senate" "House" ...
+  ..$ X2 : chr [1:15] "Members\nBy length of service\nBy shortness of service\nNew members\nNon-voting members\nUnseated members\nYoun"| __truncated__ "By length of service\nBy shortness of service\nNew members\nNon-voting members\nUnseated members\nYoungest members" "Members\nseniority\nDean\nFormer\nExpelled or censured\nClasses\nBorn outside the U.S.\nResigned\nAppointed\nSwitched parties" "Members\nseniority\nDean\nFormer\nExpelled, censured, and reprimanded\nServed a single term\nLost re-election i"| __truncated__ ...
+  ..$ X3 : chr [1:15] "Members" NA NA NA ...
+  ..$ X4 : chr [1:15] "By length of service\nBy shortness of service\nNew members\nNon-voting members\nUnseated members\nYoungest members" NA NA NA ...
+  ..$ X5 : chr [1:15] "Senate" NA NA NA ...
+  ..$ X6 : chr [1:15] "Members\nseniority\nDean\nFormer\nExpelled or censured\nClasses\nBorn outside the U.S.\nResigned\nAppointed\nSwitched parties" NA NA NA ...
+  ..$ X7 : chr [1:15] "House" NA NA NA ...
+  ..$ X8 : chr [1:15] "Members\nseniority\nDean\nFormer\nExpelled, censured, and reprimanded\nServed a single term\nLost re-election i"| __truncated__ NA NA NA ...
+  ..$ X9 : chr [1:15] NA NA NA NA ...
+  ..$ X10: chr [1:15] NA NA NA NA ...
+  ..$ X11: chr [1:15] NA NA NA NA ...
+  ..$ X12: chr [1:15] NA NA NA NA ...
+ $ : tibble [3 × 2] (S3: tbl_df/tbl/data.frame)
+  ..$ X1: chr [1:3] "Members" "Senate" "House"
+  ..$ X2: chr [1:3] "By length of service\nBy shortness of service\nNew members\nNon-voting members\nUnseated members\nYoungest members" "Members\nseniority\nDean\nFormer\nExpelled or censured\nClasses\nBorn outside the U.S.\nResigned\nAppointed\nSwitched parties" "Members\nseniority\nDean\nFormer\nExpelled, censured, and reprimanded\nServed a single term\nLost re-election i"| __truncated__
+ $ : tibble [2 × 2] (S3: tbl_df/tbl/data.frame)
+  ..$ X1: chr [1:2] "Senate" "House"
+  ..$ X2: chr [1:2] "President\nlist\nPresident pro tempore\nlist\nLeaders\nDemocratic Caucus\nChair\nSecretary\nPolicy Committee Ch"| __truncated__ "Speaker\nlist\nLeaders\nBipartisan Legal Advisory Group\nDemocratic Caucus\nRepublican Conference"
+ $ : tibble [5 × 2] (S3: tbl_df/tbl/data.frame)
+  ..$ X1: chr [1:5] "Congressional caucus" "Ethnic and racial" "Gender and sexual identity" "Occupation" ...
+  ..$ X2: chr [1:5] "Caucuses of the United States Congress" "African-American members\nSenate\nHouse\nBlack Caucus\nArab and Middle Eastern members\nAsian Pacific American "| __truncated__ "LGBTQ members\nEquality Caucus\nWomen\nSenate\nHouse\nIssues Caucus\ncurrent House" "Physicians" ...
+ $ : tibble [10 × 20] (S3: tbl_df/tbl/data.frame)
+  ..$ Powers, privileges, procedure, committees, history, media: chr [1:10] "Powers\nArticle I\nCopyright\nCommerce (Dormant)\nContempt of Congress\nDeclaration of war\nImpeachment\nInquir"| __truncated__ "Powers" "Privileges" "Procedure" ...
+  ..$ Powers, privileges, procedure, committees, history, media: chr [1:10] "Powers\nArticle I\nCopyright\nCommerce (Dormant)\nContempt of Congress\nDeclaration of war\nImpeachment\nInquir"| __truncated__ "Article I\nCopyright\nCommerce (Dormant)\nContempt of Congress\nDeclaration of war\nImpeachment\nInquiries\nTri"| __truncated__ "Salaries\nFranking\nImmunity" "Act of Congress\nlist\nAppropriation bill\nBill\nBudget process\nCensure\nClosed sessions\nHouse\nSenate\nClotu"| __truncated__ ...
+  ..$                                                          : chr [1:10] "Powers" NA NA NA ...
+  ..$                                                          : chr [1:10] "Article I\nCopyright\nCommerce (Dormant)\nContempt of Congress\nDeclaration of war\nImpeachment\nInquiries\nTri"| __truncated__ NA NA NA ...
+  ..$                                                          : chr [1:10] "Privileges" NA NA NA ...
+  ..$                                                          : chr [1:10] "Salaries\nFranking\nImmunity" NA NA NA ...
+  ..$                                                          : chr [1:10] "Procedure" NA NA NA ...
+  ..$                                                          : chr [1:10] "Act of Congress\nlist\nAppropriation bill\nBill\nBudget process\nCensure\nClosed sessions\nHouse\nSenate\nClotu"| __truncated__ NA NA NA ...
+  ..$                                                          : chr [1:10] "Senate-specific" NA NA NA ...
+  ..$                                                          : chr [1:10] "Advice and consent\nBlue slip (U.S. Senate)\nClasses\nExecutive communication\nExecutive session\nFilibuster\nJ"| __truncated__ NA NA NA ...
+  ..$                                                          : chr [1:10] "Committees" NA NA NA ...
+  ..$                                                          : chr [1:10] "Chairman and ranking member\nOf the Whole\nConference\nDischarge petition\nHearings\nMarkup\nOversight\nList (J"| __truncated__ NA NA NA ...
+  ..$                                                          : chr [1:10] "Items" NA NA NA ...
+  ..$                                                          : chr [1:10] "Gavels\nMace of the House\nSeal of the Senate" NA NA NA ...
+  ..$                                                          : chr [1:10] "History" NA NA NA ...
+  ..$                                                          : chr [1:10] "House history\nmemoirs\nspeaker elections\nSenate history\nelection disputes\nmemoirs\nContinental Congress\nFe"| __truncated__ NA NA NA ...
+  ..$                                                          : chr [1:10] "House history\nmemoirs\nspeaker elections\nSenate history\nelection disputes\nmemoirs\nContinental Congress\nFe"| __truncated__ NA NA NA ...
+  ..$                                                          : chr [1:10] "House history\nmemoirs\nspeaker elections\nSenate history\nelection disputes\nmemoirs\nContinental Congress\nFe"| __truncated__ NA NA NA ...
+  ..$                                                          : chr [1:10] "Media" NA NA NA ...
+  ..$                                                          : chr [1:10] "C-SPAN\nCongressional Quarterly\nThe Hill\nPolitico\nRoll Call" NA NA NA ...
+ $ : tibble [9 × 4] (S3: tbl_df/tbl/data.frame)
+  ..$ X1: chr [1:9] "Powers" "Privileges" "Procedure" "Senate-specific" ...
+  ..$ X2: chr [1:9] "Article I\nCopyright\nCommerce (Dormant)\nContempt of Congress\nDeclaration of war\nImpeachment\nInquiries\nTri"| __truncated__ "Salaries\nFranking\nImmunity" "Act of Congress\nlist\nAppropriation bill\nBill\nBudget process\nCensure\nClosed sessions\nHouse\nSenate\nClotu"| __truncated__ "Advice and consent\nBlue slip (U.S. Senate)\nClasses\nExecutive communication\nExecutive session\nFilibuster\nJ"| __truncated__ ...
+  ..$ X3: chr [1:9] NA NA NA NA ...
+  ..$ X4: chr [1:9] NA NA NA NA ...
+ $ : tibble [1 × 2] (S3: tbl_df/tbl/data.frame)
+  ..$ X1: chr "House history\nmemoirs\nspeaker elections\nSenate history\nelection disputes\nmemoirs\nContinental Congress\nFe"| __truncated__
+  ..$ X2: chr "House history\nmemoirs\nspeaker elections\nSenate history\nelection disputes\nmemoirs\nContinental Congress\nFe"| __truncated__
+ $ : tibble [16 × 32] (S3: tbl_df/tbl/data.frame)
+  ..$ Capitol Complex (Capitol Hill): chr [1:16] "Legislativeoffices\nCongressional staff\nGov. Accountability Office (GAO)\nComptroller General\nArchitect of th"| __truncated__ "Legislativeoffices" "Offices" "Senate" ...
+  ..$ Capitol Complex (Capitol Hill): chr [1:16] "Legislativeoffices\nCongressional staff\nGov. Accountability Office (GAO)\nComptroller General\nArchitect of th"| __truncated__ "Congressional staff\nGov. Accountability Office (GAO)\nComptroller General\nArchitect of the Capitol\nCap. Poli"| __truncated__ "Senate\nCurator\nHistorical\nLibraryHouse\nCongr. Ethics\nEmergency Planning, Preparedness, and Operations\nInt"| __truncated__ "Curator\nHistorical\nLibrary" ...
+  ..$                               : chr [1:16] "Legislativeoffices" NA "Senate" NA ...
+  ..$                               : chr [1:16] "Congressional staff\nGov. Accountability Office (GAO)\nComptroller General\nArchitect of the Capitol\nCap. Poli"| __truncated__ NA "Curator\nHistorical\nLibrary" NA ...
+  ..$                               : chr [1:16] "Offices" NA "House" NA ...
+  ..$                               : chr [1:16] "Senate\nCurator\nHistorical\nLibraryHouse\nCongr. Ethics\nEmergency Planning, Preparedness, and Operations\nInt"| __truncated__ NA "Congr. Ethics\nEmergency Planning, Preparedness, and Operations\nInterparliamentary Affairs\nLaw Revision Couns"| __truncated__ NA ...
+  ..$                               : chr [1:16] "Senate" NA NA NA ...
+  ..$                               : chr [1:16] "Curator\nHistorical\nLibrary" NA NA NA ...
+  ..$                               : chr [1:16] "House" NA NA NA ...
+  ..$                               : chr [1:16] "Congr. Ethics\nEmergency Planning, Preparedness, and Operations\nInterparliamentary Affairs\nLaw Revision Couns"| __truncated__ NA NA NA ...
+  ..$                               : chr [1:16] "Employees" NA NA NA ...
+  ..$                               : chr [1:16] "Senate\nSecretary\nChaplain\nCurator\nHistorian\nLibrarian\nPages\nParliamentarian\nSergeant at Arms and Doorke"| __truncated__ NA NA NA ...
+  ..$                               : chr [1:16] "Senate" NA NA NA ...
+  ..$                               : chr [1:16] "Secretary\nChaplain\nCurator\nHistorian\nLibrarian\nPages\nParliamentarian\nSergeant at Arms and Doorkeeper" NA NA NA ...
+  ..$                               : chr [1:16] "House" NA NA NA ...
+  ..$                               : chr [1:16] "Chaplain\nChief Administrative Officer\nClerk\nDoorkeeper\nFloor Operations\nFloor Services Chief\nHistorian\nP"| __truncated__ NA NA NA ...
+  ..$                               : chr [1:16] "Library ofCongress" NA NA NA ...
+  ..$                               : chr [1:16] "Congressional Research Service\nreports\nCopyright Office\nRegister of Copyrights\nLaw Library\nPoet Laureate\n"| __truncated__ NA NA NA ...
+  ..$                               : chr [1:16] "Gov.Publishing Office" NA NA NA ...
+  ..$                               : chr [1:16] "Public Printer\nCongressional Pictorial Directory\nCongressional Record\nOfficial Congressional Directory\nU.S."| __truncated__ NA NA NA ...
+  ..$                               : chr [1:16] "Capitol Building" NA NA NA ...
+  ..$                               : chr [1:16] "List of artwork at the United States Capitol complex\nBrumidi Corridors\nCongressional Prayer Room\nCrypt\nDome"| __truncated__ NA NA NA ...
+  ..$                               : chr [1:16] "Officebuildings" NA NA NA ...
+  ..$                               : chr [1:16] "Senate\nDirksen\nHart\nMountains and Clouds\nRussellHouse\nBuilding Commission\noffice lottery\nCannon\nFord\nL"| __truncated__ NA NA NA ...
+  ..$                               : chr [1:16] "Senate" NA NA NA ...
+  ..$                               : chr [1:16] "Dirksen\nHart\nMountains and Clouds\nRussell" NA NA NA ...
+  ..$                               : chr [1:16] "House" NA NA NA ...
+  ..$                               : chr [1:16] "Building Commission\noffice lottery\nCannon\nFord\nLongworth\nO'Neill\nRayburn" NA NA NA ...
+  ..$                               : chr [1:16] "Otherfacilities" NA NA NA ...
+  ..$                               : chr [1:16] "Botanic Garden\nHealth and Fitness Facility\nHouse Recording Studio\nSenate chamber\nOld Senate Chamber\nOld Su"| __truncated__ NA NA NA ...
+  ..$                               : chr [1:16] "Related" NA NA NA ...
+  ..$                               : chr [1:16] "Capitol Hill\nUnited States Capitol cornerstone laying" NA NA NA ...
+ $ : tibble [15 × 6] (S3: tbl_df/tbl/data.frame)
+  ..$ X1: chr [1:15] "Legislativeoffices" "Offices" "Senate" "House" ...
+  ..$ X2: chr [1:15] "Congressional staff\nGov. Accountability Office (GAO)\nComptroller General\nArchitect of the Capitol\nCap. Poli"| __truncated__ "Senate\nCurator\nHistorical\nLibraryHouse\nCongr. Ethics\nEmergency Planning, Preparedness, and Operations\nInt"| __truncated__ "Curator\nHistorical\nLibrary" "Congr. Ethics\nEmergency Planning, Preparedness, and Operations\nInterparliamentary Affairs\nLaw Revision Couns"| __truncated__ ...
+  ..$ X3: chr [1:15] NA "Senate" NA NA ...
+  ..$ X4: chr [1:15] NA "Curator\nHistorical\nLibrary" NA NA ...
+  ..$ X5: chr [1:15] NA "House" NA NA ...
+  ..$ X6: chr [1:15] NA "Congr. Ethics\nEmergency Planning, Preparedness, and Operations\nInterparliamentary Affairs\nLaw Revision Couns"| __truncated__ NA NA ...
+ $ : tibble [2 × 2] (S3: tbl_df/tbl/data.frame)
+  ..$ X1: chr [1:2] "Senate" "House"
+  ..$ X2: chr [1:2] "Curator\nHistorical\nLibrary" "Congr. Ethics\nEmergency Planning, Preparedness, and Operations\nInterparliamentary Affairs\nLaw Revision Couns"| __truncated__
+ $ : tibble [2 × 2] (S3: tbl_df/tbl/data.frame)
+  ..$ X1: chr [1:2] "Senate" "House"
+  ..$ X2: chr [1:2] "Secretary\nChaplain\nCurator\nHistorian\nLibrarian\nPages\nParliamentarian\nSergeant at Arms and Doorkeeper" "Chaplain\nChief Administrative Officer\nClerk\nDoorkeeper\nFloor Operations\nFloor Services Chief\nHistorian\nP"| __truncated__
+ $ : tibble [2 × 2] (S3: tbl_df/tbl/data.frame)
+  ..$ X1: chr [1:2] "Senate" "House"
+  ..$ X2: chr [1:2] "Dirksen\nHart\nMountains and Clouds\nRussell" "Building Commission\noffice lottery\nCannon\nFord\nLongworth\nO'Neill\nRayburn"
+ $ : tibble [2 × 2] (S3: tbl_df/tbl/data.frame)
+  ..$ vteOrder of precedence in the United States*: chr [1:2] "President Donald TrumpVice President JD Vance\nGovernor (of the state in which the event is held)\nHouse Speake"| __truncated__ "*not including acting officeholders, visiting dignitaries, auxiliary executive and military personnel and most diplomats"
+  ..$ vteOrder of precedence in the United States*: chr [1:2] "President Donald TrumpVice President JD Vance\nGovernor (of the state in which the event is held)\nHouse Speake"| __truncated__ "*not including acting officeholders, visiting dignitaries, auxiliary executive and military personnel and most diplomats"</code></pre>
+</div>
+</div>
+<p>Here, the table I want is the sixth one. We can grab it by either using double square brackets – <code>[[6]]</code> – or <code>purrr</code>’s <code>pluck(6)</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>senators <span class="ot">&lt;-</span> tables <span class="sc">|&gt;</span> </span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="dv">6</span>)</span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(senators)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 100
+Columns: 12
+$ State                        &lt;chr&gt; "Alabama", "Alabama", "Alaska", "Alaska",…
+$ Portrait                     &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ Senator                      &lt;chr&gt; "Tommy Tuberville", "Katie Britt", "Lisa …
+$ Party                        &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ Party                        &lt;chr&gt; "Republican", "Republican", "Republican",…
+$ Born                         &lt;chr&gt; "(1954-09-18) September 18, 1954 (age&nbsp;71)…
+$ `Occupation(s)`              &lt;chr&gt; "Investment management firm partner\nColl…
+$ `Previous electiveoffice(s)` &lt;chr&gt; "None", "None", "Alaska House of Represen…
+$ Education                    &lt;chr&gt; "Southern Arkansas University (BS)", "Uni…
+$ `Assumed office`             &lt;chr&gt; "January 3, 2021", "January 3, 2023", "De…
+$ Class                        &lt;chr&gt; "2026Class 2", "2028Class 3", "2028Class …
+$ `Residence[4]`               &lt;chr&gt; "Auburn[5]", "Montgomery", "Girdwood", "A…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="do">## alternative approach using css</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>senators <span class="ot">&lt;-</span> us_senators <span class="sc">|&gt;</span> </span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_elements</span>(<span class="at">css =</span> <span class="st">"#senators"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_table</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="dv">1</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">clean_names</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You can see that the tibble contains “dirty” names and that the party column appears twice – which will make it impossible to work with the tibble later on. Hence, I use <code>clean_names()</code> from the <code>janitor</code> package to fix that.</p>
+</section>
+<section id="extracting-attributes" class="level3">
+<h3 class="anchored" data-anchor-id="extracting-attributes">Extracting attributes</h3>
+<p>You can also extract attributes such as links using <code>html_attrs()</code>. An example would be to extract the headlines and their corresponding links from r-bloggers.com.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>rbloggers <span class="ot">&lt;-</span> <span class="fu">read_html</span>(<span class="st">"https://www.r-bloggers.com"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A quick check with the SelectorGadget told me that the element I am looking for is of class “.loop-title” and the child of it is “a”, standing for normal text. With <code>html_attrs()</code> I can extract the attributes. This gives me a list of named vectors containing the name of the attribute and the value:</p>
+<p>Links are stored as attribute “href” – hyperlink reference. <code>html_attr()</code> allows me to extract the attribute’s value. Hence, building a tibble with the article’s title and its corresponding hyperlink is straight-forward now:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> r_blogger_postings <span class="sc">|&gt;</span> <span class="fu">html_text2</span>(),</span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">link =</span> r_blogger_postings <span class="sc">|&gt;</span> <span class="fu">html_attr</span>(<span class="at">name =</span> <span class="st">"href"</span>)</span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 20 × 2
+   title                                                                   link 
+   &lt;chr&gt;                                                                   &lt;chr&gt;
+ 1 Of course, someone has to write imperative code to build reproducible … http…
+ 2 Elevate Your Data Skills with Jumping Rivers Training                   http…
+ 3 GSS Release                                                             http…
+ 4 An update to Open Trade Statistics to showcase Tabler and D3po          http…
+ 5 September 2025 Top 40 New CRAN Packages                                 http…
+ 6 Using D3po with Tabler                                                  http…
+ 7 Tabler 0.1.0 is here!                                                   http…
+ 8 Double Descent Explained                                                http…
+ 9 Approximating evidence via bounded harmonic means (and HPD regions wit… http…
+10 Mapping Antarctica                                                      http…
+11 rOpenSci News Digest, October 2025                                      http…
+12 EuroBioC2025 conference recap                                           http…
+13 Change is good, so don’t change my change                               http…
+14 Be Mindful of the Time                                                  http…
+15 Orchestrating Polyglot, Reproducible Data Science with Nix and {rixpre… http…
+16 The use of SAT/ACT for college admissions                               http…
+17 Go for Launch! Packages Shipped to the R-Multiverse                     http…
+18 Rfuzzycoco released on CRAN                                             http…
+19 Compositional modeling of plant communities with Dirichlet regression   http…
+20 gssrdoc Updates                                                         http…</code></pre>
+</div>
+</div>
+<p>Another approach for this would be using the <code>polite</code> package and its function <code>html_attrs_dfr()</code> which binds together all the different attributes column-wise and the different elements row-wise.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>rbloggers <span class="sc">|&gt;</span> </span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_elements</span>(<span class="at">css =</span> <span class="st">".loop-title a"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_attrs_dfr</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="at">title =</span> <span class="dv">3</span>, </span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">link =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 20
+Columns: 2
+$ title &lt;chr&gt; "Of course, someone has to write imperative code to build reprod…
+$ link  &lt;chr&gt; "https://www.r-bloggers.com/2025/10/of-course-someone-has-to-wri…</code></pre>
+</div>
+</div>
+</section>
+<section id="exercise-2" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-2">Exercise</h3>
+<ol start="3" type="1">
+<li>Download the links and names of the <a href="https://www.imdb.com/chart/top/">top 250 IMDb movies</a>. Put them in a tibble with the columns <code>rank</code> – in numeric format (you know regexes already), <code>title</code>, <code>url</code> to IMDb entry, <code>rating</code> – in numeric format, <code>number_votes</code> – the number of votes a movie has received, in numeric format. Also, what do you notice?</li>
+</ol>
+<details>
+<summary>
+Solution. Click to expand!
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>imdb_top250 <span class="ot">&lt;-</span> <span class="fu">read_html</span>(<span class="st">"https://www.imdb.com/chart/top/?ref_=nv_mv_250"</span>)</span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>movies <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">rank =</span> imdb_top250 <span class="sc">|&gt;</span> </span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_elements</span>(<span class="st">".cli-title .ipc-title__text"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb74-6"><a href="#cb74-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_text2</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb74-7"><a href="#cb74-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_extract</span>(<span class="st">"^[0-9]+(?=</span><span class="sc">\\</span><span class="st">.)"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb74-8"><a href="#cb74-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">parse_integer</span>(),</span>
+<span id="cb74-9"><a href="#cb74-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> imdb_top250 <span class="sc">|&gt;</span> </span>
+<span id="cb74-10"><a href="#cb74-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_elements</span>(<span class="st">".cli-title .ipc-title__text"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb74-11"><a href="#cb74-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_text2</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb74-12"><a href="#cb74-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_remove</span>(<span class="st">"^[0-9]+</span><span class="sc">\\</span><span class="st">. "</span>),</span>
+<span id="cb74-13"><a href="#cb74-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">url =</span> imdb_top250 <span class="sc">|&gt;</span> </span>
+<span id="cb74-14"><a href="#cb74-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_elements</span>(<span class="st">".cli-title a"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb74-15"><a href="#cb74-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_attr</span>(<span class="st">"href"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb74-16"><a href="#cb74-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_c</span>(<span class="st">"https://www.imdb.com"</span>, <span class="at">x =</span> _),</span>
+<span id="cb74-17"><a href="#cb74-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">rating =</span> imdb_top250 <span class="sc">|&gt;</span> </span>
+<span id="cb74-18"><a href="#cb74-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_elements</span>(<span class="st">".ratingGroup--imdb-rating"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb74-19"><a href="#cb74-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_text</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb74-20"><a href="#cb74-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_extract</span>(<span class="st">"[0-9]</span><span class="sc">\\</span><span class="st">.[0-9]"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb74-21"><a href="#cb74-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">parse_double</span>(),</span>
+<span id="cb74-22"><a href="#cb74-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">no_votes =</span> imdb_top250 <span class="sc">|&gt;</span> </span>
+<span id="cb74-23"><a href="#cb74-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_elements</span>(<span class="st">".ratingGroup--imdb-rating"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb74-24"><a href="#cb74-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">html_text</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb74-25"><a href="#cb74-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_remove</span>(<span class="st">"^[0-9]</span><span class="sc">\\</span><span class="st">.[0-9]"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb74-26"><a href="#cb74-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_remove_all</span>(<span class="st">"[() ]"</span>)</span>
+<span id="cb74-27"><a href="#cb74-27" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</details>
+</section>
+</section>
+<section id="automating-scraping" class="level2">
+<h2 class="anchored" data-anchor-id="automating-scraping">Automating scraping</h2>
+<p>Well, grabbing singular points of data from websites is nice. However, if you want to do things such as collecting large amounts of data or multiple pages, you will not be able to do this without some automation.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="vembedr">
+<div>
+<iframe src="https://www.youtube.com/embed/C8LHWqfIvH4" width="533" height="300" frameborder="0" allowfullscreen="" data-external="1"></iframe>
+</div>
+</div>
+</div>
+</div>
+<p>An example here would again be the R-bloggers page. It provides you with plenty of R-related content. If you were now eager to scrape all the articles, you would first need to acquire all the different links leading to the blog postings. Hence, you would need to navigate through the site’s pages first to acquire the links.</p>
+<p>In general, there are two ways to go about this. The first is to manually create a list of URLs the scraper will visit and take the content you need, therefore not needing to identify where it needs to go next. The other one would be automatically acquiring its next destination from the page (i.e., identifying the “go on” button). Both strategies can also be nicely combined with some sort of <code>session()</code>.</p>
+<section id="looping-over-pages" class="level3">
+<h3 class="anchored" data-anchor-id="looping-over-pages">Looping over pages</h3>
+<p>For the first approach, we need to check the URLs first. How do they change as we navigate through the pages?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>url_1 <span class="ot">&lt;-</span> <span class="st">"https://www.r-bloggers.com/page/2/"</span></span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>url_2 <span class="ot">&lt;-</span> <span class="st">"https://www.r-bloggers.com/page/3/"</span></span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>initial_dist <span class="ot">&lt;-</span> <span class="fu">adist</span>(url_1, url_2, <span class="at">counts =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">attr</span>(<span class="st">"trafos"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">diag</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_locate_all</span>(<span class="st">"[^M]"</span>)</span>
+<span id="cb75-8"><a href="#cb75-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-9"><a href="#cb75-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb75-10"><a href="#cb75-10" aria-hidden="true" tabindex="-1"></a><span class="fu">str_sub</span>(url_1, <span class="at">start =</span> initial_dist[[<span class="dv">1</span>]][<span class="dv">1</span>]<span class="sc">-</span><span class="dv">5</span>, <span class="at">end =</span> initial_dist[[<span class="dv">1</span>]][<span class="dv">1</span>]<span class="sc">+</span><span class="dv">5</span>) <span class="co"># makes sense for longer urls</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "page/2/"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str_sub</span>(url_2, <span class="at">start =</span> initial_dist[[<span class="dv">1</span>]][<span class="dv">1</span>]<span class="sc">-</span><span class="dv">5</span>, <span class="at">end =</span> initial_dist[[<span class="dv">1</span>]][<span class="dv">1</span>]<span class="sc">+</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "page/3/"</code></pre>
+</div>
+</div>
+<p>There is some sort of underlying pattern and we can harness that. <code>url_1</code> refers to the second page, <code>url_2</code> to the third. Hence, if we just combine the basic URL and, say, the numbers from 1 to 10, we could then visit all the pages (exercise 3a) and extract the content we want.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>urls <span class="ot">&lt;-</span> <span class="fu">str_c</span>(<span class="st">"https://www.r-bloggers.com/page/"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="st">"/"</span>) <span class="co"># this is the stringr equivalent of paste()</span></span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>urls</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "https://www.r-bloggers.com/page/1/"  "https://www.r-bloggers.com/page/2/" 
+ [3] "https://www.r-bloggers.com/page/3/"  "https://www.r-bloggers.com/page/4/" 
+ [5] "https://www.r-bloggers.com/page/5/"  "https://www.r-bloggers.com/page/6/" 
+ [7] "https://www.r-bloggers.com/page/7/"  "https://www.r-bloggers.com/page/8/" 
+ [9] "https://www.r-bloggers.com/page/9/"  "https://www.r-bloggers.com/page/10/"</code></pre>
+</div>
+</div>
+<p>You can run this in a for-loop, here’s a quick revision. For the loop to run efficiently, space for every object should be pre-allocated (i.e., you create a list beforehand, and its length can be determined by an educated guess).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="do">## THIS IS PSEUDO CODE!!!</span></span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>result_list <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">mode =</span> <span class="st">"list"</span>, <span class="at">length =</span> <span class="fu">length</span>(urls)) <span class="co"># pre-allocate space!!!</span></span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>starting_link <span class="ot">&lt;-</span> <span class="st">"https://www.r-bloggers.com/page/1/"</span></span>
+<span id="cb81-4"><a href="#cb81-4" aria-hidden="true" tabindex="-1"></a><span class="do">####PSEUDO CODE!!!</span></span>
+<span id="cb81-5"><a href="#cb81-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(urls)){</span>
+<span id="cb81-6"><a href="#cb81-6" aria-hidden="true" tabindex="-1"></a>  read <span class="cf">in</span> urls[[i]] <span class="sc">-</span><span class="ot">-&gt;</span> page <span class="ot">&lt;-</span> <span class="fu">read_html</span>(url)</span>
+<span id="cb81-7"><a href="#cb81-7" aria-hidden="true" tabindex="-1"></a>  store content of page <span class="cf">in</span> result_list result_list[[i]] <span class="ot">&lt;-</span> <span class="fu">extract_content</span>(page)</span>
+<span id="cb81-8"><a href="#cb81-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="letting-the-scraper-navigate-on-its-own" class="level3">
+<h3 class="anchored" data-anchor-id="letting-the-scraper-navigate-on-its-own">Letting the scraper navigate on its own</h3>
+<p>Extracting the link on the fly is the same thing, but in the end, you need to replace the link argument with the one you extracted. You will do this in exercise 3. It is probably easiest to perform those things in a <code>while</code> loop, hence here is a quick revision:</p>
+<p>Hence, our <code>while</code> loop in pseudo-code will look like this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="do">## THIS IS PSEUDO CODE!!!</span></span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>output_list <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">mode =</span> <span class="st">"list"</span>, <span class="at">length =</span> <span class="dv">10</span>L)</span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (session<span class="sc">$</span>response<span class="sc">$</span>status_code <span class="sc">==</span> <span class="dv">200</span> <span class="sc">&amp;&amp;</span> i <span class="sc">&lt;=</span> <span class="dv">10</span>) {</span>
+<span id="cb82-5"><a href="#cb82-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">session</span>(start<span class="sc">-</span>url)</span>
+<span id="cb82-6"><a href="#cb82-6" aria-hidden="true" tabindex="-1"></a>  i <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb82-7"><a href="#cb82-7" aria-hidden="true" tabindex="-1"></a>  read <span class="cf">in</span> r<span class="sc">-</span>bloggers results list</span>
+<span id="cb82-8"><a href="#cb82-8" aria-hidden="true" tabindex="-1"></a>  get all stuff and store it <span class="cf">in</span> output_list[[i]]</span>
+<span id="cb82-9"><a href="#cb82-9" aria-hidden="true" tabindex="-1"></a>  move session to <span class="cf">next</span> page</span>
+<span id="cb82-10"><a href="#cb82-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb82-11"><a href="#cb82-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-12"><a href="#cb82-12" aria-hidden="true" tabindex="-1"></a><span class="do">### reminder: how to click a button in rvest</span></span>
+<span id="cb82-13"><a href="#cb82-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-14"><a href="#cb82-14" aria-hidden="true" tabindex="-1"></a><span class="fu">session</span>(<span class="st">"https://www.scrapethissite.com/"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb82-15"><a href="#cb82-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">session_follow_link</span>(<span class="at">css =</span> <span class="st">"#nav-lessons .nav-link"</span>) <span class="co"># just use selectorgadget to check for css selector of button</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="exercise-3" class="level3">
+<h3 class="anchored" data-anchor-id="exercise-3">Exercise</h3>
+<ol start="4" type="1">
+<li>Scrape 5 pages of the latest <a href="https://press.un.org/en/content/secretary-general/press-release">UN press releases</a> in an automated fashion. Make sure to take breaks between requests by including <code>Sys.sleep(2)</code>. For each iteration, store the articles and links in a tibble containing the columns <code>title</code>,<code>link</code>, and <code>date</code> (bonus: store it in date format). (Tip: wrap the code that extracts and stores content in a tibble in a function.)</li>
+</ol>
+<ol type="a">
+<li>Do so using running numbers in the urls.</li>
+<li>Do so by using <code>session()</code> in a loop. (Note: make sure to specify <code>css =</code>)</li>
+</ol>
+<details>
+<summary>
+Solution. Click to expand!
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>extract_press_releases <span class="ot">&lt;-</span> <span class="cf">function</span>(page){</span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(</span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> page <span class="sc">|&gt;</span> </span>
+<span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">html_elements</span>(<span class="st">".field__item a"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb83-5"><a href="#cb83-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">html_text2</span>(),</span>
+<span id="cb83-6"><a href="#cb83-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">link =</span> page <span class="sc">|&gt;</span> </span>
+<span id="cb83-7"><a href="#cb83-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">html_elements</span>(<span class="st">".field__item a"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb83-8"><a href="#cb83-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">html_attr</span>(<span class="st">"href"</span>),</span>
+<span id="cb83-9"><a href="#cb83-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> page <span class="sc">|&gt;</span> </span>
+<span id="cb83-10"><a href="#cb83-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">html_elements</span>(<span class="st">".field--type-datetime"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb83-11"><a href="#cb83-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">html_text2</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb83-12"><a href="#cb83-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as.Date</span>(<span class="at">format =</span> <span class="st">"%d %B %Y"</span>)</span>
+<span id="cb83-13"><a href="#cb83-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb83-14"><a href="#cb83-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb83-15"><a href="#cb83-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb83-16"><a href="#cb83-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-17"><a href="#cb83-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-18"><a href="#cb83-18" aria-hidden="true" tabindex="-1"></a><span class="co">#a</span></span>
+<span id="cb83-19"><a href="#cb83-19" aria-hidden="true" tabindex="-1"></a>urls <span class="ot">&lt;-</span> <span class="fu">str_c</span>(<span class="st">"https://press.un.org/en/content/secretary-general/press-release?page="</span>, <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>)</span>
+<span id="cb83-20"><a href="#cb83-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-21"><a href="#cb83-21" aria-hidden="true" tabindex="-1"></a>pages <span class="ot">&lt;-</span> <span class="fu">map</span>(urls, </span>
+<span id="cb83-22"><a href="#cb83-22" aria-hidden="true" tabindex="-1"></a>             \(x){</span>
+<span id="cb83-23"><a href="#cb83-23" aria-hidden="true" tabindex="-1"></a>               <span class="fu">Sys.sleep</span>(<span class="dv">2</span>) </span>
+<span id="cb83-24"><a href="#cb83-24" aria-hidden="true" tabindex="-1"></a>               <span class="fu">read_html</span>(x) <span class="sc">|&gt;</span> </span>
+<span id="cb83-25"><a href="#cb83-25" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">extract_press_releases</span>()</span>
+<span id="cb83-26"><a href="#cb83-26" aria-hidden="true" tabindex="-1"></a>               }</span>
+<span id="cb83-27"><a href="#cb83-27" aria-hidden="true" tabindex="-1"></a>             )</span>
+<span id="cb83-28"><a href="#cb83-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-29"><a href="#cb83-29" aria-hidden="true" tabindex="-1"></a><span class="co">#b</span></span>
+<span id="cb83-30"><a href="#cb83-30" aria-hidden="true" tabindex="-1"></a>un_session <span class="ot">&lt;-</span> <span class="fu">session</span>(<span class="st">"https://press.un.org/en/content/secretary-general/press-release"</span>)</span>
+<span id="cb83-31"><a href="#cb83-31" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb83-32"><a href="#cb83-32" aria-hidden="true" tabindex="-1"></a>page_list <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="at">mode =</span> <span class="st">"list"</span>, <span class="at">length =</span> <span class="dv">5</span>L)</span>
+<span id="cb83-33"><a href="#cb83-33" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (i <span class="sc">&lt;</span> <span class="dv">6</span>) {</span>
+<span id="cb83-34"><a href="#cb83-34" aria-hidden="true" tabindex="-1"></a>  page_list[[i]] <span class="ot">&lt;-</span> <span class="fu">read_html</span>(un_session) <span class="sc">|&gt;</span> </span>
+<span id="cb83-35"><a href="#cb83-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">extract_press_releases</span>()</span>
+<span id="cb83-36"><a href="#cb83-36" aria-hidden="true" tabindex="-1"></a>  un_session <span class="ot">&lt;-</span> un_session <span class="sc">|&gt;</span> </span>
+<span id="cb83-37"><a href="#cb83-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">session_follow_link</span>(<span class="at">css =</span> <span class="st">".me-s .page-link"</span>)</span>
+<span id="cb83-38"><a href="#cb83-38" aria-hidden="true" tabindex="-1"></a>  i <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb83-39"><a href="#cb83-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">Sys.sleep</span>(<span class="dv">2</span>)</span>
+<span id="cb83-40"><a href="#cb83-40" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</details>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>To sum it up: when you have a good research idea that relies on Digital Trace Data that you need to collect, ask yourself the following questions:</p>
+<ol type="1">
+<li>Is there some sort of data dump that I can download?</li>
+<li>Is there an R package for the web service?</li>
+<li>If 1. == FALSE: Is there an API where I can get the data (if TRUE, use it) – next chapter.</li>
+<li>If 1. == FALSE &amp; 2. == FALSE: Is screen scraping an option and any structure in the data that you can harness?</li>
+</ol>
+<p>If you have to rely on screen scraping, also ask yourself the question how you can minimize the number of requests you make to the server. Going back and forth on web pages or navigating through them might not be the best option since it requires multiple requests. The most efficient way is usually to try to get a list of URLs of some sort which you can then just loop over.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/fellennert\.github\.io\/toolbox_css\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Copyright 2025, Felix Lennert (<a href="mailto:felix.lennert@uni-leipzig.de">felix.lennert@uni-leipzig.de</a>)</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
