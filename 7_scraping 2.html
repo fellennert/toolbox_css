@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Chapter 7: Scraping Static Pages with rvest – Toolbox CSS</title>
+<title>Chapter 7: Crawling the Web and Extracting Data (Static Pages with rvest) – Toolbox CSS</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -181,10 +181,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="./6_stringr_regex.html">
  <span class="dropdown-text">Chapter 6: <code>stringr</code> and RegExes</span></a>
   </li>  
-        <li>
-    <a class="dropdown-item" href="./7_scraping.html">
- <span class="dropdown-text">Chapter 7: Scraping Static Pages with <code>rvest</code></span></a>
-  </li>  
     </ul>
   </li>
 </ul>
@@ -238,7 +234,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Chapter 7: Scraping Static Pages with <code>rvest</code></h1>
+<h1 class="title">Chapter 7: Crawling the Web and Extracting Data (Static Pages with <code>rvest</code>)</h1>
 </div>
 
 
@@ -528,7 +524,7 @@ Solution. Click to expand!
   .. ..$ value: chr "Auf gut GlÃck!"
   .. ..$ attr :List of 5
   .. .. ..$ class: chr "lsb"
-  .. .. ..$ id   : chr "tsuid_URsDaZ7UO9TSi-gP-Oy5sAI_1"
+  .. .. ..$ id   : chr "tsuid_gxgDac3KAdXmxc8P0ayDoQE_1"
   .. .. ..$ value: chr "Auf gut GlÃck!"
   .. .. ..$ name : chr "btnI"
   .. .. ..$ type : chr "submit"
@@ -536,9 +532,9 @@ Solution. Click to expand!
   ..$ iflsig:List of 4
   .. ..$ type : chr "hidden"
   .. ..$ name : chr "iflsig"
-  .. ..$ value: chr "AOw8s4IAAAAAaQMpYUzfSWxHiho1cpVy77ocxUGbC6wc"
+  .. ..$ value: chr "AOw8s4IAAAAAaQMmk1UsGIpsJrL5LwX4z-KrKVbTrHtt"
   .. ..$ attr :List of 3
-  .. .. ..$ value: chr "AOw8s4IAAAAAaQMpYUzfSWxHiho1cpVy77ocxUGbC6wc"
+  .. .. ..$ value: chr "AOw8s4IAAAAAaQMmk1UsGIpsJrL5LwX4z-KrKVbTrHtt"
   .. .. ..$ name : chr "iflsig"
   .. .. ..$ type : chr "hidden"
   .. ..- attr(*, "class")= chr "rvest_field"
@@ -561,7 +557,7 @@ Solution. Click to expand!
 <pre><code>{html_document}
 &lt;html lang="de"&gt;
 [1] &lt;head&gt;\n&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8 ...
-[2] &lt;body jsmodel="hspDDf "&gt;\n&lt;script nonce="bBV8WMmQJ6MzLdiW4XT-DQ"&gt;(functio ...</code></pre>
+[2] &lt;body jsmodel="hspDDf "&gt;\n&lt;script nonce="ts2qbvnsg6ARs8H84ASf3Q"&gt;(functio ...</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>vals <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">q =</span> <span class="st">"web scraping"</span>, <span class="at">hl =</span> <span class="st">"fr"</span>)</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -574,7 +570,7 @@ Solution. Click to expand!
 <pre><code>{html_document}
 &lt;html lang="fr-DE"&gt;
 [1] &lt;head&gt;\n&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8 ...
-[2] &lt;body jsmodel="hspDDf "&gt;\n&lt;script nonce="UO6-5piK9KNgvPKR-xkMSw"&gt;(functio ...</code></pre>
+[2] &lt;body jsmodel="hspDDf "&gt;\n&lt;script nonce="XnnEvqo2Hta0y_i0ksoZEw"&gt;(functio ...</code></pre>
 </div>
 </div>
 <p>If you are working with a session, the workflow is as follows:</p>
@@ -600,7 +596,7 @@ Solution. Click to expand!
 <pre><code>{html_document}
 &lt;html lang="de"&gt;
 [1] &lt;head&gt;\n&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8 ...
-[2] &lt;body jsmodel="hspDDf "&gt;\n&lt;script nonce="ye-998TIHqlWiL2YIUUmnw"&gt;(functio ...</code></pre>
+[2] &lt;body jsmodel="hspDDf "&gt;\n&lt;script nonce="mJc3DzS34k8OqhS4NUyftQ"&gt;(functio ...</code></pre>
 </div>
 </div>
 </section>
@@ -1476,7 +1472,7 @@ Solution. Click to expand!
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/fellennert\.github\.io\/toolbox_css\/");
+        var filterRegex = new RegExp('/' + window.location.host + '/');
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
