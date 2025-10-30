@@ -160,7 +160,7 @@ No readings.
 * Blog post on CSS selectors -- _[online](https://css-tricks.com/css-selectors/)_
 * Blog posts on API calls --  _[online](https://www.cloudflare.com/learning/security/api/what-is-api-call/)_
 
-### `rvest`
+### `rvest` (`r return_course_date(3, tuesday = FALSE)`)
 
 * `rvest` Web scraping 101 -- _[online](https://rvest.tidyverse.org/articles/rvest.html)_
 
@@ -169,22 +169,24 @@ No readings.
 
 * `selenium` documentation -- _[online](https://www.selenium.dev/documentation/webdriver/)_
 
-### APIs (`r return_course_date(5, tuesday = FALSE)`)
+### APIs (`r return_course_date(4, tuesday = FALSE)`)
 
 * `httr2` documentation -- _[online](https://httr2.r-lib.org/articles/httr2.html)_
 
 ## Week 5: Data Acquisition III
-### Intro to OCR and Transcription (`r return_course_date(5, tuesday = FALSE)`)
+### Intro to OCR  (`r return_course_date(5, tuesday = TRUE)`)
 
 * @stoltz_mapping_2024 -- chapter 5
-
-## Week 6: Data Acquisition IV
-### Optical Character Recognition and Transcription (`r return_course_date(6, tuesday = TRUE)`)
-
 * `Tesseract` documentation -- _[online](https://tesseract-ocr.github.io)_
+
+### Intro to Audio Transcription  (`r return_course_date(5, tuesday = FALSE)`)
+
+* @stoltz_mapping_2024 -- chapter 5
 * OpenAI Whisper Python package documentation -- _[online](https://github.com/openai/whisper)_
 
-### Data Acquisition Recap and Project Discussion (`r return_course_date(6, tuesday = FALSE)`)
+## Week 6: Data Acquisition IV
+
+Optional buffer sessions.
 
 ## Week 7: Student Project Week
 

@@ -163,7 +163,11 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#slides" id="toc-slides" class="nav-link active" data-scroll-target="#slides">Slides</a></li>
+  <li><a href="#slides" id="toc-slides" class="nav-link active" data-scroll-target="#slides">Slides</a>
+  <ul class="collapse">
+  <li><a href="#tuesday-oct.-28-2025" id="toc-tuesday-oct.-28-2025" class="nav-link" data-scroll-target="#tuesday-oct.-28-2025">Tuesday, Oct.&nbsp;28, 2025</a></li>
+  <li><a href="#thursday-oct.-30-2025" id="toc-thursday-oct.-30-2025" class="nav-link" data-scroll-target="#thursday-oct.-30-2025">Thursday, Oct.&nbsp;30, 2025</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -192,12 +196,13 @@ ul.task-list li input[type="checkbox"] {
 <p>This lecture answers the following questions:</p>
 <ul>
 <li>Why will Regexes change your life? (not in slides, code script only.)</li>
-<li>What do I have to bear in mind when scraping websites?</li>
-<li>How do I harness how the web is written to scrape websites?</li>
+<li>How do I harness how the web is written to scrape websites? (Tuesday)</li>
+<li>What do I have to bear in mind when scraping websites? (Thursday)</li>
 </ul>
 <section id="slides" class="level2">
 <h2 class="anchored" data-anchor-id="slides">Slides</h2>
 <p>Please click <a href="./slides/20251028-crawling_web-novids.pdf">here to download the slides for Tuesday, October 28, 2025</a>. Caveat: the original slides contain recordings of my screen demonstrating web scraping. These could not be included due to storage constraints.</p>
+<p>Please click <a href="./slides/20251030-scraping_ethics.pdf">here to download the slides for Thursday, October 30, 2025</a>.</p>
 <div class="cell">
 <style type="text/css">
 
@@ -222,11 +227,20 @@ ul.task-list li input[type="checkbox"] {
 </style>
 </div>
 <p>Alternatively, read them here (probably not the best if you’re visiting this page on a mobile device):</p>
+<section id="tuesday-oct.-28-2025" class="level3">
+<h3 class="anchored" data-anchor-id="tuesday-oct.-28-2025">Tuesday, Oct.&nbsp;28, 2025</h3>
 <div class="embed-container">
-<p><iframe src="./slides/20251028-crawling_web-novids.pdf)" style="border: 0.5px"></iframe></p>
+<p><iframe src="./slides/20251028-crawling_web-novids.pdf" style="border: 0.5px"></iframe></p>
+</div>
+</section>
+<section id="thursday-oct.-30-2025" class="level3">
+<h3 class="anchored" data-anchor-id="thursday-oct.-30-2025">Thursday, Oct.&nbsp;30, 2025</h3>
+<div class="embed-container">
+<p><iframe src="./slides/20251030-scraping_ethics.pdf" style="border: 0.5px"></iframe></p>
 </div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -302,7 +316,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/fellennert\.github\.io\/toolbox_css\/");
+        var filterRegex = new RegExp('/' + window.location.host + '/');
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

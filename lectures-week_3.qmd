@@ -1,6 +1,6 @@
 ---
 title: "Week 3: Regexes & Crawling the web"
-published-title: week_1
+published-title: week_3
 engine: knitr
 freeze: auto
 ---
@@ -8,12 +8,14 @@ freeze: auto
 This lecture answers the following questions:
 
 - Why will Regexes change your life? (not in slides, code script only.)
-- What do I have to bear in mind when scraping websites?
-- How do I harness how the web is written to scrape websites? 
+- How do I harness how the web is written to scrape websites? (Tuesday)
+- What do I have to bear in mind when scraping websites? (Thursday)
 
 ## Slides 
 
 Please click [here to download the slides for Tuesday, October 28, 2025](./slides/20251028-crawling_web-novids.pdf). Caveat: the original slides contain recordings of my screen demonstrating web scraping. These could not be included due to storage constraints.
+
+Please click [here to download the slides for Thursday, October 30, 2025](./slides/20251030-scraping_ethics.pdf). 
 
 ```{css echo=FALSE}
 
@@ -39,8 +41,14 @@ Please click [here to download the slides for Tuesday, October 28, 2025](./slide
 
 Alternatively, read them here (probably not the best if you're visiting this page on a mobile device):
 
+### Tuesday, Oct. 28, 2025
+
 <div class="embed-container">
-  <iframe src="./slides/20251028-crawling_web-novids.pdf)" style="border: 0.5px"></iframe>
+  <iframe src="./slides/20251028-crawling_web-novids.pdf" style="border: 0.5px"></iframe>
 </div>
 
+### Thursday, Oct. 30, 2025
 
+<div class="embed-container">
+  <iframe src="./slides/20251030-scraping_ethics.pdf" style="border: 0.5px"></iframe>
+</div>

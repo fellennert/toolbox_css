@@ -600,12 +600,13 @@ imdb[imdb["Director"] == "J.J. Abrams"]
 ```
 
 ```{python}
-#a 
+#c
 imdb.assign(median_votes = lambda x: x['Votes'].median()).query('Votes > median_votes')
 #or
 imdb.query('Votes > @imdb.Votes.median()')
 ```
 ```{python}
+#d
 rating_mode = imdb['Rating'].mode()
 imdb[imdb['Rating'].isin(rating_mode)]
 ```

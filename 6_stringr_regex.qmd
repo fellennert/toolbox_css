@@ -251,11 +251,11 @@ regexplain::regexplain_gadget()
 Note that RegExes are case-sensitive.
 
 ```{r}
-str_view(five_largest_cities, "stockholm", match = NA)
+str_view(five_largest_cities, "stockholm")
 ```
 
 ```{r}
-str_view(five_largest_cities, "Stockholm", match = NA)
+str_view(five_largest_cities, "Stockholm")
 ```
 
 They also match parts of words:
@@ -324,7 +324,7 @@ Well, as you can see, there are none. This is because the `.` can only replace o
 In our case, the appropriate one is `+`:
 
 ```{r}
-str_detect(stringr_functions, "str_.+_all")
+stringr_functions[str_detect(stringr_functions, "str_.+_all")]
 ```
 
 By default, these multipliers are greedy and want to match the longest string possible:
@@ -346,17 +346,13 @@ However, what if you want to match the character "."? This problem might come up
 ```{r}
 vectors_with_time <- c("13500", "13M00", "13.00")
 
-str_detect(vectors_with_time, "13.00")
+str_view(vectors_with_time, "13.00")
 ```
 
-```{r eval=FALSE, include=FALSE}
-str_c(vectors_with_time, collapse = "\n") |> cat()
-```
-
-Yet, it matches everything. We need some sort of literal dot. Here, the metacharacter `\` comes in handy. By putting `\` in front of the metacharacter that we want to be treated as literal -- the `.` in our case -- the `.` loses its special meaning and is interpreted as a literal character. This procedure is referred to as "escaping." Hence, `\` is also referred to as the "escape character." Note that, in R, you will need to escape `\` as well, and therefore in code escaping will look like this: `\\.`.
+Yet, it matches everything. We need some sort of literal dot. Here, the metacharacter `\` comes in handy. By putting `\` in front of the meta character that we want to be treated as literal -- the `.` in our case -- the `.` loses its special meaning and is interpreted as a literal character. This procedure is referred to as "escaping." Hence, `\` is also referred to as the "escape character." Note that, in R, you will need to escape `\` as well, and therefore in code escaping will look like this: `\\.`.
 
 ```{r}
-str_detect(vectors_with_time, "13\\.00")
+str_view(vectors_with_time, "13\\.00", match = NA)
 ```
 
 Because this gets tedious quickly in case you have multiple characters that need escaping, you can also use so called raw strings. Another alternative would be using a "raw string" (`r"()"`). This matches anything inside the raw string -- but you will still need to escape some special characters, but only with one backslash:
@@ -368,13 +364,13 @@ imdb_url <- "imdb.com/chart/top/?ref_=nv_mv_250"
 imdb_url |> str_view(r"(\?ref_=)")
 ```
 
-If you need to match "()", you can also change the opening parentheses: `r"[]"` or `r"{}"`. If this is not enough, you can also write `r"---()---"` (you can insert as many dashes as you want to match your string).
+If you need to match "()", you can also change the opening parentheses: `r"[]"` or `r"{}"`. If this is not enough, you can also write `r"---(rawstring)---"` (you can insert as many dashes as you want to match your string).
 
 ```{r}
 parentheses <- "a * (b + c)"
 
-parentheses |> str_view(r"(b+)")
-parentheses |> str_view(r"[\(b +]")
+parentheses |> str_view(r"(b \+)")
+parentheses |> str_view(r"[\(b \+]")
 
 square_brackets <- "[a/c + (a*c)]"
 
@@ -388,20 +384,23 @@ You can also define sets of multiple characters using the `[ ]` meta characters.
 ```{r}
 sp_ce <- c("spice", "space")
 
-str_view(sp_ce, "sp[ai]ce", match = NA)
-```
-
-```{r eval=FALSE, include=FALSE}
-str_c(sp_ce, collapse = "\n") |> cat()
+str_view(sp_ce, "sp[ia]ce", match = NA)
 ```
 
 You can also define certain ranges of characters using the `-` metacharacter:
+
+```{r}
+sp_ce <- c("spice", "space")
+
+str_view(sp_ce, "sp[a-g]ce", match = NA)
+```
 
 Same holds for numbers:
 
 ```{r}
 american_phone_number <- "(555) 555-1234"
 
+str_view(american_phone_number, "\\([0-9]{3}\\) [0-9]{3}-[0-9]{4}", match = NA)
 str_view(american_phone_number, "\\([:digit:]{3}\\) [0-9]{3}-[0-9]{4}", match = NA)
 ```
 
@@ -411,11 +410,6 @@ Furthermore, you can put almost every meta character inside the square brackets 
 
 ```{r}
 str_view(vector_of_strings, "[.]", match = NA)
-```
-
-```{r eval=FALSE, include=FALSE}
-str_c(vector_of_strings, collapse = "\n") |> cat()
-regexplain::regexplain_gadget()
 ```
 
 #### Negating sets of characters
@@ -442,7 +436,7 @@ str_view("abbbaaababbbbabab", "ab*")
 
 Now the "ab"s are seen as an entity and can be multiplied.
 
-Another useful feature is that you can use groupings and later to the groups using \\1 (for the first group), \\2 (for the second group), etc.
+Another useful feature is that you can use groupings and refer to the groups using \\1 (for the first group), \\2 (for the second group), etc.
 
 This is for instance handy in an `str_replace()`:
 ```{r}
@@ -462,7 +456,7 @@ There is also a way to define whether you want the pattern to be present in the 
 ```{r}
 shortened_sentences <- sentences[1:10]
 
-str_view(shortened_sentences, "^The")
+str_view(shortened_sentences, regex("^the", ignore_case = TRUE), match = NA)
 ```
 
 If we wanted to know how many start with a "The" and end with a full stop, we could do this one:
@@ -470,7 +464,6 @@ If we wanted to know how many start with a "The" and end with a full stop, we co
 ```{r}
 str_view(shortened_sentences, "^The.+\\.$")
 ```
-
 
 #### Boundaries
 
@@ -489,11 +482,6 @@ A final common task is to extract certain words or values based on what comes be
 
 ```{r}
 heights <- c("1m30cm", "2m01cm", "3m10cm")
-```
-
-```{r eval=FALSE, include=FALSE}
-str_c(heights, collapse = "\n") |> cat()
-regexplain::regexplain_gadget()
 ```
 
 Here, to identify the height in meters, the first task is to identify all the numbers that are followed by an "m". The RegEx syntax for this looks like this: `A(?=pattern)` with `A` being the entity that is supposed to be found (hence, in this case, \[0-9\]+).
@@ -628,7 +616,7 @@ This also works very well in a `dplyr::filter()` call. Finding all action movies
 ```{r}
 imdb_raw <- read_csv("https://www.dropbox.com/s/81o3zzdkw737vt0/imdb2006-2016.csv?dl=1")
 imdb_raw |> 
-  filter(str_detect(Genre, "Action"))
+  filter(str_detect(Genre, "Adventure"))
 ```
 
 If you want to know whether there are multiple matches present in each string, you can use `str_count`. Here, it might be advisable to set the `ignore_case` option to `TRUE`:
@@ -668,7 +656,7 @@ str_replace_all(heights, "m", "meters")
 However, we also want to replace the "cm" with "centimeters," hence, we can harness another feature of `str_replace_all()`, providing multiple replacements:
 
 ```{r}
-str_replace_all(heights, c("m" = "meters", "cm" = "centimeters"))
+str_replace_all(heights, c("cm" = "centimeters", "m" = "meters"))
 ```
 
 What becomes obvious is that a "simple" RegEx containing just literal characters more often than not does not suffice. It will be your task to fix this. And while on it, you can also address the meter/meters problem -- a "1" needs meter instead of meters. Another feature is that the replacements are performed in order. You can harness this for solving the problem.
