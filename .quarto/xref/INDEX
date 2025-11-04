@@ -46,5 +46,11 @@
   },
   "7_scraping.qmd": {
     "7_scraping.html": "29ed8c61"
+  },
+  "8_selenium.qmd": {
+    "8_selenium.html": "26049b5b"
+  },
+  "9_apis.qmd": {
+    "9_apis.html": "838b6828"
   }
 }

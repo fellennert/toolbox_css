@@ -63,6 +63,7 @@ Not very human. We can set it to a common one using the `httr` package (which po
 
 ```{r}
 user_a <- user_agent("Mozilla/5.0 (Macintosh; Intel Mac OS X 12_0_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36")
+
 session_with_ua <- session("https://scrapethissite.com/", user_a)
 session_with_ua$response$request$options$useragent
 ```
@@ -92,7 +93,7 @@ You can also click buttons on the page using CSS selectors or XPATHs (more on th
 ```{r}
 session_with_ua <- session_with_ua |> 
   session_jump_to("https://www.scrapethissite.com/") |> 
-  session_follow_link(css = ".btn-primary")
+  session_follow_link(css = ".btn-default")
 
 session_with_ua
 ```
@@ -282,7 +283,6 @@ The `<p>` tag makes sure that the text is standing by itself and that a line bre
 `<p>My cat is very grumpy</p>. And so is my dog.` would look like this:
 
 <p>My cat is very grumpy</p>
-
 . And so is my dog.
 
 There do exist many types of tags indicating different kinds of elements (about 100). Every page's content must be in an `<html>` element with two children `<head>` and `<body>`. The former contains the page title and some metadata, the latter the contents you are seeing in your browser. So-called **block tags**, e.g., `<h1>` (heading 1), `<p>` (paragraph), or `<ol>` (ordered list), structure the page. **Inline tags** (`<b>` -- bold, `<a>` -- link) format text inside block tags.
@@ -436,7 +436,7 @@ A "real example" would then look like this:
 ```{r}
 us_senators <- read_html("https://en.wikipedia.org/wiki/List_of_current_United_States_senators")
 text <- us_senators |>
-  html_elements(css = "p:nth-child(6)") |> 
+  html_elements(css = "p:nth-child(8)") |> 
   html_text2()
 ```
 
@@ -481,7 +481,7 @@ A quick check with the SelectorGadget told me that the element I am looking for 
 
 ```{r include=FALSE}
 r_blogger_postings <- rbloggers |> html_elements(css = ".loop-title a")
-
+r_blogger_postings |> html_text()
 r_blogger_postings |> html_attrs()
 ```
 
@@ -497,7 +497,7 @@ tibble(
 Another approach for this would be using the `polite` package and its function `html_attrs_dfr()` which binds together all the different attributes column-wise and the different elements row-wise.
 
 ```{r message=FALSE, warning=FALSE}
-rbloggers |> 
+t <- rbloggers |> 
   html_elements(css = ".loop-title a") |> 
   html_attrs_dfr() |> 
   select(title = 3, 

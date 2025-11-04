@@ -1,0 +1,15 @@
+---
+title: "Week 4: `selenium` and APIs"
+published-title: week_4
+engine: knitr
+freeze: auto
+---
+
+This lecture answers the following questions:
+
+- How do I control a browser? (Tuesday)
+- How can I communicate with an API? (Thursday)
+
+## Slides 
+
+There are no slides, just the R script. 

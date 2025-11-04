@@ -324,8 +324,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Not very human. We can set it to a common one using the <code>httr</code> package (which powers <code>rvest</code>).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>user_a <span class="ot">&lt;-</span> <span class="fu">user_agent</span>(<span class="st">"Mozilla/5.0 (Macintosh; Intel Mac OS X 12_0_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36"</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>session_with_ua <span class="ot">&lt;-</span> <span class="fu">session</span>(<span class="st">"https://scrapethissite.com/"</span>, user_a)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>session_with_ua<span class="sc">$</span>response<span class="sc">$</span>request<span class="sc">$</span>options<span class="sc">$</span>useragent</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>session_with_ua <span class="ot">&lt;-</span> <span class="fu">session</span>(<span class="st">"https://scrapethissite.com/"</span>, user_a)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>session_with_ua<span class="sc">$</span>response<span class="sc">$</span>request<span class="sc">$</span>options<span class="sc">$</span>useragent</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_0_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36"</code></pre>
 </div>
@@ -357,16 +358,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>session_with_ua <span class="ot">&lt;-</span> session_with_ua <span class="sc">|&gt;</span> </span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">session_jump_to</span>(<span class="st">"https://www.scrapethissite.com/"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">session_follow_link</span>(<span class="at">css =</span> <span class="st">".btn-primary"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">session_follow_link</span>(<span class="at">css =</span> <span class="st">".btn-default"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Navigating to &lt;/lessons/&gt;.</code></pre>
+<pre><code>Navigating to &lt;/pages/&gt;.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>session_with_ua</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;session&gt; http://www.scrapethissite.com/lessons/sign-up/
+<pre><code>&lt;session&gt; https://www.scrapethissite.com/pages/
   Status: 200
   Type:   text/html; charset=utf-8
-  Size:   24168</code></pre>
+  Size:   10603</code></pre>
 </div>
 </div>
 <p>Wanna go back – <code>session_back()</code>; thereafter you can go <code>session_forward()</code>, too.</p>
@@ -386,10 +387,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>session_with_ua</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;session&gt; http://www.scrapethissite.com/lessons/sign-up/
+<pre><code>&lt;session&gt; https://www.scrapethissite.com/pages/
   Status: 200
   Type:   text/html; charset=utf-8
-  Size:   24168</code></pre>
+  Size:   10603</code></pre>
 </div>
 </div>
 <p>You can look at what your scraper has done with <code>session_history()</code>.</p>
@@ -399,7 +400,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>  https://www.scrapethissite.com/
   https://www.scrapethissite.com/pages/
   https://www.scrapethissite.com/
-- http://www.scrapethissite.com/lessons/sign-up/</code></pre>
+- https://www.scrapethissite.com/pages/</code></pre>
 </div>
 </div>
 </section>
@@ -528,7 +529,7 @@ Solution. Click to expand!
   .. ..$ value: chr "Auf gut GlÃck!"
   .. ..$ attr :List of 5
   .. .. ..$ class: chr "lsb"
-  .. .. ..$ id   : chr "tsuid_URsDaZ7UO9TSi-gP-Oy5sAI_1"
+  .. .. ..$ id   : chr "tsuid_FvgJacXmE7Oqi-gPxNaC6AI_1"
   .. .. ..$ value: chr "Auf gut GlÃck!"
   .. .. ..$ name : chr "btnI"
   .. .. ..$ type : chr "submit"
@@ -536,9 +537,9 @@ Solution. Click to expand!
   ..$ iflsig:List of 4
   .. ..$ type : chr "hidden"
   .. ..$ name : chr "iflsig"
-  .. ..$ value: chr "AOw8s4IAAAAAaQMpYUzfSWxHiho1cpVy77ocxUGbC6wc"
+  .. ..$ value: chr "AOw8s4IAAAAAaQoGJnA90H3dOEa-5jRMQx0IwrHxs2ah"
   .. ..$ attr :List of 3
-  .. .. ..$ value: chr "AOw8s4IAAAAAaQMpYUzfSWxHiho1cpVy77ocxUGbC6wc"
+  .. .. ..$ value: chr "AOw8s4IAAAAAaQoGJnA90H3dOEa-5jRMQx0IwrHxs2ah"
   .. .. ..$ name : chr "iflsig"
   .. .. ..$ type : chr "hidden"
   .. ..- attr(*, "class")= chr "rvest_field"
@@ -561,7 +562,7 @@ Solution. Click to expand!
 <pre><code>{html_document}
 &lt;html lang="de"&gt;
 [1] &lt;head&gt;\n&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8 ...
-[2] &lt;body jsmodel="hspDDf "&gt;\n&lt;script nonce="bBV8WMmQJ6MzLdiW4XT-DQ"&gt;(functio ...</code></pre>
+[2] &lt;body jsmodel="hspDDf "&gt;\n&lt;script nonce="GXNe3TnUGb0wyoHiYWJCbw"&gt;(functio ...</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>vals <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">q =</span> <span class="st">"web scraping"</span>, <span class="at">hl =</span> <span class="st">"fr"</span>)</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -574,7 +575,7 @@ Solution. Click to expand!
 <pre><code>{html_document}
 &lt;html lang="fr-DE"&gt;
 [1] &lt;head&gt;\n&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8 ...
-[2] &lt;body jsmodel="hspDDf "&gt;\n&lt;script nonce="UO6-5piK9KNgvPKR-xkMSw"&gt;(functio ...</code></pre>
+[2] &lt;body jsmodel="hspDDf "&gt;\n&lt;script nonce="wZ3jQh2SAY9K8gwmEOgsWw"&gt;(functio ...</code></pre>
 </div>
 </div>
 <p>If you are working with a session, the workflow is as follows:</p>
@@ -600,7 +601,7 @@ Solution. Click to expand!
 <pre><code>{html_document}
 &lt;html lang="de"&gt;
 [1] &lt;head&gt;\n&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8 ...
-[2] &lt;body jsmodel="hspDDf "&gt;\n&lt;script nonce="ye-998TIHqlWiL2YIUUmnw"&gt;(functio ...</code></pre>
+[2] &lt;body jsmodel="hspDDf "&gt;\n&lt;script nonce="MZVTNJoq6vQu865l4xWGLw"&gt;(functio ...</code></pre>
 </div>
 </div>
 </section>
@@ -874,7 +875,7 @@ This should start on a new line</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>us_senators <span class="ot">&lt;-</span> <span class="fu">read_html</span>(<span class="st">"https://en.wikipedia.org/wiki/List_of_current_United_States_senators"</span>)</span>
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>text <span class="ot">&lt;-</span> us_senators <span class="sc">|&gt;</span></span>
-<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_elements</span>(<span class="at">css =</span> <span class="st">"p:nth-child(6)"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_elements</span>(<span class="at">css =</span> <span class="st">"p:nth-child(8)"</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_text2</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -1170,31 +1171,31 @@ $ `Residence[4]`               &lt;chr&gt; "Auburn[5]", "Montgomery", "Girdwood"
 <pre><code># A tibble: 20 × 2
    title                                                                   link 
    &lt;chr&gt;                                                                   &lt;chr&gt;
- 1 Of course, someone has to write imperative code to build reproducible … http…
- 2 Elevate Your Data Skills with Jumping Rivers Training                   http…
- 3 GSS Release                                                             http…
- 4 An update to Open Trade Statistics to showcase Tabler and D3po          http…
- 5 September 2025 Top 40 New CRAN Packages                                 http…
- 6 Using D3po with Tabler                                                  http…
- 7 Tabler 0.1.0 is here!                                                   http…
- 8 Double Descent Explained                                                http…
- 9 Approximating evidence via bounded harmonic means (and HPD regions wit… http…
-10 Mapping Antarctica                                                      http…
-11 rOpenSci News Digest, October 2025                                      http…
-12 EuroBioC2025 conference recap                                           http…
-13 Change is good, so don’t change my change                               http…
-14 Be Mindful of the Time                                                  http…
-15 Orchestrating Polyglot, Reproducible Data Science with Nix and {rixpre… http…
-16 The use of SAT/ACT for college admissions                               http…
-17 Go for Launch! Packages Shipped to the R-Multiverse                     http…
-18 Rfuzzycoco released on CRAN                                             http…
-19 Compositional modeling of plant communities with Dirichlet regression   http…
-20 gssrdoc Updates                                                         http…</code></pre>
+ 1 Data centers                                                            http…
+ 2 Highlights from Shiny in Production (2025)                              http…
+ 3 maestro 0.7.0 introduces conditional pipelines                          http…
+ 4 Behavior-Driven Development in R Shiny: Setting Up Test Preconditions … http…
+ 5 An Introduction to Writing Your Own ggplot2 Geoms                       http…
+ 6 Country codes                                                           http…
+ 7 Little useless-useful R functions – Useless Pyramid of R needs          http…
+ 8 Ridgelines                                                              http…
+ 9 Taming Volatility: High-Performance Forecasting of the STOXX 600 with … http…
+10 Eight-thousanders                                                       http…
+11 Prussian Horse Kicks II: Mixed Effects Models                           http…
+12 Simplifying Interactions with Complex Widgets in shinytest2 Using Java… http…
+13 New Council Members                                                     http…
+14 Pledging My Time VII                                                    http…
+15 ¿Qué es el Índice de Gini y cómo calcularlo?                            http…
+16 R 4.5.1 – Batteries Included                                            http…
+17 Of course, someone has to write imperative code to build reproducible … http…
+18 Elevate Your Data Skills with Jumping Rivers Training                   http…
+19 GSS Release                                                             http…
+20 An update to Open Trade Statistics to showcase Tabler and D3po          http…</code></pre>
 </div>
 </div>
 <p>Another approach for this would be using the <code>polite</code> package and its function <code>html_attrs_dfr()</code> which binds together all the different attributes column-wise and the different elements row-wise.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>rbloggers <span class="sc">|&gt;</span> </span>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> rbloggers <span class="sc">|&gt;</span> </span>
 <span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_elements</span>(<span class="at">css =</span> <span class="st">".loop-title a"</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_attrs_dfr</span>() <span class="sc">|&gt;</span> </span>
 <span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="at">title =</span> <span class="dv">3</span>, </span>
@@ -1203,8 +1204,8 @@ $ `Residence[4]`               &lt;chr&gt; "Auburn[5]", "Montgomery", "Girdwood"
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 20
 Columns: 2
-$ title &lt;chr&gt; "Of course, someone has to write imperative code to build reprod…
-$ link  &lt;chr&gt; "https://www.r-bloggers.com/2025/10/of-course-someone-has-to-wri…</code></pre>
+$ title &lt;chr&gt; "Data centers", "Highlights from Shiny in Production (2025)", "m…
+$ link  &lt;chr&gt; "https://www.r-bloggers.com/2025/11/data-centers/", "https://www…</code></pre>
 </div>
 </div>
 </section>
@@ -1476,7 +1477,7 @@ Solution. Click to expand!
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/fellennert\.github\.io\/toolbox_css\/");
+        var filterRegex = new RegExp('/' + window.location.host + '/');
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
