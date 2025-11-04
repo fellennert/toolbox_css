@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://fellennert.github.io/toolbox_css/9_apis.html</loc>
+    <lastmod>2025-11-04T12:59:50.510Z</lastmod>
+  </url>
+  <url>
     <loc>https://fellennert.github.io/toolbox_css/6_stringr_regex.html</loc>
-    <lastmod>2025-10-30T08:31:43.843Z</lastmod>
+    <lastmod>2025-10-30T15:43:46.854Z</lastmod>
   </url>
   <url>
     <loc>https://fellennert.github.io/toolbox_css/lectures-week_3.html</loc>
@@ -13,32 +17,36 @@
     <lastmod>2025-10-23T11:04:44.198Z</lastmod>
   </url>
   <url>
-    <loc>https://fellennert.github.io/toolbox_css/lectures-overview.html</loc>
-    <lastmod>2025-10-10T05:41:10.000Z</lastmod>
+    <loc>https://fellennert.github.io/toolbox_css/8_selenium.html</loc>
+    <lastmod>2025-11-04T12:56:39.126Z</lastmod>
   </url>
   <url>
-    <loc>https://fellennert.github.io/toolbox_css/7_scraping.html</loc>
-    <lastmod>2025-10-30T08:01:15.908Z</lastmod>
-  </url>
-  <url>
-    <loc>https://fellennert.github.io/toolbox_css/index.html</loc>
-    <lastmod>2025-10-30T08:04:00.172Z</lastmod>
-  </url>
-  <url>
-    <loc>https://fellennert.github.io/toolbox_css/3_reticulate.html</loc>
-    <lastmod>2025-10-21T12:36:56.403Z</lastmod>
-  </url>
-  <url>
-    <loc>https://fellennert.github.io/toolbox_css/5_pandas.html</loc>
-    <lastmod>2025-10-29T06:22:45.674Z</lastmod>
+    <loc>https://fellennert.github.io/toolbox_css/1_r_index.html</loc>
+    <lastmod>2025-10-22T14:16:37.024Z</lastmod>
   </url>
   <url>
     <loc>https://fellennert.github.io/toolbox_css/syllabus/syllabus_toolboxCSS_winter2526.html</loc>
     <lastmod>2025-10-30T07:49:42.908Z</lastmod>
   </url>
   <url>
-    <loc>https://fellennert.github.io/toolbox_css/1_r_index.html</loc>
-    <lastmod>2025-10-22T14:16:37.024Z</lastmod>
+    <loc>https://fellennert.github.io/toolbox_css/5_pandas.html</loc>
+    <lastmod>2025-10-29T06:22:45.674Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fellennert.github.io/toolbox_css/3_reticulate.html</loc>
+    <lastmod>2025-10-21T12:36:56.403Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fellennert.github.io/toolbox_css/index.html</loc>
+    <lastmod>2025-10-30T08:04:00.172Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fellennert.github.io/toolbox_css/7_scraping.html</loc>
+    <lastmod>2025-10-30T15:43:44.092Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fellennert.github.io/toolbox_css/lectures-overview.html</loc>
+    <lastmod>2025-10-10T05:41:10.000Z</lastmod>
   </url>
   <url>
     <loc>https://fellennert.github.io/toolbox_css/2_r_catch-up.html</loc>
@@ -51,5 +59,9 @@
   <url>
     <loc>https://fellennert.github.io/toolbox_css/lectures-week_2.html</loc>
     <lastmod>2025-10-28T14:12:04.946Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fellennert.github.io/toolbox_css/lectures-week_4.html</loc>
+    <lastmod>2025-11-04T12:59:40.037Z</lastmod>
   </url>
 </urlset>
