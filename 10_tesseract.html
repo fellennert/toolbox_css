@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Chapter 9: APIs – Toolbox CSS</title>
+<title>Chapter 10: OCR with tesseract – Toolbox CSS</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -242,14 +242,12 @@ div.csl-indent {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#application-programming-interfaces-apis" id="toc-application-programming-interfaces-apis" class="nav-link active" data-scroll-target="#application-programming-interfaces-apis">Application Programming Interfaces (APIs)</a>
-  <ul class="collapse">
-  <li><a href="#obtaining-their-data" id="toc-obtaining-their-data" class="nav-link" data-scroll-target="#obtaining-their-data">Obtaining their data</a></li>
-  <li><a href="#making-queries" id="toc-making-queries" class="nav-link" data-scroll-target="#making-queries">Making queries</a></li>
-  <li><a href="#json" id="toc-json" class="nav-link" data-scroll-target="#json">JSON</a></li>
-  <li><a href="#dealing-with-authentification" id="toc-dealing-with-authentification" class="nav-link" data-scroll-target="#dealing-with-authentification">Dealing with authentification</a></li>
-  </ul></li>
+  <li><a href="#install-tesseract-and-download-language-packages" id="toc-install-tesseract-and-download-language-packages" class="nav-link active" data-scroll-target="#install-tesseract-and-download-language-packages">Install <code>tesseract</code> and download language packages</a></li>
+  <li><a href="#ocr-101" id="toc-ocr-101" class="nav-link" data-scroll-target="#ocr-101">OCR 101</a></li>
+  <li><a href="#advanced-ocr-with-magick-preprocessing" id="toc-advanced-ocr-with-magick-preprocessing" class="nav-link" data-scroll-target="#advanced-ocr-with-magick-preprocessing">Advanced OCR with <code>magick</code> preprocessing</a></li>
+  <li><a href="#read-pdfs" id="toc-read-pdfs" class="nav-link" data-scroll-target="#read-pdfs">Read PDFs</a></li>
   <li><a href="#further-links" id="toc-further-links" class="nav-link" data-scroll-target="#further-links">Further links</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
   </ul>
 </nav>
     </div>
@@ -258,7 +256,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Chapter 9: APIs</h1>
+<h1 class="title">Chapter 10: OCR with <code>tesseract</code></h1>
 </div>
 
 
@@ -275,239 +273,311 @@ div.csl-indent {
 </header>
 
 
-<p>In the prior chapter you were shown how to make calls to web pages and get responses. In this chapter, we will cover making calls to APIs which (usually) give you content in a nice and structured manner.</p>
-<section id="application-programming-interfaces-apis" class="level2">
-<h2 class="anchored" data-anchor-id="application-programming-interfaces-apis">Application Programming Interfaces (APIs)</h2>
+<p>This chapter demonstrates how you can read images and PDF documents into R in an automated fashion. Note that OCR is not always perfect and you might have to do some significant pre- and/or post-processing. I have included some classic pre-processing commands from the <code>magick</code> package, post-processing will usually be conducted using RegExes.</p>
+<section id="install-tesseract-and-download-language-packages" class="level2">
+<h2 class="anchored" data-anchor-id="install-tesseract-and-download-language-packages">Install <code>tesseract</code> and download language packages</h2>
 <div class="cell">
 <div class="cell-output-display">
 <div class="vembedr">
 <div>
-<iframe src="https://www.youtube.com/embed/j64y6K2TAu4" width="533" height="300" frameborder="0" allowfullscreen="" data-external="1"></iframe>
+<iframe src="https://www.youtube.com/embed/2Gx6Mi16g8E" width="533" height="300" frameborder="0" allowfullscreen="" data-external="1"></iframe>
 </div>
 </div>
 </div>
 </div>
-<p>While web scraping (or <em>screen scraping</em>, as you extract the stuff that appears on your screen) is certainly fun, it should be seen as a last resort. More and more web platforms provide so-called Application Programming Interfaces (APIs).</p>
-<blockquote class="blockquote">
-<p>“An application programming interface (API) is a connection between computers or between computer programs.” (<a href="https://en.wikipedia.org/wiki/API">Wikipedia</a>)</p>
-</blockquote>
-<p>There are a bunch of different sorts of APIs, but the most common one is the REST API. REST stands for “REpresentational State Transfer” and describes a set of rules the API designers are supposed to obey when developing their particular interface. You can make different requests, such as <em>GET</em> content, <em>POST</em> a file to a server – <code>PUT</code> is similar, or request to <code>DELETE</code> a file. We will only focus on the <code>GET</code> part.</p>
-<p>APIs offer you a structured way to communicate with the platform via your machine. In our use case, this means that you can get the data you want in a usually well-structured format and without all the “dirt” that you need to scrape off tediously (enough web scraping metaphors for today). With APIs, you can generally quite clearly define what you want and how you want it. In R, we achieve this by using the <code>httr</code> <span class="citation" data-cites="wickham_httr_2020">(<a href="#ref-wickham_httr_2020" role="doc-biblioref">Wickham 2020</a>)</span> package. Moreover, using APIs does not bear the risk of acquiring the information you are not supposed to access and you also do not need to worry about the server not being able to handle the load of your requests (usually, there are rate limits in place to address this particular issue). However, it’s not all fun and games with APIs: they might give you their data in a special format, both XML and JSON are common. The former is the one <code>rvest</code> uses as well, the latter can be tamed using <code>jsonlite</code> <span class="citation" data-cites="ooms_jsonlite_2020">(<a href="#ref-ooms_jsonlite_2020" role="doc-biblioref">Ooms, Temple Lang, and Hilaiel 2020</a>)</span> which is to be introduced as well. Moreover, you usually have to ask the platform for permission and perhaps pay to get it. Once you have received the keys you need, you can tell R to fill them automatically, similar to how your browser knows your Amazon password, etc.; <code>usethis</code> <span class="citation" data-cites="wickham_usethis_2021">(<a href="#ref-wickham_usethis_2021" role="doc-biblioref">Wickham et al. 2021</a>)</span> can help you with such tasks.</p>
-<p>The best thing that can happen with APIs: some of them are so popular that people have already written specific R packages for working with them – an overview can be found on the <a href="https://ropensci.org/packages/data-access/">ROpenSci website</a>. One example of this was Twitter and the <code>rtweet</code> package <span class="citation" data-cites="kearney_rtweet_2019">(<a href="#ref-kearney_rtweet_2019" role="doc-biblioref">Kearney 2019</a>)</span>.</p>
-<section id="obtaining-their-data" class="level3">
-<h3 class="anchored" data-anchor-id="obtaining-their-data">Obtaining their data</h3>
-<p>API requests are performed using URLs. Those start with the <em>basic address of the API</em> (e.g., https://api.nytimes.com), followed by the <em>endpoint</em> that you want to use (e.g., /lists). They also contain so-called <em>headers</em> which are provided as key-value pairs. Those headers can contain for instance authentication tokens or different search parameters. A request to the New York Times API to obtain articles for January 2019 would then look like this: https://api.nytimes.com/svc/archive/v1/2019/1.json?api-key=yourkey.</p>
-<p>At most APIs, you will have to register first. As we will play with the New York Times API, do this <a href="https://developer.nytimes.com/get-started">here</a>.</p>
+<p>Before we can start OCRing images, we need to install <code>tesseract</code> via the command line. The reason for this is that the R package merely binds to the engine, but the OCRing happens “under the hood.” You can find instructions on how to install <code>tesseract</code> for your respective operating system <a href="https://tesseract-ocr.github.io/tessdoc/Installation.html">here</a>.</p>
+<p>Once successfully installed, we can just load the package. In order to get the best results, we need to define the language our text is in. Multiple options are available (for a list of languages, <a href="https://ports.macports.org/search/?q=tesseract-&amp;name=on">see this website</a>) and can be downloaded using <code>tesseract::tesseract_download()</code> (for Mac and Windows users).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(tesseract)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>english <span class="ot">&lt;-</span> <span class="fu">tesseract</span>(<span class="st">"eng"</span>) <span class="co"># use English model</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tesseract_download</span>(<span class="st">"deu"</span>) <span class="co"># download German language model</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Training data already exists. Overwriting /Users/felixlennert/Library/Application Support/tesseract5/tessdata/deu.traineddata</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "/Users/felixlennert/Library/Application Support/tesseract5/tessdata/deu.traineddata"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tesseract_info</span>()[[<span class="st">"available"</span>]] <span class="co"># check available languages</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "deu"  "eng"  "osd"  "snum"</code></pre>
+</div>
+</div>
 </section>
-<section id="making-queries" class="level3">
-<h3 class="anchored" data-anchor-id="making-queries">Making queries</h3>
-<p>A basic query is performed using the <code>GET()</code> function. However, first, you need to define the call you want to make. The different keys and values they can take can be found in the <a href="https://developer.nytimes.com/docs/timeswire-product/1/overview">API documentation</a>. Of course, there is also a neater way to deal with the key problem. We will show it later.</p>
+<section id="ocr-101" class="level2">
+<h2 class="anchored" data-anchor-id="ocr-101">OCR 101</h2>
+<p>Once the package and the language module is installed, you can start OCRing. For illustration purposes, we OCR the first paragraph of the RStudio Wikipedia article:</p>
+<p><img src="figures/rstudio_wiki.png" class="img-fluid"></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(httr, jsonlite, tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#see overview here: https://developer.nytimes.com/docs/timeswire-product/1/overview</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>key <span class="ot">&lt;-</span> <span class="fu">Sys.getenv</span>(<span class="st">"nyt_key"</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>key <span class="ot">&lt;-</span> <span class="st">"5bvQ82VImpOI3UGidss5zhkZOFZtXwpx"</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>nyt_headlines <span class="ot">&lt;-</span> <span class="fu">modify_url</span>(</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">url =</span> <span class="st">"https://api.nytimes.com/"</span>,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="st">"svc/news/v3/content/nyt/business.json"</span>,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">query =</span> <span class="fu">list</span>(<span class="st">`</span><span class="at">api-key</span><span class="st">`</span> <span class="ot">=</span> key)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>response <span class="ot">&lt;-</span> <span class="fu">GET</span>(nyt_headlines)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>response</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ocr</span>(<span class="st">"figures/rstudio_wiki.png"</span>, <span class="at">engine =</span> english)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Response [https://api.nytimes.com/svc/news/v3/content/nyt/business.json?api-key=5bvQ82VImpOI3UGidss5zhkZOFZtXwpx]
-  Date: 2025-11-06 10:24
-  Status: 200
-  Content-Type: application/json; charset=utf-8
-  Size: 50.2 kB
-{"status":"OK","copyright":"Copyright (c) 2025 The New York Times Company. Al...</code></pre>
+<pre><code>[1] "RStudio IDE (or RStudio) is an integrated development environment for R, a\nprogramming language for statistical computing and graphics. It is available in two\nformats: RStudio Desktop is a regular desktop application while RStudio Server runs on\na remote server and allows accessing RStudio using a web browser. The RStudio IDE\nis a product of Posit PBC (formerly RStudio PBC, formerly RStudio Inc.).\n"</code></pre>
 </div>
 </div>
-<p>When it comes to the <a href="https://developer.nytimes.com/docs/timeswire-product/1/overview">NYT news API</a>, there is the problem that the type of section is specified not in the query but in the endpoint path itself. Hence, if we were to scrape the different sections, we would have to change the path itself, e.g., through <code>str_c()</code> or <code>httr::modify_url()</code>.</p>
+<p>Note that there are still line breaks in there. We can easily replace them with whitespace them using <code>stringr::str_replace_all()</code>. Make sure to remove redundant whitespaces using <code>stringr::str_squish()</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>paths <span class="ot">&lt;-</span> <span class="fu">str_c</span>(<span class="st">"svc/news/v3/content/nyt/"</span>, <span class="fu">c</span>(<span class="st">"business"</span>, <span class="st">"world"</span>), <span class="st">".json"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(paths, </span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    \(x) <span class="fu">GET</span>(<span class="fu">modify_url</span>(</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">url =</span> <span class="st">"https://api.nytimes.com/"</span>,</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">path =</span> x,</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">query =</span> <span class="fu">list</span>(<span class="st">`</span><span class="at">api-key</span><span class="st">`</span> <span class="ot">=</span> key))</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(tidyverse)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ocr</span>(<span class="st">"figures/rstudio_wiki.png"</span>, <span class="at">engine =</span> english) <span class="sc">|&gt;</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_replace_all</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">n"</span>, <span class="st">" "</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_squish</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[[1]]
-Response [https://api.nytimes.com/svc/news/v3/content/nyt/business.json?api-key=5bvQ82VImpOI3UGidss5zhkZOFZtXwpx]
-  Date: 2025-11-06 10:24
-  Status: 200
-  Content-Type: application/json; charset=utf-8
-  Size: 50.2 kB
-{"status":"OK","copyright":"Copyright (c) 2025 The New York Times Company. Al...
-
-[[2]]
-Response [https://api.nytimes.com/svc/news/v3/content/nyt/world.json?api-key=5bvQ82VImpOI3UGidss5zhkZOFZtXwpx]
-  Date: 2025-11-06 10:24
-  Status: 200
-  Content-Type: application/json; charset=utf-8
-  Size: 53.5 kB
-{"status":"OK","copyright":"Copyright (c) 2025 The New York Times Company. Al...</code></pre>
+<pre><code>[1] "RStudio IDE (or RStudio) is an integrated development environment for R, a programming language for statistical computing and graphics. It is available in two formats: RStudio Desktop is a regular desktop application while RStudio Server runs on a remote server and allows accessing RStudio using a web browser. The RStudio IDE is a product of Posit PBC (formerly RStudio PBC, formerly RStudio Inc.)."</code></pre>
 </div>
 </div>
-<p>The <code>Status:</code> code you want to see here is <code>200</code> which stands for success. If you want to put it inside a function, you might want to break the function once you get a non-successful query. <code>http_error()</code> or <code>http_status()</code> are your friends here.</p>
+<p>If we want deeper insights to the confidence <code>tesseract</code> has in its word guesses, use <code>tesseract::ocr_data()</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>response <span class="sc">|&gt;</span> <span class="fu">http_error</span>() <span class="co"># can be used in if...else</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ocr_data</span>(<span class="st">"figures/rstudio_wiki.png"</span>, <span class="at">engine =</span> english)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] FALSE</code></pre>
+<pre><code># A tibble: 63 × 3
+   word        confidence bbox           
+   &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;          
+ 1 RStudio           91.8 14,18,134,43   
+ 2 IDE               96.6 145,19,196,42  
+ 3 (or               93.3 207,18,245,49  
+ 4 RStudio)          92.9 256,18,385,49  
+ 5 is                96.3 397,19,418,43  
+ 6 an                96.3 429,24,461,43  
+ 7 integrated        96.5 474,18,612,49  
+ 8 development       93.7 624,18,806,49  
+ 9 environment       96.5 816,19,991,43  
+10 for               93.2 1001,18,1038,43
+# ℹ 53 more rows</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>response <span class="sc">|&gt;</span> <span class="fu">http_status</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>$category
-[1] "Success"
-
-$reason
-[1] "OK"
-
-$message
-[1] "Success: (200) OK"</code></pre>
 </div>
-</div>
-<p><code>content()</code> will give you the content of the request.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>response <span class="sc">|&gt;</span> <span class="fu">content</span>() <span class="sc">|&gt;</span> <span class="fu">str</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>What you see is also the content of the call – which is what we want. It is in a format that we cannot work with right away, though, it is in JSON.</p>
 </section>
-<section id="json" class="level3">
-<h3 class="anchored" data-anchor-id="json">JSON</h3>
-<p>The following unordered list is stolen from this <a href="https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/intro-to-JSON/">blog entry</a>:</p>
+<section id="advanced-ocr-with-magick-preprocessing" class="level2">
+<h2 class="anchored" data-anchor-id="advanced-ocr-with-magick-preprocessing">Advanced OCR with <code>magick</code> preprocessing</h2>
+<p>This worked quite well. One reason for this is that screenshots from the internet are usually very “clean.” However, often this is not the case, especially with book scans. There might be some noise/speckles in the image, some skewed text, etc. In our next example, we OCR the first page of the “Text As Data” book and preprocess it with <code>magick</code> (find instructions for <code>magick</code> <a href="https://docs.ropensci.org/magick/articles/intro.html">here</a>)</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/tad_toc.png" class="img-fluid figure-img"></p>
+<figcaption>Table of contents of <span class="citation" data-cites="grimmer_text_2022">Grimmer, Roberts, and Stewart (<a href="#ref-grimmer_text_2022" role="doc-biblioref">2022</a>)</span></figcaption>
+</figure>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ocr</span>(<span class="st">"figures/tad_toc.png"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Preface i
+Prerequisites and Notation xvll
+Uses for This Book wl
+What This Book Is Not —
+PART |! PRELIMINARIES 1
+CHAPTER 1 Introduction 3
+1.1. How This Book Informs the Social Sciences 5
+1.2. How This Book Informs the Digital Humanities 8
+1.3 How This Book Informs Data Science in Industry
+and Government
+1.4  AGuide to This Book 2
+1.5 Conclusion *
+CHAPTER 2 Social Science Research and Text Analysis 13
+2.1 Discovery
+2.2 Measurement 18
+2.3. Inference ae
+2.4 Social Science as an Iterative and W
+Cumulative Process
+2.5 An Agnostic Approach to Text Analysis
+2.6 Discovery, Measurement, and Causal Inference:
+How the Chinese Government Censors Social
+Media 20
+2.7 Six Principles of Text Analysis 22
+2.71 Social Science Theories and Substantive
+Knowledge are Essential for Research Design 22
+2.7.2 Text Analysis does not Replace Humans—lt
+Augments Them 24
+273 Building, Refining, and Testing Social Science
+Theories Requires Iteration and Cumulation 26
+2.74 Text Analysis Methods Distill Generalizations
+from Language 28
+2.75 The Best Method Depends on the Task 29</code></pre>
+</div>
+</div>
+<p>As we can see, there are a couple of problems – some page numbers are not detected correctly, some typos, etc. Perhaps, some manual image pre-processing can help here.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(magick)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">image_read</span>(<span class="st">"figures/tad_toc.png"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">image_resize</span>(<span class="st">"90%"</span>) <span class="sc">|&gt;</span> <span class="co"># play around with this parameter</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">image_rotate</span>(<span class="at">degrees =</span> <span class="dv">3</span>) <span class="sc">|&gt;</span> <span class="co">#straighten picture</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">image_contrast</span>(<span class="at">sharpen =</span> <span class="dv">100</span>) <span class="sc">|&gt;</span>  <span class="co"># increases contrast</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">image_convert</span>(<span class="at">type =</span> <span class="st">"Grayscale"</span>) <span class="sc">|&gt;</span> <span class="co"># black and white</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">image_trim</span>() <span class="sc">|&gt;</span> <span class="co">#trim image to remove margins </span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ocr</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Preface xvii
+Prerequisites and Notation xvii
+Uses for This Book xviii
+What This Book Is Not min
+PARTI PRELIMINARIES 1
+CHAPTER 1 Introduction 3
+1.1. How This Book Informs the Social Sciences 5
+1.2 How This Book Informs the Digital Humanities 8
+1.3. How This Book Informs Data Science in Industry
+and Government 9
+1.4 A Guide to This Book 10
+1.5 Conclusion n
+CHAPTER 2 __ Social Science Research and Text Analysis 13
+2.1 Discovery 15
+2.2 Measurement 16
+2.3 Inference 17
+2.4 Social Science as an Iterative and
+Cumulative Process 7
+2.5 An Agnostic Approach to Text Analysis 18
+2.6 Discovery, Measurement, and Causal Inference:
+How the Chinese Government Censors Social
+Media 20
+2.7 Six Principles of Text Analysis 22
+2.71 Social Science Theories and Substantive
+Knowledge are Essential for Research Design 22)
+2.72 Text Analysis does not Replace Humans—It
+Augments Them 24
+2.73 Building, Refining, and Testing Social Science
+Theories Requires Iteration and Cumulation 26
+2.74 Text Analysis Methods Distill Generalizations
+from Language 28
+2.75 The Best Method Depends on the Task 29</code></pre>
+</div>
+</div>
+<p>Slight improvements! Still not perfect, but OCR hardly ever is.</p>
+</section>
+<section id="read-pdfs" class="level2">
+<h2 class="anchored" data-anchor-id="read-pdfs">Read PDFs</h2>
+<p>If we want to read PDFs, we can also harness the power of <code>tesseract</code> in combination with <code>magick</code> and <code>pdftools</code>. In this example, I ocr a multi-page PDF document containing newspaper articles.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(pdftools)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>german <span class="ot">&lt;-</span> <span class="fu">tesseract</span>(<span class="at">language =</span> <span class="st">"deu"</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>texts <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">pdf_info</span>(<span class="st">"figures/snippet_dereko.pdf"</span>)<span class="sc">$</span>pages, </span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>              \(x) {</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>                <span class="fu">pdf_render_page</span>(<span class="st">"figures/snippet_dereko.pdf"</span>, <span class="at">page =</span> x, <span class="at">dpi =</span> <span class="dv">300</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">image_read</span>() <span class="sc">|&gt;</span> <span class="co"># Convert raw image to magick image object</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">ocr</span>(<span class="at">engine =</span> german) <span class="co"># OCR</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>                }) <span class="sc">|&gt;</span> </span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reduce</span>(c)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>texts <span class="sc">|&gt;</span> <span class="fu">str_sub</span>(<span class="dv">1</span>, <span class="dv">1000</span>) <span class="sc">|&gt;</span> <span class="fu">cat</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>© Leibniz-Institut für Deutsche Sprache, Mannheim
+COSMAS II-Server, C2API-Version 4.23.8 - 21.11.2023
+glemm - a German lemmatizer, version R-2.4.4, 04.07.2022 by Cyril Belica
+Datum : Montag, den A. Dezember 2023, 20:20:01
+Archiv : W - Archiv der geschriebenen Sprache
+Korpus : D-Korpora - Korpora aus Deutschland
+Archiv-Release: Deutsches Referenzkorpus DeRekKo-2023-I
+Suchanfrage : (((nakba or (unabhängi* or staatsgründung)) and
+(palästin* or israel*)) and 1948)
+Suchoptionen : Ei+tRi+Di, Flex
+Ergebnis : 4.231 Treffer
+Belege (unsortiert)
+Anz. Treffer ı 4.231
+Anz. exportierte Belege: 4.231
+Angezeigter Kontext : 0 Absätze links, © Absätze rechts
+Kontext umschließt : gesamten Treffer
+Wie nirgends sonst ist im Heiligen Land die Kartografie eine Teildisziplin der Politik. Wer zwischen Israelis und Palästinensern pendelt, wird
+von beiden Seiten mit oft höchst unterschiedlichen Landkarten ausgestattet: Hier ist von Jerusalem, dort von Al-Quds die Rede, mal fehlen
+Grenzlinien, mal liegen sie woan bewusst als Veranstaltungsort gewählt worden. Bundesweit soll auf über 500 Veranstaltungen die Staatsgründung gefeiert werden.
+(HAZ08/FEB.05113 Hannoversche Allgemeine, 27.02.2008, S. 2; Festakt zu Ehren Israels)
+
+Geburt einer nation 60 jahre Israel
+
+P
+
+1. Aufbruch nach Palästina — Die Vorgeschichte des Neuanfangs
+
+2. Staatsgründung 1948 - Die Probleme einer neuen Existenz
+
+(HAZ08/MA1.00830 Hannoversche Allgemeine, 06.05.2008, S. 5;)
+
+Zu Besuch bei den Kibbuzniks — den wichtigsten Pionieren in Israels Gründerzeit
+
+Von Dirk Schmaler
+
+« Schluchot. Es sieht so aus, als sei er schon immer da gewesen. Der Stamm des riesigen Eukalyptusbaums ist mächtig und ragt mindestens
+20 Meter in den hellblauen Himmel. „Als wir den Kibbuz gründeten, haben wir als erstes diesen Baum gepflanzt, es war unser erstes Baby“,
+sagt Uri Landau und klopft auf das trockene Holz. Sie haben viel gemeinsam, der 80-jährige Mann mit dem sonnengegerbten Gesicht und
+dieser australische Eukalyptusbaum, der in der Siedlung  Das Auto hält sich an die religiösen Regeln am Shabbat, an dem keine Arbeit getan, kein Lichtschalter betätigt und kein Wagen gefahren
+werden soll. Der uralte Volvo von Rose Bilbool springt nicht an. Doch bei der 86 Jahre alten, energischen Dame hat ein unwilliges Vehikel
+keine Chance. Mechaniker Ahmed wird gerufen, er setzt das Auto in Gang und Rose Bilbool fährt nach Jericho.
+
+Jerusalem wirkt am Shabbat wie eine verlassene Museums-Stadt. Der dunkle Teppich auf dem Hügel voraus ist der Ölberg, in der Ferne tupft
+die Kuppel des Felsendoms einen goldenen Fleck in den Himmel. Die weißen Sandstein-Fassaden der Häuser sind heute so ziemlich das
+einzige Band, das den Osten und Westen der Stadt verbindet. (B98/FEB.12407 Berliner Zeitung, 27.02.1998; Vom Kommen und Bleiben
+[S. I)
+
+Mit der Verlesung der Unabhängigkeitserklärung durch David Ben-Gurion 1948 wird die Vision der Zionisten Realität
+
+Julius H. Schoeps
+
+Zwischen dem Baseler Kongreß 1897 und der Gründung des Staates Israel liegt ein h (B98/MA1.29532 Berliner Zeitung, 15.05.1998; PALÄSTINA [S. 6])
+
+Israelis und Palästinenser erinnern sich an 1948
+
+Inge Günther
+
+Leicht sind sie zu übersehen, die Überreste jener arabischen Dörfer und Städte im israelischen Kernland, die für die Palästinenser el-Nakba
+markieren, ihre große Katastrophe. Oft ist nicht mehr als ein von Kakteen überwucherter Steinhaufen übriggeblieben. Wie zum Beispiel von
+Beit Nuba, das 1948 von der Haganah niedergemacht wurde — dem jüdischen Widerstand, der nach der Staatsgründung die offizielle Armee
+stellte. Beit Nuba lag an der im Teilungsplan festgelegten grünen Linie und zudem, wie zahlreiche andere Orte, im strategisch wichtigen und
+deshalb so heftig umkämpften Westkorridor nach Jerusalem.
+
+Selbst Saleh Abdel Jawad, Direktor des historischen Dokumentationszentrums an der palästinensischen Birzeit-Universität, hat Mühe, die
+Stelle genau zu lokalisieren. (B98/JUL.40972 Berliner Zeitung, 01.07.1998; Die Grautöne der Wahrheit treten hervor [S. 13])
+
+Als</code></pre>
+</div>
+</div>
+<p>Easy!</p>
+</section>
+<section id="further-links" class="level2">
+<h2 class="anchored" data-anchor-id="further-links">Further links</h2>
 <ul>
-<li>The data are in name/value pairs</li>
-<li>Commas separate data objects</li>
-<li>Curly brackets {} hold objects</li>
-<li>Square brackets [] hold arrays</li>
-<li>Each data element is enclosed with quotes “” if it is a character, or without quotes if it is a numeric value</li>
+<li><a href="https://cran.r-project.org/web/packages/tesseract/vignettes/intro.html#Extract_Text_from_Images"><code>tesseract</code> R package manual</a></li>
+<li><a href="https://docs.ropensci.org/magick/articles/intro.html#ocr-text-extraction"><code>magick</code> R package manual</a></li>
 </ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rawToChar</span>(response<span class="sc">$</span>content) <span class="sc">|&gt;</span> </span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_sub</span>(<span class="dv">1</span>, <span class="dv">250</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">writeLines</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>{"status":"OK","copyright":"Copyright (c) 2025 The New York Times Company. All Rights Reserved.","num_results":20,"results":[{"slug_name":"06Biz-Musk-pay-incentives","section":"Business","subsection":"","title":"Would Elon Musk Work Harder for $1 Tri</code></pre>
-</div>
-</div>
-<p><code>jsonlite</code> helps us to bring this output into a data frame.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>tbl_nyt <span class="ot">&lt;-</span> response <span class="sc">|&gt;</span> </span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">content</span>(<span class="at">as =</span> <span class="st">"text"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>() </span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>tbl_nyt <span class="sc">|&gt;</span> <span class="fu">str</span>(<span class="at">max.level =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>List of 4
- $ status     : chr "OK"
- $ copyright  : chr "Copyright (c) 2025 The New York Times Company. All Rights Reserved."
- $ num_results: int 20
- $ results    :'data.frame':    20 obs. of  23 variables:</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>tbl_nyt <span class="sc">|&gt;</span> <span class="fu">pluck</span>(<span class="dv">4</span>) <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Rows: 20
-Columns: 23
-$ slug_name            &lt;chr&gt; "06Biz-Musk-pay-incentives", "05biz-dimon-mamdani…
-$ section              &lt;chr&gt; "Business", "Business", "Business", "Business", "…
-$ subsection           &lt;chr&gt; "", "", "Media", "", "", "", "DealBook", "Media",…
-$ title                &lt;chr&gt; "Would Elon Musk Work Harder for $1 Trillion Than…
-$ abstract             &lt;chr&gt; "Economists and psychologists say that compensati…
-$ uri                  &lt;chr&gt; "nyt://article/7fce0f9b-0805-5ef6-8eda-99a0165083…
-$ url                  &lt;chr&gt; "https://www.nytimes.com/2025/11/06/business/elon…
-$ byline               &lt;chr&gt; "By Patricia Cohen", "By Lauren Hirsch", "By Mich…
-$ item_type            &lt;chr&gt; "Article", "Article", "Article", "Article", "Arti…
-$ source               &lt;chr&gt; "New York Times", "New York Times", "New York Tim…
-$ updated_date         &lt;chr&gt; "2025-11-06T00:00:05-05:00", "2025-11-05T23:08:03…
-$ created_date         &lt;chr&gt; "2025-11-06T00:00:06-05:00", "2025-11-05T20:44:43…
-$ published_date       &lt;chr&gt; "2025-11-06T00:00:06-05:00", "2025-11-05T20:44:43…
-$ first_published_date &lt;chr&gt; "2025-11-06T00:00:06-05:00", "2025-11-05T20:44:43…
-$ material_type_facet  &lt;chr&gt; "News", "News", "News", "News", "News", "Video", …
-$ kicker               &lt;chr&gt; "news analysis", "", "", "", "", "", "DealBook Ne…
-$ subheadline          &lt;chr&gt; "", "", "", "", "", "", "", "", "", "", "", "", "…
-$ des_facet            &lt;list&gt; &lt;"Executive Compensation", "Electric and Hybrid …
-$ org_facet            &lt;list&gt; "Tesla Motors Inc", "JPMorgan Chase &amp; Company", …
-$ per_facet            &lt;list&gt; &lt;"Musk, Elon", "Denholm, Robyn"&gt;, &lt;"Mamdani, Zoh…
-$ geo_facet            &lt;list&gt; &lt;&gt;, &lt;&gt;, &lt;&gt;, "Paris (France)", &lt;&gt;, &lt;&gt;, &lt;&gt;, &lt;&gt;, &lt;&gt;…
-$ related_urls         &lt;list&gt; [], [], [], [], [], [], [], [], [], [], [], [], …
-$ multimedia           &lt;list&gt; [&lt;data.frame[4 x 8]&gt;], [&lt;data.frame[4 x 8]&gt;], [&lt;…</code></pre>
-</div>
-</div>
 </section>
-<section id="dealing-with-authentification" class="level3">
-<h3 class="anchored" data-anchor-id="dealing-with-authentification">Dealing with authentification</h3>
-<p>Well, as we saw before, we would have to put our official NYT API key publicly visible in this script. This is bad practice and should be avoided, especially if you work on a joint project (where everybody uses their code) or if you put your scripts in public places (such as GitHub). The <code>usethis</code> package can help you here.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(usethis)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">edit_r_environ</span>() <span class="co"># save key there</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>key <span class="ot">&lt;-</span> <span class="fu">Sys.getenv</span>(<span class="st">"nyt_key"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<section id="exercise" class="level4">
-<h4 class="anchored" data-anchor-id="exercise">Exercise</h4>
+<section id="exercises" class="level2">
+<h2 class="anchored" data-anchor-id="exercises">Exercises</h2>
+<p>In general, you could try all the <code>rvest</code> exercises with <code>selenium</code> to see how these things differ. Also every page is different, therefore it will probably be best if you just start with your own things. However, here is a quite tricky example.</p>
 <ol type="1">
-<li>Search for articles on the NYT API (find the proper parameters <a href="https://developer.nytimes.com/docs/articlesearch-product/1/routes/articlesearch.json/get">here</a>) that deal with a certain topic (parameter “q”), set a certain begin and end date. Extract the results into a tibble.</li>
+<li>Take a screenshot of a page of your liking and OCR it. Post-process.</li>
 </ol>
-<p>Bonus: Provide the key by using the <code>Sys.getenv</code> function. So, if somebody wants to work with your code and their own key, all they need to make sure is that they have the API key stored in the environment with the same name.</p>
 <details>
 <summary>
 Solution. Click to expand!
 </summary>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(tidyverse, jsonlite, httr)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>trump_nov_2016 <span class="ot">&lt;-</span> <span class="fu">modify_url</span>(</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">url =</span> <span class="st">"http://api.nytimes.com/"</span>,</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="st">"svc/search/v2/articlesearch.json"</span>,</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">query =</span> <span class="fu">list</span>(<span class="at">q =</span> <span class="st">"Trump"</span>,</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">begin_date =</span> <span class="st">"20161101"</span>,</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">end_date =</span> <span class="st">"20161110"</span>,</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>               <span class="st">`</span><span class="at">api-key</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">Sys.getenv</span>(<span class="st">"nyt_key"</span>))</span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> </span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">GET</span>()</span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>trump_nov_2016_tbl <span class="ot">&lt;-</span> trump_nov_2016 <span class="sc">|&gt;</span> </span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">content</span>(<span class="at">as =</span> <span class="st">"text"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fromJSON</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="dv">3</span>, <span class="dv">1</span>)</span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>trump_nov_2016_tbl[[<span class="dv">3</span>]][[<span class="dv">1</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "article"</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ocr</span>(<span class="st">"figures/rstudio_wiki.png"</span>, <span class="at">engine =</span> english) <span class="sc">|&gt;</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_replace_all</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">n"</span>, <span class="st">" "</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_squish</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </details>
-</section>
-</section>
-</section>
-<section id="further-links" class="level2">
-<h2 class="anchored" data-anchor-id="further-links">Further links</h2>
-<ul>
-<li><a href="https://bookdown.org/paul/apis_for_social_scientists/">APIs for social scientists: A collaborative review</a></li>
-<li>A “laymen’s guide” on web scraping (<a href="https://towardsdatascience.com/functions-with-r-and-rvest-a-laymens-guide-acda42325a77">blog post</a>)</li>
-</ul>
+<ol start="2" type="1">
+<li>OCR a PDF document you have available (e.g., one of the course readings). If you get the error “Image too small to scale,” you can use <code>magick::image_resize()</code>.</li>
+</ol>
+<details>
+<summary>
+Solution. Click to expand!
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>texts <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>              \(x) {</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                <span class="fu">pdf_render_page</span>(<span class="st">"figures/Stoltz:Taylor 2020.pdf"</span>, <span class="at">page =</span> x, <span class="at">dpi =</span> <span class="dv">300</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">image_read</span>() <span class="sc">|&gt;</span> <span class="co"># Convert raw image to magick image object</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">image_resize</span>(<span class="st">"300%"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">ocr</span>(<span class="at">engine =</span> english) <span class="co"># OCR</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>                }) <span class="sc">|&gt;</span> </span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reduce</span>(c)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</details>
 
 
 
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-kearney_rtweet_2019" class="csl-entry" role="listitem">
-Kearney, Michael. 2019. <span>“<a href="https://doi.org/10.21105/joss.01829">Rtweet: <span>Collecting</span> and Analyzing <span>Twitter</span> Data</a>.”</span> <em>Journal of Open Source Software</em> 4(42):1829.
-</div>
-<div id="ref-ooms_jsonlite_2020" class="csl-entry" role="listitem">
-Ooms, Jeroen, Duncan Temple Lang, and Lloyd Hilaiel. 2020. <span>“Jsonlite: <span>A Simple</span> and <span>Robust JSON Parser</span> and <span>Generator</span> for <span>R</span>.”</span>
-</div>
-<div id="ref-wickham_httr_2020" class="csl-entry" role="listitem">
-Wickham, Hadley. 2020. <span>“Httr: <span>Tools</span> for <span>Working</span> with <span>URLs</span> and <span>HTTP</span>.”</span>
-</div>
-<div id="ref-wickham_usethis_2021" class="csl-entry" role="listitem">
-Wickham, Hadley, Jennifer Bryan, Malcolm Barrett, and RStudio. 2021. <span>“Usethis: <span>Automate Package</span> and <span>Project Setup</span>.”</span>
+<div id="ref-grimmer_text_2022" class="csl-entry" role="listitem">
+Grimmer, Justin, Margaret Roberts, and Brandon Stewart. 2022. <em>Text as <span>Data</span>: <span>A New Framework</span> for <span>Machine Learning</span> and the <span>Social Sciences</span></em>. Princeton: Princeton University Press.
 </div>
 </div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

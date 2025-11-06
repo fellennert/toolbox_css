@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://fellennert.github.io/toolbox_css/9_apis.html</loc>
-    <lastmod>2025-11-04T12:59:50.510Z</lastmod>
+    <lastmod>2025-11-06T10:24:11.040Z</lastmod>
   </url>
   <url>
     <loc>https://fellennert.github.io/toolbox_css/6_stringr_regex.html</loc>
@@ -18,7 +18,7 @@
   </url>
   <url>
     <loc>https://fellennert.github.io/toolbox_css/8_selenium.html</loc>
-    <lastmod>2025-11-04T12:56:39.126Z</lastmod>
+    <lastmod>2025-11-06T10:32:41.610Z</lastmod>
   </url>
   <url>
     <loc>https://fellennert.github.io/toolbox_css/1_r_index.html</loc>
@@ -33,6 +33,14 @@
     <lastmod>2025-10-29T06:22:45.674Z</lastmod>
   </url>
   <url>
+    <loc>https://fellennert.github.io/toolbox_css/11_transcription.html</loc>
+    <lastmod>2025-11-06T10:31:31.615Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fellennert.github.io/toolbox_css/10_tesseract.html</loc>
+    <lastmod>2025-11-06T10:31:46.586Z</lastmod>
+  </url>
+  <url>
     <loc>https://fellennert.github.io/toolbox_css/3_reticulate.html</loc>
     <lastmod>2025-10-21T12:36:56.403Z</lastmod>
   </url>
@@ -42,7 +50,7 @@
   </url>
   <url>
     <loc>https://fellennert.github.io/toolbox_css/7_scraping.html</loc>
-    <lastmod>2025-10-30T15:43:44.092Z</lastmod>
+    <lastmod>2025-11-06T10:32:42.864Z</lastmod>
   </url>
   <url>
     <loc>https://fellennert.github.io/toolbox_css/lectures-overview.html</loc>
@@ -62,6 +70,6 @@
   </url>
   <url>
     <loc>https://fellennert.github.io/toolbox_css/lectures-week_4.html</loc>
-    <lastmod>2025-11-04T12:59:40.037Z</lastmod>
+    <lastmod>2025-11-06T10:32:38.477Z</lastmod>
   </url>
 </urlset>

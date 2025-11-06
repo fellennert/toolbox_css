@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Chapter 1: Preface – Toolbox CSS</title>
+<title>Welcome – Toolbox CSS</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,26 +20,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -109,7 +90,7 @@ div.csl-indent {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
+    <a class="nav-link active" href="./index.html" aria-current="page"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -132,10 +113,6 @@ div.csl-indent {
         <li>
     <a class="dropdown-item" href="./lectures-week_3.html">
  <span class="dropdown-text">Week 3: Regexes &amp; Crawling the web</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./lectures-week_4.html">
- <span class="dropdown-text">Week 4: <code>selenium</code> and APIs</span></a>
   </li>  
     </ul>
   </li>
@@ -172,22 +149,6 @@ div.csl-indent {
     <a class="dropdown-item" href="./7_scraping.html">
  <span class="dropdown-text">Chapter 7: Scraping Static Pages with <code>rvest</code></span></a>
   </li>  
-        <li>
-    <a class="dropdown-item" href="./8_selenium.html">
- <span class="dropdown-text">Chapter 8: <code>selenium</code></span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./9_apis.html">
- <span class="dropdown-text">Chapter 9: APIs</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./10_tesseract.html">
- <span class="dropdown-text">Chapter 10: OCR with <code>tesseract</code></span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./11_transcription.html">
- <span class="dropdown-text">Chapter 11: <code>OpenAI whisper</code></span></a>
-  </li>  
     </ul>
   </li>
 </ul>
@@ -206,7 +167,8 @@ div.csl-indent {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#outline" id="toc-outline" class="nav-link active" data-scroll-target="#outline">Outline</a></li>
+  <li><a href="#course-structure" id="toc-course-structure" class="nav-link active" data-scroll-target="#course-structure">Course Structure</a></li>
+  <li><a href="#syllabus" id="toc-syllabus" class="nav-link" data-scroll-target="#syllabus">Syllabus</a></li>
   </ul>
 </nav>
     </div>
@@ -215,7 +177,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Chapter 1: Preface</h1>
+<h1 class="title">Welcome</h1>
 </div>
 
 
@@ -232,42 +194,166 @@ div.csl-indent {
 </header>
 
 
-<p>Dear student,</p>
-<p>if you read this script, you are either participating in one of my courses on digital methods for the social sciences, or at least interested in this topic. If you have any questions or remarks regarding this script, hit me up at <a href="mailto:felix.lennert@uni-leipzig.de">felix.lennert@uni-leipzig.de</a>.</p>
-<p>This script will introduce you to techniques I regard as elementary for any aspiring (computational) social scientist: the collection of digital trace data via either scraping the web or acquiring data from application programming interfaces (APIs), the analysis of text in an automated fashion (text mining), the analysis and visualization of spatial data, and the modeling of human behavior <em>in silico</em> (agent-based modeling).</p>
-<p>The following chapters draw heavily on packages from the <code>tidyverse</code> <span class="citation" data-cites="wickham_welcome_2019">(<a href="#ref-wickham_welcome_2019" role="doc-biblioref">Wickham et al. 2019</a>)</span> and related packages. If you have not acquired sufficient familiarity yet, you can have a look at the excellent book <a href="https://r4ds.hadley.nz">R for Data Science</a> <span class="citation" data-cites="wickham_data_2023">(<a href="#ref-wickham_data_2023" role="doc-biblioref">Wickham, Çetinkaya-Rundel, and Grolemund 2023</a>)</span>.</p>
-<p>I have added brief videos to each section. In these, I will briefly go through the code of the respective section and show a bit of what’s going on in there. I sometimes spontaneously elaborate a bit more on the examples at hand or show things in the data, so they may add some value. However, the script should be sufficient to provide you an understanding the concepts I introduce.</p>
-<section id="outline" class="level2">
-<h2 class="anchored" data-anchor-id="outline">Outline</h2>
-<p>This script will unfold as follows:</p>
-<p>Chapter 2, “Brief R Recap,” briefly introduces RStudio Projects, Quarto, tidy data and <code>tidyr</code>, <code>dplyr</code>, <code>ggplot</code>, functions, loops, and <code>purrr</code>. These techniques are vital for the things that will come next.</p>
-<p>Chapter 3, 4, and 5 introduce Python and the <code>reticulate</code> package, which allows you to use Python in an R environment. It also introduces <code>pandas</code>, a powerful data manipulation package for Python.</p>
-<p>Chapter 6, “<code>stringr</code> and RegExes,” deals with string manipulation using, you guessed it, <code>stringr</code> and RegExes.</p>
-<p>Chapters 7 and 8, “Crawling the Web and Extracting Data” and “APIs,” introduce the reader to the basics of <code>rvest</code>, HTML, and CSS selectors and how these can be used to acquire data from the web. Moreover, I introduce the <code>httr</code> package and explain how you can use it to make requests to APIs.</p>
-<p>Chapter 9, “<code>selenium</code>,” introduces <code>selenium</code>, a Python package that allows you to control a “headless browser” – this is invaluable if you want to scrape dynamic web sites. It will also feature an introduction to <code>reticulate</code>, an R package that allows you to use Python code in an R environment.</p>
-<p>Chapter 10, “OCR with <code>tesseract</code>,” shows you how to digitize text from pdf files or images in an automated fashion using <code>tesseract</code>.</p>
-<p>Chapter 11, “<code>OpenAI whisper</code>” focuses on the transcription of audio files. This includes diarization.</p>
-<p>Chapter 12, “Text Preprocessing and Featurization,” touches upon the basics of bringing text into a numeric format that lends itself to quantitative analyses. It also introduces feature weighting using TF-IDF (i.e., determining which tokens matter more than others), Named-Entity Recognition, and Part-of-Speech-tagging.</p>
-<p>Chapter 13, “Dictionary-based analysis,” covers dictionary-based text analysis.</p>
-<p>Chapter 14, “Supervised Classification,” deals with the classification of text in a supervised manner using <code>tidymodels</code>.</p>
-<p>Chapter 15, “Unsupervised Classification,” deals with the classification of text in an unsupervised manner using “classic” Laten Dirichlet Allocation, Structural Topic Models, and Seeded Topic Models.</p>
-<p>Chapter 16, “Word Embeddings,” showcases new text analysis techniques that are based on distributional representations of words, commonly referred to as word embeddings.</p>
-<p>Chapter 17, “BERT” demonstrates how you can use BERT for supervised classification. This script will only contain small data-sets, since these large language models require more computing power (e.g., a server with plenty of RAM as well as sufficient CPU and/or GPU power)</p>
-<p>Chapter 18, “Local LLMs,” introduces local large language models (LLMs) and showcases how you can use them for information extraction.</p>
-<p>All chapters try to deal with social scientific examples. Data sets will be provided via Dropbox, therefore the script shall run more or less out of the box. I tried to include “Further links” for the avid readers or the ones that are dissatisfied with my coverage of the content. Exercises are included, the respective solutions will be added as the course unfolds (except for the R recap, please contact me in case you are interested).</p>
+<p>This is a Quarto website for the “Forschungsseminar CSS” course at Leipzig University. It covers different techniques for the aspiring computational social scientist, hence I have dubbed it “Toolbox CSS.” You can reach me anytime at <a href="mailto:felix.lennert@uni-leipzig.de">felix.lennert@uni-leipzig.de</a>. If you’re interested in my academic work, you can visit <a href="https://felix-lennert.netlify.app">my website</a>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/data_pic.jpg" class="img-fluid figure-img" width="300"></p>
+<figcaption>In the field, harvesting some fresh raw material before transforming it to insights (© Alexandra Gibbons)</figcaption>
+</figure>
+</div>
+<p>Here’s the official description:</p>
+<blockquote class="blockquote">
+<p>The Forschungsseminar in Computational Social Science (CSS) equips you with the tools to analyze human behavior, predict social trends, and tackle complex societal issues using cutting-edge data science techniques. From web scraping to AI-powered text analysis, you’ll learn to use your computer in new ways to gain insights into social phenomena.</p>
+</blockquote>
+<p>The curriculum covers a range of topics including data management, web scraping, speech-to-text, and computational text analysis. Students will hone their R and develop skills in Python, applying these languages to real-world social science problems. The course progresses from fundamental concepts to advanced techniques, including the use of state-of-the-art AI models for text analysis.</p>
+<p>The course structure consists of one lecture and one lab session per week, providing a balance of theoretical knowledge and practical application. Throughout the semester, students will benefit from hands-on coding exercises, one-on-one mentoring, and collaborative projects. The course culminates in a research paper, allowing students to apply their new skills to a topic of their choice.</p>
+<section id="course-structure" class="level2">
+<h2 class="anchored" data-anchor-id="course-structure">Course Structure</h2>
+<p>The course consists of <a href="./lectures-overview.html">lectures</a> introducing each week’s content and a <a href="./1_r_index.html">course script</a> that provides hands-on coding examples for the content. It is mostly containing R with some Python mixed in for good measure when no great R alternatives exist (e.g., for web scraping with Selenium, text classification with <code>transformer</code> models).</p>
+<p>At the beginning of the course, students are encouraged to form groups based on research interests and general vibes. I require each student group to check in with me at the beginning of each week to report their progress (even if there’s nothing to report – no progress, no problem). This does not count towards any grade but rather serves the purpose of me receiving feedback on the learning experience (this is a new course!) – and will hopefully help me with providing more appropriate guidance.</p>
+<p>Here’s an overview of the topics covered:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 18%">
+<col style="width: 23%">
+<col style="width: 42%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>WEEK</th>
+<th>TITLE</th>
+<th>CONTENT</th>
+<th>INFORMAL TITLE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Kick Off</td>
+<td>Housekeeping; Setting up workstation; R recap</td>
+<td>Whatever you want to know about CSS</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Brief Intro to Python &amp; Regexes</td>
+<td>Python basics (<code>reticulate</code>, data types, loops, functions, <code>pandas</code>); Regular expressions with stringr</td>
+<td>REGEXES – tame your data</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Data Acquisition I</td>
+<td>How the web is written and ethics; <code>rvest</code> web scraping</td>
+<td>stealing data from websites without them noticing it</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Data Acquisition II</td>
+<td>Dynamic pages and forms with <code>selenium</code>; APIs with <code>httr2</code></td>
+<td>stealing MORE data from websites</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Data Acquisition III</td>
+<td>Intro to OCR with <code>tesseract</code> and transcription (OpenAI Whisper)</td>
+<td>making the computer your transcription servant</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Data Acquisition IV</td>
+<td>Buffer sessions ; Project discussion</td>
+<td>Questions?</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>Student Project Week</td>
+<td>Work on projects in class</td>
+<td>time to get your hands dirty</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>Text as Data I</td>
+<td>Bag of words; Sentiment analysis, TF-IDF, NER/POS</td>
+<td>basic text analysis</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>Text as Data II</td>
+<td>Supervised machine learning in theory and practice</td>
+<td>advanced text analysis with training data</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>Text as Data III</td>
+<td>Unsupervised ML (topic modeling); Remote counseling pre-Christmas</td>
+<td>finding patterns without labels</td>
+</tr>
+<tr class="odd">
+<td>11</td>
+<td>Text as Data IV</td>
+<td>Measuring similarity and distributional hypothesis; Word embeddings</td>
+<td>cutting-edge text analysis with vector spaces</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td>Text as Data V</td>
+<td>Supervised learning on steroids (BERT); Active learning with BERT</td>
+<td>holy shit…transformer models</td>
+</tr>
+<tr class="odd">
+<td>13</td>
+<td>Text as Data VI</td>
+<td>LLMs for information extraction; Local LLMs primer</td>
+<td>unleashing the power of large language models</td>
+</tr>
+<tr class="even">
+<td>14</td>
+<td>Presentation Preparation Week</td>
+<td>Work on presentations (deadline Jan 30, 6PM)</td>
+<td>polish your masterpiece</td>
+</tr>
+<tr class="odd">
+<td>15</td>
+<td>Presentations &amp; Wrap Up</td>
+<td>Peer-reviewed presentations; Course wrap-up</td>
+<td>show off your work</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="syllabus" class="level2">
+<h2 class="anchored" data-anchor-id="syllabus">Syllabus</h2>
+<p>Please click <a href="./syllabus/syllabus_toolboxCSS_winter2526.pdf">here to download the latest version of the syllabus</a>.</p>
+<div class="cell">
+<style type="text/css">
+.embed-container {
+    position: relative;
+    padding-bottom: 129%;
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+}
 
+.embed-container iframe,
+.embed-container object,
+.embed-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+</style>
+</div>
+<p>Alternatively, read it here (probably not the best if you’re visiting this page on a mobile device):</p>
+<div class="embed-container">
+<p><iframe src="./syllabus/syllabus_toolboxCSS_winter2526.pdf" style="border: 0.5px"></iframe></p>
+</div>
 
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-wickham_welcome_2019" class="csl-entry" role="listitem">
-Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy McGowan, Romain François, Garrett Grolemund, Alex Hayes, Lionel Henry, Jim Hester, Max Kuhn, Thomas Pedersen, Evan Miller, Stephan Bache, Kirill Müller, Jeroen Ooms, David Robinson, Dana Seidel, Vitalie Spinu, Kohske Takahashi, Davis Vaughan, Claus Wilke, Kara Woo, and Hiroaki Yutani. 2019. <span>“<a href="https://doi.org/10.21105/joss.01686">Welcome to the <span>Tidyverse</span></a>.”</span> <em>Journal of Open Source Software</em> 4(43):1686.
-</div>
-<div id="ref-wickham_data_2023" class="csl-entry" role="listitem">
-Wickham, Hadley, Mine Çetinkaya-Rundel, and Garrett Grolemund. 2023. <em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em>. 2nd edition. Beijing Boston Farnham Sebastopol Tokyo: O’Reilly.
-</div>
-</div></section></div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

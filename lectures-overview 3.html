@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Chapter 1: Preface – Toolbox CSS</title>
+<title>Overview – week by week – Toolbox CSS</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,26 +20,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -133,10 +114,6 @@ div.csl-indent {
     <a class="dropdown-item" href="./lectures-week_3.html">
  <span class="dropdown-text">Week 3: Regexes &amp; Crawling the web</span></a>
   </li>  
-        <li>
-    <a class="dropdown-item" href="./lectures-week_4.html">
- <span class="dropdown-text">Week 4: <code>selenium</code> and APIs</span></a>
-  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -172,22 +149,6 @@ div.csl-indent {
     <a class="dropdown-item" href="./7_scraping.html">
  <span class="dropdown-text">Chapter 7: Scraping Static Pages with <code>rvest</code></span></a>
   </li>  
-        <li>
-    <a class="dropdown-item" href="./8_selenium.html">
- <span class="dropdown-text">Chapter 8: <code>selenium</code></span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./9_apis.html">
- <span class="dropdown-text">Chapter 9: APIs</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./10_tesseract.html">
- <span class="dropdown-text">Chapter 10: OCR with <code>tesseract</code></span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./11_transcription.html">
- <span class="dropdown-text">Chapter 11: <code>OpenAI whisper</code></span></a>
-  </li>  
     </ul>
   </li>
 </ul>
@@ -206,7 +167,21 @@ div.csl-indent {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#outline" id="toc-outline" class="nav-link active" data-scroll-target="#outline">Outline</a></li>
+  <li><a href="#week-1-kick-off" id="toc-week-1-kick-off" class="nav-link active" data-scroll-target="#week-1-kick-off">Week 1: Kick Off</a></li>
+  <li><a href="#week-2-brief-intro-to-python-regexes" id="toc-week-2-brief-intro-to-python-regexes" class="nav-link" data-scroll-target="#week-2-brief-intro-to-python-regexes">Week 2: Brief Intro to Python &amp; Regexes</a></li>
+  <li><a href="#week-3-data-acquisition-i" id="toc-week-3-data-acquisition-i" class="nav-link" data-scroll-target="#week-3-data-acquisition-i">Week 3: Data Acquisition I</a></li>
+  <li><a href="#week-4-data-acquisition-ii" id="toc-week-4-data-acquisition-ii" class="nav-link" data-scroll-target="#week-4-data-acquisition-ii">Week 4: Data Acquisition II</a></li>
+  <li><a href="#week-5-data-acquisition-iii" id="toc-week-5-data-acquisition-iii" class="nav-link" data-scroll-target="#week-5-data-acquisition-iii">Week 5: Data Acquisition III</a></li>
+  <li><a href="#week-6-data-acquisition-iv" id="toc-week-6-data-acquisition-iv" class="nav-link" data-scroll-target="#week-6-data-acquisition-iv">Week 6: Data Acquisition IV</a></li>
+  <li><a href="#week-7-student-project-week" id="toc-week-7-student-project-week" class="nav-link" data-scroll-target="#week-7-student-project-week">Week 7: Student Project Week</a></li>
+  <li><a href="#week-8-text-as-data-i" id="toc-week-8-text-as-data-i" class="nav-link" data-scroll-target="#week-8-text-as-data-i">Week 8: Text as Data I</a></li>
+  <li><a href="#week-9-text-as-data-ii" id="toc-week-9-text-as-data-ii" class="nav-link" data-scroll-target="#week-9-text-as-data-ii">Week 9: Text as Data II</a></li>
+  <li><a href="#week-10-text-as-data-iii" id="toc-week-10-text-as-data-iii" class="nav-link" data-scroll-target="#week-10-text-as-data-iii">Week 10: Text as Data III</a></li>
+  <li><a href="#week-11-text-as-data-iv" id="toc-week-11-text-as-data-iv" class="nav-link" data-scroll-target="#week-11-text-as-data-iv">Week 11: Text as Data IV</a></li>
+  <li><a href="#week-12-text-as-data-v" id="toc-week-12-text-as-data-v" class="nav-link" data-scroll-target="#week-12-text-as-data-v">Week 12: Text as Data V</a></li>
+  <li><a href="#week-13-text-as-data-vi" id="toc-week-13-text-as-data-vi" class="nav-link" data-scroll-target="#week-13-text-as-data-vi">Week 13: Text as Data VI</a></li>
+  <li><a href="#week-14-presentation-preparation-week" id="toc-week-14-presentation-preparation-week" class="nav-link" data-scroll-target="#week-14-presentation-preparation-week">Week 14: Presentation Preparation Week</a></li>
+  <li><a href="#week-15-presentations-wrap-up" id="toc-week-15-presentations-wrap-up" class="nav-link" data-scroll-target="#week-15-presentations-wrap-up">Week 15: Presentations &amp; Wrap Up</a></li>
   </ul>
 </nav>
     </div>
@@ -215,7 +190,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Chapter 1: Preface</h1>
+<h1 class="title">Overview – week by week</h1>
 </div>
 
 
@@ -232,42 +207,160 @@ div.csl-indent {
 </header>
 
 
-<p>Dear student,</p>
-<p>if you read this script, you are either participating in one of my courses on digital methods for the social sciences, or at least interested in this topic. If you have any questions or remarks regarding this script, hit me up at <a href="mailto:felix.lennert@uni-leipzig.de">felix.lennert@uni-leipzig.de</a>.</p>
-<p>This script will introduce you to techniques I regard as elementary for any aspiring (computational) social scientist: the collection of digital trace data via either scraping the web or acquiring data from application programming interfaces (APIs), the analysis of text in an automated fashion (text mining), the analysis and visualization of spatial data, and the modeling of human behavior <em>in silico</em> (agent-based modeling).</p>
-<p>The following chapters draw heavily on packages from the <code>tidyverse</code> <span class="citation" data-cites="wickham_welcome_2019">(<a href="#ref-wickham_welcome_2019" role="doc-biblioref">Wickham et al. 2019</a>)</span> and related packages. If you have not acquired sufficient familiarity yet, you can have a look at the excellent book <a href="https://r4ds.hadley.nz">R for Data Science</a> <span class="citation" data-cites="wickham_data_2023">(<a href="#ref-wickham_data_2023" role="doc-biblioref">Wickham, Çetinkaya-Rundel, and Grolemund 2023</a>)</span>.</p>
-<p>I have added brief videos to each section. In these, I will briefly go through the code of the respective section and show a bit of what’s going on in there. I sometimes spontaneously elaborate a bit more on the examples at hand or show things in the data, so they may add some value. However, the script should be sufficient to provide you an understanding the concepts I introduce.</p>
-<section id="outline" class="level2">
-<h2 class="anchored" data-anchor-id="outline">Outline</h2>
-<p>This script will unfold as follows:</p>
-<p>Chapter 2, “Brief R Recap,” briefly introduces RStudio Projects, Quarto, tidy data and <code>tidyr</code>, <code>dplyr</code>, <code>ggplot</code>, functions, loops, and <code>purrr</code>. These techniques are vital for the things that will come next.</p>
-<p>Chapter 3, 4, and 5 introduce Python and the <code>reticulate</code> package, which allows you to use Python in an R environment. It also introduces <code>pandas</code>, a powerful data manipulation package for Python.</p>
-<p>Chapter 6, “<code>stringr</code> and RegExes,” deals with string manipulation using, you guessed it, <code>stringr</code> and RegExes.</p>
-<p>Chapters 7 and 8, “Crawling the Web and Extracting Data” and “APIs,” introduce the reader to the basics of <code>rvest</code>, HTML, and CSS selectors and how these can be used to acquire data from the web. Moreover, I introduce the <code>httr</code> package and explain how you can use it to make requests to APIs.</p>
-<p>Chapter 9, “<code>selenium</code>,” introduces <code>selenium</code>, a Python package that allows you to control a “headless browser” – this is invaluable if you want to scrape dynamic web sites. It will also feature an introduction to <code>reticulate</code>, an R package that allows you to use Python code in an R environment.</p>
-<p>Chapter 10, “OCR with <code>tesseract</code>,” shows you how to digitize text from pdf files or images in an automated fashion using <code>tesseract</code>.</p>
-<p>Chapter 11, “<code>OpenAI whisper</code>” focuses on the transcription of audio files. This includes diarization.</p>
-<p>Chapter 12, “Text Preprocessing and Featurization,” touches upon the basics of bringing text into a numeric format that lends itself to quantitative analyses. It also introduces feature weighting using TF-IDF (i.e., determining which tokens matter more than others), Named-Entity Recognition, and Part-of-Speech-tagging.</p>
-<p>Chapter 13, “Dictionary-based analysis,” covers dictionary-based text analysis.</p>
-<p>Chapter 14, “Supervised Classification,” deals with the classification of text in a supervised manner using <code>tidymodels</code>.</p>
-<p>Chapter 15, “Unsupervised Classification,” deals with the classification of text in an unsupervised manner using “classic” Laten Dirichlet Allocation, Structural Topic Models, and Seeded Topic Models.</p>
-<p>Chapter 16, “Word Embeddings,” showcases new text analysis techniques that are based on distributional representations of words, commonly referred to as word embeddings.</p>
-<p>Chapter 17, “BERT” demonstrates how you can use BERT for supervised classification. This script will only contain small data-sets, since these large language models require more computing power (e.g., a server with plenty of RAM as well as sufficient CPU and/or GPU power)</p>
-<p>Chapter 18, “Local LLMs,” introduces local large language models (LLMs) and showcases how you can use them for information extraction.</p>
-<p>All chapters try to deal with social scientific examples. Data sets will be provided via Dropbox, therefore the script shall run more or less out of the box. I tried to include “Further links” for the avid readers or the ones that are dissatisfied with my coverage of the content. Exercises are included, the respective solutions will be added as the course unfolds (except for the R recap, please contact me in case you are interested).</p>
-
+<section id="week-1-kick-off" class="level2">
+<h2 class="anchored" data-anchor-id="week-1-kick-off">Week 1: Kick Off</h2>
+<p>This week answers the following questions:</p>
+<ul>
+<li>What does the term CSS mean?</li>
+<li>Which principles underly a new CSS?</li>
+<li>Which methods does CSS encompass?</li>
+<li>How do we set up our computational workstation?</li>
+</ul>
+</section>
+<section id="week-2-brief-intro-to-python-regexes" class="level2">
+<h2 class="anchored" data-anchor-id="week-2-brief-intro-to-python-regexes">Week 2: Brief Intro to Python &amp; Regexes</h2>
+<p>This week answers the following questions:</p>
+<ul>
+<li>How can we run Python in RStudio using reticulate?</li>
+<li>What are the basics of Python programming?</li>
+<li>What are regular expressions and why are they powerful?</li>
+<li>How can we use stringr to work with text patterns?</li>
+</ul>
+</section>
+<section id="week-3-data-acquisition-i" class="level2">
+<h2 class="anchored" data-anchor-id="week-3-data-acquisition-i">Week 3: Data Acquisition I</h2>
+<p>This week answers the following questions:</p>
+<ul>
+<li>How is the web written and structured?</li>
+<li>What are considerations in terms of law and ethics when scraping?</li>
+<li>How do we acquire digital trace data via web scraping with rvest?</li>
+<li>What are CSS selectors and how do they work?</li>
+</ul>
+</section>
+<section id="week-4-data-acquisition-ii" class="level2">
+<h2 class="anchored" data-anchor-id="week-4-data-acquisition-ii">Week 4: Data Acquisition II</h2>
+<p>This week answers the following questions:</p>
+<ul>
+<li>How do we scrape dynamic web pages that use JavaScript?</li>
+<li>How can we interact with forms and buttons using selenium?</li>
+<li>What are APIs and how do we use them?</li>
+<li>How do we make API calls with httr2?</li>
+</ul>
+</section>
+<section id="week-5-data-acquisition-iii" class="level2">
+<h2 class="anchored" data-anchor-id="week-5-data-acquisition-iii">Week 5: Data Acquisition III</h2>
+<p>This week answers the following questions:</p>
+<ul>
+<li>What is Optical Character Recognition (OCR)?</li>
+<li>How can we extract text from images and PDFs?</li>
+<li>What is speech-to-text transcription?</li>
+<li>How can we leverage these techniques for social science research?</li>
+</ul>
+</section>
+<section id="week-6-data-acquisition-iv" class="level2">
+<h2 class="anchored" data-anchor-id="week-6-data-acquisition-iv">Week 6: Data Acquisition IV</h2>
+<p>This week answers the following questions:</p>
+<ul>
+<li>How do we digitize text using Tesseract?</li>
+<li>How do we digitize speech using OpenAI Whisper?</li>
+<li>What are best practices for data acquisition projects?</li>
+<li>How do we plan our research projects?</li>
+</ul>
+</section>
+<section id="week-7-student-project-week" class="level2">
+<h2 class="anchored" data-anchor-id="week-7-student-project-week">Week 7: Student Project Week</h2>
+<p>This week is dedicated to working on your research projects in class.</p>
+<ul>
+<li>Discuss your project ideas with peers and the instructor</li>
+<li>Begin data acquisition for your research</li>
+<li>Troubleshoot technical challenges</li>
+<li>Form study groups with matching research interests</li>
+</ul>
+</section>
+<section id="week-8-text-as-data-i" class="level2">
+<h2 class="anchored" data-anchor-id="week-8-text-as-data-i">Week 8: Text as Data I</h2>
+<p>This week answers the following questions:</p>
+<ul>
+<li>What do we mean by “text as data”?</li>
+<li>What do we mean by “bag of words”?</li>
+<li>How do we perform sentiment analysis?</li>
+<li>What are TF-IDF, Named Entity Recognition (NER), and Part-of-Speech (POS) tagging?</li>
+</ul>
+</section>
+<section id="week-9-text-as-data-ii" class="level2">
+<h2 class="anchored" data-anchor-id="week-9-text-as-data-ii">Week 9: Text as Data II</h2>
+<p>This week answers the following questions:</p>
+<ul>
+<li>What is supervised machine learning?</li>
+<li>How can we train classifiers to categorize text?</li>
+<li>What are best practices for supervised ML in social science?</li>
+<li>How do we evaluate model performance?</li>
+</ul>
+</section>
+<section id="week-10-text-as-data-iii" class="level2">
+<h2 class="anchored" data-anchor-id="week-10-text-as-data-iii">Week 10: Text as Data III</h2>
+<p>This week answers the following questions:</p>
+<ul>
+<li>What is unsupervised machine learning?</li>
+<li>How does topic modeling work?</li>
+<li>What can probabilistic topic models tell us about text corpora?</li>
+<li>When should we use unsupervised vs.&nbsp;supervised approaches?</li>
+</ul>
+</section>
+<section id="week-11-text-as-data-iv" class="level2">
+<h2 class="anchored" data-anchor-id="week-11-text-as-data-iv">Week 11: Text as Data IV</h2>
+<p>This week answers the following questions:</p>
+<ul>
+<li>How can we go beyond the “bag of words”?</li>
+<li>What is the distributional hypothesis?</li>
+<li>How can we measure semantic similarity between texts?</li>
+<li>What are word embeddings and what do they capture?</li>
+</ul>
+</section>
+<section id="week-12-text-as-data-v" class="level2">
+<h2 class="anchored" data-anchor-id="week-12-text-as-data-v">Week 12: Text as Data V</h2>
+<p>This week answers the following questions:</p>
+<ul>
+<li>What are transformer models like BERT?</li>
+<li>How do these models revolutionize text classification?</li>
+<li>What is transfer learning and why is it so powerful?</li>
+<li>What is active learning and how can it reduce annotation burden?</li>
+</ul>
+</section>
+<section id="week-13-text-as-data-vi" class="level2">
+<h2 class="anchored" data-anchor-id="week-13-text-as-data-vi">Week 13: Text as Data VI</h2>
+<p>This week answers the following questions:</p>
+<ul>
+<li>What’s the latest in Natural Language Processing with Large Language Models (LLMs)?</li>
+<li>How can we use LLMs for information extraction?</li>
+<li>What are local LLMs and when should we use them?</li>
+<li>How do we move from codebooks to promptbooks?</li>
+</ul>
+</section>
+<section id="week-14-presentation-preparation-week" class="level2">
+<h2 class="anchored" data-anchor-id="week-14-presentation-preparation-week">Week 14: Presentation Preparation Week</h2>
+<p>This week is dedicated to preparing your final presentations.</p>
+<ul>
+<li>Finalize your analyses and preliminary results</li>
+<li>Prepare presentation slides (deadline: January 30, 6PM)</li>
+<li>Review the peer review guidelines</li>
+<li>Practice your 10-minute presentation</li>
+</ul>
+</section>
+<section id="week-15-presentations-wrap-up" class="level2">
+<h2 class="anchored" data-anchor-id="week-15-presentations-wrap-up">Week 15: Presentations &amp; Wrap Up</h2>
+<p>This week features peer-reviewed presentations of your research projects.</p>
+<ul>
+<li>Present your research (10 minutes)</li>
+<li>Receive feedback from assigned peer reviewers (5 minutes)</li>
+<li>Discuss next steps for your final paper</li>
+<li>Reflect on what we’ve learned throughout the semester</li>
+</ul>
 
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-wickham_welcome_2019" class="csl-entry" role="listitem">
-Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy McGowan, Romain François, Garrett Grolemund, Alex Hayes, Lionel Henry, Jim Hester, Max Kuhn, Thomas Pedersen, Evan Miller, Stephan Bache, Kirill Müller, Jeroen Ooms, David Robinson, Dana Seidel, Vitalie Spinu, Kohske Takahashi, Davis Vaughan, Claus Wilke, Kara Woo, and Hiroaki Yutani. 2019. <span>“<a href="https://doi.org/10.21105/joss.01686">Welcome to the <span>Tidyverse</span></a>.”</span> <em>Journal of Open Source Software</em> 4(43):1686.
-</div>
-<div id="ref-wickham_data_2023" class="csl-entry" role="listitem">
-Wickham, Hadley, Mine Çetinkaya-Rundel, and Garrett Grolemund. 2023. <em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em>. 2nd edition. Beijing Boston Farnham Sebastopol Tokyo: O’Reilly.
-</div>
-</div></section></div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
