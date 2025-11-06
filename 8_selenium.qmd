@@ -160,6 +160,7 @@ Let's check, without the scrolling, how many different products we see:
 ```{python eval=FALSE}
 elements = driver.find_elements(By.CSS_SELECTOR, ".product-name")
 len(elements)
+driver.refresh()
 ```
 
 There are 12 elements. let's do one scroll to the bottom.
@@ -266,6 +267,8 @@ def play_alert_windows():
 def play_alert_mac():
   import subprocess
   subprocess.run(["afplay", "/System/Library/Sounds/Ping.aiff"])
+
+play_alert_mac()
   
 def play_alert_linux():
   print("\a") # ascii bell
@@ -320,6 +323,7 @@ Bonus (very tricky): do it for Dec 20 through 23 and make a visualization of the
 
 <details>
   <summary>Solution. Click to expand!</summary>
+  
 ```{python eval=FALSE}
 driver.get("https://bahn.de")
 ## enter search things manually

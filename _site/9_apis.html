@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Chapter 5: APIs – Toolbox CSS</title>
+<title>Chapter 9: APIs – Toolbox CSS</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -169,6 +169,10 @@ div.csl-indent {
     <a class="dropdown-item" href="./lectures-week_3.html">
  <span class="dropdown-text">Week 3: Regexes &amp; Crawling the web</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_4.html">
+ <span class="dropdown-text">Week 4: <code>selenium</code> and APIs</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -204,6 +208,14 @@ div.csl-indent {
     <a class="dropdown-item" href="./7_scraping.html">
  <span class="dropdown-text">Chapter 7: Scraping Static Pages with <code>rvest</code></span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./8_selenium.html">
+ <span class="dropdown-text">Chapter 8: <code>selenium</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./9_apis.html">
+ <span class="dropdown-text">Chapter 9: APIs</span></a>
+  </li>  
     </ul>
   </li>
 </ul>
@@ -238,7 +250,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Chapter 5: APIs</h1>
+<h1 class="title">Chapter 9: APIs</h1>
 </div>
 
 
@@ -286,22 +298,24 @@ div.csl-indent {
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(httr, jsonlite, tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#see overview here: https://developer.nytimes.com/docs/timeswire-product/1/overview</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>key <span class="ot">&lt;-</span> <span class="fu">Sys.getenv</span>(<span class="st">"nyt_key"</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>nyt_headlines <span class="ot">&lt;-</span> <span class="fu">modify_url</span>(</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">url =</span> <span class="st">"https://api.nytimes.com/"</span>,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="st">"svc/news/v3/content/nyt/business.json"</span>,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">query =</span> <span class="fu">list</span>(<span class="st">`</span><span class="at">api-key</span><span class="st">`</span> <span class="ot">=</span> key)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>response <span class="ot">&lt;-</span> <span class="fu">GET</span>(nyt_headlines)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>response</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>key <span class="ot">&lt;-</span> <span class="st">"5bvQ82VImpOI3UGidss5zhkZOFZtXwpx"</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>nyt_headlines <span class="ot">&lt;-</span> <span class="fu">modify_url</span>(</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">url =</span> <span class="st">"https://api.nytimes.com/"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="st">"svc/news/v3/content/nyt/business.json"</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">query =</span> <span class="fu">list</span>(<span class="st">`</span><span class="at">api-key</span><span class="st">`</span> <span class="ot">=</span> key)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>response <span class="ot">&lt;-</span> <span class="fu">GET</span>(nyt_headlines)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>response</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Response [https://api.nytimes.com/svc/news/v3/content/nyt/business.json?api-key=]
-  Date: 2025-11-04 12:57
-  Status: 401
-  Content-Type: application/json
-  Size: 90 B</code></pre>
+<pre><code>Response [https://api.nytimes.com/svc/news/v3/content/nyt/business.json?api-key=5bvQ82VImpOI3UGidss5zhkZOFZtXwpx]
+  Date: 2025-11-06 10:24
+  Status: 200
+  Content-Type: application/json; charset=utf-8
+  Size: 50.2 kB
+{"status":"OK","copyright":"Copyright (c) 2025 The New York Times Company. Al...</code></pre>
 </div>
 </div>
 <p>When it comes to the <a href="https://developer.nytimes.com/docs/timeswire-product/1/overview">NYT news API</a>, there is the problem that the type of section is specified not in the query but in the endpoint path itself. Hence, if we were to scrape the different sections, we would have to change the path itself, e.g., through <code>str_c()</code> or <code>httr::modify_url()</code>.</p>
@@ -317,37 +331,38 @@ div.csl-indent {
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[1]]
-Response [https://api.nytimes.com/svc/news/v3/content/nyt/business.json?api-key=]
-  Date: 2025-11-04 12:57
-  Status: 401
-  Content-Type: application/json
-  Size: 90 B
-
+Response [https://api.nytimes.com/svc/news/v3/content/nyt/business.json?api-key=5bvQ82VImpOI3UGidss5zhkZOFZtXwpx]
+  Date: 2025-11-06 10:24
+  Status: 200
+  Content-Type: application/json; charset=utf-8
+  Size: 50.2 kB
+{"status":"OK","copyright":"Copyright (c) 2025 The New York Times Company. Al...
 
 [[2]]
-Response [https://api.nytimes.com/svc/news/v3/content/nyt/world.json?api-key=]
-  Date: 2025-11-04 12:57
-  Status: 401
-  Content-Type: application/json
-  Size: 90 B</code></pre>
+Response [https://api.nytimes.com/svc/news/v3/content/nyt/world.json?api-key=5bvQ82VImpOI3UGidss5zhkZOFZtXwpx]
+  Date: 2025-11-06 10:24
+  Status: 200
+  Content-Type: application/json; charset=utf-8
+  Size: 53.5 kB
+{"status":"OK","copyright":"Copyright (c) 2025 The New York Times Company. Al...</code></pre>
 </div>
 </div>
 <p>The <code>Status:</code> code you want to see here is <code>200</code> which stands for success. If you want to put it inside a function, you might want to break the function once you get a non-successful query. <code>http_error()</code> or <code>http_status()</code> are your friends here.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>response <span class="sc">|&gt;</span> <span class="fu">http_error</span>() <span class="co"># can be used in if...else</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] TRUE</code></pre>
+<pre><code>[1] FALSE</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>response <span class="sc">|&gt;</span> <span class="fu">http_status</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$category
-[1] "Client error"
+[1] "Success"
 
 $reason
-[1] "Unauthorized"
+[1] "OK"
 
 $message
-[1] "Client error: (401) Unauthorized"</code></pre>
+[1] "Success: (200) OK"</code></pre>
 </div>
 </div>
 <p><code>content()</code> will give you the content of the request.</p>
@@ -371,7 +386,7 @@ $message
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_sub</span>(<span class="dv">1</span>, <span class="dv">250</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">writeLines</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>{"fault":{"faultstring":"Invalid ApiKey","detail":{"errorcode":"oauth.v2.InvalidApiKey"}}}</code></pre>
+<pre><code>{"status":"OK","copyright":"Copyright (c) 2025 The New York Times Company. All Rights Reserved.","num_results":20,"results":[{"slug_name":"06Biz-Musk-pay-incentives","section":"Business","subsection":"","title":"Would Elon Musk Work Harder for $1 Tri</code></pre>
 </div>
 </div>
 <p><code>jsonlite</code> helps us to bring this output into a data frame.</p>
@@ -382,12 +397,39 @@ $message
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>tbl_nyt <span class="sc">|&gt;</span> <span class="fu">str</span>(<span class="at">max.level =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>List of 1
- $ fault:List of 2</code></pre>
+<pre><code>List of 4
+ $ status     : chr "OK"
+ $ copyright  : chr "Copyright (c) 2025 The New York Times Company. All Rights Reserved."
+ $ num_results: int 20
+ $ results    :'data.frame':    20 obs. of  23 variables:</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>tbl_nyt <span class="sc">|&gt;</span> <span class="fu">pluck</span>(<span class="dv">4</span>) <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> NULL</code></pre>
+<pre><code>Rows: 20
+Columns: 23
+$ slug_name            &lt;chr&gt; "06Biz-Musk-pay-incentives", "05biz-dimon-mamdani…
+$ section              &lt;chr&gt; "Business", "Business", "Business", "Business", "…
+$ subsection           &lt;chr&gt; "", "", "Media", "", "", "", "DealBook", "Media",…
+$ title                &lt;chr&gt; "Would Elon Musk Work Harder for $1 Trillion Than…
+$ abstract             &lt;chr&gt; "Economists and psychologists say that compensati…
+$ uri                  &lt;chr&gt; "nyt://article/7fce0f9b-0805-5ef6-8eda-99a0165083…
+$ url                  &lt;chr&gt; "https://www.nytimes.com/2025/11/06/business/elon…
+$ byline               &lt;chr&gt; "By Patricia Cohen", "By Lauren Hirsch", "By Mich…
+$ item_type            &lt;chr&gt; "Article", "Article", "Article", "Article", "Arti…
+$ source               &lt;chr&gt; "New York Times", "New York Times", "New York Tim…
+$ updated_date         &lt;chr&gt; "2025-11-06T00:00:05-05:00", "2025-11-05T23:08:03…
+$ created_date         &lt;chr&gt; "2025-11-06T00:00:06-05:00", "2025-11-05T20:44:43…
+$ published_date       &lt;chr&gt; "2025-11-06T00:00:06-05:00", "2025-11-05T20:44:43…
+$ first_published_date &lt;chr&gt; "2025-11-06T00:00:06-05:00", "2025-11-05T20:44:43…
+$ material_type_facet  &lt;chr&gt; "News", "News", "News", "News", "News", "Video", …
+$ kicker               &lt;chr&gt; "news analysis", "", "", "", "", "", "DealBook Ne…
+$ subheadline          &lt;chr&gt; "", "", "", "", "", "", "", "", "", "", "", "", "…
+$ des_facet            &lt;list&gt; &lt;"Executive Compensation", "Electric and Hybrid …
+$ org_facet            &lt;list&gt; "Tesla Motors Inc", "JPMorgan Chase &amp; Company", …
+$ per_facet            &lt;list&gt; &lt;"Musk, Elon", "Denholm, Robyn"&gt;, &lt;"Mamdani, Zoh…
+$ geo_facet            &lt;list&gt; &lt;&gt;, &lt;&gt;, &lt;&gt;, "Paris (France)", &lt;&gt;, &lt;&gt;, &lt;&gt;, &lt;&gt;, &lt;&gt;…
+$ related_urls         &lt;list&gt; [], [], [], [], [], [], [], [], [], [], [], [], …
+$ multimedia           &lt;list&gt; [&lt;data.frame[4 x 8]&gt;], [&lt;data.frame[4 x 8]&gt;], [&lt;…</code></pre>
 </div>
 </div>
 </section>
@@ -397,7 +439,7 @@ $message
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(usethis)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">edit_r_environ</span>() <span class="co"># save key there</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.getenv</span>(<span class="st">"nyt_key"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>key <span class="ot">&lt;-</span> <span class="fu">Sys.getenv</span>(<span class="st">"nyt_key"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="exercise" class="level4">
 <h4 class="anchored" data-anchor-id="exercise">Exercise</h4>
@@ -424,13 +466,11 @@ Solution. Click to expand!
 <span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>trump_nov_2016_tbl <span class="ot">&lt;-</span> trump_nov_2016 <span class="sc">|&gt;</span> </span>
 <span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">content</span>(<span class="at">as =</span> <span class="st">"text"</span>) <span class="sc">|&gt;</span></span>
 <span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fromJSON</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="dv">3</span>, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>No encoding supplied: defaulting to UTF-8.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>trump_nov_2016_tbl[[<span class="dv">3</span>]][[<span class="dv">1</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="dv">3</span>, <span class="dv">1</span>)</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>trump_nov_2016_tbl[[<span class="dv">3</span>]][[<span class="dv">1</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>NULL</code></pre>
+<pre><code>[1] "article"</code></pre>
 </div>
 </div>
 </details>

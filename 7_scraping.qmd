@@ -124,6 +124,7 @@ session_with_ua |> session_history()
 
 <details>
   <summary>Solution. Click to expand!</summary>
+
 ```{r eval=FALSE}
 needs(tidyverse, rvest, httr)
 tidyverse_wiki <- "https://en.wikipedia.org/wiki/Tidyverse"
@@ -201,6 +202,7 @@ You can check your code by looking at the output of `base_session |> read_html()
 
 <details>
   <summary>Solution. Click to expand!</summary>
+
 ```{r eval=FALSE}
 url <- "https://www.scrapethissite.com/pages/forms/"
 
@@ -497,7 +499,7 @@ tibble(
 Another approach for this would be using the `polite` package and its function `html_attrs_dfr()` which binds together all the different attributes column-wise and the different elements row-wise.
 
 ```{r message=FALSE, warning=FALSE}
-t <- rbloggers |> 
+rbloggers |> 
   html_elements(css = ".loop-title a") |> 
   html_attrs_dfr() |> 
   select(title = 3, 
@@ -511,6 +513,7 @@ t <- rbloggers |>
 
 <details>
   <summary>Solution. Click to expand!</summary>
+
 ```{r}
 imdb_top250 <- read_html("https://www.imdb.com/chart/top/?ref_=nv_mv_250")
 
@@ -540,6 +543,7 @@ movies <- tibble(
     str_remove_all("[() ]")
 )
 ```
+
 </details>
 
 
@@ -560,17 +564,18 @@ In general, there are two ways to go about this. The first is to manually create
 For the first approach, we need to check the URLs first. How do they change as we navigate through the pages?
 
 ```{r}
-url_1 <- "https://www.r-bloggers.com/page/2/"
-url_2 <- "https://www.r-bloggers.com/page/3/"
+url_1 <- "https://www.r-bloggers.com"
+url_2 <- "https://www.r-bloggers.com/page/2/"
+url_3 <- "https://www.r-bloggers.com/page/3/"
 
-initial_dist <- adist(url_1, url_2, counts = TRUE) |> 
+initial_dist <- adist(url_2, url_3, counts = TRUE) |> 
   attr("trafos") |> 
   diag() |> 
   str_locate_all("[^M]")
 
   
-str_sub(url_1, start = initial_dist[[1]][1]-5, end = initial_dist[[1]][1]+5) # makes sense for longer urls
-str_sub(url_2, start = initial_dist[[1]][1]-5, end = initial_dist[[1]][1]+5)
+str_sub(url_2, start = initial_dist[[1]][1]-5, end = initial_dist[[1]][1]+5) # makes sense for longer urls
+str_sub(url_3, start = initial_dist[[1]][1]-5, end = initial_dist[[1]][1]+5)
 ```
 
 There is some sort of underlying pattern and we can harness that. `url_1` refers to the second page, `url_2` to the third. Hence, if we just combine the basic URL and, say, the numbers from 1 to 10, we could then visit all the pages (exercise 3a) and extract the content we want.
@@ -591,6 +596,8 @@ for (i in seq_along(urls)){
   read in urls[[i]] --> page <- read_html(url)
   store content of page in result_list result_list[[i]] <- extract_content(page)
 }
+
+map(urls, read_html)
 ```
 
 ### Letting the scraper navigate on its own
@@ -626,6 +633,7 @@ b.  Do so by using `session()` in a loop. (Note: make sure to specify `css =`)
 
 <details>
   <summary>Solution. Click to expand!</summary>
+
 ```{r eval=FALSE}
 extract_press_releases <- function(page){
   tibble(
@@ -668,6 +676,7 @@ while (i < 6) {
   Sys.sleep(2)
 }
 ```
+
 </details>
 
 

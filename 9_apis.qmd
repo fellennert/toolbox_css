@@ -39,6 +39,7 @@ A basic query is performed using the `GET()` function. However, first, you need 
 needs(httr, jsonlite, tidyverse)
 #see overview here: https://developer.nytimes.com/docs/timeswire-product/1/overview
 key <- Sys.getenv("nyt_key")
+key <- "5bvQ82VImpOI3UGidss5zhkZOFZtXwpx"
 
 nyt_headlines <- modify_url(
   url = "https://api.nytimes.com/",
@@ -114,7 +115,7 @@ Well, as we saw before, we would have to put our official NYT API key publicly v
 ```{r eval=FALSE}
 needs(usethis)
 usethis::edit_r_environ() # save key there
-Sys.getenv("nyt_key")
+key <- Sys.getenv("nyt_key")
 ```
 
 #### Exercise
@@ -125,6 +126,7 @@ Bonus: Provide the key by using the `Sys.getenv` function. So, if somebody wants
 
 <details>
   <summary>Solution. Click to expand!</summary>
+
 ```{r}
 needs(tidyverse, jsonlite, httr)
 trump_nov_2016 <- modify_url(
@@ -144,6 +146,7 @@ trump_nov_2016_tbl <- trump_nov_2016 |>
 
 trump_nov_2016_tbl[[3]][[1]]
 ```
+
 </details>
 
 ## Further links

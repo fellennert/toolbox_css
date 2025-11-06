@@ -34,8 +34,8 @@ website:
           - href: 7_scraping.qmd
           - href: 8_selenium.qmd
           - href: 9_apis.qmd
-         # - href: 10_dictionary-based-analysis.qmd
-         # - href: 11_supervised_ml.qmd
+          - href: 10_tesseract.qmd
+          - href: 11_transcription.qmd
          # - href: 12_unsupervised_ml.qmd
          # - href: 13_word_embeddings.qmd
          # - href: 14_BERT.qmd

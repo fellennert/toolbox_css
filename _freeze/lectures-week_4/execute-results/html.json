@@ -1,0 +1,15 @@
+{
+  "hash": "184520cebed1fd228392590b8e188e48",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Week 4: `selenium` and APIs\"\npublished-title: week_4\nengine: knitr\nfreeze: auto\n---\n\nThis lecture answers the following questions:\n\n- How do I control a browser? (Tuesday)\n- How can I communicate with an API? (Thursday)\n\n## Slides \n\nThere are no slides, just the R script. ",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

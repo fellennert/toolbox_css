@@ -169,6 +169,10 @@ div.csl-indent {
     <a class="dropdown-item" href="./lectures-week_3.html">
  <span class="dropdown-text">Week 3: Regexes &amp; Crawling the web</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_4.html">
+ <span class="dropdown-text">Week 4: <code>selenium</code> and APIs</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -203,6 +207,14 @@ div.csl-indent {
         <li>
     <a class="dropdown-item" href="./7_scraping.html">
  <span class="dropdown-text">Chapter 7: Scraping Static Pages with <code>rvest</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./8_selenium.html">
+ <span class="dropdown-text">Chapter 8: <code>selenium</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./9_apis.html">
+ <span class="dropdown-text">Chapter 9: APIs</span></a>
   </li>  
     </ul>
   </li>
@@ -1385,7 +1397,7 @@ Wickham, Hadley. 2019. <span>“Stringr: <span>Simple</span>, <span>Consistent W
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/fellennert\.github\.io\/toolbox_css\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
