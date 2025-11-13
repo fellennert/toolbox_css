@@ -216,6 +216,14 @@ div.csl-indent {
     <a class="dropdown-item" href="./9_apis.html">
  <span class="dropdown-text">Chapter 9: APIs</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./10_tesseract.html">
+ <span class="dropdown-text">Chapter 10: OCR with <code>tesseract</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./11_transcription.html">
+ <span class="dropdown-text">Chapter 11: <code>OpenAI whisper</code></span></a>
+  </li>  
     </ul>
   </li>
 </ul>
@@ -574,7 +582,7 @@ Wickham, Hadley, Jennifer Bryan, Malcolm Barrett, and RStudio. 2021. <span>“Us
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/fellennert\.github\.io\/toolbox_css\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

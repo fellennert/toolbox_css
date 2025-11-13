@@ -197,6 +197,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="./9_apis.html">
  <span class="dropdown-text">Chapter 9: APIs</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./10_tesseract.html">
+ <span class="dropdown-text">Chapter 10: OCR with <code>tesseract</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./11_transcription.html">
+ <span class="dropdown-text">Chapter 11: <code>OpenAI whisper</code></span></a>
+  </li>  
     </ul>
   </li>
 </ul>
@@ -396,7 +404,8 @@ temp/books_page_4.html temp/books_page_5.html </code></pre>
 <p>Let’s check, without the scrolling, how many different products we see:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>elements <span class="op">=</span> driver.find_elements(By.CSS_SELECTOR, <span class="st">".product-name"</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(elements)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(elements)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>driver.refresh()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>There are 12 elements. let’s do one scroll to the bottom.</p>
 <div class="cell">
@@ -492,21 +501,23 @@ temp/books_page_4.html temp/books_page_5.html </code></pre>
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> play_alert_mac():</span>
 <span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="im">import</span> subprocess</span>
 <span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  subprocess.run([<span class="st">"afplay"</span>, <span class="st">"/System/Library/Sounds/Ping.aiff"</span>])</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> play_alert_linux():</span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="st">"</span><span class="ch">\a</span><span class="st">"</span>) <span class="co"># ascii bell</span></span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> captcha_detected(driver):</span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    page_source <span class="op">=</span> driver.page_source.lower()</span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>    captcha_keywords <span class="op">=</span> [<span class="st">"captcha"</span>, <span class="st">"recaptcha"</span>, <span class="st">"verify you're human"</span>, <span class="st">"roboter"</span>]</span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">any</span>(keyword <span class="kw">in</span> page_source <span class="cf">for</span> keyword <span class="kw">in</span> captcha_keywords)</span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> solve_captcha_manually():</span>
-<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>    play_alert_mac() <span class="co"># or play_alert_windows() if you're using a Windows machine</span></span>
-<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"CAPTCHA detected! Please solve it manually."</span>)</span>
-<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>    <span class="bu">input</span>(<span class="st">"Press Enter when you've solved the CAPTCHA..."</span>)</span>
-<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Resuming scrape..."</span>)</span>
-<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>    time.sleep(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>play_alert_mac()</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> play_alert_linux():</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="st">"</span><span class="ch">\a</span><span class="st">"</span>) <span class="co"># ascii bell</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> captcha_detected(driver):</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    page_source <span class="op">=</span> driver.page_source.lower()</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>    captcha_keywords <span class="op">=</span> [<span class="st">"captcha"</span>, <span class="st">"recaptcha"</span>, <span class="st">"verify you're human"</span>, <span class="st">"roboter"</span>]</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">any</span>(keyword <span class="kw">in</span> page_source <span class="cf">for</span> keyword <span class="kw">in</span> captcha_keywords)</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> solve_captcha_manually():</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>    play_alert_mac() <span class="co"># or play_alert_windows() if you're using a Windows machine</span></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"CAPTCHA detected! Please solve it manually."</span>)</span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>    <span class="bu">input</span>(<span class="st">"Press Enter when you've solved the CAPTCHA..."</span>)</span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Resuming scrape..."</span>)</span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>    time.sleep(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>So let’s see how this works in real life using a <a href="https://www.google.com/recaptcha/api2/demo">demo website</a>.</p>
 <div class="cell">

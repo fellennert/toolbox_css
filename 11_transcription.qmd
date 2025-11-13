@@ -29,7 +29,7 @@ Due to compatibility problems, we first create a new`conda` environment. Then we
 needs(reticulate)
 
 # Create fresh environment
-conda_create("torch_env", python_version = "3.11")
+#conda_create("torch_env", python_version = "3.11")
 use_condaenv("torch_env", required = TRUE)
 
 # Install ALL packages at once with compatible versions
@@ -101,7 +101,7 @@ Also, if we have a GPU available -- as you probably should if you're running the
 #| eval: false
 
 device = torch.device('cpu') # I'm using CPU here because I'm on a Mac with a silicon architecture and whisper throws all kinds of problems here
-# device = device = torch.device('cuda' if torch.cuda.is_available() else 'cpu') # if you're on a server with a suitable GPU
+#device = torch.device('cuda' if torch.cuda.is_available() else 'cpu') # if you're on a server with a suitable GPU
 
 whisper_model = whisper.load_model("base").to("cpu")
 #whisper_model = whisper.load_model("base").to(device) # if you're on a server with a suitable GPU
@@ -154,7 +154,7 @@ def transcribe_audio(file_path): #transcribe it
     return result
 ```
 
-Now we canmake our first transcription:
+Now we can make our first transcription:
 
 ```{python eval=FALSE}
 #| eval: false

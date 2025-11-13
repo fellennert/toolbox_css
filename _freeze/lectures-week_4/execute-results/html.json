@@ -1,9 +1,11 @@
 {
-  "hash": "184520cebed1fd228392590b8e188e48",
+  "hash": "818e1216d51b1a8791c9a8a66a073e09",
   "result": {
     "engine": "knitr",
-    "markdown": "---\ntitle: \"Week 4: `selenium` and APIs\"\npublished-title: week_4\nengine: knitr\nfreeze: auto\n---\n\nThis lecture answers the following questions:\n\n- How do I control a browser? (Tuesday)\n- How can I communicate with an API? (Thursday)\n\n## Slides \n\nThere are no slides, just the R script. ",
-    "supporting": [],
+    "markdown": "---\ntitle: \"Week 4: `selenium` and APIs\"\npublished-title: week_4\nengine: knitr\nfreeze: auto\n---\n\nThis week answers the following questions:\n\n- How do I control a browser? (Tuesday)\n- How can I communicate with an API? (Tuesday)\n- How can I read in text from images or PDFs? (Thursday)\n- How can I transcribe text? (Thursday)\n\n## Slides \n\nThere are no slides for Tuesday, you can look at the ones from the week before, just the R script. \n\nThursday's slides can be found [here](slides/20251106-ocr_whisper.pdf).\n\n\n::: {.cell}\n<style type=\"text/css\">\n\n.embed-container {\n    position: relative;\n    padding-bottom: 129%;\n    height: 0;\n    overflow: hidden;\n    max-width: 100%;\n}\n\n.embed-container iframe,\n.embed-container object,\n.embed-container embed {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n}\n\n</style>\n:::\n\n\nAlternatively, read them here (probably not the best if you're visiting this page on a mobile device):\n\n\n<div class=\"embed-container\">\n  <iframe src=\"./slides/20251106-ocr_whisper.pdf\" style=\"border: 0.5px\"></iframe>\n</div>",
+    "supporting": [
+      "lectures-week_4_files"
+    ],
     "filters": [
       "rmarkdown/pagebreak.lua"
     ],
