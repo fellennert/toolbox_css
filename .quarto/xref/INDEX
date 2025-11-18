@@ -61,5 +61,14 @@
   },
   "11_transcription.qmd": {
     "11_transcription.html": "b9340e06"
+  },
+  "lectures-week_5.qmd": {
+    "lectures-week_5.html": "ead4aa7d"
+  },
+  "12_text-preprocessing.qmd": {
+    "12_text-preprocessing.html": "6bc987a9"
+  },
+  "13_dictionary-based-analysis.qmd": {
+    "13_dictionary-based-analysis.html": "cd26aca5"
   }
 }

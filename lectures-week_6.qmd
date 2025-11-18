@@ -1,0 +1,45 @@
+---
+title: "Week 5: Introduction to Text as Data"
+published-title: week_4
+engine: knitr
+freeze: auto
+---
+
+This week answers the following questions:
+
+- What are approaches for doing research with text? (Thursday)
+- What is the bag of words model? (Thursday)
+
+
+## Slides 
+
+Thursday's slides can be found [here](slides/20251113-tad-I.pdf).
+
+```{css echo=FALSE}
+
+.embed-container {
+    position: relative;
+    padding-bottom: 129%;
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+.embed-container iframe,
+.embed-container object,
+.embed-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+```
+
+Alternatively, read them here (probably not the best if you're visiting this page on a mobile device):
+
+
+<div class="embed-container">
+  <iframe src="./slides/20251113-tad-I.pdf" style="border: 0.5px"></iframe>
+</div>
