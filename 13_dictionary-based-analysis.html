@@ -390,7 +390,7 @@ window.Quarto = {
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>sotu_20cent_afinn <span class="sc">|&gt;</span> </span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> sentiment))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> sentiment), <span class="at">span =</span> <span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -539,7 +539,7 @@ sentiment_afinn "positive" "negative" "negative" "positive" "positive"</code></p
 <p>Good are alpha values of around 0.8 – AFINN missed that one.</p>
 <p>Another way to evaluate the quality of classification is through a confusion matrix.</p>
 <p><img src="figures/confusion_matrix.png" class="img-fluid"></p>
-<p>Now we can calculate precision (when it predicts “positive”, how often is it correct), recall/sensitivity (when it is “positive”, how often is this predicted), specificity (when it’s “negative”, how often is it actually negative). The <a href="https://deepai.org/machine-learning-glossary-and-terms/f-score">F1-score</a> is the harmonic mean of precision and recall and defined as <span class="math inline">\(F_1 = \frac{2}{\frac{1}{recall}\times \frac{1}{precision}} = 2\times \frac{precision\times recall}{precision + recall}\)</span> and the most commonly used measure to assess the accuracy of the classification. The closer to 1 it is, the better. You can find a more thorough description of the confusion matrix and the different measures in <a href="https://machinelearningmastery.com/confusion-matrix-machine-learning/">this blog post</a>.</p>
+<p>Now we can calculate precision (when it predicts “positive”, how often is it correct), recall/sensitivity (when it is “positive”, how often is this predicted), specificity (when it’s predicted “negative”, how often is it actually negative). The <a href="https://deepai.org/machine-learning-glossary-and-terms/f-score">F1-score</a> is the harmonic mean of precision and recall and defined as <span class="math inline">\(F_1 = \frac{2}{\frac{1}{recall}\times \frac{1}{precision}} = 2\times \frac{precision\times recall}{precision + recall}\)</span> and the most commonly used measure to assess the accuracy of the classification. The closer to 1 it is, the better. You can find a more thorough description of the confusion matrix and the different measures in <a href="https://machinelearningmastery.com/confusion-matrix-machine-learning/">this blog post</a>.</p>
 <p>We can do this in R using the <code>caret</code> package.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(caret)</span>
