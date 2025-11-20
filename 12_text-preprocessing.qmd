@@ -105,6 +105,8 @@ To decrease the complexity of the vocabulary even further, we can reduce the tok
 sotu_20cent_tokenized_nostopwords_nonumbers_stemmed <- sotu_20cent_tokenized_nostopwords_nonumbers |> 
   mutate(token_stemmed = wordStem(token, language = "en"))
 
+sotu_20cent_tokenized_nostopwords_nonumbers_stemmed |> select(starts_with("token")) |> glimpse()
+
 #SnowballC::getStemLanguages() # if you want to know the codes for other languages 
 ```
 
@@ -490,7 +492,7 @@ fairytales_top10_nostop |>
   geom_col(aes(x = n, y = reorder_within(token, n, book))) +
   scale_y_reordered() +
   labs(y = "token") +
-  facet_wrap(vars(book), scales = "free_y") +
+  facet_wrap(vars(book), scales = "free") +
   scale_x_continuous(breaks = scales::pretty_breaks()) +
   theme(strip.text.x = element_blank())
 ```

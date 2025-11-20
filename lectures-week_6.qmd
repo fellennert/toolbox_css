@@ -7,13 +7,15 @@ freeze: auto
 
 This week answers the following questions:
 
-- What are approaches for doing research with text? (Thursday)
-- What is the bag of words model? (Thursday)
+- How can we prepare text data for analysis? (Tuesday)
+- What are supervised machine learning approaches for doing research with text? (Thursday)
 
 
 ## Slides 
 
-Thursday's slides can be found [here](slides/20251113-tad-I.pdf).
+There are no slides for Tuesday, just an R script. 
+
+Thursday's slides can be found [here](slides/20251120-tad-II.pdf).
 
 ```{css echo=FALSE}
 
@@ -41,5 +43,5 @@ Alternatively, read them here (probably not the best if you're visiting this pag
 
 
 <div class="embed-container">
-  <iframe src="./slides/20251113-tad-I.pdf" style="border: 0.5px"></iframe>
+  <iframe src="./slides/20251120-tad-II.pdf" style="border: 0.5px"></iframe>
 </div>

@@ -1,5 +1,5 @@
 ---
-title: "Chapter 10: Dictionary-based Analysis"
+title: "Chapter 13: Dictionary-based Analysis"
 published-title: dictionary
 engine: knitr
 freeze: auto
@@ -59,7 +59,7 @@ That's a bit hard to interpret. `geom_smooth()` might help:
 ```{r message=FALSE, warning=FALSE}
 sotu_20cent_afinn |> 
   ggplot() +
-  geom_smooth(aes(x = year, y = sentiment))
+  geom_smooth(aes(x = year, y = sentiment), span = 0.2)
 ```
 
 Interesting. When you think of the tone in the SOTU addresses as a proxy measure for the circumstances, the worst phase appears to be during the 1920s and 1930s -- might make sense given the then economic circumstances, etc. The maximum was in around the 1960s and since then it has, apparently, remained fairly stable.
@@ -182,7 +182,7 @@ Another way to evaluate the quality of classification is through a confusion mat
 
 ![](figures/confusion_matrix.png)
 
-Now we can calculate precision (when it predicts "positive", how often is it correct), recall/sensitivity (when it is "positive", how often is this predicted), specificity (when it's "negative", how often is it actually negative). The [F1-score](https://deepai.org/machine-learning-glossary-and-terms/f-score) is the harmonic mean of precision and recall and defined as $F_1 = \frac{2}{\frac{1}{recall}\times \frac{1}{precision}} = 2\times \frac{precision\times recall}{precision + recall}$ and the most commonly used measure to assess the accuracy of the classification. The closer to 1 it is, the better. You can find a more thorough description of the confusion matrix and the different measures in [this blog post](https://machinelearningmastery.com/confusion-matrix-machine-learning/).
+Now we can calculate precision (when it predicts "positive", how often is it correct), recall/sensitivity (when it is "positive", how often is this predicted), specificity (when it's predicted "negative", how often is it actually negative). The [F1-score](https://deepai.org/machine-learning-glossary-and-terms/f-score) is the harmonic mean of precision and recall and defined as $F_1 = \frac{2}{\frac{1}{recall}\times \frac{1}{precision}} = 2\times \frac{precision\times recall}{precision + recall}$ and the most commonly used measure to assess the accuracy of the classification. The closer to 1 it is, the better. You can find a more thorough description of the confusion matrix and the different measures in [this blog post](https://machinelearningmastery.com/confusion-matrix-machine-learning/).
 
 We can do this in R using the `caret` package.
 
