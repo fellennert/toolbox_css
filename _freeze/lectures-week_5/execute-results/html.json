@@ -1,9 +1,11 @@
 {
-  "hash": "365a009370c3aa616315441e95b05114",
+  "hash": "1ebe8ea21388c22454a74a1397cc430e",
   "result": {
     "engine": "knitr",
-    "markdown": "---\ntitle: \"Week 5: Introduction to Text as Data\"\npublished-title: week_4\nengine: knitr\nfreeze: auto\n---\n\nThis week answers the following questions:\n\n- What are approaches for doing research with text? (Thursday)\n- What is the bag of words model? (Thursday)\n\n\n## Slides \n\nThursday's slides can be found [here](slides/20251113-tad-I.pdf).\n\n\n::: {.cell}\n<style type=\"text/css\">\n\n.embed-container {\n    position: relative;\n    padding-bottom: 129%;\n    height: 0;\n    overflow: hidden;\n    max-width: 100%;\n}\n\n.embed-container iframe,\n.embed-container object,\n.embed-container embed {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n}\n\n</style>\n:::\n\n\nAlternatively, read them here (probably not the best if you're visiting this page on a mobile device):\n\n\n<div class=\"embed-container\">\n  <iframe src=\"./slides/20251113-tad-I.pdf\" style=\"border: 0.5px\"></iframe>\n</div>",
-    "supporting": [],
+    "markdown": "---\ntitle: \"Week 5: Introduction to Text as Data\"\npublished-title: week_5\nengine: knitr\nfreeze: auto\n---\n\nThis week answers the following questions:\n\n- What are approaches for doing research with text? (Thursday)\n- What is the bag of words model? (Thursday)\n\n\n## Slides \n\nThursday's slides can be found [here](slides/20251113-tad-I.pdf).\n\n\n::: {.cell}\n<style type=\"text/css\">\n\n.embed-container {\n    position: relative;\n    padding-bottom: 129%;\n    height: 0;\n    overflow: hidden;\n    max-width: 100%;\n}\n\n.embed-container iframe,\n.embed-container object,\n.embed-container embed {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n}\n\n</style>\n:::\n\n\nAlternatively, read them here (probably not the best if you're visiting this page on a mobile device):\n\n\n<div class=\"embed-container\">\n  <iframe src=\"./slides/20251113-tad-I.pdf\" style=\"border: 0.5px\"></iframe>\n</div>",
+    "supporting": [
+      "lectures-week_5_files"
+    ],
     "filters": [
       "rmarkdown/pagebreak.lua"
     ],

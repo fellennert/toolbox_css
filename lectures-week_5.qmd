@@ -1,6 +1,6 @@
 ---
 title: "Week 5: Introduction to Text as Data"
-published-title: week_4
+published-title: week_5
 engine: knitr
 freeze: auto
 ---

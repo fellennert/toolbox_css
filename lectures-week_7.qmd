@@ -1,0 +1,18 @@
+---
+title: "Week 7: Supervised and Unsupervised Learning"
+published-title: week_7
+engine: knitr
+freeze: auto
+---
+
+This week answers the following questions:
+
+- How can we train classifiers to predict categorical outcomes from textual data? (Tuesday)
+- How can we discover latent structure in textual data without pre-defined categories? (Thursday)
+
+
+## Slides 
+
+There are no slides for Tuesday, just an R script. 
+
+Thursday's slides will be uploaded before class.

@@ -1,6 +1,6 @@
 ---
-title: "Week 5: Introduction to Text as Data"
-published-title: week_4
+title: "Week 6: Supervised Learning"
+published-title: week_6
 engine: knitr
 freeze: auto
 ---
