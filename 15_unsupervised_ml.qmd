@@ -1,0 +1,336 @@
+---
+title: "Chapter 15: Unsupervised Machine Learning"
+published-title: dictionary
+engine: knitr
+freeze: auto
+bibliography: literature.bib
+csl: ASA.csl
+---
+
+```{r echo=FALSE}
+vembedr::embed_youtube("y9bI9qXi0xk")
+```
+
+## Latent Dirichlet Allocation (LDA)
+
+In a former section, I, first, explored how the sentiment in the SOTU addresses has evolved over the 20th century. Then, we looked at the decade-specific vocabulary. This, paired with previous knowledge of what happened throughout the 20th century, sufficed to gain some sort of insight. However, another approach to infer meaning from text is to search it for topics. This is also possible with the SOTU corpus which we have at hand.
+
+The two main assumptions of LDA are as follows:
+
+-   Every document is a mixture of topics.
+-   Every topic is a mixture of words.
+
+Hence, singular documents do not necessarily be distinct in terms of their content. They can be related -- if they contain the same topics. This is more in line with natural language use.
+
+The following graphic depicts a flowchart of text analysis with the `tidytext` package.
+
+![Text analysis flowchart](https://www.tidytextmining.com/images/tmwr_0601.png)
+
+What becomes evident is that the actual topic modeling does not happen within `tidytext`. For this, the text needs to be transformed into a document-term-matrix and then passed on to the `topicmodels` package [@grun_topicmodels_2020], which will take care of the modeling process. Thereafter, the results are turned back into a tidy format, using `broom` so that they can be visualized using `ggplot2`. The following analysis focuses on Taylor Swift lyrics and partially borrows from [this blog post by Julia Silge](https://juliasilge.com/blog/taylor-swift/).
+
+## Document-term matrix
+
+To search for the topics which are prevalent in the singular addresses through LDA, we need to transform the tidy tibble into a document-term matrix first. This can be achieved with `cast_dtm()`.
+
+```{r}
+needs(taylor, tidyverse, tidytext, SnowballC, stm, spacyr)
+
+taylor_album_songs |> glimpse()
+
+tidy_taylor <- taylor_album_songs |>
+    unnest(lyrics) |> 
+    group_by(album_name, track_name, album_release) |>
+    summarize(text = str_c(lyric, collapse = " ")) |> 
+    rowid_to_column("doc_id") |> 
+    mutate(doc_id = doc_id |> as.integer())
+
+spacy_initialize(model = "en_core_web_sm")
+
+preprocessed_taylor <- spacy_parse(tidy_taylor) |> 
+  entity_consolidate() |> 
+  filter(pos != "PUNCT") |> 
+  filter(str_length(token) > 1) |> 
+  anti_join(get_stopwords(), by = join_by(lemma == word)) |> 
+  mutate(lemma = str_to_lower(lemma)) |> 
+  add_count(doc_id, lemma) |> 
+  filter(!str_detect(lemma, "'")) |> 
+  mutate(doc_id = doc_id |> as.integer()) |> 
+  arrange(doc_id)
+
+taylor_sparse <- preprocessed_taylor |>  
+  select(doc_id, lemma, n) |>
+  cast_sparse(doc_id, lemma, n)
+```
+
+A sparse matrix is similar to a document term matrix in that it contains Documents (rows) and Terms (columns) and specifies how often a term appears in a document.
+
+```{r}
+taylor_sparse |> as.matrix() %>% .[1:5, 1:5]
+taylor_sparse |> dim()
+```
+
+## Inferring the number of topics
+
+We need to tell the model in advance how many topics we assume to be present within the document. Since we have neither read all the SOTU addresses (if so, we would hardly need to use the topic model), we cannot make an educated guess on how many topics are in there.
+
+### Making guesses
+
+One approach might be to just provide it with wild guesses on how many topics might be in there and then try to make sense of them afterward.
+
+```{r eval=FALSE}
+needs(topicmodels, broom)
+
+taylor_lda_k13 <- stm(taylor_dtm, K = 13, verbose = FALSE)
+```
+
+The `tidy()` function from the `broom` package [@robinson_broom_2020] brings the stm output back into a tidy format. It consists of three columns: the topic, the term, and `beta`, which is the probability that the term stems from this topic.
+
+```{r}
+beta_taylor_k13 <- tidy(taylor_lda_k13) # gives word distributions per topic
+gamma_taylor_k13 <- tidy(taylor_lda_k13, matrix = "gamma") # gives topic probabilities per document
+```
+
+Now, we can wrangle it a bit, and then visualize it with `ggplot2`.
+
+```{r}
+top_terms_k13 <- beta_taylor_k13 |>
+  group_by(topic) |>
+  slice_max(beta, n = 5, with_ties = FALSE) |>
+  ungroup() |>
+  arrange(topic, -beta)
+
+top_terms_k13 |>
+  mutate(topic = factor(topic),
+         term = reorder_within(term, beta, topic)) |>
+  ggplot(aes(term, beta, fill = topic)) +
+  geom_bar(stat = "identity", show.legend = FALSE) +
+  scale_x_reordered() +
+  facet_wrap(~topic, scales = "free", ncol = 2) +
+  coord_flip()
+```
+
+Raw betas won't get us anywhere. They just show us the most frequent words per topic. However, these words might also be frequent in other topics. Therefore, we need to use other metrics to make sense of the topics.
+
+```{r}
+labelTopics(taylor_lda_k13, topics = 1:13)
+```
+
+Or look at which documents belong to which topics the most:
+
+```{r}
+gamma_prep <- gamma_taylor_k13 |>
+  group_by(topic) |>
+  ungroup() |>
+  arrange(topic, -gamma) |> 
+  left_join(tidy_taylor, by = c("document" = "doc_id")) |>  
+  select(topic, document, gamma, album_name, track_name) |> 
+  mutate(topic = factor(topic),
+         term = reorder_within(document, gamma, topic))
+
+gamma_tbl <- gamma_prep |> 
+  group_by(topic) |>
+  slice_max(gamma, n = 5) |> 
+  ungroup() |>
+  select(topic, track_name) |> 
+  mutate(id = rep(1:5, times = 13)) |>
+  pivot_wider(names_from = topic, values_from = track_name, names_prefix = "Topic_")
+
+```
+
+Okay, still tricky. Let's check which topics co-occur in albums. (This graph is taken from Julia Silge's blog post linked above, I take zero credit for it.)
+
+```{r}
+gamma_prep |> 
+ggplot(aes(gamma, topic, fill = topic)) +
+    geom_boxplot(alpha = 0.7, show.legend = FALSE) +
+    facet_wrap(vars(album_name)) +
+    labs(x = expression(gamma))
+```
+
+Okay, we see some differences now. Especially that certain topics are more prevalent in certain albums (for instance, topic 9 in folklore and 12 in fearless). However, still not perfect. Let's start from scratch and do it properly.
+
+### More elaborate methods
+
+LDA offers a couple of parameters to tune, but the most crucial one probably is `K`, the number of topics. The stm package offers the `FindTopicsNumber()` function which allows us to train multiple LDA models with different numbers of topics and then compare them based on different metrics.
+
+```{r eval=FALSE}
+determine_k <- searchK(taylor_sparse, K = seq(5, 40, by = 1), N = 20)
+plot(determine_k)
+```
+
+This graph can be read as follows: 
+- Held-Out Likelihood (top left, higher is better) measures how well our model predicts unseen data. We should look for where the curve starts plateauing -- i.e,  topics beyond this point will only offer diminishing returns and we've captured the main patterns in the data.
+- Residuals (top right, lower is better) assess model fit. The curve should be relatively stable with gradual improvement as K increases. Large spikes indicate convergence problems or model instability at that K value, thus we should avoid those.
+- Semantic Coherence (bottom left, higher is better) evaluates whether the top words in each topic tend to co-occur together in documents. Topics with high coherence are generally more interpretable. This metric typically decreases as you add more topics, reflecting the trade-off between granularity and interpretability.
+- Lower Bound (bottom right, higher is better) is a log-likelihood measure that always improves with more topics, so it's less useful for model selection on its own.
+
+Based on these metrics, we might choose `K = 20` as a good balance between model fit and interpretability, mainly due to the semantic coherence and the held-out likelihood starting to plateau around this point.
+
+## Sense-making
+
+Now, the harder part begins: making sense of the different topics. In LDA, words can exist across topics, making them not perfectly distinguishable. Also, as the number of topics becomes greater, plotting them doesn't make too much sense anymore. Let's do this with our optimized `K`:
+
+
+```{r}
+taylor_lda_k20 <- stm(taylor_sparse, K = 20, verbose = FALSE, seed = 1989)
+
+beta_taylor_k20 <- tidy(taylor_lda_k20) # gives word distributions per topic
+gamma_taylor_k20 <- tidy(taylor_lda_k20, matrix = "gamma") # gives topic probabilities per document
+
+top_terms_k20 <- beta_taylor_k20 |>
+  group_by(topic) |>
+  slice_max(beta, n = 5, with_ties = FALSE) |>
+  ungroup() |>
+  arrange(topic, -beta)
+
+top_terms_k20 |>
+  #filter(topic %in% 1:10) |> 
+  mutate(topic = factor(topic),
+         term = reorder_within(term, beta, topic)) |>
+  ggplot(aes(term, beta, fill = topic)) +
+  geom_bar(stat = "identity", show.legend = FALSE) +
+  scale_x_reordered() +
+  facet_wrap(~topic, scales = "free", ncol = 3) +
+  coord_flip()
+
+labelTopics(taylor_lda_k20, topics = 1:20)
+
+
+gamma_prep <- gamma_taylor_k20 |>
+  group_by(topic) |>
+  ungroup() |>
+  arrange(topic, -gamma) |> 
+  left_join(tidy_taylor, by = c("document" = "doc_id")) |>  
+  mutate(factor(album_name) |> fct_reorder(album_release)) |> 
+  select(topic, document, gamma, album_name, track_name) |> 
+  mutate(topic = factor(topic),
+         term = reorder_within(document, gamma, topic))
+
+gamma_tbl <- gamma_prep |> 
+  group_by(topic) |>
+  slice_max(gamma, n = 5, with_ties = FALSE) |> 
+  ungroup() |>
+  select(topic, track_name) |> 
+  mutate(id = rep(1:5, times = 20)) |>
+  pivot_wider(names_from = topic, values_from = track_name, names_prefix = "Topic_")
+
+gamma_prep |> 
+ggplot(aes(gamma, topic, fill = topic)) +
+    geom_boxplot(alpha = 0.7, show.legend = FALSE) +
+    facet_wrap(vars(album_name)) +
+    labs(x = expression(gamma))
+```
+
+## Incorporating meta data
+
+Structural Topic Models offer a framework for incorporating metadata into topic models. In particular, you can have these metadata affect the *topical prevalence*, i.e., the frequency a certain *topic* is discussed can vary depending on some observed non-textual property of the document. On the other hand, the *topical content*, i.e., the terms that constitute topics, may *vary depending on certain covariates*.
+
+Structural Topic Models are implemented in R via a dedicated package. The following overview provides information on the workflow and the functions that facilitate it.
+
+![](https://warin.ca/shiny/stm/images/fig02.png)
+
+In the following example, I will use the State of the Union addresses to run you through the process of training and evaluating an STM.
+
+```{r}
+effects <- estimateEffect(1:20 ~ album_name, taylor_lda_k20, tidy_taylor)
+
+effects |> tidy() |> filter(p.value < 0.05)
+```
+
+
+## Seeded Topic Models
+
+Another flavor of topic models are seeded topic models. They give you more control over the topics that are actually "worth finding" since you can predetermine the words that make up a certain topic. We are here going to use the SOTU corpus from before. We need it to be in the format of a document-feature matrix.
+
+```{r}
+needs(quanteda, seededlda)
+
+taylor_dfm <- preprocessed_taylor |> 
+  cast_dfm(doc_id, lemma, n)
+```
+
+Also, we needs to define our topics in a dictionary. I got some inspiration from [this Reddit post](https://www.reddit.com/r/TaylorSwift/comments/14s0fdm/a_mostly_comprehensive_list_of_motifs_and_themes/?share_id=OZOO-J9jb7xMH5IUdVIOW&utm_content=1&utm_medium=ios_app&utm_name=ioscss&utm_source=share&utm_term=4)
+
+```{r}
+dict <- dictionary(
+  list(
+    heartbreak = c("tears", "goodbye", "breakup", "crying", "hurt", "pain", "lonely", "miss", "sorry", "regret"),
+    romance = c("love", "kiss", "boyfriend", "forever", "marry", "romantic", "heart", "darling", "lover", "beautiful"),
+    revenge = c("revenge", "burn", "reputation", "mad", "blame", "fight", "deserve", "payback", "worse"),
+    nostalgia = c("remember", "back", "fifteen", "young", "memories", "childhood", "innocence", "time", "old"),
+    empowerment = c("shake", "stand", "strong", "fearless", "brave", "myself", "independent", "rise", "confidence", "unstoppable"),
+    fame = c("camera", "star", "spotlight", "stage", "dress", "red", "carpet", "crown", "audience", "performance"),
+    small_town = c("small", "town", "truck", "porch", "summer", "seventeen", "high", "school", "hometown", "street"),
+    celebration = c("dance", "party", "night", "champagne", "spark", "glitter", "magic", "celebrate", "midnight", "shine"),
+    friendship = c("friend", "girl", "squad", "together", "best", "laugh", "call", "close", "trust", "loyal"),
+    seasons = c("snow", "winter", "fall", "autumn", "spring", "cold", "rain", "december", "leaves", "season"),
+    cat = c("karma", "cat", "attack", "soldier", "hunter", "purr")
+  )
+)
+```
+
+Then we can train the model. We will again use `k = 20` -- hence, we need to set `residual = 9` -- this will give us 9 remaining + 11 defined topics.
+
+```{r}
+lda_res <- textmodel_seededlda(taylor_dfm, 
+                               dict, 
+                               residual = 9, 
+                               batch_size = 0.01, 
+                               auto_iter = TRUE,
+                               verbose = TRUE)
+```
+
+Let's have a look at the words in the topics:
+
+```{r}
+topic_words <- lda_res |> 
+  pluck("phi") |> 
+  t() |> 
+  as_tibble(rownames = NA) |> 
+  rownames_to_column("term") |> 
+  pivot_longer(-term) |> 
+  group_by(name) |> 
+  slice_max(value, n = 10) 
+```
+
+Let's check out the strength of the topics in the particular documents/years:
+
+```{r}
+docs <- rownames(taylor_dfm) |> 
+  enframe(name = NULL, value = "doc_id") |> 
+  bind_cols(lda_res$theta |> as_tibble())
+
+strongest_belongings <- docs |> 
+  pivot_longer(-doc_id, names_to = "topic") |> 
+  group_by(topic) |> 
+  slice_max(value, n = 5) |> 
+  left_join(tidy_taylor |> mutate(doc_id = doc_id |> as.character()))
+
+needs(plotly)
+boxplot <- docs |> 
+  left_join(tidy_taylor |> mutate(doc_id = doc_id |> as.character())) |> 
+  select(-starts_with("other")) |> 
+  pivot_longer(heartbreak:cat, names_to = "topic", values_to = "value") |> 
+  mutate(album_name = factor(album_name) |> fct_reorder(album_release),
+         label = case_when(
+          value > 0.7 ~ track_name,
+          TRUE ~ ""
+         )) |> 
+  ggplot(aes(value, topic, fill = topic, text = track_name)) +
+    geom_point(alpha = 0.7, show.legend = FALSE) +
+    facet_wrap(vars(album_name)) +
+    labs(x = expression(theta)) +
+    theme_minimal()
+
+ggplotly(boxplot, tooltip = "text") %>%
+  layout(hovermode = "closest")
+
+```
+
+This is just a first glimpse into the capabilities of seeded topic models. Of course, you can now do more, adapt the seed words etc., and finally visualize the topics. Just the way we did above.
+
+## Further readings
+
+-   Chapter on [LDA in Text Mining with R](https://www.tidytextmining.com/topicmodeling.html)
+-   A `shiny` [introduction to STMs](https://warin.ca/shiny/stm/#section-the-structural-topic-model) by Thierry Warin
+-   How to [train and use seeded topic models](https://koheiw.github.io/seededlda/articles/pkgdown/seeded.html)

@@ -49,7 +49,7 @@ glimpse(imdb_data)
 The first step is to divide the data into training and test sets using `initial_split()`. You need to make sure that the test and training set are fairly balanced which is achieved by using `strata =`. `prop =` refers to the proportion of rows that make it into the training set.
 
 ```{r}
-split <- initial_split(imdb_data, prop = 0.1, strata = sentiment, )
+split <- initial_split(imdb_data, prop = 0.1, strata = sentiment)
 
 imdb_train <- training(split)
 imdb_test <- testing(split)
@@ -95,7 +95,7 @@ More steps exist. These always follow the same structure: their first two argume
     -   in case you want to use it, make sure you tokenize via `spacyr` (by using `step_tokenize(text, engine = "spacyr")`)
 -   `step_pos_filter()`: adds the Part-of-speech tags
     -   `keep_tags =` character vector that specifies the types of tags to retain (default is "NOUN", for more details see [here](https://github.com/explosion/spaCy/blob/master/spacy/glossary.py) or consult chapter \@ref(day4))
-    -   in case you want to use it, make sure you tokenize via `spacyr` (by using `step_tokenize(text, engine = "spacyr"))`
+    -   in case you want to use it, make sure you tokenize via `spacyr` (by using `step_tokenize(text, engine = "spacyr")`)
 -   `step_stem()`: stems tokens
     -   `custom_stem =` specifies the stemming function. Defaults to `SnowballC`. Custom functions can be provided.
     -   `options =` can be used to provide arguments (stored as named elements of a list) to the stemming function. E.g., `step_stem(text, custom_stem = "SnowballC", options = list(language = "russian"))`
@@ -273,14 +273,14 @@ We will also play with the numbers of tokens to be included:
 imdb_tune_basic_recipe <- recipe(sentiment ~ text, data = imdb_train) |> 
   step_tokenize(text) |>
   step_tokenfilter(text, max_tokens = tune()) |> 
-  step_tf(text)
+  step_tfidf(text)
 ```
 
 The `dials` [@kuhn_dials_2022] package provides the handy `grid_regular()` function which chooses suitable values for certain parameters.
 
 ```{r}
 lambda_grid <- grid_regular(
-  penalty(range = c(-4, 0)), 
+  penalty(range = c(-4, 0)), # gets log10 transformed into log_10(-4) = 0.0001, log_10(-2) = 0.01, log_10(0) = 1
   max_tokens(range = c(1e3, 2e3)),
   levels = c(penalty = 3, max_tokens = 2)
 )

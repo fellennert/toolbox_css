@@ -1,0 +1,15 @@
+{
+  "hash": "0dbbce65161208372112fa8fd49031fd",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Week 7: Supervised and Unsupervised Learning\"\npublished-title: week_7\nengine: knitr\nfreeze: auto\n---\n\nThis week answers the following questions:\n\n- How can we train classifiers to predict categorical outcomes from textual data? (Tuesday)\n- How can we discover latent structure in textual data without pre-defined categories? (Thursday)\n\n\n## Slides \n\nThere are no slides for Tuesday, just an R script. \n\nThursday's slides will be uploaded before class.",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
