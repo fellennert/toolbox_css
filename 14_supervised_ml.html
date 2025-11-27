@@ -354,7 +354,7 @@ $ sentiment &lt;chr&gt; "negative", "negative", "negative", "negative", "negativ
 <h3 class="anchored" data-anchor-id="split-the-data">Split the data</h3>
 <p>The first step is to divide the data into training and test sets using <code>initial_split()</code>. You need to make sure that the test and training set are fairly balanced which is achieved by using <code>strata =</code>. <code>prop =</code> refers to the proportion of rows that make it into the training set.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(imdb_data, <span class="at">prop =</span> <span class="fl">0.1</span>, <span class="at">strata =</span> sentiment, )</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(imdb_data, <span class="at">prop =</span> <span class="fl">0.1</span>, <span class="at">strata =</span> sentiment)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>imdb_train <span class="ot">&lt;-</span> <span class="fu">training</span>(split)</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>imdb_test <span class="ot">&lt;-</span> <span class="fu">testing</span>(split)</span>
@@ -363,7 +363,7 @@ $ sentiment &lt;chr&gt; "negative", "negative", "negative", "negative", "negativ
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 2,500
 Columns: 2
-$ text      &lt;chr&gt; "A funny thing happened to me while watching \"Mosquito\": o…
+$ text      &lt;chr&gt; "This film is absolutely appalling and awful. It's not low b…
 $ sentiment &lt;chr&gt; "negative", "negative", "negative", "negative", "negative", …</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>imdb_train <span class="sc">|&gt;</span> <span class="fu">count</span>(sentiment)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -399,23 +399,23 @@ $ sentiment &lt;chr&gt; "negative", "negative", "negative", "negative", "negativ
 <pre><code># A tibble: 2,500 × 1,001
    sentiment tfidf_text_1 tfidf_text_10 tfidf_text_15 tfidf_text_2 tfidf_text_20
    &lt;fct&gt;            &lt;dbl&gt;         &lt;dbl&gt;         &lt;dbl&gt;        &lt;dbl&gt;         &lt;dbl&gt;
- 1 negative        0             0                  0      0              0     
- 2 negative        0.0262        0                  0      0.0233         0     
- 3 negative        0             0.0176             0      0.0197         0     
- 4 negative        0             0                  0      0              0     
- 5 negative        0             0                  0      0.00837        0.0126
- 6 negative        0             0                  0      0              0     
- 7 negative        0             0                  0      0              0     
- 8 negative        0             0                  0      0              0     
- 9 negative        0             0                  0      0              0     
-10 negative        0             0                  0      0              0     
+ 1 negative             0       0                   0       0                  0
+ 2 negative             0       0.0182              0       0.0205             0
+ 3 negative             0       0                   0       0                  0
+ 4 negative             0       0                   0       0                  0
+ 5 negative             0       0                   0       0                  0
+ 6 negative             0       0                   0       0                  0
+ 7 negative             0       0                   0       0                  0
+ 8 negative             0       0                   0       0                  0
+ 9 negative             0       0                   0       0                  0
+10 negative             0       0.00396             0       0                  0
 # ℹ 2,490 more rows
 # ℹ 995 more variables: tfidf_text_3 &lt;dbl&gt;, tfidf_text_4 &lt;dbl&gt;,
-#   tfidf_text_5 &lt;dbl&gt;, tfidf_text_7 &lt;dbl&gt;, tfidf_text_70 &lt;dbl&gt;,
-#   tfidf_text_8 &lt;dbl&gt;, tfidf_text_80 &lt;dbl&gt;, tfidf_text_9 &lt;dbl&gt;,
-#   tfidf_text_a &lt;dbl&gt;, tfidf_text_able &lt;dbl&gt;, tfidf_text_about &lt;dbl&gt;,
-#   tfidf_text_above &lt;dbl&gt;, tfidf_text_absolutely &lt;dbl&gt;,
-#   tfidf_text_across &lt;dbl&gt;, tfidf_text_act &lt;dbl&gt;, tfidf_text_acted &lt;dbl&gt;, …</code></pre>
+#   tfidf_text_5 &lt;dbl&gt;, tfidf_text_7 &lt;dbl&gt;, tfidf_text_8 &lt;dbl&gt;,
+#   tfidf_text_80 &lt;dbl&gt;, tfidf_text_9 &lt;dbl&gt;, tfidf_text_a &lt;dbl&gt;,
+#   tfidf_text_able &lt;dbl&gt;, tfidf_text_about &lt;dbl&gt;, tfidf_text_above &lt;dbl&gt;,
+#   tfidf_text_absolutely &lt;dbl&gt;, tfidf_text_across &lt;dbl&gt;, tfidf_text_act &lt;dbl&gt;,
+#   tfidf_text_acted &lt;dbl&gt;, tfidf_text_acting &lt;dbl&gt;, tfidf_text_action &lt;dbl&gt;, …</code></pre>
 </div>
 </div>
 </section>
@@ -437,7 +437,7 @@ $ sentiment &lt;chr&gt; "negative", "negative", "negative", "negative", "negativ
 <li><code>step_pos_filter()</code>: adds the Part-of-speech tags
 <ul>
 <li><code>keep_tags =</code> character vector that specifies the types of tags to retain (default is “NOUN”, for more details see <a href="https://github.com/explosion/spaCy/blob/master/spacy/glossary.py">here</a> or consult chapter @ref(day4))</li>
-<li>in case you want to use it, make sure you tokenize via <code>spacyr</code> (by using <code>step_tokenize(text, engine = "spacyr"))</code></li>
+<li>in case you want to use it, make sure you tokenize via <code>spacyr</code> (by using <code>step_tokenize(text, engine = "spacyr")</code>)</li>
 </ul></li>
 <li><code>step_stem()</code>: stems tokens
 <ul>
@@ -608,12 +608,12 @@ $ sentiment &lt;chr&gt; "negative", "negative", "negative", "negative", "negativ
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>imdb_tune_basic_recipe <span class="ot">&lt;-</span> <span class="fu">recipe</span>(sentiment <span class="sc">~</span> text, <span class="at">data =</span> imdb_train) <span class="sc">|&gt;</span> </span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_tokenize</span>(text) <span class="sc">|&gt;</span></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_tokenfilter</span>(text, <span class="at">max_tokens =</span> <span class="fu">tune</span>()) <span class="sc">|&gt;</span> </span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_tf</span>(text)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_tfidf</span>(text)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The <code>dials</code> <span class="citation" data-cites="kuhn_dials_2022">(<a href="#ref-kuhn_dials_2022" role="doc-biblioref">Kuhn and Frick 2022</a>)</span> package provides the handy <code>grid_regular()</code> function which chooses suitable values for certain parameters.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>lambda_grid <span class="ot">&lt;-</span> <span class="fu">grid_regular</span>(</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">penalty</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">0</span>)), </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">penalty</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">0</span>)), <span class="co"># gets log10 transformed into log_10(-4) = 0.0001, log_10(-2) = 0.01, log_10(0) = 1</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">max_tokens</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="fl">1e3</span>, <span class="fl">2e3</span>)),</span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">levels =</span> <span class="fu">c</span>(<span class="at">penalty =</span> <span class="dv">3</span>, <span class="at">max_tokens =</span> <span class="dv">2</span>)</span>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -704,9 +704,9 @@ $ sentiment &lt;chr&gt; "negative", "negative", "negative", "negative", "negativ
 <pre><code># A tibble: 3 × 4
   .metric     .estimator .estimate .config        
   &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;          
-1 accuracy    binary         0.830 pre0_mod0_post0
+1 accuracy    binary         0.831 pre0_mod0_post0
 2 roc_auc     binary         0.907 pre0_mod0_post0
-3 brier_class binary         0.128 pre0_mod0_post0</code></pre>
+3 brier_class binary         0.126 pre0_mod0_post0</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">collect_predictions</span>(final_fitted) <span class="sc">|&gt;</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">conf_mat</span>(<span class="at">truth =</span> sentiment, <span class="at">estimate =</span> .pred_class) <span class="sc">|&gt;</span></span>
