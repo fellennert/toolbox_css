@@ -219,6 +219,10 @@ window.Quarto = {
     <a class="dropdown-item" href="./lectures-week_8.html">
  <span class="dropdown-text">Week 7: Supervised and Unsupervised Learning</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_9.html">
+ <span class="dropdown-text">Week 7: Supervised and Unsupervised Learning</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -557,27 +561,49 @@ F-statistic: 2.144e+04 on 1 and 26104 DF,  p-value: &lt; 2.2e-16</code></pre>
 4 ecological         0.421
 5 progressives       0.416</code></pre>
 </div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">semantic_algebra</span>(<span class="st">"christmas"</span>, <span class="st">"santa"</span>, <span class="st">"bunny"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 2
+  token   cosine_sim
+  &lt;chr&gt;        &lt;dbl&gt;
+1 bugs         0.460
+2 easter       0.456
+3 bunnies      0.428
+4 holiday      0.419
+5 daffy        0.415</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">semantic_algebra</span>(<span class="st">"christmas"</span>, <span class="st">"snow"</span>, <span class="st">"sun"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 2
+  token        cosine_sim
+  &lt;chr&gt;             &lt;dbl&gt;
+1 holiday           0.477
+2 thanksgiving      0.409
+3 eve               0.405
+4 birthday          0.382
+5 sunset            0.382</code></pre>
+</div>
 </div>
 </section>
 <section id="investigating-biases" class="level3">
 <h3 class="anchored" data-anchor-id="investigating-biases">Investigating biases</h3>
 <p>Quite in the same vein, we can also use vector algebra to investigate all different kinds of biases in language. The idea is to form certain dimensions or axes that relate to real-world spectra. Examples would be social class (“poor – rich”), gender (“male – female”), age (“young – old”).</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>gender <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">add =</span> <span class="fu">c</span>(<span class="st">"man"</span>, <span class="st">"boy"</span>, <span class="st">"grandfather"</span>, <span class="st">"gentleman"</span>, <span class="st">"husband"</span>),</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">subtract =</span> <span class="fu">c</span>(<span class="st">"woman"</span>, <span class="st">"girl"</span>, <span class="st">"grandmother"</span>, <span class="st">"lady"</span>, <span class="st">"wife"</span>)</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>sem_dir <span class="ot">&lt;-</span> <span class="fu">get_direction</span>(<span class="at">anchors =</span> gender, <span class="at">wv =</span> glove_wiki)</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>jobs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"secretary"</span>, <span class="st">"carpenter"</span>, <span class="st">"nurse"</span>, <span class="st">"ceo"</span>, <span class="st">"doctor"</span>)</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>job_gender_bias <span class="ot">&lt;-</span> <span class="fu">sim2</span>(sem_dir, glove_wiki[jobs, ], <span class="at">method =</span> <span class="st">"cosine"</span>)</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>bias_tbl <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">direction =</span> job_gender_bias[<span class="dv">1</span>, ],</span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>                   <span class="at">term =</span> <span class="fu">colnames</span>(job_gender_bias))</span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>bias_tbl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>gender <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">add =</span> <span class="fu">c</span>(<span class="st">"man"</span>, <span class="st">"boy"</span>, <span class="st">"grandfather"</span>, <span class="st">"gentleman"</span>, <span class="st">"husband"</span>),</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">subtract =</span> <span class="fu">c</span>(<span class="st">"woman"</span>, <span class="st">"girl"</span>, <span class="st">"grandmother"</span>, <span class="st">"lady"</span>, <span class="st">"wife"</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>sem_dir <span class="ot">&lt;-</span> <span class="fu">get_direction</span>(<span class="at">anchors =</span> gender, <span class="at">wv =</span> glove_wiki)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>jobs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"secretary"</span>, <span class="st">"carpenter"</span>, <span class="st">"nurse"</span>, <span class="st">"ceo"</span>, <span class="st">"doctor"</span>)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>job_gender_bias <span class="ot">&lt;-</span> <span class="fu">sim2</span>(sem_dir, glove_wiki[jobs, ], <span class="at">method =</span> <span class="st">"cosine"</span>)</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>bias_tbl <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">direction =</span> job_gender_bias[<span class="dv">1</span>, ],</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>                   <span class="at">term =</span> <span class="fu">colnames</span>(job_gender_bias))</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>bias_tbl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 2
   direction term     
@@ -594,46 +620,46 @@ F-statistic: 2.144e+04 on 1 and 26104 DF,  p-value: &lt; 2.2e-16</code></pre>
 <h3 class="anchored" data-anchor-id="dimensionality-reduction">Dimensionality Reduction</h3>
 <p>We can also reduce the dimensionality and put the terms into a two-dimensional representation (which is a bit easier to interpret for humans). To do this we perform a Principal Component Analysis and retain the first two components.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(ggrepel)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>music_query <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Bach"</span>, <span class="st">"Mozart"</span>, <span class="st">"Haendel"</span>, <span class="st">"Verdi"</span>, <span class="st">"Bizet"</span>, <span class="st">"Poulenc"</span>, <span class="st">"Debussy"</span>, </span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"Tupac"</span>, <span class="st">"Eminem"</span>, <span class="st">"Wu-Tang"</span>, </span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"Coltrane"</span>, <span class="st">"Miles"</span>, <span class="st">"Armstrong"</span>, <span class="st">"Ellington"</span>, <span class="st">"Dolphy"</span>, <span class="st">"Hawkins"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_to_lower</span>()</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>name_query <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Julien"</span>, <span class="st">"Étienne"</span>, <span class="st">"Félix"</span>, </span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Marie"</span>, <span class="st">"Anne"</span>, <span class="st">"Camille"</span>, </span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Panagiotis"</span>, <span class="st">"Nikos"</span>, <span class="st">"Vassilis"</span>,</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Maria"</span>, <span class="st">"Eugenia"</span>, <span class="st">"Myrto"</span>,</span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Khaled"</span>, <span class="st">"Karim"</span>, <span class="st">"Abdellatif"</span>,</span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Khalida"</span>, <span class="st">"Karima"</span>, <span class="st">"Aminata"</span>, </span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Gunther"</span>, <span class="st">"Gunnar"</span>, <span class="st">"Anders"</span>, </span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Greta"</span>, <span class="st">"Ursula"</span>, <span class="st">"Helga"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_to_lower</span>()</span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>job_query <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Economist"</span>, <span class="st">"Sociologist"</span>, <span class="st">"Psychologist"</span>, <span class="st">"Anthropologist"</span>, </span>
-<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>               <span class="st">"Historian"</span>, <span class="st">"Geographer"</span>, <span class="st">"Archeologist"</span>, <span class="st">"Theologist"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_to_lower</span>()</span>
-<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>music_pca <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(glove_wiki[music_query, ]) <span class="sc">|&gt;</span> </span>
-<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="st">"x"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>(<span class="at">rownames =</span> <span class="cn">NA</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="st">"name"</span>)</span>
-<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>name_pca <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(glove_wiki[name_query, ]) <span class="sc">|&gt;</span> </span>
-<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="st">"x"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>(<span class="at">rownames =</span> <span class="cn">NA</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="st">"name"</span>)</span>
-<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>job_pca <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(glove_wiki[job_query, ]) <span class="sc">|&gt;</span> </span>
-<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="st">"x"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>(<span class="at">rownames =</span> <span class="cn">NA</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="st">"name"</span>)</span>
-<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>music_pca <span class="sc">|&gt;</span> </span>
-<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label_repel</span>(<span class="fu">aes</span>(PC1, PC2, <span class="at">label =</span> name))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(ggrepel)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>music_query <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Bach"</span>, <span class="st">"Mozart"</span>, <span class="st">"Haendel"</span>, <span class="st">"Verdi"</span>, <span class="st">"Bizet"</span>, <span class="st">"Poulenc"</span>, <span class="st">"Debussy"</span>, </span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"Tupac"</span>, <span class="st">"Eminem"</span>, <span class="st">"Wu-Tang"</span>, </span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"Coltrane"</span>, <span class="st">"Miles"</span>, <span class="st">"Armstrong"</span>, <span class="st">"Ellington"</span>, <span class="st">"Dolphy"</span>, <span class="st">"Hawkins"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_to_lower</span>()</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>name_query <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Julien"</span>, <span class="st">"Étienne"</span>, <span class="st">"Félix"</span>, </span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Marie"</span>, <span class="st">"Anne"</span>, <span class="st">"Camille"</span>, </span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Panagiotis"</span>, <span class="st">"Nikos"</span>, <span class="st">"Vassilis"</span>,</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Maria"</span>, <span class="st">"Eugenia"</span>, <span class="st">"Myrto"</span>,</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Khaled"</span>, <span class="st">"Karim"</span>, <span class="st">"Abdellatif"</span>,</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Khalida"</span>, <span class="st">"Karima"</span>, <span class="st">"Aminata"</span>, </span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Gunther"</span>, <span class="st">"Gunnar"</span>, <span class="st">"Anders"</span>, </span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Greta"</span>, <span class="st">"Ursula"</span>, <span class="st">"Helga"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_to_lower</span>()</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>job_query <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Economist"</span>, <span class="st">"Sociologist"</span>, <span class="st">"Psychologist"</span>, <span class="st">"Anthropologist"</span>, </span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>               <span class="st">"Historian"</span>, <span class="st">"Geographer"</span>, <span class="st">"Archeologist"</span>, <span class="st">"Theologist"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">str_to_lower</span>()</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>music_pca <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(glove_wiki[music_query, ]) <span class="sc">|&gt;</span> </span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="st">"x"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>(<span class="at">rownames =</span> <span class="cn">NA</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="st">"name"</span>)</span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>name_pca <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(glove_wiki[name_query, ]) <span class="sc">|&gt;</span> </span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="st">"x"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>(<span class="at">rownames =</span> <span class="cn">NA</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="st">"name"</span>)</span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>job_pca <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(glove_wiki[job_query, ]) <span class="sc">|&gt;</span> </span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pluck</span>(<span class="st">"x"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>(<span class="at">rownames =</span> <span class="cn">NA</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="st">"name"</span>)</span>
+<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a>music_pca <span class="sc">|&gt;</span> </span>
+<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label_repel</span>(<span class="fu">aes</span>(PC1, PC2, <span class="at">label =</span> name))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -641,9 +667,9 @@ F-statistic: 2.144e+04 on 1 and 26104 DF,  p-value: &lt; 2.2e-16</code></pre>
 </figure>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>name_pca <span class="sc">|&gt;</span> </span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label_repel</span>(<span class="fu">aes</span>(PC1, PC2, <span class="at">label =</span> name))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>name_pca <span class="sc">|&gt;</span> </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label_repel</span>(<span class="fu">aes</span>(PC1, PC2, <span class="at">label =</span> name))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -651,9 +677,9 @@ F-statistic: 2.144e+04 on 1 and 26104 DF,  p-value: &lt; 2.2e-16</code></pre>
 </figure>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>job_pca <span class="sc">|&gt;</span> </span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label_repel</span>(<span class="fu">aes</span>(PC1, PC2, <span class="at">label =</span> name))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>job_pca <span class="sc">|&gt;</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label_repel</span>(<span class="fu">aes</span>(PC1, PC2, <span class="at">label =</span> name))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -667,7 +693,7 @@ F-statistic: 2.144e+04 on 1 and 26104 DF,  p-value: &lt; 2.2e-16</code></pre>
 <section id="train-your-own-models" class="level2">
 <h2 class="anchored" data-anchor-id="train-your-own-models">Train your own models</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>vembedr<span class="sc">::</span><span class="fu">embed_youtube</span>(<span class="st">"tszFrx1sr48"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>vembedr<span class="sc">::</span><span class="fu">embed_youtube</span>(<span class="st">"tszFrx1sr48"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="vembedr">
 <div>
@@ -679,68 +705,68 @@ F-statistic: 2.144e+04 on 1 and 26104 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>So far, this is all fun and games, but not so much suited for our research. If we want to do this, we need to be able to train the models ourselves. Then we can, for instance, systematically investigate the biases certain authors that bear certain traits (e.g., political leaning, born in the same century, same gender, skin color, etc.) have and how they compare to each other.</p>
 <p>However, training these models requires a significant amount of text and a bit of computing power. Hence, in this example, we will look at books. This will give us some text. But we only look at ~200, to not overwhelm our fragile laptops. However, the books are all quite old. Also, we have little meta information on the authors. I will therefore use the <code>gender</code> package to infer their gender.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co">#pak::pak("ropensci/gutenbergr")</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(gutenbergr, gender)</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>first_names <span class="ot">&lt;-</span> gutenberg_metadata <span class="sc">|&gt;</span> </span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(language <span class="sc">==</span> <span class="st">"en"</span> <span class="sc">&amp;</span> has_text) <span class="sc">|&gt;</span> </span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">first_name =</span> <span class="fu">str_extract</span>(author, <span class="st">"(?&lt;=</span><span class="sc">\\</span><span class="st">, )</span><span class="sc">\\</span><span class="st">w+"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>           <span class="fu">str_squish</span>()) <span class="sc">|&gt;</span> </span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">replace_na</span>(<span class="fu">list</span>(<span class="at">first_name =</span> <span class="st">" "</span>)) </span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>joined_names <span class="ot">&lt;-</span> first_names <span class="sc">|&gt;</span> </span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">gender</span>(first_names<span class="sc">$</span>first_name), <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"first_name"</span> <span class="ot">=</span> <span class="st">"name"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(gutenberg_id, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(gender) <span class="sc">|&gt;</span> </span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(gender) <span class="sc">|&gt;</span> </span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">200</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
-<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>male_corpus <span class="ot">&lt;-</span> joined_names <span class="sc">|&gt;</span> </span>
-<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(gender <span class="sc">==</span> <span class="st">"male"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(gutenberg_id) <span class="sc">|&gt;</span> </span>
-<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gutenberg_download</span>(<span class="at">gutenberg_id =</span> _, <span class="at">mirror =</span> <span class="st">"https://www.gutenberg.org/dirs/"</span>)</span>
-<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>male_text <span class="ot">&lt;-</span> male_corpus <span class="sc">|&gt;</span> </span>
-<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(gutenberg_id) <span class="sc">|&gt;</span> </span>
-<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">text =</span> text <span class="sc">|&gt;</span> <span class="fu">str_c</span>(<span class="at">collapse =</span> <span class="st">" "</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(gutenberg_metadata)</span>
-<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>female_corpus <span class="ot">&lt;-</span> joined_names <span class="sc">|&gt;</span> </span>
-<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(gender <span class="sc">==</span> <span class="st">"female"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(gutenberg_id) <span class="sc">|&gt;</span> </span>
-<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">gutenberg_download</span>(<span class="at">gutenberg_id =</span> _, <span class="at">mirror =</span> <span class="st">"https://www.gutenberg.org/dirs/"</span>)</span>
-<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>female_text <span class="ot">&lt;-</span> female_corpus <span class="sc">|&gt;</span> </span>
-<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(gutenberg_id) <span class="sc">|&gt;</span> </span>
-<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">text =</span> text <span class="sc">|&gt;</span> <span class="fu">str_c</span>(<span class="at">collapse =</span> <span class="st">" "</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(gutenberg_metadata)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co">#pak::pak("ropensci/gutenbergr")</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(gutenbergr, gender)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>first_names <span class="ot">&lt;-</span> gutenberg_metadata <span class="sc">|&gt;</span> </span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(language <span class="sc">==</span> <span class="st">"en"</span> <span class="sc">&amp;</span> has_text) <span class="sc">|&gt;</span> </span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">first_name =</span> <span class="fu">str_extract</span>(author, <span class="st">"(?&lt;=</span><span class="sc">\\</span><span class="st">, )</span><span class="sc">\\</span><span class="st">w+"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>           <span class="fu">str_squish</span>()) <span class="sc">|&gt;</span> </span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">replace_na</span>(<span class="fu">list</span>(<span class="at">first_name =</span> <span class="st">" "</span>)) </span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>joined_names <span class="ot">&lt;-</span> first_names <span class="sc">|&gt;</span> </span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">gender</span>(first_names<span class="sc">$</span>first_name), <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"first_name"</span> <span class="ot">=</span> <span class="st">"name"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(gutenberg_id, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(gender) <span class="sc">|&gt;</span> </span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(gender) <span class="sc">|&gt;</span> </span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">200</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>male_corpus <span class="ot">&lt;-</span> joined_names <span class="sc">|&gt;</span> </span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(gender <span class="sc">==</span> <span class="st">"male"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(gutenberg_id) <span class="sc">|&gt;</span> </span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gutenberg_download</span>(<span class="at">gutenberg_id =</span> _, <span class="at">mirror =</span> <span class="st">"https://www.gutenberg.org/dirs/"</span>)</span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>male_text <span class="ot">&lt;-</span> male_corpus <span class="sc">|&gt;</span> </span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(gutenberg_id) <span class="sc">|&gt;</span> </span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">text =</span> text <span class="sc">|&gt;</span> <span class="fu">str_c</span>(<span class="at">collapse =</span> <span class="st">" "</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(gutenberg_metadata)</span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a>female_corpus <span class="ot">&lt;-</span> joined_names <span class="sc">|&gt;</span> </span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(gender <span class="sc">==</span> <span class="st">"female"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(gutenberg_id) <span class="sc">|&gt;</span> </span>
+<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">gutenberg_download</span>(<span class="at">gutenberg_id =</span> _, <span class="at">mirror =</span> <span class="st">"https://www.gutenberg.org/dirs/"</span>)</span>
+<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a>female_text <span class="ot">&lt;-</span> female_corpus <span class="sc">|&gt;</span> </span>
+<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(gutenberg_id) <span class="sc">|&gt;</span> </span>
+<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">text =</span> text <span class="sc">|&gt;</span> <span class="fu">str_c</span>(<span class="at">collapse =</span> <span class="st">" "</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(gutenberg_metadata)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Once we have acquired the text, we can train the models. Here, we will use the <code>GloVe</code> algorithm and lower dimensions. The <code>wordsalad</code> package provides us with an implementation.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(wordsalad)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>wordsalad<span class="sc">::</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>male_emb <span class="ot">&lt;-</span> wordsalad<span class="sc">::</span><span class="fu">fasttext</span>(male_text <span class="sc">|&gt;</span> </span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>                               <span class="fu">pull</span>(text) <span class="sc">|&gt;</span> </span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>                               <span class="fu">str_remove_all</span>(<span class="st">"[:punct:]"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>                               <span class="fu">str_to_lower</span>(), </span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>                             <span class="at">dim =</span> <span class="dv">50</span>)</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>male_emb_mat <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(male_emb[, <span class="dv">2</span><span class="sc">:</span><span class="dv">51</span>])</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(male_emb_mat) <span class="ot">&lt;-</span> male_emb<span class="sc">$</span>tokens</span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>female_emb <span class="ot">&lt;-</span> wordsalad<span class="sc">::</span><span class="fu">fasttext</span>(female_text <span class="sc">|&gt;</span> </span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>                                 <span class="fu">pull</span>(text) <span class="sc">|&gt;</span> </span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>                                 <span class="fu">str_remove_all</span>(<span class="st">"[:punct:]"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>                                 <span class="fu">str_to_lower</span>(),</span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>                               <span class="at">dim =</span> <span class="dv">50</span>)</span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>female_emb_mat <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(female_emb[, <span class="dv">2</span><span class="sc">:</span><span class="dv">51</span>])</span>
-<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(female_emb_mat) <span class="ot">&lt;-</span> female_emb<span class="sc">$</span>tokens</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(wordsalad)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>male_emb <span class="ot">&lt;-</span> wordsalad<span class="sc">::</span><span class="fu">fasttext</span>(male_text <span class="sc">|&gt;</span> </span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>                               <span class="fu">pull</span>(text) <span class="sc">|&gt;</span> </span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>                               <span class="fu">str_remove_all</span>(<span class="st">"[:punct:]"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>                               <span class="fu">str_to_lower</span>(), </span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>                             <span class="at">dim =</span> <span class="dv">50</span>)</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>male_emb_mat <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(male_emb[, <span class="dv">2</span><span class="sc">:</span><span class="dv">51</span>])</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(male_emb_mat) <span class="ot">&lt;-</span> male_emb<span class="sc">$</span>tokens</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>female_emb <span class="ot">&lt;-</span> wordsalad<span class="sc">::</span><span class="fu">fasttext</span>(female_text <span class="sc">|&gt;</span> </span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>                                 <span class="fu">pull</span>(text) <span class="sc">|&gt;</span> </span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>                                 <span class="fu">str_remove_all</span>(<span class="st">"[:punct:]"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>                                 <span class="fu">str_to_lower</span>(),</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>                               <span class="at">dim =</span> <span class="dv">50</span>)</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>female_emb_mat <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(female_emb[, <span class="dv">2</span><span class="sc">:</span><span class="dv">51</span>])</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(female_emb_mat) <span class="ot">&lt;-</span> female_emb<span class="sc">$</span>tokens</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>shared_words <span class="ot">&lt;-</span> <span class="fu">intersect</span>(<span class="fu">rownames</span>(male_emb_mat), <span class="fu">rownames</span>(female_emb_mat))</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>male_emb_mat_shared <span class="ot">&lt;-</span> male_emb_mat[shared_words, ]</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>female_emb_mat_shared <span class="ot">&lt;-</span> female_emb_mat[shared_words, ]</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>male_emb_aligned <span class="ot">&lt;-</span> <span class="fu">find_transformation</span>(male_emb_mat_shared, <span class="at">ref =</span> female_emb_mat_shared, <span class="at">method =</span> <span class="st">"align"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>shared_words <span class="ot">&lt;-</span> <span class="fu">intersect</span>(<span class="fu">rownames</span>(male_emb_mat), <span class="fu">rownames</span>(female_emb_mat))</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>male_emb_mat_shared <span class="ot">&lt;-</span> male_emb_mat[shared_words, ]</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>female_emb_mat_shared <span class="ot">&lt;-</span> female_emb_mat[shared_words, ]</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>male_emb_aligned <span class="ot">&lt;-</span> <span class="fu">find_transformation</span>(male_emb_mat_shared, <span class="at">ref =</span> female_emb_mat_shared, <span class="at">method =</span> <span class="st">"align"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now we can use these matrices just as the pretrained matrix before and start to investigate different biases systematically. However, these biases are of course quite dependent on the choice of corpus and might be unstable. One way to mitigate this would be a bootstrapping approach. Thereby, multiple models are trained with randomly sampled 95% of text units (e.g., sentences). Then, the bias estimates are calculated for each model and compared <span class="citation" data-cites="antoniak_evaluating_2018">(<a href="#ref-antoniak_evaluating_2018" role="doc-biblioref">Antoniak and Mimno 2018</a>)</span>.</p>
 </section>
@@ -749,31 +775,31 @@ F-statistic: 2.144e+04 on 1 and 26104 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Concept Mover’s Distance (CMD) is a technique proposed by <span class="citation" data-cites="stoltz_concept_2019">Stoltz and Taylor (<a href="#ref-stoltz_concept_2019" role="doc-biblioref">2019</a>)</span> to measure the semantic similarity between documents and pre-defined conceptual constructs. This method extends the Word Mover’s Distance (WMD) by using conceptual words, centroids, or directional vectors instead of individual word embeddings, allowing researchers to analyze broader thematic patterns in text.</p>
 <p>Here we use CMD to compare how male and female authors differ in how they engage with certain concepts. We first create a document-term-matrix and calculate the CMD to words that represent different concepts.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>dtm_books <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  male_text <span class="sc">|&gt;</span> </span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">gender =</span> <span class="st">"male"</span>), </span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  female_text <span class="sc">|&gt;</span> </span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">gender =</span> <span class="st">"female"</span>)</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(token, text) <span class="sc">|&gt;</span></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(token, gutenberg_id) <span class="sc">|&gt;</span> </span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cast_dtm</span>(<span class="at">document =</span> gutenberg_id, <span class="at">term =</span> token, <span class="at">value =</span> n)</span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>doc_closeness <span class="ot">&lt;-</span> <span class="fu">CMDist</span>(<span class="at">dtm =</span> dtm_books, </span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>                        <span class="at">cw =</span> <span class="fu">c</span>(<span class="st">"violence"</span>, <span class="st">"romance"</span>, <span class="st">"sex"</span>, <span class="st">"family"</span>, <span class="st">"love"</span>, <span class="st">"war"</span>), </span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>                        <span class="at">wv =</span> glove_wiki)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>dtm_books <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  male_text <span class="sc">|&gt;</span> </span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">gender =</span> <span class="st">"male"</span>), </span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  female_text <span class="sc">|&gt;</span> </span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">gender =</span> <span class="st">"female"</span>)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(token, text) <span class="sc">|&gt;</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(token, gutenberg_id) <span class="sc">|&gt;</span> </span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cast_dtm</span>(<span class="at">document =</span> gutenberg_id, <span class="at">term =</span> token, <span class="at">value =</span> n)</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>doc_closeness <span class="ot">&lt;-</span> <span class="fu">CMDist</span>(<span class="at">dtm =</span> dtm_books, </span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>                        <span class="at">cw =</span> <span class="fu">c</span>(<span class="st">"violence"</span>, <span class="st">"romance"</span>, <span class="st">"sex"</span>, <span class="st">"family"</span>, <span class="st">"love"</span>, <span class="st">"war"</span>), </span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>                        <span class="at">wv =</span> glove_wiki)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We can also visualize them. Larger values indicate more engagement.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>doc_closeness <span class="sc">|&gt;</span> </span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">gutenberg_id =</span> doc_id <span class="sc">|&gt;</span> <span class="fu">as.integer</span>()) <span class="sc">|&gt;</span> </span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">bind_rows</span>(male_text <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">gender =</span> <span class="st">"male"</span>), </span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>          female_text <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">gender =</span> <span class="st">"female"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>            <span class="fu">select</span>(<span class="sc">-</span>text)) <span class="sc">|&gt;</span> </span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(violence<span class="sc">:</span>war, <span class="at">names_to =</span> <span class="st">"concept"</span>, <span class="at">values_to =</span> <span class="st">"cmd"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(gender, cmd)) <span class="sc">+</span></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(concept))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>doc_closeness <span class="sc">|&gt;</span> </span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">gutenberg_id =</span> doc_id <span class="sc">|&gt;</span> <span class="fu">as.integer</span>()) <span class="sc">|&gt;</span> </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">bind_rows</span>(male_text <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">gender =</span> <span class="st">"male"</span>), </span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>          female_text <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">gender =</span> <span class="st">"female"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>            <span class="fu">select</span>(<span class="sc">-</span>text)) <span class="sc">|&gt;</span> </span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(violence<span class="sc">:</span>war, <span class="at">names_to =</span> <span class="st">"concept"</span>, <span class="at">values_to =</span> <span class="st">"cmd"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(gender, cmd)) <span class="sc">+</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(concept))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Joining with `by = join_by(gutenberg_id)`</code></pre>
 </div>
@@ -787,21 +813,21 @@ F-statistic: 2.144e+04 on 1 and 26104 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <p>We can also make these concepts more robust by using multiple terms (example adapted from the vignette).</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># first build the semantic centroid:</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>death_terms <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"death"</span>, <span class="st">"casualty"</span>, <span class="st">"demise"</span>, <span class="st">"dying"</span>, <span class="st">"fatality"</span>)</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>sc_death <span class="ot">&lt;-</span> <span class="fu">get_centroid</span>(death_terms, glove_wiki)</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="co"># input it into the function just like a concept word:</span></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>death_closeness <span class="ot">&lt;-</span> <span class="fu">CMDist</span>(<span class="at">dtm =</span> dtm_books, <span class="at">cv =</span> sc_death, <span class="at">wv =</span> glove_wiki)</span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>death_closeness <span class="sc">|&gt;</span> </span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">gutenberg_id =</span> doc_id <span class="sc">|&gt;</span> <span class="fu">as.integer</span>()) <span class="sc">|&gt;</span> </span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">bind_rows</span>(male_text <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">gender =</span> <span class="st">"male"</span>), </span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>          female_text <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">gender =</span> <span class="st">"female"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>            <span class="fu">select</span>(<span class="sc">-</span>text)) <span class="sc">|&gt;</span> </span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(gender, death_centroid))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># first build the semantic centroid:</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>death_terms <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"death"</span>, <span class="st">"casualty"</span>, <span class="st">"demise"</span>, <span class="st">"dying"</span>, <span class="st">"fatality"</span>)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>sc_death <span class="ot">&lt;-</span> <span class="fu">get_centroid</span>(death_terms, glove_wiki)</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="co"># input it into the function just like a concept word:</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>death_closeness <span class="ot">&lt;-</span> <span class="fu">CMDist</span>(<span class="at">dtm =</span> dtm_books, <span class="at">cv =</span> sc_death, <span class="at">wv =</span> glove_wiki)</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>death_closeness <span class="sc">|&gt;</span> </span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">gutenberg_id =</span> doc_id <span class="sc">|&gt;</span> <span class="fu">as.integer</span>()) <span class="sc">|&gt;</span> </span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">bind_rows</span>(male_text <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">gender =</span> <span class="st">"male"</span>), </span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>          female_text <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">gender =</span> <span class="st">"female"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>            <span class="fu">select</span>(<span class="sc">-</span>text)) <span class="sc">|&gt;</span> </span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(gender, death_centroid))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Joining with `by = join_by(gutenberg_id)`</code></pre>
 </div>
@@ -812,29 +838,25 @@ F-statistic: 2.144e+04 on 1 and 26104 DF,  p-value: &lt; 2.2e-16</code></pre>
 </figure>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>male_text <span class="sc">|&gt;</span> <span class="fu">filter</span>(gutenberg_id <span class="sc">==</span> <span class="dv">42232</span>) <span class="sc">|&gt;</span> <span class="fu">pull</span>(title)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "A Child's Dream of a Star"</code></pre>
-</div>
 </div>
 <p>Finally, we can also construct axes between concepts and look at how certain books score on these with regard to the poles. Lower values indicate proximity to life, higher values indicate proximity to death.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>sd_death <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">additions =</span> <span class="fu">c</span>(<span class="st">"death"</span>, <span class="st">"casualty"</span>, <span class="st">"demise"</span>, <span class="st">"dying"</span>, <span class="st">"fatality"</span>),</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">substracts =</span> <span class="fu">c</span>(<span class="st">"life"</span>, <span class="st">"survivor"</span>, <span class="st">"birth"</span>, <span class="st">"living"</span>, <span class="st">"endure"</span>)</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> </span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_direction</span>(glove_wiki)</span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>life_death_closeness <span class="ot">&lt;-</span> <span class="fu">CMDist</span>(<span class="at">dtm =</span> dtm_books, <span class="at">cv =</span> sd_death, <span class="at">wv =</span> glove_wiki) <span class="sc">|&gt;</span> </span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>life_death_closeness <span class="sc">|&gt;</span> </span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">gutenberg_id =</span> doc_id <span class="sc">|&gt;</span> <span class="fu">as.integer</span>()) <span class="sc">|&gt;</span> </span>
-<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">bind_rows</span>(male_text <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">gender =</span> <span class="st">"male"</span>), </span>
-<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>          female_text <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">gender =</span> <span class="st">"female"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>            <span class="fu">select</span>(<span class="sc">-</span>text)) <span class="sc">|&gt;</span> </span>
-<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> death_pole, <span class="at">y =</span> gender))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>sd_death <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">additions =</span> <span class="fu">c</span>(<span class="st">"death"</span>, <span class="st">"casualty"</span>, <span class="st">"demise"</span>, <span class="st">"dying"</span>, <span class="st">"fatality"</span>),</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">substracts =</span> <span class="fu">c</span>(<span class="st">"life"</span>, <span class="st">"survivor"</span>, <span class="st">"birth"</span>, <span class="st">"living"</span>, <span class="st">"endure"</span>)</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> </span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_direction</span>(glove_wiki)</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>life_death_closeness <span class="ot">&lt;-</span> <span class="fu">CMDist</span>(<span class="at">dtm =</span> dtm_books, <span class="at">cv =</span> sd_death, <span class="at">wv =</span> glove_wiki) <span class="sc">|&gt;</span> </span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>life_death_closeness <span class="sc">|&gt;</span> </span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">gutenberg_id =</span> doc_id <span class="sc">|&gt;</span> <span class="fu">as.integer</span>()) <span class="sc">|&gt;</span> </span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">bind_rows</span>(male_text <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">gender =</span> <span class="st">"male"</span>), </span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>          female_text <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">gender =</span> <span class="st">"female"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>            <span class="fu">select</span>(<span class="sc">-</span>text)) <span class="sc">|&gt;</span> </span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> death_pole, <span class="at">y =</span> gender))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Joining with `by = join_by(gutenberg_id)`</code></pre>
 </div>
@@ -845,17 +867,17 @@ F-statistic: 2.144e+04 on 1 and 26104 DF,  p-value: &lt; 2.2e-16</code></pre>
 </figure>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>life_death_closeness_meta <span class="ot">&lt;-</span> life_death_closeness <span class="sc">|&gt;</span> </span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">gutenberg_id =</span> doc_id <span class="sc">|&gt;</span> <span class="fu">as.integer</span>()) <span class="sc">|&gt;</span> </span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">bind_rows</span>(male_text <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">gender =</span> <span class="st">"male"</span>), </span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>          female_text <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">gender =</span> <span class="st">"female"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>            <span class="fu">select</span>(<span class="sc">-</span>text))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>life_death_closeness_meta <span class="ot">&lt;-</span> life_death_closeness <span class="sc">|&gt;</span> </span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">gutenberg_id =</span> doc_id <span class="sc">|&gt;</span> <span class="fu">as.integer</span>()) <span class="sc">|&gt;</span> </span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">bind_rows</span>(male_text <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">gender =</span> <span class="st">"male"</span>), </span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>          female_text <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">gender =</span> <span class="st">"female"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>            <span class="fu">select</span>(<span class="sc">-</span>text))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Joining with `by = join_by(gutenberg_id)`</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>life_death_closeness_meta <span class="sc">|&gt;</span> </span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(death_pole, <span class="at">n =</span> <span class="dv">5</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(title, death_pole)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>life_death_closeness_meta <span class="sc">|&gt;</span> </span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(death_pole, <span class="at">n =</span> <span class="dv">5</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(title, death_pole)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 2
   title                                                               death_pole
@@ -866,9 +888,9 @@ F-statistic: 2.144e+04 on 1 and 26104 DF,  p-value: &lt; 2.2e-16</code></pre>
 4 "The history of the Twentieth (Light) Division"                           3.56
 5 "Historical Record of the Seventh, or the Queen's Own Regiment of …       3.37</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>life_death_closeness_meta <span class="sc">|&gt;</span> </span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_min</span>(death_pole, <span class="at">n =</span> <span class="dv">5</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(title, death_pole)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>life_death_closeness_meta <span class="sc">|&gt;</span> </span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_min</span>(death_pole, <span class="at">n =</span> <span class="dv">5</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(title, death_pole)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 2
   title                                                               death_pole
@@ -886,7 +908,7 @@ F-statistic: 2.144e+04 on 1 and 26104 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>This is just a quick demonstration of what you can do with word embeddings. In case you want to use your embeddings as new features for your supervised machine learning classifier, look at <code>?textmodels::step_word_embeddings()</code>. You may want to use pre-trained models for such tasks.</p>
 <p>You can also train embeddings on multiple corpora and identify their different biases. You may want to have a look at <span class="citation" data-cites="stoltz_cultural_2021">Stoltz and Taylor (<a href="#ref-stoltz_cultural_2021" role="doc-biblioref">2021</a>)</span> before going down this road.</p>
 <ul>
-<li>See the [<code>text2map</code> website]https://culturalcartography.gitlab.io/text2map/) for more information</li>
+<li>See the <a href="https://culturalcartography.gitlab.io/text2map/"><code>text2map</code> website</a> for more information</li>
 <li>The first of a series of <a href="https://ruder.io/word-embeddings-1/">blog posts on word embeddings</a></li>
 <li>An approachable <a href="https://www.youtube.com/watch?v=T8tQZChniMk&amp;%20index=2&amp;list=PLo0lw6BstMGYXGeVpJyOyHOAdEUE7BsUp">lecture by Richard Socher, one of the founding fathers of GloVe</a></li>
 </ul>
@@ -901,29 +923,29 @@ F-statistic: 2.144e+04 on 1 and 26104 DF,  p-value: &lt; 2.2e-16</code></pre>
 Solution. Click to expand!
 </summary>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>stopwords_en <span class="ot">&lt;-</span> </span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>sotu_dtm_nostop <span class="ot">&lt;-</span> sotus <span class="sc">|&gt;</span> </span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(token, text) <span class="sc">|&gt;</span> </span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>token <span class="sc">%in%</span> stopwords<span class="sc">::</span><span class="fu">stopwords</span>()) <span class="sc">|&gt;</span> </span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">token =</span> SnowballC<span class="sc">::</span><span class="fu">wordStem</span>(token)) <span class="sc">|&gt;</span> </span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(year, token) <span class="sc">|&gt;</span> </span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cast_dtm</span>(year, token, n)</span>
-<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>cosine_sotu <span class="ot">&lt;-</span> <span class="fu">doc_similarity</span>(sotu_dtm_nostop, <span class="at">method =</span> <span class="st">"cosine"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(., <span class="at">from =</span> <span class="fu">colnames</span>(<span class="at">x =</span> .)) <span class="sc">|&gt;</span> </span>
-<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>from, <span class="at">names_to =</span> <span class="st">"to"</span>, <span class="at">values_to =</span> <span class="st">"cosine_sim"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">filter_var =</span> <span class="fu">map2_chr</span>(from, to, \(x, y) <span class="fu">toString</span>(<span class="fu">sort</span>(<span class="fu">c</span>(x, y))))) <span class="sc">|&gt;</span> </span>
-<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(filter_var, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>filter_var) <span class="sc">|&gt;</span> </span>
-<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(from <span class="sc">!=</span> to)</span>
-<span id="cb40-19"><a href="#cb40-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-20"><a href="#cb40-20" aria-hidden="true" tabindex="-1"></a>cosine_sotu <span class="sc">|&gt;</span> </span>
-<span id="cb40-21"><a href="#cb40-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year_diff =</span> (<span class="fu">as.numeric</span>(from)<span class="sc">-</span><span class="fu">as.numeric</span>(to)) <span class="sc">|&gt;</span> <span class="fu">abs</span>()) <span class="sc">|&gt;</span> </span>
-<span id="cb40-22"><a href="#cb40-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm</span>(cosine_sim <span class="sc">~</span> year_diff, <span class="at">data =</span> _) <span class="sc">|&gt;</span> </span>
-<span id="cb40-23"><a href="#cb40-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>stopwords_en <span class="ot">&lt;-</span> </span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>sotu_dtm_nostop <span class="ot">&lt;-</span> sotus <span class="sc">|&gt;</span> </span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(token, text) <span class="sc">|&gt;</span> </span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>token <span class="sc">%in%</span> stopwords<span class="sc">::</span><span class="fu">stopwords</span>()) <span class="sc">|&gt;</span> </span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">token =</span> SnowballC<span class="sc">::</span><span class="fu">wordStem</span>(token)) <span class="sc">|&gt;</span> </span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(year, token) <span class="sc">|&gt;</span> </span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cast_dtm</span>(year, token, n)</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>cosine_sotu <span class="ot">&lt;-</span> <span class="fu">doc_similarity</span>(sotu_dtm_nostop, <span class="at">method =</span> <span class="st">"cosine"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(., <span class="at">from =</span> <span class="fu">colnames</span>(<span class="at">x =</span> .)) <span class="sc">|&gt;</span> </span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>from, <span class="at">names_to =</span> <span class="st">"to"</span>, <span class="at">values_to =</span> <span class="st">"cosine_sim"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">filter_var =</span> <span class="fu">map2_chr</span>(from, to, \(x, y) <span class="fu">toString</span>(<span class="fu">sort</span>(<span class="fu">c</span>(x, y))))) <span class="sc">|&gt;</span> </span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(filter_var, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>filter_var) <span class="sc">|&gt;</span> </span>
+<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(from <span class="sc">!=</span> to)</span>
+<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-20"><a href="#cb42-20" aria-hidden="true" tabindex="-1"></a>cosine_sotu <span class="sc">|&gt;</span> </span>
+<span id="cb42-21"><a href="#cb42-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year_diff =</span> (<span class="fu">as.numeric</span>(from)<span class="sc">-</span><span class="fu">as.numeric</span>(to)) <span class="sc">|&gt;</span> <span class="fu">abs</span>()) <span class="sc">|&gt;</span> </span>
+<span id="cb42-22"><a href="#cb42-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm</span>(cosine_sim <span class="sc">~</span> year_diff, <span class="at">data =</span> _) <span class="sc">|&gt;</span> </span>
+<span id="cb42-23"><a href="#cb42-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -959,21 +981,21 @@ F-statistic: 4.319e+04 on 1 and 26104 DF,  p-value: &lt; 2.2e-16</code></pre>
 Solution. Click to expand!
 </summary>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>urban_rural <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">add =</span> <span class="fu">c</span>(<span class="st">"rural"</span>, <span class="st">"village"</span>, <span class="st">"farm"</span>),</span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">subtract =</span> <span class="fu">c</span>(<span class="st">"urban"</span>, <span class="st">"city"</span>, <span class="st">"office"</span>)</span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>sem_dir <span class="ot">&lt;-</span> <span class="fu">get_direction</span>(<span class="at">anchors =</span> urban_rural, <span class="at">wv =</span> glove_wiki)</span>
-<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>jobs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"secretary"</span>, <span class="st">"carpenter"</span>, <span class="st">"nurse"</span>, <span class="st">"ceo"</span>, <span class="st">"doctor"</span>)</span>
-<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>job_rural_urban_bias <span class="ot">&lt;-</span> <span class="fu">sim2</span>(sem_dir, glove_wiki[jobs, ], <span class="at">method =</span> <span class="st">"cosine"</span>)</span>
-<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>bias_tbl <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">direction =</span> job_rural_urban_bias[<span class="dv">1</span>, ],</span>
-<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>                   <span class="at">term =</span> <span class="fu">colnames</span>(job_rural_urban_bias))</span>
-<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>bias_tbl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>urban_rural <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">add =</span> <span class="fu">c</span>(<span class="st">"rural"</span>, <span class="st">"village"</span>, <span class="st">"farm"</span>),</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">subtract =</span> <span class="fu">c</span>(<span class="st">"urban"</span>, <span class="st">"city"</span>, <span class="st">"office"</span>)</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>sem_dir <span class="ot">&lt;-</span> <span class="fu">get_direction</span>(<span class="at">anchors =</span> urban_rural, <span class="at">wv =</span> glove_wiki)</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>jobs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"secretary"</span>, <span class="st">"carpenter"</span>, <span class="st">"nurse"</span>, <span class="st">"ceo"</span>, <span class="st">"doctor"</span>)</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>job_rural_urban_bias <span class="ot">&lt;-</span> <span class="fu">sim2</span>(sem_dir, glove_wiki[jobs, ], <span class="at">method =</span> <span class="st">"cosine"</span>)</span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>bias_tbl <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">direction =</span> job_rural_urban_bias[<span class="dv">1</span>, ],</span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>                   <span class="at">term =</span> <span class="fu">colnames</span>(job_rural_urban_bias))</span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a>bias_tbl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 2
   direction term     
