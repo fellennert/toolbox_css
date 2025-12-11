@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Chapter 18: Supervised Classification using Local LLMs in R – Toolbox CSS</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b758ccaa5987ceb1b75504551e579abf.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-2ec1ecde4794cf0ca2676fdbadd3167b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Toolbox CSS</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lectures" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lectures</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lectures">    
+        <li>
+    <a class="dropdown-item" href="./lectures-overview.html">
+ <span class="dropdown-text">Overview – week by week</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_1.html">
+ <span class="dropdown-text">Week 1: What Is Computational Social Science (CSS)?</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_2.html">
+ <span class="dropdown-text">Week 1: What Is Computational Social Science (CSS)?</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_3.html">
+ <span class="dropdown-text">Week 3: Regexes &amp; Crawling the web</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_4.html">
+ <span class="dropdown-text">Week 4: <code>selenium</code> and APIs</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_5.html">
+ <span class="dropdown-text">Week 5: Introduction to Text as Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_6.html">
+ <span class="dropdown-text">Week 6: Supervised Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_7.html">
+ <span class="dropdown-text">Week 7: Supervised and Unsupervised Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_8.html">
+ <span class="dropdown-text">Week 7: Supervised and Unsupervised Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_9.html">
+ <span class="dropdown-text">Week 7: Supervised and Unsupervised Learning</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-r-script" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">R Script</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-r-script">    
+        <li>
+    <a class="dropdown-item" href="./1_r_index.html">
+ <span class="dropdown-text">Chapter 1: Preface</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./2_r_catch-up.html">
+ <span class="dropdown-text">Chapter 2: Brief R Recap</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./3_reticulate.html">
+ <span class="dropdown-text">Chapter 3: <code>reticulate</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./4_python.html">
+ <span class="dropdown-text">Chapter 4: Introduction to Python for R Users</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./5_pandas.html">
+ <span class="dropdown-text">Chapter 5: <code>pandas</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./6_stringr_regex.html">
+ <span class="dropdown-text">Chapter 6: <code>stringr</code> and RegExes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./7_scraping.html">
+ <span class="dropdown-text">Chapter 7: Scraping Static Pages with <code>rvest</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./8_selenium.html">
+ <span class="dropdown-text">Chapter 8: <code>selenium</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./9_apis.html">
+ <span class="dropdown-text">Chapter 9: APIs</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./10_tesseract.html">
+ <span class="dropdown-text">Chapter 10: OCR with <code>tesseract</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./11_transcription.html">
+ <span class="dropdown-text">Chapter 11: <code>OpenAI whisper</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./12_text-preprocessing.html">
+ <span class="dropdown-text">Chapter 12: Text Preprocessing and Featurization</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./13_dictionary-based-analysis.html">
+ <span class="dropdown-text">Chapter 13: Dictionary-based Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./14_supervised_ml.html">
+ <span class="dropdown-text">Chapter 14: Supervised Classification</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./15_unsupervised_ml.html">
+ <span class="dropdown-text">Chapter 15: Unsupervised Machine Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./16_word_embeddings.html">
+ <span class="dropdown-text">Chapter 16: Word Embeddings</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./17_BERT.html">
+ <span class="dropdown-text">Chapter 17: Supervised Classification using <code>BERT</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./18_GPT.html">
+ <span class="dropdown-text">Chapter 18: Supervised Classification using Local LLMs in R</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#why-local-llms-understanding-the-paradigm-shift" id="toc-why-local-llms-understanding-the-paradigm-shift" class="nav-link active" data-scroll-target="#why-local-llms-understanding-the-paradigm-shift">Why Local LLMs? Understanding the Paradigm Shift</a></li>
+  <li><a href="#what-is-ollama" id="toc-what-is-ollama" class="nav-link" data-scroll-target="#what-is-ollama">What is Ollama?</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a>
+  <ul class="collapse">
+  <li><a href="#installing-ollama" id="toc-installing-ollama" class="nav-link" data-scroll-target="#installing-ollama">Installing Ollama</a></li>
+  <li><a href="#downloading-a-model" id="toc-downloading-a-model" class="nav-link" data-scroll-target="#downloading-a-model">Downloading a Model</a></li>
+  </ul></li>
+  <li><a href="#introduction-to-ellmer" id="toc-introduction-to-ellmer" class="nav-link" data-scroll-target="#introduction-to-ellmer">Introduction to <code>ellmer</code></a>
+  <ul class="collapse">
+  <li><a href="#core-concepts-of-ellmer" id="toc-core-concepts-of-ellmer" class="nav-link" data-scroll-target="#core-concepts-of-ellmer">Core Concepts of <code>ellmer</code></a></li>
+  </ul></li>
+  <li><a href="#text-classification-with-local-llms-in-r" id="toc-text-classification-with-local-llms-in-r" class="nav-link" data-scroll-target="#text-classification-with-local-llms-in-r">Text Classification with Local LLMs in R</a>
+  <ul class="collapse">
+  <li><a href="#defining-the-classification-type" id="toc-defining-the-classification-type" class="nav-link" data-scroll-target="#defining-the-classification-type">Defining the Classification Type</a></li>
+  <li><a href="#creating-the-chat-session" id="toc-creating-the-chat-session" class="nav-link" data-scroll-target="#creating-the-chat-session">Creating the Chat Session</a></li>
+  <li><a href="#classifying-reviews" id="toc-classifying-reviews" class="nav-link" data-scroll-target="#classifying-reviews">Classifying Reviews</a></li>
+  <li><a href="#evaluating-the-classifier" id="toc-evaluating-the-classifier" class="nav-link" data-scroll-target="#evaluating-the-classifier">Evaluating the Classifier</a></li>
+  <li><a href="#analyzing-disagreements" id="toc-analyzing-disagreements" class="nav-link" data-scroll-target="#analyzing-disagreements">Analyzing Disagreements</a></li>
+  </ul></li>
+  <li><a href="#further-links" id="toc-further-links" class="nav-link" data-scroll-target="#further-links">Further links</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Chapter 18: Supervised Classification using Local LLMs in R</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In the previous chapter, we explored how to use BERT for text classification. While BERT is powerful, it requires Python, careful preprocessing, and training. In this chapter, we’ll take a different approach: using large language models (LLMs) like GPT through Ollama directly in R. This method requires no training, works with minimal data, and can classify text through natural language instructions.</p>
+<section id="why-local-llms-understanding-the-paradigm-shift" class="level2">
+<h2 class="anchored" data-anchor-id="why-local-llms-understanding-the-paradigm-shift">Why Local LLMs? Understanding the Paradigm Shift</h2>
+<p>The BERT approach we covered previously is an example of <strong>fine-tuning</strong>: we take a pre-trained model and train it further on our specific task with labeled examples. This works well but has some limitations:</p>
+<ul>
+<li>Requires hundreds or thousands of labeled examples</li>
+<li>Needs GPU resources and hours of training time</li>
+<li>Must be retrained for each new classification scheme</li>
+<li>Requires Python and deep learning expertise</li>
+</ul>
+<p>The LLM approach is fundamentally different. Instead of training, we use <strong>prompting</strong>: we give the model instructions in natural language and ask it to classify text based on those instructions. This offers several advantages:</p>
+<p><strong>Advantages of the LLM Approach:</strong></p>
+<ol type="1">
+<li><strong>Zero-shot or few-shot learning</strong>: Can work with zero training examples, or improve with just a handful of examples in the prompt</li>
+<li><strong>Rapid iteration</strong>: Change your classification scheme by editing the prompt, not retraining</li>
+<li><strong>Works entirely in R</strong>: No Python environment needed</li>
+<li><strong>Handles complex nuances</strong>: Can encode detailed coding instructions that would be hard to learn from examples alone</li>
+<li><strong>Runs locally</strong>: With Ollama, models run on your machine - no API costs or data privacy concerns</li>
+</ol>
+<p><strong>Trade-offs:</strong></p>
+<ul>
+<li>Slower inference than fine-tuned models (seconds per text vs milliseconds)</li>
+<li>Requires careful prompt engineering</li>
+<li>Can be inconsistent if prompts aren’t well-designed</li>
+<li>Larger models need significant RAM (8GB+ for 7B parameter models)</li>
+</ul>
+<p><strong>When to use which approach:</strong></p>
+<ul>
+<li><strong>Use BERT/fine-tuning when</strong>: You have thousands of labeled examples, need very fast inference, have clear-cut categories, and the task is well-defined</li>
+<li><strong>Use LLM prompting when</strong>: You have few labeled examples, categories are nuanced or complex, you need to iterate quickly, or you’re working with multiple languages</li>
+</ul>
+</section>
+<section id="what-is-ollama" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-ollama">What is Ollama?</h2>
+<p>Ollama is a tool that makes it easy to run large language models locally on your computer. Think of it as similar to Docker for containers, but for LLMs. It handles downloading models, managing memory, and providing a simple API to interact with models.</p>
+<p><strong>Key benefits of Ollama:</strong></p>
+<ul>
+<li><strong>No API keys needed</strong>: Models run entirely on your machine</li>
+<li><strong>Data privacy</strong>: Your data never leaves your computer</li>
+<li><strong>No costs</strong>: Free to use once you have the hardware</li>
+<li><strong>Offline capable</strong>: Works without internet after initial model download</li>
+<li><strong>Model variety</strong>: Access to many open-source models (Llama, Qwen, Mistral, etc.)</li>
+</ul>
+<p><strong>System Requirements:</strong></p>
+<ul>
+<li><strong>RAM</strong>: 8GB minimum for 3B models, 16GB for 7B models, 32GB+ for 13B+ models</li>
+<li><strong>Storage</strong>: 4-20GB per model depending on size</li>
+<li><strong>CPU/GPU</strong>: Works on CPU but much faster with GPU (NVIDIA, AMD, or Apple Silicon)</li>
+</ul>
+</section>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<section id="installing-ollama" class="level3">
+<h3 class="anchored" data-anchor-id="installing-ollama">Installing Ollama</h3>
+<p>First, install Ollama on your system:</p>
+<p><strong>For macOS and Windows:</strong> - Download from https://ollama.ai - Run the installer - Ollama runs as a background service</p>
+<p>We’ll need several R packages for this workflow:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(tidyverse, ellmer, ollamar, caret, irr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="downloading-a-model" class="level3">
+<h3 class="anchored" data-anchor-id="downloading-a-model">Downloading a Model</h3>
+<p>Before we can classify text, we need to download a model. We’ll use Qwen 2.5 7B, a capable multilingual model:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ollamar<span class="sc">::</span><span class="fu">pull</span>(<span class="st">"qwen2.5:7b"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;httr2_response&gt;
+POST http://127.0.0.1:11434/api/pull
+Status: 200 OK
+Content-Type: application/x-ndjson
+Body: In memory (861 bytes)</code></pre>
+</div>
+</div>
+<p><strong>Understanding Model Sizes:</strong></p>
+<p>The “7b” refers to 7 billion parameters. Larger models are generally more capable but require more resources:</p>
+<ul>
+<li><strong>1-3B parameters</strong>: Fast, basic understanding, requires ~4-8GB RAM</li>
+<li><strong>7-8B parameters</strong>: Good balance of capability and speed, requires ~12-16GB RAM</li>
+<li><strong>13-70B parameters</strong>: Very capable, slow, requires 32GB+ RAM</li>
+</ul>
+<p><strong>Alternative Models to Consider:</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For English-only, very fast</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>ollamar<span class="sc">::</span><span class="fu">pull</span>(<span class="st">"llama3.2:3b"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># For multilingual tasks with less RAM</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>ollamar<span class="sc">::</span><span class="fu">pull</span>(<span class="st">"qwen2.5:3b"</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># For maximum capability (if you have the RAM)</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>ollamar<span class="sc">::</span><span class="fu">pull</span>(<span class="st">"qwen2.5:14b"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>You can list all downloaded models:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ollamar<span class="sc">::</span><span class="fu">list_models</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        name   size parameter_size quantization_level            modified
+1 qwen2.5:3b 1.9 GB           3.1B             Q4_K_M 2025-12-11T12:32:59
+2 qwen2.5:7b 4.7 GB           7.6B             Q4_K_M 2025-12-11T12:50:09</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="introduction-to-ellmer" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-to-ellmer">Introduction to <code>ellmer</code></h2>
+<p>Before we dive into classification, let’s look at <code>ellmer</code>, the package that makes working with LLMs in R feel natural and “tidy.”</p>
+<p><code>ellmer</code> is a tidyverse-friendly interface for working with large language models. Think of it as the R equivalent of LangChain or similar LLM frameworks, but designed to integrate seamlessly with tidyverse workflows. It was developed by the tidyverse team to provide a consistent, pipe-friendly way to interact with various LLM providers.</p>
+<p>You could interact with Ollama directly using HTTP requests, but <code>ellmer</code> provides several advantages: it is consistent, meaning that it works the same whether you’re using Ollama, OpenAI, Claude, or other providers and it is designed to work naturally with <code>dplyr</code>, <code>purrr</code>, and other tidyverse tools</p>
+<p>It provides structured output (more on this later), which ensures reliable, machine-readable responses. However, you can also use it as a chat bot if you want free-form text.</p>
+<section id="core-concepts-of-ellmer" class="level3">
+<h3 class="anchored" data-anchor-id="core-concepts-of-ellmer">Core Concepts of <code>ellmer</code></h3>
+<p><strong>1. Chat Sessions</strong></p>
+<p><code>ellmer</code> uses the concept of “chat” objects that maintain conversation state:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a chat session</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>chat <span class="ot">&lt;-</span> <span class="fu">chat_ollama</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> <span class="st">"qwen2.5:7b"</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">system_prompt =</span> <span class="st">"You are a helpful assistant."</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Have a conversation</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>chat<span class="sc">$</span><span class="fu">chat</span>(<span class="st">"What is the capital of France?"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>The capital of France is Paris.</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Response: "The capital of France is Paris."</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>chat<span class="sc">$</span><span class="fu">chat</span>(<span class="st">"What is its population?"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>As of 2023, the population of巴黎的 populace is approximately 2.2 million people. 
+This refers to the city of Paris itself. If you are asking about the greater 
+metropolitan area, the population is much larger, estimated at around 12.4 
+million people.</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># (The model remembers we're talking about Paris)</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>chat<span class="sc">$</span><span class="fu">chat</span>(<span class="st">"Including Banlieues?"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Sure! The term "Banlieues" refers to the suburban areas surrounding Paris. 
+Including these suburbs, the overall urban area of Paris and its periphery, 
+often referred to as the aire urbaine (metropolitan area) or le Grand Paris, 
+has a population of approximately 12.4 million people as of recent estimates.</code></pre>
+</div>
+</div>
+<p>Each chat object maintains its own conversation history, system prompt, and settings.</p>
+<p>You can extract the full conversation history if needed:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>chat<span class="sc">$</span><span class="fu">get_turns</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+&lt;Turn: user&gt;
+What is the capital of France?
+
+[[2]]
+&lt;Turn: assistant&gt;
+The capital of France is Paris.
+
+[[3]]
+&lt;Turn: user&gt;
+What is its population?
+
+[[4]]
+&lt;Turn: assistant&gt;
+As of 2023, the population of巴黎的 populace is approximately 2.2 million people. This refers to the city of Paris itself. If you are asking about the greater metropolitan area, the population is much larger, estimated at around 12.4 million people.
+
+[[5]]
+&lt;Turn: user&gt;
+Including Banlieues?
+
+[[6]]
+&lt;Turn: assistant&gt;
+Sure! The term "Banlieues" refers to the suburban areas surrounding Paris. Including these suburbs, the overall urban area of Paris and its periphery, often referred to as the aire urbaine (metropolitan area) or le Grand Paris, has a population of approximately 12.4 million people as of recent estimates.</code></pre>
+</div>
+</div>
+<p><strong>2. Structured Outputs via Type Definitions</strong></p>
+<p>The most powerful feature of <code>ellmer</code> for classification is its type system. Instead of getting free-form text responses that you have to parse, you define the exact structure you want:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define what you want to get back</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>person_info <span class="ot">&lt;-</span> <span class="fu">type_object</span>(</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">name =</span> <span class="fu">type_string</span>(<span class="st">"Person's full name"</span>),</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">age =</span> <span class="fu">type_integer</span>(<span class="st">"Person's age in years"</span>),</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">occupation =</span> <span class="fu">type_enum</span>(<span class="st">"Job category"</span>, </span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>                        <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"student"</span>, <span class="st">"teacher"</span>, <span class="st">"retired"</span>, <span class="st">"unemployed"</span>))</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Ask the model to extract this structure</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>john <span class="ot">&lt;-</span> chat<span class="sc">$</span><span class="fu">chat_structured</span>(</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"John Smith is a 35-year-old teacher"</span>,</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> person_info</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>john <span class="sc">|&gt;</span> <span class="fu">bind_cols</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  name         age occupation
+  &lt;chr&gt;      &lt;int&gt; &lt;chr&gt;     
+1 John Smith    35 teacher   </code></pre>
+</div>
+</div>
+<p>This is crucial for classification because it guarantees: - Valid categories (no hallucinated labels) - Consistent structure (always parseable) - Type safety (ages are integers, not strings)</p>
+<p><code>ellmer</code> provides several type constructors for building structured outputs:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Basic types</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">type_string</span>(<span class="st">"Description"</span>)      <span class="co"># Free text</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">type_integer</span>(<span class="st">"Description"</span>)     <span class="co"># Whole numbers</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">type_number</span>(<span class="st">"Description"</span>)      <span class="co"># Decimals allowed</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">type_boolean</span>(<span class="st">"Description"</span>)     <span class="co"># TRUE/FALSE</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Constrained types</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="fu">type_enum</span>(<span class="st">"Description"</span>, </span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>))  <span class="co"># Must be one of these</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="co"># these can be combined into complex structures</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="fu">type_object</span>(</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">field1 =</span> <span class="fu">type_string</span>(),</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">field2 =</span> <span class="fu">type_integer</span>()</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>For text classification specifically, <code>ellmer</code>’s structured outputs are transformative. In the “old way” of working with LLMs, you might get responses like: “I would classify this as positive sentiment. The language used…”</p>
+<p>Then you’d need to write regex patterns or parsing logic to extract “positive” from that text. This is: - Fragile (models might phrase responses differently) - Error-prone (what if the model says “I’d say positive” vs “positive”?) - Slow (requires post-processing)</p>
+<p>With <code>ellmer</code>’s structured outputs, you define:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>classification_type <span class="ot">&lt;-</span> <span class="fu">type_object</span>(</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">sentiment =</span> <span class="fu">type_enum</span>(<span class="st">"Sentiment"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"positive"</span>, <span class="st">"negative"</span>, <span class="st">"neutral"</span>))</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>4. Multiple Backend Support</strong></p>
+<p>One <code>ellmer</code> script can work with different LLM providers by just changing the chat constructor:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Local with Ollama</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">chat_ollama</span>(<span class="at">model =</span> <span class="st">"qwen2.5:7b"</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># OpenAI's GPT models</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">chat_openai</span>(<span class="at">model =</span> <span class="st">"gpt-4o-mini"</span>, <span class="at">api_key =</span> <span class="fu">Sys.getenv</span>(<span class="st">"OPENAI_API_KEY"</span>))</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Anthropic's Claude models</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="fu">chat_claude</span>(<span class="at">model =</span> <span class="st">"claude-3-5-sonnet-20241022"</span>, <span class="at">api_key =</span> <span class="fu">Sys.getenv</span>(<span class="st">"ANTHROPIC_API_KEY"</span>))</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Google's Gemini models</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="fu">chat_google</span>(<span class="at">model =</span> <span class="st">"gemini-1.5-flash"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This makes it easy to: - Compare models on the same task - Switch providers if one is down - Use the best model for each subtask - Start with local models, scale to APIs if needed</p>
+</section>
+</section>
+<section id="text-classification-with-local-llms-in-r" class="level2">
+<h2 class="anchored" data-anchor-id="text-classification-with-local-llms-in-r">Text Classification with Local LLMs in R</h2>
+<p>Now that we understand the tools, let’s see how to perform text classification using a local LLM with <code>ellmer</code> and Ollama.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1312</span>) <span class="co">#all cats are beautiful</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>imdb_sample <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"files/imdb_reviews.csv"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">30</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 25000 Columns: 2
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (2): text, sentiment
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>imdb_sample <span class="sc">|&gt;</span> <span class="fu">count</span>(sentiment)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  sentiment     n
+  &lt;chr&gt;     &lt;int&gt;
+1 negative     15
+2 positive     15</code></pre>
+</div>
+</div>
+<p>We have a small sample of 30 movie reviews labeled as positive or negative. Our goal is to build a classifier that can predict sentiment based on the review text.</p>
+<section id="defining-the-classification-type" class="level3">
+<h3 class="anchored" data-anchor-id="defining-the-classification-type">Defining the Classification Type</h3>
+<p>First, we define the structure of our classification output using <code>ellmer</code>’s type system:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>sentiment_type <span class="ot">&lt;-</span> <span class="fu">type_object</span>(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">sentiment =</span> <span class="fu">type_enum</span>(<span class="st">"Sentiment of the review"</span>, </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"positive"</span>, <span class="st">"negative"</span>)),</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">reasoning =</span> <span class="fu">type_string</span>(<span class="st">"Brief explanation for the sentiment classification"</span>),</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">german_translation =</span> <span class="fu">type_string</span>(<span class="st">"German translation of the review"</span>)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="creating-the-chat-session" class="level3">
+<h3 class="anchored" data-anchor-id="creating-the-chat-session">Creating the Chat Session</h3>
+<p>Next, we create a system prompt. This is equivalent to defining a coding scheme.</p>
+<p>The system prompt is where we encode all our classification rules. This is analogous to the “training data” in supervised learning, but expressed as instructions rather than examples.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>ref_prompt_sentiment <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="st">You are a German and English speaking movie expert tasked with classifying movie reviews.</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="st">The question at hand is whether the review expresses a positive or negative sentiment towards the movie.</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="st">CODING INSTRUCTIONS:</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="st">- Code as 'positive' if the review clearly expresses enjoyment, praise, or recommendation of the movie.</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="st">- Code as 'negative' if the review clearly expresses dislike, criticism, or a recommendation against watching the movie.</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="st">SPECIAL INSTRUCTIONS:</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="st">- If the review contains mixed sentiments, code based on the overall tone or conclusion.</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="st">- Provide a German translation of the review.</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="st">Be consistent and follow these rules exactly.</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Anatomy of an Effective System Prompt:</strong></p>
+<ol type="1">
+<li><p>Role definition: “German and English speaking movie expert…” sets expectations for the model’s behavior and expertise</p></li>
+<li><p>Context: “… tasked with classifying movie reviews” provides background needed to understand responses</p></li>
+<li><p>Clear categories: Definitions for each code; explicit, mutually exclusive categories that match the classification type</p></li>
+<li><p>Edge case handling: The “SPECIAL INSTRUCTIONS” section</p>
+<ul>
+<li>These rules come from pilot coding and address common ambiguities</li>
+<li>This is where you encode the nuanced judgment that makes human coding reliable</li>
+</ul></li>
+<li><p>Consistency reminder: “Be consistent and follow these rules exactly”</p>
+<ul>
+<li>Helps reduce random variation in borderline cases</li>
+</ul></li>
+</ol>
+<p>The best practices for writing system prompts are similar to writing good codebooks for human coders. Here are some tips:</p>
+<ul>
+<li>Be explicit: Don’t assume the model knows your conventions</li>
+<li>Use examples: For complex cases, include few-shot examples (not shown here, but effective)</li>
+<li>Iterate: Start simple, then add rules based on errors you observe</li>
+<li>Test edge cases: Try ambiguous examples to see how the model handles them</li>
+<li>Version control: Keep your prompts in version control as they evolve</li>
+</ul>
+</section>
+<section id="classifying-reviews" class="level3">
+<h3 class="anchored" data-anchor-id="classifying-reviews">Classifying Reviews</h3>
+<p>Now we can classify our reviews using the <code>chat_structured</code> function to get structured outputs. To avoid memory effects, we reinitialize the chat session for each review:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>classified_reviews <span class="ot">&lt;-</span> imdb_sample <span class="sc">|&gt;</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">pull</span>(text) <span class="sc">|&gt;</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">map</span>(\(text) {</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a chat session with the model</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>        classifier <span class="ot">&lt;-</span> <span class="fu">chat_ollama</span>(</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">model =</span> <span class="st">"qwen2.5:7b"</span>,</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">system_prompt =</span> ref_prompt_sentiment,</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">params =</span> <span class="fu">params</span>(</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">temperature =</span> <span class="fl">0.1</span>,</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>                <span class="at">seed =</span> <span class="dv">42</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>                )</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>        classifier<span class="sc">$</span><span class="fu">chat_structured</span>(text, <span class="at">type =</span> sentiment_type)</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">.progress =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">bind_rows</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■                                 3% |  ETA: 18m</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■                                7% |  ETA: 12m</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■                              10% |  ETA: 10m</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■                             13% |  ETA:  9m</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■                            17% |  ETA:  8m</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■■                           20% |  ETA:  8m</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■■■                          23% |  ETA:  7m</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■■■■                         27% |  ETA:  7m</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■■■■■                        30% |  ETA:  6m</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■■■■■■                       33% |  ETA:  6m</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■■■■■■■                      37% |  ETA:  6m</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■■■■■■■■                     40% |  ETA:  6m</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■■■■■■■■■                    43% |  ETA:  5m</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■■■■■■■■■■                   47% |  ETA:  5m</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■■■■■■■■■■■                  50% |  ETA:  5m</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■■■■■■■■■■■■                 53% |  ETA:  4m</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■■■■■■■■■■■■■                57% |  ETA:  4m</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■■■■■■■■■■■■■■               60% |  ETA:  4m</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■■■■■■■■■■■■■■■              63% |  ETA:  3m</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■■■■■■■■■■■■■■■■             67% |  ETA:  3m</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■■■■■■■■■■■■■■■■■            70% |  ETA:  3m</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■■■■■■■■■■■■■■■■■■           73% |  ETA:  2m</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■■■■■■■■■■■■■■■■■■■          77% |  ETA:  2m</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■■■■■■■■■■■■■■■■■■■■         80% |  ETA:  2m</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■■■■■■■■■■■■■■■■■■■■■        83% |  ETA:  2m</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■■■■■■■■■■■■■■■■■■■■■■       87% |  ETA:  1m</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■■■■■■■■■■■■■■■■■■■■■■■      90% |  ETA:  1m</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■     93% |  ETA: 36s</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code> ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■    97% |  ETA: 18s</code></pre>
+</div>
+</div>
+<p>The model parameters I choose here are critical for classification performance: - <code>temperature = 0.1</code>: Controls randomness - 0.0 = Deterministic, always picks most likely option - 0.1 = Very low randomness (good for classification) - 1.0 = More creative, more varied outputs - For classification, use 0.0-0.3 for consistency</p>
+<ul>
+<li><code>seed = 42</code>: Random seed for reproducibility
+<ul>
+<li>With low temperature and a fixed seed, results should be identical across runs</li>
+<li>Important for replicable research</li>
+</ul></li>
+</ul>
+</section>
+<section id="evaluating-the-classifier" class="level3">
+<h3 class="anchored" data-anchor-id="evaluating-the-classifier">Evaluating the Classifier</h3>
+<p>Now that we have our classified reviews, let’s evaluate the performance against the true labels:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> imdb_sample <span class="sc">|&gt;</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="at">true_sentiment =</span> sentiment) <span class="sc">|&gt;</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">bind_cols</span>(classified_reviews)</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>results <span class="sc">|&gt;</span> <span class="fu">count</span>(true_sentiment, <span class="at">predicted_sentiment =</span> sentiment)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+  true_sentiment predicted_sentiment     n
+  &lt;chr&gt;          &lt;chr&gt;               &lt;int&gt;
+1 negative       negative               15
+2 positive       positive               15</code></pre>
+</div>
+</div>
+<p>We can compute the confusion matrix to assess agreement:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>actual <span class="ot">&lt;-</span> <span class="fu">factor</span>(results<span class="sc">$</span>sentiment, </span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"positive"</span>, <span class="st">"negative"</span>))</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>predicted <span class="ot">&lt;-</span> <span class="fu">factor</span>(results<span class="sc">$</span>true_sentiment,</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"positive"</span>, <span class="st">"negative"</span>))</span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Get confusion matrix with statistics</span></span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>cm <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(predicted, actual)</span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Print overall accuracy</span></span>
+<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Overall Accuracy:"</span>, <span class="fu">round</span>(cm<span class="sc">$</span>overall[<span class="st">"Accuracy"</span>], <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Overall Accuracy: 1 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print per-class F1 scores</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>cm<span class="sc">$</span>byClass</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Sensitivity          Specificity       Pos Pred Value 
+                 1.0                  1.0                  1.0 
+      Neg Pred Value            Precision               Recall 
+                 1.0                  1.0                  1.0 
+                  F1           Prevalence       Detection Rate 
+                 1.0                  0.5                  0.5 
+Detection Prevalence    Balanced Accuracy 
+                 0.5                  1.0 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print full confusion matrix</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Confusion Matrix:</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Confusion Matrix:</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(cm<span class="sc">$</span>table)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          Reference
+Prediction positive negative
+  positive       15        0
+  negative        0       15</code></pre>
+</div>
+</div>
+<p>This gives us a detailed breakdown of performance, including precision, recall, and F1 scores for each class.</p>
+</section>
+<section id="analyzing-disagreements" class="level3">
+<h3 class="anchored" data-anchor-id="analyzing-disagreements">Analyzing Disagreements</h3>
+<p>It’s valuable to examine cases where the model disagrees with humans. In this case, we don’t have any disagreements.</p>
+<p>Common Patterns in disagreements:</p>
+<p>Some responses are boundary cases and just genuinely ambiguous. Here, researchers can either accept some disagreement or add these as examples to your prompt. However, sometimes there is a systematic bias and the ,odel consistently miscodes a specific type. In this case, you should add explicit rules for this case in your prompt. This also helps in the case of language nuance, examples help. However, sometimes diagreements also reveal human coder inconsistencies.</p>
+<p>For prompt refinement, there are some strategies to improve classification accuracy:</p>
+<p>Add explicit examples (few-shot learning):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>improved_prompt <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="st">EXAMPLE: This movie was fantastic! I loved every minute of it. -&gt; positive</span></span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Ask the model to think step-by-step:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>cot_prompt <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="st">Before coding, consider:</span></span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a><span class="st">1. What is the main sentiment expressed?</span></span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a><span class="st">2. Is there a clear position or uncertainty?</span></span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a><span class="st">3. Are there contradictory elements?</span></span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a><span class="st">4. Which category best fits given the rules?</span></span>
+<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-8"><a href="#cb67-8" aria-hidden="true" tabindex="-1"></a><span class="st">Then provide your classification.</span></span>
+<span id="cb67-9"><a href="#cb67-9" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>If you have the resources, larger models are more capable:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Instead of qwen2.5:7b</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>ollamar<span class="sc">::</span><span class="fu">pull</span>(<span class="st">"qwen2.5:14b"</span>)</span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Or use Claude/GPT via API for highest quality</span></span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>classifier <span class="ot">&lt;-</span> <span class="fu">chat_openai</span>(</span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> <span class="st">"gpt-4o-mini"</span>,  <span class="co"># Cost-effective option</span></span>
+<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">api_key =</span> <span class="fu">Sys.getenv</span>(<span class="st">"OPENAI_API_KEY"</span>)</span>
+<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Run multiple models and take the majority vote:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>models <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"qwen2.5:7b"</span>, <span class="st">"llama3.1:8b"</span>, <span class="st">"mistral:7b"</span>)</span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>ensemble_results <span class="ot">&lt;-</span> <span class="fu">map</span>(models, \(model_name) {</span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>  classifier <span class="ot">&lt;-</span> <span class="fu">chat_ollama</span>(</span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">model =</span> model_name,</span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">system_prompt =</span> ref_prompt_sentiment,</span>
+<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">params =</span> <span class="fu">params</span>(<span class="at">temperature =</span> <span class="fl">0.1</span>)</span>
+<span id="cb69-8"><a href="#cb69-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb69-9"><a href="#cb69-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb69-10"><a href="#cb69-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(dependency_responses, \(text) {</span>
+<span id="cb69-11"><a href="#cb69-11" aria-hidden="true" tabindex="-1"></a>    classifier<span class="sc">$</span><span class="fu">chat_structured</span>(text, <span class="at">type =</span> response_classification)</span>
+<span id="cb69-12"><a href="#cb69-12" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb69-13"><a href="#cb69-13" aria-hidden="true" tabindex="-1"></a>}) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="further-links" class="level2">
+<h2 class="anchored" data-anchor-id="further-links">Further links</h2>
+<ul>
+<li><a href="https://ollama.ai/docs">Ollama Documentation</a></li>
+<li><a href="https://ellmer.tidyverse.org">ellmer</a></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/fellennert\.github\.io\/toolbox_css\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Copyright 2025, Felix Lennert (<a href="mailto:felix.lennert@uni-leipzig.de">felix.lennert@uni-leipzig.de</a>)</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Chapter 17: Supervised Classification using BERT – Toolbox CSS</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b758ccaa5987ceb1b75504551e579abf.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-2ec1ecde4794cf0ca2676fdbadd3167b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Toolbox CSS</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lectures" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lectures</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lectures">    
+        <li>
+    <a class="dropdown-item" href="./lectures-overview.html">
+ <span class="dropdown-text">Overview – week by week</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_1.html">
+ <span class="dropdown-text">Week 1: What Is Computational Social Science (CSS)?</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_2.html">
+ <span class="dropdown-text">Week 1: What Is Computational Social Science (CSS)?</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_3.html">
+ <span class="dropdown-text">Week 3: Regexes &amp; Crawling the web</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_4.html">
+ <span class="dropdown-text">Week 4: <code>selenium</code> and APIs</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_5.html">
+ <span class="dropdown-text">Week 5: Introduction to Text as Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_6.html">
+ <span class="dropdown-text">Week 6: Supervised Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_7.html">
+ <span class="dropdown-text">Week 7: Supervised and Unsupervised Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_8.html">
+ <span class="dropdown-text">Week 7: Supervised and Unsupervised Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_9.html">
+ <span class="dropdown-text">Week 7: Supervised and Unsupervised Learning</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-r-script" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">R Script</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-r-script">    
+        <li>
+    <a class="dropdown-item" href="./1_r_index.html">
+ <span class="dropdown-text">Chapter 1: Preface</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./2_r_catch-up.html">
+ <span class="dropdown-text">Chapter 2: Brief R Recap</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./3_reticulate.html">
+ <span class="dropdown-text">Chapter 3: <code>reticulate</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./4_python.html">
+ <span class="dropdown-text">Chapter 4: Introduction to Python for R Users</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./5_pandas.html">
+ <span class="dropdown-text">Chapter 5: <code>pandas</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./6_stringr_regex.html">
+ <span class="dropdown-text">Chapter 6: <code>stringr</code> and RegExes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./7_scraping.html">
+ <span class="dropdown-text">Chapter 7: Scraping Static Pages with <code>rvest</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./8_selenium.html">
+ <span class="dropdown-text">Chapter 8: <code>selenium</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./9_apis.html">
+ <span class="dropdown-text">Chapter 9: APIs</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./10_tesseract.html">
+ <span class="dropdown-text">Chapter 10: OCR with <code>tesseract</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./11_transcription.html">
+ <span class="dropdown-text">Chapter 11: <code>OpenAI whisper</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./12_text-preprocessing.html">
+ <span class="dropdown-text">Chapter 12: Text Preprocessing and Featurization</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./13_dictionary-based-analysis.html">
+ <span class="dropdown-text">Chapter 13: Dictionary-based Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./14_supervised_ml.html">
+ <span class="dropdown-text">Chapter 14: Supervised Classification</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./15_unsupervised_ml.html">
+ <span class="dropdown-text">Chapter 15: Unsupervised Machine Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./16_word_embeddings.html">
+ <span class="dropdown-text">Chapter 16: Word Embeddings</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./17_BERT.html">
+ <span class="dropdown-text">Chapter 17: Supervised Classification using <code>BERT</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./18_GPT.html">
+ <span class="dropdown-text">Chapter 18: Supervised Classification using Local LLMs in R</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#the-full-process" id="toc-the-full-process" class="nav-link" data-scroll-target="#the-full-process">The Full Process</a></li>
+  <li><a href="#further-links" id="toc-further-links" class="nav-link" data-scroll-target="#further-links">Further links</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Chapter 17: Supervised Classification using <code>BERT</code></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Supervised methods that are based on the Bag of Words hypothesis (see chapter 11) work well, but these days we can do better. In this script, I will run you through how to use BERT (Bidirectional Encoder Representations from Transformers) for text classification. We’ll be working with a sentiment analysis task using the IMDb movie reviews data set, where we’ll classify reviews as either positive or negative.</p>
+<p>Unlike traditional bag-of-words approaches, BERT understands context and nuance in language by considering the full context of a word by looking at the words that come before and after it. This allows it to capture more complex patterns in text, leading to better classification performance.</p>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<p>Here, we specifically use a virtual environment named <code>'transformer_env'</code> which needs to contain all necessary Python packages. This isolation ensures reproducibility and prevents package conflicts. Make sure this virtual environment has all required packages (<code>torch</code>, <code>transformers,</code> etc.) installed – if not, install them via either the terminal or <code>reticulate</code>. While in the chapter on <code>selenium</code> we used <code>reticulate</code> functions to set up a (<code>conda</code>) environment, here we do it in the terminal (so that you can use the code on the server later).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#first, navigate to the folder you want the environment to live in, by using `cd path/to/folder`</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> venv _pyenv/transformer_env <span class="co">#create environment</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#activate</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">## for mac/linux</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> _pyenv/transformer_env/bin/activate</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># for windows</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># _pyenv/transformer_env/Scripts/activate</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># package installation</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">--upgrade</span> pip</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Install PyTorch for Silicon Macs (only if you have one)</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="ex">pip3</span> install <span class="at">--pre</span> torch torchvision torchaudio <span class="at">--extra-index-url</span> https://download.pytorch.org/whl/nightly/cpu</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">#otherwise: </span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install torch</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># install remaining required packages</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install transformers</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install pandas numpy sklearn</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install tqdm</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install seaborn matplotlib</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="ex">import</span> seaborn as sns</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="ex">import</span> matplotlib.pyplot as plt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Then we can activate Python and the environment from within R (obviously, you can skip this step when you work in Python, e.g., in JupyterLab)</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(reticulate)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">conda_create</span>(</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"bert-env"</span>, </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">python_version =</span> <span class="st">"3.9"</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">channel =</span> <span class="fu">c</span>(<span class="st">"pytorch"</span>, <span class="st">"conda-forge"</span>),</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">packages =</span> <span class="fu">c</span>(<span class="st">"pip"</span>, <span class="st">"transformers"</span>, <span class="st">"pandas"</span>, <span class="st">"jpeg"</span>, <span class="st">"numpy"</span>, <span class="st">"scikit-learn"</span>, </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"tqdm"</span>, <span class="st">"seaborn"</span>, <span class="st">"matplotlib"</span>, <span class="st">"pytorch"</span>, <span class="st">"torchvision"</span>, <span class="st">"torchaudio"</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">use_condaenv</span>(<span class="st">"bert-env"</span>, <span class="at">required =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Then, we import all necessary libraries and set up our device configuration. The device setup is particularly important as it allows our code to run efficiently on different hardware configurations – whether that’s a Silicon Mac using MPS (in my case), a machine with CUDA-enabled GPU, or a regular CPU. Depending on this, you might have to install the respective <code>torch</code> packages. We use <code>pandas</code> for data manipulation, <code>torch</code> (PyTorch) for deep learning operations, and the <code>transformers</code> library for access to pre-trained BERT models. Furthermore, we use an array of <code>sklearn</code> (scikit-learn) functions for train-test split creation and subsequent model evaluation.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch <span class="im">import</span> nn</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> BertTokenizer, BertModel</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.utils.data <span class="im">import</span> Dataset, DataLoader</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm <span class="im">import</span> tqdm</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, classification_report</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_device():</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> torch.backends.mps.is_available():</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        device <span class="op">=</span> torch.device(<span class="st">"mps"</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> torch.cuda.is_available():</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        device <span class="op">=</span> torch.device(<span class="st">"cuda"</span>)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        device <span class="op">=</span> torch.device(<span class="st">"cpu"</span>)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> device</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>device <span class="op">=</span> get_device()</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Using device: </span><span class="sc">{</span>device<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Using device: mps</code></pre>
+</div>
+</div>
+<p>Similar to our previous supervised learning examples, we need to prepare our data in a format suitable for the model. Hence, this chunk defines our custom <code>Dataset class</code> for handling text data preparation. It converts our raw text and labels into BERT’s expected format. It handles tokenization using BERT’s specialized tokenizer, ensures all sequences are of the same length through padding or truncation (controlled by <code>max_len</code> parameter), and generates attention masks to properly handle variable-length inputs. All this information is converted into <code>PyTorch</code> tensors for model training.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SentenceDataset(Dataset):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, texts, labels, tokenizer, max_len<span class="op">=</span><span class="dv">128</span>):</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.texts <span class="op">=</span> texts</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.labels <span class="op">=</span> labels</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.tokenizer <span class="op">=</span> tokenizer</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.max_len <span class="op">=</span> max_len</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__len__</span>(<span class="va">self</span>):</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">len</span>(<span class="va">self</span>.texts)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__getitem__</span>(<span class="va">self</span>, idx):</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>        text <span class="op">=</span> <span class="bu">str</span>(<span class="va">self</span>.texts[idx])</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>        label <span class="op">=</span> <span class="va">self</span>.labels[idx]</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>        encoding <span class="op">=</span> <span class="va">self</span>.tokenizer.encode_plus(</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>            text,</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>            max_length<span class="op">=</span><span class="va">self</span>.max_len,</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>            padding<span class="op">=</span><span class="st">'max_length'</span>,</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>            truncation<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>            return_tensors<span class="op">=</span><span class="st">'pt'</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>            <span class="st">'input_ids'</span>: encoding[<span class="st">'input_ids'</span>].flatten(),</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>            <span class="st">'attention_mask'</span>: encoding[<span class="st">'attention_mask'</span>].flatten(),</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>            <span class="st">'label'</span>: torch.tensor(label, dtype<span class="op">=</span>torch.<span class="bu">long</span>)</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>        }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Understanding the components:</p>
+<ul>
+<li><p><strong><code>max_len=128</code></strong>: This is a crucial hyperparameter. It determines the maximum sequence length. Longer sequences capture more context but increase memory usage and computation time. For movie reviews, 128 tokens is often sufficient for capturing the key sentiment, though longer reviews will be truncated. If you find that important information is being lost, consider increasing this to 256 or 512 (BERT’s maximum).</p></li>
+<li><p><strong><code>padding='max_length'</code></strong>: BERT requires all inputs in a batch to be the same length. Padding adds special [PAD] tokens to shorter sequences. Without this, we couldn’t efficiently batch our data.</p></li>
+<li><p><strong><code>attention_mask</code></strong>: This binary mask tells BERT which tokens are real words (1) and which are padding (0). This prevents the model from attending to padding tokens, which would add noise to the representations.</p></li>
+<li><p><strong><code>input_ids</code></strong>: These are the numerical representations of our tokens. BERT’s vocabulary contains about 30,000 tokens, and each word (or subword) gets mapped to a unique integer.</p></li>
+</ul>
+<p>The <code>__getitem__</code> method is called by PyTorch’s DataLoader to retrieve individual samples during training. By implementing this as a class, we maintain clean separation between data processing and model training logic.</p>
+<p>Then we define our <strong>model architecture</strong> by extending PyTorch’s Module class. The classifier builds upon the pre-trained BERT model (transfer learning). To prevent overfitting, we add a dropout layer for regularization with a default rate of 0.1. The final linear layer performs the actual classification, converting BERT’s 768-dimensional output into our desired number of classes (i.e., 2 here).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> BertClassifier(nn.Module):</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, dropout<span class="op">=</span><span class="fl">0.1</span>):</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.bert <span class="op">=</span> BertModel.from_pretrained(<span class="st">'bert-base-uncased'</span>) <span class="co">#you can choose different models here</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.dropout <span class="op">=</span> nn.Dropout(dropout)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.classifier <span class="op">=</span> nn.Linear(<span class="dv">768</span>, <span class="dv">2</span>) <span class="co">#768 is the hidden size of BERT base, 2 is number of classes</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, input_ids, attention_mask):</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        outputs <span class="op">=</span> <span class="va">self</span>.bert(input_ids<span class="op">=</span>input_ids, attention_mask<span class="op">=</span>attention_mask)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        pooled_output <span class="op">=</span> outputs[<span class="dv">1</span>]</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        pooled_output <span class="op">=</span> <span class="va">self</span>.dropout(pooled_output)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.classifier(pooled_output)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Understanding the components:</p>
+<ul>
+<li><p><strong><code>bert-base-uncased</code></strong>: This is the base BERT model with 110 million parameters - these are the learnable weights that capture patterns in language. The “uncased” version converts all text to lowercase during preprocessing, which generally works well for sentiment analysis where “Good” and “good” should be treated the same. There’s also <code>bert-base-cased</code> which preserves case, useful when capitalization carries semantic meaning (e.g., “US” the country vs “us” the pronoun, or “Apple” the company vs “apple” the fruit).</p></li>
+<li><p><strong>Transfer Learning Strategy</strong>: We’re using BERT as a feature extractor. During training, BERT’s pre-trained weights will be fine-tuned (adjusted through backpropagation) on our specific task. Think of it like this: BERT has already learned general language understanding from billions of words - we’re now teaching it the specific task of sentiment classification. This is far more efficient than training from scratch, which would require massive amounts of labeled data and computational resources.</p></li>
+<li><p><strong>The 768-dimensional output</strong>: BERT-base produces a 768-dimensional vector representation (an embedding) for each input sequence. The <code>outputs[1]</code> extracts the representation of the special [CLS] (classification) token that BERT places at the start of every input. During pre-training, BERT learns to encode sequence-level information into this [CLS] token representation, making it ideal for classification tasks. This 768-dimensional vector captures semantic and contextual information about the entire review, which then gets passed to our classification head.</p></li>
+<li><p><strong>Dropout Rate</strong>: The default 0.1 means that during training, 10% of neurons are randomly “dropped out” (set to zero) on each forward pass. This is a regularization technique that prevents the network from relying too heavily on any specific features and forces it to learn more robust representations. The dropout is applied between the BERT output and the classification layer. If your model overfits (high training accuracy but low validation accuracy), try increasing this to 0.2 or 0.3. Note that dropout is automatically disabled during inference (when <code>model.eval()</code> is called).</p></li>
+<li><p><strong>Classification Head</strong>: The final linear layer is remarkably simple - it’s just a weight matrix that projects from 768 dimensions to 2 dimensions (one for each class). Mathematically, it performs: <code>output = W × [CLS_embedding] + b</code>, where W is a learned 768×2 matrix and b is a bias vector. The softmax activation (applied within the CrossEntropyLoss) then converts these 2 raw scores (logits) into probabilities that sum to 1. Despite this simplicity, this classification head is often all you need when BERT’s contextual representations are already highly informative.</p></li>
+</ul>
+<p>The <strong>training function</strong> implements our training loop with both training and validation phases. It handles device placement automatically (supporting CPU, CUDA, or MPS – for Silicon Macs). During training, it performs forward passes through the model, calculates loss, and updates the model’s parameters. The validation phase tracks the model’s performance on unseen data and the progress bar provides feedback during the training process.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> train_model(model, train_loader, val_loader, epochs<span class="op">=</span><span class="dv">3</span>, lr<span class="op">=</span><span class="fl">2e-5</span>):</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    device <span class="op">=</span> get_device()</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> model.to(device)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    optimizer <span class="op">=</span> torch.optim.AdamW(model.parameters(), lr<span class="op">=</span>lr)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    criterion <span class="op">=</span> nn.CrossEntropyLoss()</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(epochs):</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        model.train()</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        train_loss <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        train_pbar <span class="op">=</span> tqdm(train_loader, desc<span class="op">=</span><span class="ss">f'Training Epoch </span><span class="sc">{</span>epoch<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>epochs<span class="sc">}</span><span class="ss">'</span>, disable<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> batch <span class="kw">in</span> train_pbar:</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>            optimizer.zero_grad()</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>            input_ids <span class="op">=</span> batch[<span class="st">'input_ids'</span>].to(device)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>            attention_mask <span class="op">=</span> batch[<span class="st">'attention_mask'</span>].to(device)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>            labels <span class="op">=</span> batch[<span class="st">'label'</span>].to(device)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>            outputs <span class="op">=</span> model(input_ids, attention_mask)</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>            loss <span class="op">=</span> criterion(outputs, labels)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>            loss.backward()</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>            optimizer.step()</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>            train_loss <span class="op">+=</span> loss.item()</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>        model.<span class="bu">eval</span>()</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>        val_loss <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>        correct <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>        total <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>        val_pbar <span class="op">=</span> tqdm(val_loader, desc<span class="op">=</span><span class="ss">f'Validating Epoch </span><span class="sc">{</span>epoch<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>epochs<span class="sc">}</span><span class="ss">'</span>, disable<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> torch.no_grad():</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> batch <span class="kw">in</span> val_pbar:</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>                input_ids <span class="op">=</span> batch[<span class="st">'input_ids'</span>].to(device)</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>                attention_mask <span class="op">=</span> batch[<span class="st">'attention_mask'</span>].to(device)</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>                labels <span class="op">=</span> batch[<span class="st">'label'</span>].to(device)</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>                outputs <span class="op">=</span> model(input_ids, attention_mask)</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>                loss <span class="op">=</span> criterion(outputs, labels)</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>                val_loss <span class="op">+=</span> loss.item()</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>                _, predicted <span class="op">=</span> torch.<span class="bu">max</span>(outputs, <span class="dv">1</span>)</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>                total <span class="op">+=</span> labels.size(<span class="dv">0</span>)</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>                correct <span class="op">+=</span> (predicted <span class="op">==</span> labels).<span class="bu">sum</span>().item()</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f'Epoch </span><span class="sc">{</span>epoch<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">:'</span>)</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f'Train Loss: </span><span class="sc">{</span>train_loss<span class="op">/</span><span class="bu">len</span>(train_loader)<span class="sc">:.4f}</span><span class="ss">'</span>)</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f'Val Loss: </span><span class="sc">{</span>val_loss<span class="op">/</span><span class="bu">len</span>(val_loader)<span class="sc">:.4f}</span><span class="ss">'</span>)</span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f'Val Accuracy: </span><span class="sc">{</span><span class="dv">100</span><span class="op">*</span>correct<span class="op">/</span>total<span class="sc">:.2f}</span><span class="ss">%</span><span class="ch">\n</span><span class="ss">'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Understanding the components:</p>
+<p><strong>Training Loop Mechanics</strong>:</p>
+<ul>
+<li><p><strong>AdamW Optimizer</strong>: This is Adam with weight decay, which helps prevent overfitting. The learning rate (<code>lr=2e-5</code>) is crucial – too high and training becomes unstable, too low and training is extremely slow. For BERT fine-tuning, values between 1e-5 and 5e-5 typically work best.</p></li>
+<li><p><strong>CrossEntropyLoss - An Intuitive Explanation</strong>:</p></li>
+</ul>
+<p>Think of the loss as a “wrongness score” that tells us how far off our model’s predictions are from the correct answers. The loss measures how confident the model is in the wrong answer (or how uncertain it is about the right answer).</p>
+<p>Here’s how it works intuitively:</p>
+<p><strong>Perfect prediction</strong>: If the model is 100% confident in the correct class, the loss is 0 (perfect score). If the True label: Positive (class 1), the model outputs: [0.01, 0.99] (1% negative, 99% positive), loss is 0.01. If the model is only 50% confident in the correct class, the loss is around -log(0.5)=0.69. If the model is confident in the WRONG class, the loss is very high ([0.99, 0.01], loss = -log(0.01) = ~4.6). The loss uses logarithms, which means it heavily penalizes confident mistakes. Being confidently wrong is much worse than being uncertain. This encourages the model to be honest about its uncertainty rather than making bold wrong guesses.</p>
+<p><strong>What you’ll see during training:</strong> - Initial loss: Often 0.6-0.9 (model is basically guessing) - Well-trained loss: 0.1-0.3 (model is confident and mostly correct) - Overfit model: Training loss near 0, but validation loss increases (memorizing, not learning)</p>
+<p>The goal of training is to minimize this loss by adjusting the model’s weights. Lower loss = better predictions.</p>
+<ul>
+<li><p><strong><code>model.train()</code> vs <code>model.eval()</code></strong>: These modes affect layers like dropout and batch normalization. In training mode, dropout is active; in evaluation mode, it’s disabled. Always remember to set the correct mode!</p></li>
+<li><p><strong><code>optimizer.zero_grad()</code></strong>: Gradients accumulate by default in PyTorch, so we must zero them before each backward pass. Forgetting this is a common bug that leads to bizarre training behavior.</p></li>
+<li><p><strong><code>loss.backward()</code></strong>: This computes gradients of the loss with respect to all model parameters using backpropagation. It’s the magic of automatic differentiation.</p></li>
+<li><p><strong><code>optimizer.step()</code></strong>: This updates the model parameters based on the computed gradients.</p></li>
+<li><p><strong>Validation without gradients</strong>: The <code>with torch.no_grad():</code> context saves memory and computation by not tracking gradients during validation. We’re not updating parameters here, so gradients aren’t needed.</p></li>
+</ul>
+<p><strong>Monitoring Training</strong>:</p>
+<p>Watch for these patterns in your training output:</p>
+<ul>
+<li><strong>Normal training</strong>: Training loss decreases, validation loss decreases, validation accuracy increases.
+<ul>
+<li>Epoch 1: Train Loss ~0.45, Val Loss ~0.35, Val Acc ~85%</li>
+<li>Epoch 2: Train Loss ~0.28, Val Loss ~0.25, Val Acc ~90%</li>
+<li>Epoch 3: Train Loss ~0.18, Val Loss ~0.20, Val Acc ~92%</li>
+</ul></li>
+<li><strong>Overfitting</strong>: Training loss continues decreasing, but validation loss starts increasing. Consider more dropout, fewer epochs, or more training data.
+<ul>
+<li>Epoch 1: Train Loss ~0.45, Val Loss ~0.35</li>
+<li>Epoch 2: Train Loss ~0.25, Val Loss ~0.30 (validation getting worse!)</li>
+<li>Epoch 3: Train Loss ~0.12, Val Loss ~0.38 (memorizing training data)</li>
+</ul></li>
+<li><strong>Underfitting</strong>: Both losses remain high. Try training longer, reducing dropout, or using a larger model.
+<ul>
+<li>Epoch 1: Train Loss ~0.65, Val Loss ~0.68</li>
+<li>Epoch 2: Train Loss ~0.62, Val Loss ~0.65 (barely improving)</li>
+<li>Epoch 3: Train Loss ~0.60, Val Loss ~0.63 (model can’t learn the patterns)</li>
+</ul></li>
+<li><strong>Unstable training</strong>: Loss jumps around erratically. Reduce learning rate or check for data issues.
+<ul>
+<li>Epoch 1: Train Loss ~0.45</li>
+<li>Epoch 2: Train Loss ~1.23 (suddenly much worse!)</li>
+<li>Epoch 3: Train Loss ~0.31 (jumping around)</li>
+</ul></li>
+</ul>
+<p><strong>Interpreting Loss Values</strong>: - <strong>Loss &gt; 0.69</strong>: Model is performing at or below random guessing (for binary classification) - <strong>Loss 0.3-0.6</strong>: Model is learning but has room for improvement - <strong>Loss 0.1-0.3</strong>: Model is performing well and making confident correct predictions - <strong>Loss &lt; 0.1</strong>: Model might be overfitting (especially if validation loss is much higher)</p>
+<p>Finally, the <code>predict</code> function handles inference on new texts. It manages the complete pipeline from raw text to final prediction: tokenizing the new, unseen input text using BERT’s tokenizer, moving the processed input to the appropriate device, running it through the model, and converting the model’s output into a prediction.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict(model, text, tokenizer):</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    device <span class="op">=</span> torch.device(<span class="st">'mps'</span> <span class="cf">if</span> torch.backends.mps.is_available() <span class="cf">else</span> <span class="st">'cpu'</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    model.<span class="bu">eval</span>()</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    encoding <span class="op">=</span> tokenizer.encode_plus(</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        text,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        max_length<span class="op">=</span><span class="dv">128</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        padding<span class="op">=</span><span class="st">'max_length'</span>,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>        truncation<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>        return_tensors<span class="op">=</span><span class="st">'pt'</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    input_ids <span class="op">=</span> encoding[<span class="st">'input_ids'</span>].to(device)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    attention_mask <span class="op">=</span> encoding[<span class="st">'attention_mask'</span>].to(device)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> torch.no_grad():</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>        outputs <span class="op">=</span> model(input_ids, attention_mask)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>        _, predicted <span class="op">=</span> torch.<span class="bu">max</span>(outputs, <span class="dv">1</span>)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> predicted.item()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This function is what you’ll use in production after training. Note that it uses the same preprocessing pipeline (tokenization, padding, truncation) as during training – consistency here is critical. The model returns logits (raw scores) for each class, and <code>torch.max</code> identifies which class has the highest score.</p>
+</section>
+<section id="the-full-process" class="level2">
+<h2 class="anchored" data-anchor-id="the-full-process">The Full Process</h2>
+<p>Now that our functions are set up, we can proceed to the actual data loading, model training, and evaluation.</p>
+<p>First, we need to load and prepare our IMDb dataset for training. Here, we are using a two-stage split process. First, we separate our test data (95% of our data, given it’s 25,000 examples, but later only 100 instances are used for speed), then create training and validation sets from the remaining data. We ensure balanced class distribution through stratified sampling. Then, the data is processed into our custom Dataset format and wrapped in DataLoader objects, which handle batching and shuffling during training. The label mapping converts our text labels into the numeric format required for classification.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>imdb_reviews <span class="op">=</span> pd.read_csv(<span class="st">"files/imdb_reviews.csv"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># separate test set (95% of data)</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>train_val_df, test_df <span class="op">=</span> train_test_split(</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    imdb_reviews,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    test_size<span class="op">=</span><span class="fl">0.95</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    stratify<span class="op">=</span>imdb_reviews[<span class="st">'sentiment'</span>],</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">1312</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># separate train and validation (80/20 split of remaining data)</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>train_df, val_df <span class="op">=</span> train_test_split(</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    train_val_df,</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    test_size<span class="op">=</span><span class="fl">0.2</span>,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    stratify<span class="op">=</span>train_val_df[<span class="st">'sentiment'</span>],</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">1312</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Create feature/label pairs</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> train_df[<span class="st">'text'</span>].tolist()</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span> train_df[<span class="st">'sentiment'</span>].tolist()</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>X_val <span class="op">=</span> val_df[<span class="st">'text'</span>].tolist()</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>y_val <span class="op">=</span> val_df[<span class="st">'sentiment'</span>].tolist()</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="co">## we use a small test set in this example, only the first 100 instances</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>X_test <span class="op">=</span> test_df[<span class="st">'text'</span>][<span class="dv">0</span>:<span class="dv">100</span>].tolist()</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>y_test <span class="op">=</span> test_df[<span class="st">'sentiment'</span>][<span class="dv">0</span>:<span class="dv">100</span>].tolist()</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a><span class="co"># create label mapping to change labels to integers</span></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>label_map <span class="op">=</span> {<span class="st">'negative'</span>: <span class="dv">0</span>, <span class="st">'positive'</span>: <span class="dv">1</span>}</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span> [label_map[label] <span class="cf">for</span> label <span class="kw">in</span> y_train]</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>y_val <span class="op">=</span> [label_map[label] <span class="cf">for</span> label <span class="kw">in</span> y_val]</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>y_test <span class="op">=</span> [label_map[label] <span class="cf">for</span> label <span class="kw">in</span> y_test]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This demonstrates a realistic but resource-constrained scenario. The IMDb dataset contains 50,000 reviews, which is substantial but manageable. However, in this tutorial we’re only using 5% for training to speed up execution.</p>
+<p>The stratified sampling (<code>stratify=imdb_reviews['sentiment']</code>) ensures that positive and negative reviews are proportionally represented in each split. This is crucial for imbalanced datasets. Without stratification, you might accidentally create a test set that’s 70% positive while your training set is 50/50, making evaluation misleading.</p>
+<p>The 80/20 train/validation split is a common convention. The validation set serves as a sanity check during training, helping you catch overfitting early. The test set should only be used once at the very end to get an unbiased estimate of real-world performance.</p>
+<p><code>random_state=42</code> ensures reproducibility – every time you run this code, you’ll get the same splits. This is essential for scientific reproducibility and debugging. Change this number to get different splits and check if your results are stable across different data divisions.</p>
+<p>Once the data preparation is finished, we can initialize the tokenizer and model, prepare the data loaders, and start training our model.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#initialize tokenizer and model</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> BertTokenizer.from_pretrained(<span class="st">'bert-base-uncased'</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> BertClassifier()</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># load data</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>train_dataset <span class="op">=</span> SentenceDataset(X_train, y_train, tokenizer)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>val_dataset <span class="op">=</span> SentenceDataset(X_val, y_val, tokenizer)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>train_loader <span class="op">=</span> DataLoader(train_dataset, batch_size<span class="op">=</span><span class="dv">16</span>, shuffle<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>val_loader <span class="op">=</span> DataLoader(val_dataset, batch_size<span class="op">=</span><span class="dv">16</span>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>train_model(model, train_loader, val_loader)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Training Epoch 1/3:   0%|          | 0/63 [00:00&lt;?, ?it/s]
+Training Epoch 1/3:   2%|1         | 1/63 [00:06&lt;06:53,  6.67s/it]
+Training Epoch 1/3:   3%|3         | 2/63 [00:07&lt;03:13,  3.17s/it]
+Training Epoch 1/3:   5%|4         | 3/63 [00:07&lt;01:58,  1.98s/it]
+Training Epoch 1/3:   6%|6         | 4/63 [00:08&lt;01:24,  1.43s/it]
+Training Epoch 1/3:   8%|7         | 5/63 [00:09&lt;01:05,  1.12s/it]
+Training Epoch 1/3:  10%|9         | 6/63 [00:09&lt;00:53,  1.07it/s]
+Training Epoch 1/3:  11%|#1        | 7/63 [00:10&lt;00:45,  1.22it/s]
+Training Epoch 1/3:  13%|#2        | 8/63 [00:10&lt;00:40,  1.35it/s]
+Training Epoch 1/3:  14%|#4        | 9/63 [00:11&lt;00:37,  1.45it/s]
+Training Epoch 1/3:  16%|#5        | 10/63 [00:12&lt;00:34,  1.53it/s]
+Training Epoch 1/3:  17%|#7        | 11/63 [00:12&lt;00:33,  1.57it/s]
+Training Epoch 1/3:  19%|#9        | 12/63 [00:13&lt;00:31,  1.61it/s]
+Training Epoch 1/3:  21%|##        | 13/63 [00:13&lt;00:30,  1.65it/s]
+Training Epoch 1/3:  22%|##2       | 14/63 [00:14&lt;00:29,  1.68it/s]
+Training Epoch 1/3:  24%|##3       | 15/63 [00:14&lt;00:28,  1.69it/s]
+Training Epoch 1/3:  25%|##5       | 16/63 [00:15&lt;00:27,  1.70it/s]
+Training Epoch 1/3:  27%|##6       | 17/63 [00:16&lt;00:26,  1.71it/s]
+Training Epoch 1/3:  29%|##8       | 18/63 [00:16&lt;00:26,  1.71it/s]
+Training Epoch 1/3:  30%|###       | 19/63 [00:17&lt;00:25,  1.70it/s]
+Training Epoch 1/3:  32%|###1      | 20/63 [00:17&lt;00:25,  1.70it/s]
+Training Epoch 1/3:  33%|###3      | 21/63 [00:18&lt;00:24,  1.70it/s]
+Training Epoch 1/3:  35%|###4      | 22/63 [00:19&lt;00:24,  1.70it/s]
+Training Epoch 1/3:  37%|###6      | 23/63 [00:19&lt;00:23,  1.71it/s]
+Training Epoch 1/3:  38%|###8      | 24/63 [00:20&lt;00:22,  1.71it/s]
+Training Epoch 1/3:  40%|###9      | 25/63 [00:20&lt;00:22,  1.70it/s]
+Training Epoch 1/3:  41%|####1     | 26/63 [00:21&lt;00:21,  1.70it/s]
+Training Epoch 1/3:  43%|####2     | 27/63 [00:21&lt;00:21,  1.71it/s]
+Training Epoch 1/3:  44%|####4     | 28/63 [00:22&lt;00:20,  1.71it/s]
+Training Epoch 1/3:  46%|####6     | 29/63 [00:23&lt;00:19,  1.71it/s]
+Training Epoch 1/3:  48%|####7     | 30/63 [00:23&lt;00:19,  1.72it/s]
+Training Epoch 1/3:  49%|####9     | 31/63 [00:24&lt;00:18,  1.72it/s]
+Training Epoch 1/3:  51%|#####     | 32/63 [00:24&lt;00:17,  1.73it/s]
+Training Epoch 1/3:  52%|#####2    | 33/63 [00:25&lt;00:17,  1.73it/s]
+Training Epoch 1/3:  54%|#####3    | 34/63 [00:25&lt;00:16,  1.73it/s]
+Training Epoch 1/3:  56%|#####5    | 35/63 [00:26&lt;00:16,  1.73it/s]
+Training Epoch 1/3:  57%|#####7    | 36/63 [00:27&lt;00:15,  1.73it/s]
+Training Epoch 1/3:  59%|#####8    | 37/63 [00:27&lt;00:15,  1.73it/s]
+Training Epoch 1/3:  60%|######    | 38/63 [00:28&lt;00:14,  1.71it/s]
+Training Epoch 1/3:  62%|######1   | 39/63 [00:28&lt;00:13,  1.72it/s]
+Training Epoch 1/3:  63%|######3   | 40/63 [00:29&lt;00:13,  1.73it/s]
+Training Epoch 1/3:  65%|######5   | 41/63 [00:30&lt;00:12,  1.72it/s]
+Training Epoch 1/3:  67%|######6   | 42/63 [00:30&lt;00:12,  1.72it/s]
+Training Epoch 1/3:  68%|######8   | 43/63 [00:31&lt;00:11,  1.73it/s]
+Training Epoch 1/3:  70%|######9   | 44/63 [00:31&lt;00:10,  1.73it/s]
+Training Epoch 1/3:  71%|#######1  | 45/63 [00:32&lt;00:10,  1.73it/s]
+Training Epoch 1/3:  73%|#######3  | 46/63 [00:32&lt;00:09,  1.73it/s]
+Training Epoch 1/3:  75%|#######4  | 47/63 [00:33&lt;00:09,  1.73it/s]
+Training Epoch 1/3:  76%|#######6  | 48/63 [00:34&lt;00:08,  1.72it/s]
+Training Epoch 1/3:  78%|#######7  | 49/63 [00:34&lt;00:08,  1.72it/s]
+Training Epoch 1/3:  79%|#######9  | 50/63 [00:35&lt;00:07,  1.72it/s]
+Training Epoch 1/3:  81%|########  | 51/63 [00:35&lt;00:06,  1.72it/s]
+Training Epoch 1/3:  83%|########2 | 52/63 [00:36&lt;00:06,  1.72it/s]
+Training Epoch 1/3:  84%|########4 | 53/63 [00:37&lt;00:05,  1.70it/s]
+Training Epoch 1/3:  86%|########5 | 54/63 [00:37&lt;00:05,  1.71it/s]
+Training Epoch 1/3:  87%|########7 | 55/63 [00:38&lt;00:04,  1.72it/s]
+Training Epoch 1/3:  89%|########8 | 56/63 [00:38&lt;00:04,  1.71it/s]
+Training Epoch 1/3:  90%|######### | 57/63 [00:39&lt;00:03,  1.72it/s]
+Training Epoch 1/3:  92%|#########2| 58/63 [00:39&lt;00:02,  1.71it/s]
+Training Epoch 1/3:  94%|#########3| 59/63 [00:40&lt;00:02,  1.71it/s]
+Training Epoch 1/3:  95%|#########5| 60/63 [00:41&lt;00:01,  1.71it/s]
+Training Epoch 1/3:  97%|#########6| 61/63 [00:41&lt;00:01,  1.72it/s]
+Training Epoch 1/3:  98%|#########8| 62/63 [00:42&lt;00:00,  1.72it/s]
+Training Epoch 1/3: 100%|##########| 63/63 [00:43&lt;00:00,  1.35it/s]
+Training Epoch 1/3: 100%|##########| 63/63 [00:43&lt;00:00,  1.45it/s]
+
+Validating Epoch 1/3:   0%|          | 0/16 [00:00&lt;?, ?it/s]
+Validating Epoch 1/3:   6%|6         | 1/16 [00:00&lt;00:07,  1.91it/s]
+Validating Epoch 1/3:  12%|#2        | 2/16 [00:00&lt;00:04,  3.06it/s]
+Validating Epoch 1/3:  19%|#8        | 3/16 [00:00&lt;00:03,  3.71it/s]
+Validating Epoch 1/3:  25%|##5       | 4/16 [00:01&lt;00:02,  4.25it/s]
+Validating Epoch 1/3:  31%|###1      | 5/16 [00:01&lt;00:02,  4.53it/s]
+Validating Epoch 1/3:  38%|###7      | 6/16 [00:01&lt;00:02,  4.75it/s]
+Validating Epoch 1/3:  44%|####3     | 7/16 [00:01&lt;00:01,  4.97it/s]
+Validating Epoch 1/3:  50%|#####     | 8/16 [00:01&lt;00:01,  4.99it/s]
+Validating Epoch 1/3:  56%|#####6    | 9/16 [00:02&lt;00:01,  5.13it/s]
+Validating Epoch 1/3:  62%|######2   | 10/16 [00:02&lt;00:01,  5.08it/s]
+Validating Epoch 1/3:  69%|######8   | 11/16 [00:02&lt;00:00,  5.05it/s]
+Validating Epoch 1/3:  75%|#######5  | 12/16 [00:02&lt;00:00,  5.15it/s]
+Validating Epoch 1/3:  81%|########1 | 13/16 [00:02&lt;00:00,  5.17it/s]
+Validating Epoch 1/3:  88%|########7 | 14/16 [00:03&lt;00:00,  5.25it/s]
+Validating Epoch 1/3:  94%|#########3| 15/16 [00:03&lt;00:00,  5.11it/s]
+Validating Epoch 1/3: 100%|##########| 16/16 [00:03&lt;00:00,  4.25it/s]
+Validating Epoch 1/3: 100%|##########| 16/16 [00:03&lt;00:00,  4.51it/s]
+Epoch 1:
+Train Loss: 0.5695
+Val Loss: 0.4247
+Val Accuracy: 82.00%
+
+
+Training Epoch 2/3:   0%|          | 0/63 [00:00&lt;?, ?it/s]
+Training Epoch 2/3:   2%|1         | 1/63 [00:00&lt;00:35,  1.73it/s]
+Training Epoch 2/3:   3%|3         | 2/63 [00:01&lt;00:35,  1.73it/s]
+Training Epoch 2/3:   5%|4         | 3/63 [00:01&lt;00:34,  1.73it/s]
+Training Epoch 2/3:   6%|6         | 4/63 [00:02&lt;00:34,  1.72it/s]
+Training Epoch 2/3:   8%|7         | 5/63 [00:02&lt;00:33,  1.73it/s]
+Training Epoch 2/3:  10%|9         | 6/63 [00:03&lt;00:32,  1.73it/s]
+Training Epoch 2/3:  11%|#1        | 7/63 [00:04&lt;00:32,  1.71it/s]
+Training Epoch 2/3:  13%|#2        | 8/63 [00:04&lt;00:31,  1.72it/s]
+Training Epoch 2/3:  14%|#4        | 9/63 [00:05&lt;00:31,  1.73it/s]
+Training Epoch 2/3:  16%|#5        | 10/63 [00:05&lt;00:30,  1.72it/s]
+Training Epoch 2/3:  17%|#7        | 11/63 [00:06&lt;00:30,  1.73it/s]
+Training Epoch 2/3:  19%|#9        | 12/63 [00:06&lt;00:29,  1.73it/s]
+Training Epoch 2/3:  21%|##        | 13/63 [00:07&lt;00:29,  1.71it/s]
+Training Epoch 2/3:  22%|##2       | 14/63 [00:08&lt;00:28,  1.72it/s]
+Training Epoch 2/3:  24%|##3       | 15/63 [00:08&lt;00:27,  1.72it/s]
+Training Epoch 2/3:  25%|##5       | 16/63 [00:09&lt;00:27,  1.72it/s]
+Training Epoch 2/3:  27%|##6       | 17/63 [00:09&lt;00:26,  1.72it/s]
+Training Epoch 2/3:  29%|##8       | 18/63 [00:10&lt;00:26,  1.71it/s]
+Training Epoch 2/3:  30%|###       | 19/63 [00:11&lt;00:25,  1.71it/s]
+Training Epoch 2/3:  32%|###1      | 20/63 [00:11&lt;00:25,  1.71it/s]
+Training Epoch 2/3:  33%|###3      | 21/63 [00:12&lt;00:24,  1.69it/s]
+Training Epoch 2/3:  35%|###4      | 22/63 [00:12&lt;00:24,  1.71it/s]
+Training Epoch 2/3:  37%|###6      | 23/63 [00:13&lt;00:23,  1.72it/s]
+Training Epoch 2/3:  38%|###8      | 24/63 [00:13&lt;00:22,  1.73it/s]
+Training Epoch 2/3:  40%|###9      | 25/63 [00:14&lt;00:22,  1.71it/s]
+Training Epoch 2/3:  41%|####1     | 26/63 [00:15&lt;00:21,  1.72it/s]
+Training Epoch 2/3:  43%|####2     | 27/63 [00:15&lt;00:20,  1.73it/s]
+Training Epoch 2/3:  44%|####4     | 28/63 [00:16&lt;00:20,  1.71it/s]
+Training Epoch 2/3:  46%|####6     | 29/63 [00:16&lt;00:19,  1.72it/s]
+Training Epoch 2/3:  48%|####7     | 30/63 [00:17&lt;00:19,  1.72it/s]
+Training Epoch 2/3:  49%|####9     | 31/63 [00:18&lt;00:18,  1.72it/s]
+Training Epoch 2/3:  51%|#####     | 32/63 [00:18&lt;00:17,  1.72it/s]
+Training Epoch 2/3:  52%|#####2    | 33/63 [00:19&lt;00:17,  1.74it/s]
+Training Epoch 2/3:  54%|#####3    | 34/63 [00:19&lt;00:16,  1.72it/s]
+Training Epoch 2/3:  56%|#####5    | 35/63 [00:20&lt;00:16,  1.73it/s]
+Training Epoch 2/3:  57%|#####7    | 36/63 [00:20&lt;00:15,  1.72it/s]
+Training Epoch 2/3:  59%|#####8    | 37/63 [00:21&lt;00:15,  1.72it/s]
+Training Epoch 2/3:  60%|######    | 38/63 [00:22&lt;00:14,  1.72it/s]
+Training Epoch 2/3:  62%|######1   | 39/63 [00:22&lt;00:13,  1.72it/s]
+Training Epoch 2/3:  63%|######3   | 40/63 [00:23&lt;00:13,  1.72it/s]
+Training Epoch 2/3:  65%|######5   | 41/63 [00:23&lt;00:12,  1.73it/s]
+Training Epoch 2/3:  67%|######6   | 42/63 [00:24&lt;00:12,  1.73it/s]
+Training Epoch 2/3:  68%|######8   | 43/63 [00:24&lt;00:11,  1.73it/s]
+Training Epoch 2/3:  70%|######9   | 44/63 [00:25&lt;00:10,  1.73it/s]
+Training Epoch 2/3:  71%|#######1  | 45/63 [00:26&lt;00:10,  1.74it/s]
+Training Epoch 2/3:  73%|#######3  | 46/63 [00:26&lt;00:09,  1.73it/s]
+Training Epoch 2/3:  75%|#######4  | 47/63 [00:27&lt;00:09,  1.73it/s]
+Training Epoch 2/3:  76%|#######6  | 48/63 [00:27&lt;00:08,  1.73it/s]
+Training Epoch 2/3:  78%|#######7  | 49/63 [00:28&lt;00:08,  1.75it/s]
+Training Epoch 2/3:  79%|#######9  | 50/63 [00:29&lt;00:07,  1.74it/s]
+Training Epoch 2/3:  81%|########  | 51/63 [00:29&lt;00:06,  1.75it/s]
+Training Epoch 2/3:  83%|########2 | 52/63 [00:30&lt;00:06,  1.73it/s]
+Training Epoch 2/3:  84%|########4 | 53/63 [00:30&lt;00:05,  1.73it/s]
+Training Epoch 2/3:  86%|########5 | 54/63 [00:31&lt;00:05,  1.74it/s]
+Training Epoch 2/3:  87%|########7 | 55/63 [00:31&lt;00:04,  1.72it/s]
+Training Epoch 2/3:  89%|########8 | 56/63 [00:32&lt;00:04,  1.73it/s]
+Training Epoch 2/3:  90%|######### | 57/63 [00:33&lt;00:03,  1.72it/s]
+Training Epoch 2/3:  92%|#########2| 58/63 [00:33&lt;00:02,  1.71it/s]
+Training Epoch 2/3:  94%|#########3| 59/63 [00:34&lt;00:02,  1.72it/s]
+Training Epoch 2/3:  95%|#########5| 60/63 [00:34&lt;00:01,  1.71it/s]
+Training Epoch 2/3:  97%|#########6| 61/63 [00:35&lt;00:01,  1.72it/s]
+Training Epoch 2/3:  98%|#########8| 62/63 [00:35&lt;00:00,  1.72it/s]
+Training Epoch 2/3: 100%|##########| 63/63 [00:36&lt;00:00,  1.95it/s]
+Training Epoch 2/3: 100%|##########| 63/63 [00:36&lt;00:00,  1.73it/s]
+
+Validating Epoch 2/3:   0%|          | 0/16 [00:00&lt;?, ?it/s]
+Validating Epoch 2/3:   6%|6         | 1/16 [00:00&lt;00:02,  5.40it/s]
+Validating Epoch 2/3:  12%|#2        | 2/16 [00:00&lt;00:02,  5.30it/s]
+Validating Epoch 2/3:  19%|#8        | 3/16 [00:00&lt;00:02,  5.15it/s]
+Validating Epoch 2/3:  25%|##5       | 4/16 [00:00&lt;00:02,  5.29it/s]
+Validating Epoch 2/3:  31%|###1      | 5/16 [00:00&lt;00:02,  5.22it/s]
+Validating Epoch 2/3:  38%|###7      | 6/16 [00:01&lt;00:01,  5.23it/s]
+Validating Epoch 2/3:  44%|####3     | 7/16 [00:01&lt;00:01,  5.32it/s]
+Validating Epoch 2/3:  50%|#####     | 8/16 [00:01&lt;00:01,  5.23it/s]
+Validating Epoch 2/3:  56%|#####6    | 9/16 [00:01&lt;00:01,  5.30it/s]
+Validating Epoch 2/3:  62%|######2   | 10/16 [00:01&lt;00:01,  5.21it/s]
+Validating Epoch 2/3:  69%|######8   | 11/16 [00:02&lt;00:00,  5.14it/s]
+Validating Epoch 2/3:  75%|#######5  | 12/16 [00:02&lt;00:00,  5.20it/s]
+Validating Epoch 2/3:  81%|########1 | 13/16 [00:02&lt;00:00,  5.18it/s]
+Validating Epoch 2/3:  88%|########7 | 14/16 [00:02&lt;00:00,  5.27it/s]
+Validating Epoch 2/3:  94%|#########3| 15/16 [00:02&lt;00:00,  5.11it/s]
+Validating Epoch 2/3: 100%|##########| 16/16 [00:03&lt;00:00,  5.74it/s]
+Validating Epoch 2/3: 100%|##########| 16/16 [00:03&lt;00:00,  5.32it/s]
+Epoch 2:
+Train Loss: 0.3275
+Val Loss: 0.3945
+Val Accuracy: 82.40%
+
+
+Training Epoch 3/3:   0%|          | 0/63 [00:00&lt;?, ?it/s]
+Training Epoch 3/3:   2%|1         | 1/63 [00:00&lt;00:35,  1.73it/s]
+Training Epoch 3/3:   3%|3         | 2/63 [00:01&lt;00:35,  1.74it/s]
+Training Epoch 3/3:   5%|4         | 3/63 [00:01&lt;00:34,  1.74it/s]
+Training Epoch 3/3:   6%|6         | 4/63 [00:02&lt;00:33,  1.75it/s]
+Training Epoch 3/3:   8%|7         | 5/63 [00:02&lt;00:33,  1.74it/s]
+Training Epoch 3/3:  10%|9         | 6/63 [00:03&lt;00:32,  1.73it/s]
+Training Epoch 3/3:  11%|#1        | 7/63 [00:04&lt;00:32,  1.72it/s]
+Training Epoch 3/3:  13%|#2        | 8/63 [00:04&lt;00:32,  1.71it/s]
+Training Epoch 3/3:  14%|#4        | 9/63 [00:05&lt;00:31,  1.72it/s]
+Training Epoch 3/3:  16%|#5        | 10/63 [00:05&lt;00:30,  1.73it/s]
+Training Epoch 3/3:  17%|#7        | 11/63 [00:06&lt;00:30,  1.73it/s]
+Training Epoch 3/3:  19%|#9        | 12/63 [00:06&lt;00:29,  1.74it/s]
+Training Epoch 3/3:  21%|##        | 13/63 [00:07&lt;00:28,  1.73it/s]
+Training Epoch 3/3:  22%|##2       | 14/63 [00:08&lt;00:28,  1.74it/s]
+Training Epoch 3/3:  24%|##3       | 15/63 [00:08&lt;00:27,  1.73it/s]
+Training Epoch 3/3:  25%|##5       | 16/63 [00:09&lt;00:27,  1.71it/s]
+Training Epoch 3/3:  27%|##6       | 17/63 [00:09&lt;00:26,  1.71it/s]
+Training Epoch 3/3:  29%|##8       | 18/63 [00:10&lt;00:26,  1.72it/s]
+Training Epoch 3/3:  30%|###       | 19/63 [00:10&lt;00:25,  1.73it/s]
+Training Epoch 3/3:  32%|###1      | 20/63 [00:11&lt;00:24,  1.73it/s]
+Training Epoch 3/3:  33%|###3      | 21/63 [00:12&lt;00:24,  1.74it/s]
+Training Epoch 3/3:  35%|###4      | 22/63 [00:12&lt;00:23,  1.75it/s]
+Training Epoch 3/3:  37%|###6      | 23/63 [00:13&lt;00:22,  1.74it/s]
+Training Epoch 3/3:  38%|###8      | 24/63 [00:13&lt;00:22,  1.73it/s]
+Training Epoch 3/3:  40%|###9      | 25/63 [00:14&lt;00:22,  1.73it/s]
+Training Epoch 3/3:  41%|####1     | 26/63 [00:15&lt;00:21,  1.71it/s]
+Training Epoch 3/3:  43%|####2     | 27/63 [00:15&lt;00:20,  1.72it/s]
+Training Epoch 3/3:  44%|####4     | 28/63 [00:16&lt;00:20,  1.71it/s]
+Training Epoch 3/3:  46%|####6     | 29/63 [00:16&lt;00:19,  1.72it/s]
+Training Epoch 3/3:  48%|####7     | 30/63 [00:17&lt;00:19,  1.72it/s]
+Training Epoch 3/3:  49%|####9     | 31/63 [00:17&lt;00:18,  1.72it/s]
+Training Epoch 3/3:  51%|#####     | 32/63 [00:18&lt;00:18,  1.72it/s]
+Training Epoch 3/3:  52%|#####2    | 33/63 [00:19&lt;00:17,  1.72it/s]
+Training Epoch 3/3:  54%|#####3    | 34/63 [00:19&lt;00:16,  1.72it/s]
+Training Epoch 3/3:  56%|#####5    | 35/63 [00:20&lt;00:16,  1.73it/s]
+Training Epoch 3/3:  57%|#####7    | 36/63 [00:20&lt;00:15,  1.72it/s]
+Training Epoch 3/3:  59%|#####8    | 37/63 [00:21&lt;00:15,  1.71it/s]
+Training Epoch 3/3:  60%|######    | 38/63 [00:22&lt;00:14,  1.72it/s]
+Training Epoch 3/3:  62%|######1   | 39/63 [00:22&lt;00:13,  1.72it/s]
+Training Epoch 3/3:  63%|######3   | 40/63 [00:23&lt;00:13,  1.71it/s]
+Training Epoch 3/3:  65%|######5   | 41/63 [00:23&lt;00:12,  1.72it/s]
+Training Epoch 3/3:  67%|######6   | 42/63 [00:24&lt;00:12,  1.72it/s]
+Training Epoch 3/3:  68%|######8   | 43/63 [00:24&lt;00:11,  1.72it/s]
+Training Epoch 3/3:  70%|######9   | 44/63 [00:25&lt;00:11,  1.73it/s]
+Training Epoch 3/3:  71%|#######1  | 45/63 [00:26&lt;00:10,  1.74it/s]
+Training Epoch 3/3:  73%|#######3  | 46/63 [00:26&lt;00:09,  1.73it/s]
+Training Epoch 3/3:  75%|#######4  | 47/63 [00:27&lt;00:09,  1.73it/s]
+Training Epoch 3/3:  76%|#######6  | 48/63 [00:27&lt;00:08,  1.73it/s]
+Training Epoch 3/3:  78%|#######7  | 49/63 [00:28&lt;00:08,  1.74it/s]
+Training Epoch 3/3:  79%|#######9  | 50/63 [00:28&lt;00:07,  1.75it/s]
+Training Epoch 3/3:  81%|########  | 51/63 [00:29&lt;00:06,  1.74it/s]
+Training Epoch 3/3:  83%|########2 | 52/63 [00:30&lt;00:06,  1.73it/s]
+Training Epoch 3/3:  84%|########4 | 53/63 [00:30&lt;00:05,  1.75it/s]
+Training Epoch 3/3:  86%|########5 | 54/63 [00:31&lt;00:05,  1.74it/s]
+Training Epoch 3/3:  87%|########7 | 55/63 [00:31&lt;00:04,  1.74it/s]
+Training Epoch 3/3:  89%|########8 | 56/63 [00:32&lt;00:04,  1.75it/s]
+Training Epoch 3/3:  90%|######### | 57/63 [00:32&lt;00:03,  1.75it/s]
+Training Epoch 3/3:  92%|#########2| 58/63 [00:33&lt;00:02,  1.74it/s]
+Training Epoch 3/3:  94%|#########3| 59/63 [00:34&lt;00:02,  1.73it/s]
+Training Epoch 3/3:  95%|#########5| 60/63 [00:34&lt;00:01,  1.73it/s]
+Training Epoch 3/3:  97%|#########6| 61/63 [00:35&lt;00:01,  1.74it/s]
+Training Epoch 3/3:  98%|#########8| 62/63 [00:35&lt;00:00,  1.73it/s]
+Training Epoch 3/3: 100%|##########| 63/63 [00:36&lt;00:00,  1.94it/s]
+Training Epoch 3/3: 100%|##########| 63/63 [00:36&lt;00:00,  1.74it/s]
+
+Validating Epoch 3/3:   0%|          | 0/16 [00:00&lt;?, ?it/s]
+Validating Epoch 3/3:   6%|6         | 1/16 [00:00&lt;00:02,  5.42it/s]
+Validating Epoch 3/3:  12%|#2        | 2/16 [00:00&lt;00:02,  5.30it/s]
+Validating Epoch 3/3:  19%|#8        | 3/16 [00:00&lt;00:02,  5.15it/s]
+Validating Epoch 3/3:  25%|##5       | 4/16 [00:00&lt;00:02,  5.28it/s]
+Validating Epoch 3/3:  31%|###1      | 5/16 [00:00&lt;00:02,  5.22it/s]
+Validating Epoch 3/3:  38%|###7      | 6/16 [00:01&lt;00:01,  5.23it/s]
+Validating Epoch 3/3:  44%|####3     | 7/16 [00:01&lt;00:01,  5.32it/s]
+Validating Epoch 3/3:  50%|#####     | 8/16 [00:01&lt;00:01,  5.22it/s]
+Validating Epoch 3/3:  56%|#####6    | 9/16 [00:01&lt;00:01,  5.29it/s]
+Validating Epoch 3/3:  62%|######2   | 10/16 [00:01&lt;00:01,  5.20it/s]
+Validating Epoch 3/3:  69%|######8   | 11/16 [00:02&lt;00:00,  5.13it/s]
+Validating Epoch 3/3:  75%|#######5  | 12/16 [00:02&lt;00:00,  5.21it/s]
+Validating Epoch 3/3:  81%|########1 | 13/16 [00:02&lt;00:00,  5.21it/s]
+Validating Epoch 3/3:  88%|########7 | 14/16 [00:02&lt;00:00,  5.28it/s]
+Validating Epoch 3/3:  94%|#########3| 15/16 [00:02&lt;00:00,  5.13it/s]
+Validating Epoch 3/3: 100%|##########| 16/16 [00:03&lt;00:00,  5.77it/s]
+Validating Epoch 3/3: 100%|##########| 16/16 [00:03&lt;00:00,  5.33it/s]
+Epoch 3:
+Train Loss: 0.1947
+Val Loss: 0.3777
+Val Accuracy: 83.60%</code></pre>
+</div>
+</div>
+<p>Losses decrease almost in unison and the validation accuracy improves, indicating that the model is learning useful patterns.</p>
+<p>Once the model has been trained, we can eyeball results.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>predict(model, <span class="st">"this is a hell of a movie"</span>, tokenizer)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>1</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>predict(model, <span class="st">"this movie is hell"</span>, tokenizer)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0</code></pre>
+</div>
+</div>
+<p>And do more vigorous evaluation on the held-out test set:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame()</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'text'</span>] <span class="op">=</span> X_test </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'label'</span>] <span class="op">=</span> y_test</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'prediction'</span>] <span class="op">=</span> [predict(model, text, tokenizer) <span class="cf">for</span> text <span class="kw">in</span> X_test]</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>metrics <span class="op">=</span> {</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Accuracy'</span>: accuracy_score(df[<span class="st">'label'</span>], df[<span class="st">'prediction'</span>]),</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Precision'</span>: precision_score(df[<span class="st">'label'</span>], df[<span class="st">'prediction'</span>], average<span class="op">=</span><span class="st">'weighted'</span>),</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Recall'</span>: recall_score(df[<span class="st">'label'</span>], df[<span class="st">'prediction'</span>], average<span class="op">=</span><span class="st">'weighted'</span>),</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'F1 Score'</span>: f1_score(df[<span class="st">'label'</span>], df[<span class="st">'prediction'</span>], average<span class="op">=</span><span class="st">'weighted'</span>)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Evaluation Metrics (training set size: 1250):"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Evaluation Metrics (training set size: 1250):</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> metric, value <span class="kw">in</span> metrics.items():</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>metric<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>value<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Accuracy: 0.900
+Precision: 0.900
+Recall: 0.900
+F1 Score: 0.900</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># or take a shortcut</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(df[<span class="st">'label'</span>], df[<span class="st">'prediction'</span>], target_names<span class="op">=</span>[<span class="st">'negative'</span>, <span class="st">'positive'</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              precision    recall  f1-score   support
+
+    negative       0.90      0.90      0.90        50
+    positive       0.90      0.90      0.90        50
+
+    accuracy                           0.90       100
+   macro avg       0.90      0.90      0.90       100
+weighted avg       0.90      0.90      0.90       100</code></pre>
+</div>
+</div>
+<p>Once we’re happy with this, we can save the model for later use:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>torch.save(model, <span class="st">'bert_sentiment_model_full.pth'</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading </span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> torch.load(<span class="st">'bert_sentiment_model_full.pth'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;string&gt;:3: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">eval</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>BertClassifier(
+  (bert): BertModel(
+    (embeddings): BertEmbeddings(
+      (word_embeddings): Embedding(30522, 768, padding_idx=0)
+      (position_embeddings): Embedding(512, 768)
+      (token_type_embeddings): Embedding(2, 768)
+      (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+      (dropout): Dropout(p=0.1, inplace=False)
+    )
+    (encoder): BertEncoder(
+      (layer): ModuleList(
+        (0-11): 12 x BertLayer(
+          (attention): BertAttention(
+            (self): BertSdpaSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+            (intermediate_act_fn): GELUActivation()
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+      )
+    )
+    (pooler): BertPooler(
+      (dense): Linear(in_features=768, out_features=768, bias=True)
+      (activation): Tanh()
+    )
+  )
+  (dropout): Dropout(p=0.1, inplace=False)
+  (classifier): Linear(in_features=768, out_features=2, bias=True)
+)</code></pre>
+</div>
+</div>
+</section>
+<section id="further-links" class="level2">
+<h2 class="anchored" data-anchor-id="further-links">Further links</h2>
+<ul>
+<li><a href="https://huggingface.co/docs/transformers/index">Hugging Face Transformers Documentation</a></li>
+<li><a href="https://pytorch.org/docs/stable/index.html">PyTorch Documentation</a></li>
+<li><a href="https://mccormickml.com/2019/07/22/BERT-fine-tuning/">Tutorial on Fine-Tuning BERT for Text Classification</a></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/fellennert\.github\.io\/toolbox_css\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Copyright 2025, Felix Lennert (<a href="mailto:felix.lennert@uni-leipzig.de">felix.lennert@uni-leipzig.de</a>)</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
