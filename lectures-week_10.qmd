@@ -1,0 +1,15 @@
+---
+title: "Week 10: BERTopic and Topic Modeling with Transformers"
+published-title: week_10
+engine: knitr
+freeze: auto
+---
+
+This week answers the following questions:
+
+- How can we use contextualized word embeddings for text analysis?
+
+
+## Slides 
+
+There are no slides, just the coding script.

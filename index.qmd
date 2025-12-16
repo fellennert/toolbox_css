@@ -27,23 +27,19 @@ At the beginning of the course, students are encouraged to form groups based on 
 
 Here's an overview of the topics covered:
 
-| WEEK | TITLE | CONTENT | INFORMAL TITLE |
+| SESSION | TITLE | CONTENT | INFORMAL TITLE |
 |------|-------|---------|----------------|
 | 1 | Kick Off | Housekeeping; Setting up workstation; R recap | Whatever you want to know about CSS |
 | 2 | Brief Intro to Python & Regexes | Python basics (`reticulate`, data types, loops, functions, `pandas`); Regular expressions with stringr | REGEXES -- tame your data |
 | 3 | Data Acquisition I | How the web is written and ethics; `rvest` web scraping | stealing data from websites without them noticing it |
 | 4 | Data Acquisition II | Dynamic pages and forms with `selenium`; APIs with `httr2` | stealing MORE data from websites |
 | 5 | Data Acquisition III | Intro to OCR with `tesseract` and transcription (OpenAI Whisper) | making the computer your transcription servant |
-| 6 | Data Acquisition IV | Buffer sessions ; Project discussion | Questions? |
-| 7 | Student Project Week | Work on projects in class | time to get your hands dirty |
-| 8 | Text as Data I | Bag of words; Sentiment analysis, TF-IDF, NER/POS | basic text analysis |
-| 9 | Text as Data II | Supervised machine learning in theory and practice | advanced text analysis with training data |
-| 10 | Text as Data III | Unsupervised ML (topic modeling); Remote counseling pre-Christmas | finding patterns without labels |
-| 11 | Text as Data IV | Measuring similarity and distributional hypothesis; Word embeddings | cutting-edge text analysis with vector spaces |
-| 12 | Text as Data V | Supervised learning on steroids (BERT); Active learning with BERT | holy shit...transformer models |
-| 13 | Text as Data VI | LLMs for information extraction; Local LLMs primer | unleashing the power of large language models |
-| 14 | Presentation Preparation Week | Work on presentations (deadline Jan 30, 6PM) | polish your masterpiece |
-| 15 | Presentations & Wrap Up | Peer-reviewed presentations; Course wrap-up | show off your work |
+| 6 | Student Project Week | Work on projects in class | time to get your hands dirty |
+| 7 | Text as Data I | Bag of words; Sentiment analysis, TF-IDF, NER/POS, supervised ML | (advanced) text analysis |
+| 8 | Text as Data II | Unsupervised ML (topic modeling); Word Embeddings | finding patterns without labels |
+| 9 | Text as Data III | Supervised learning on steroids (BERT); LLMs for information extraction |transformer models |
+| 10 | Text as Data IV | transformers for topic modeling (BERTopic) | more transformer models |
+| 11 | Presentations & Wrap Up | Peer-reviewed presentations; Course wrap-up | show off your work |
 
 ## Syllabus
 

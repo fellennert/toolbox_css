@@ -1,8 +1,8 @@
 {
-  "hash": "9b0b6fc9d638d3d210f7508369afef41",
+  "hash": "173ba180aae30e136c7948a221e492be",
   "result": {
     "engine": "knitr",
-    "markdown": "---\ntitle: \"Week 9: Transfer Learning and LLMs in the Social Sciences\"\npublished-title: week_7\nengine: knitr\nfreeze: auto\n---\n\nThis week answers the following questions:\n\n- What is transfer learning?\n- How are LLMs used in the social sciences?\n\n\n## Slides \n\nTuesday's slides can be found [here](slides/20251209-tad-V.pdf).\n\nAlternatively, read them here (probably not the best if you're visiting this page on a mobile device):\n\n<iframe src=\"./slides/20251209-tad-V.pdf\" \n        width=\"100%\" \n        height=\"800px\" \n        style=\"border: 1px solid #ddd;\">\n</iframe>",
+    "markdown": "---\ntitle: \"Week 9: Transfer Learning and LLMs in the Social Sciences\"\npublished-title: week_9\nengine: knitr\nfreeze: auto\n---\n\nThis week answers the following questions:\n\n- What is transfer learning?\n- How are LLMs used in the social sciences?\n\n\n## Slides \n\nTuesday's slides can be found [here](slides/20251209-tad-V.pdf).\n\nAlternatively, read them here (probably not the best if you're visiting this page on a mobile device):\n\n<iframe src=\"./slides/20251209-tad-V.pdf\" \n        width=\"100%\" \n        height=\"800px\" \n        style=\"border: 1px solid #ddd;\">\n</iframe>",
     "supporting": [
       "lectures-week_9_files"
     ],

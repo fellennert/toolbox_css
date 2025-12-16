@@ -1,0 +1,15 @@
+{
+  "hash": "5023c4900689736a16ce2f703058624b",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Week 10: BERTopic and Topic Modeling with Transformers\"\npublished-title: week_10\nengine: knitr\nfreeze: auto\n---\n\nThis week answers the following questions:\n\n- How can we use contextualized word embeddings for text analysis?\n\n\n## Slides \n\nThere are no slides, just the coding script.",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

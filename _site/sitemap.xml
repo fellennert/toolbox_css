@@ -10,7 +10,7 @@
   </url>
   <url>
     <loc>https://fellennert.github.io/toolbox_css/lectures-week_7.html</loc>
-    <lastmod>2025-11-27T14:09:46.447Z</lastmod>
+    <lastmod>2025-12-16T12:21:55.769Z</lastmod>
   </url>
   <url>
     <loc>https://fellennert.github.io/toolbox_css/lectures-week_2.html</loc>
@@ -21,88 +21,92 @@
     <lastmod>2025-11-27T14:09:41.546Z</lastmod>
   </url>
   <url>
-    <loc>https://fellennert.github.io/toolbox_css/16_word_embeddings.html</loc>
-    <lastmod>2025-12-04T15:45:52.577Z</lastmod>
+    <loc>https://fellennert.github.io/toolbox_css/lectures-week_10.html</loc>
+    <lastmod>2025-12-16T12:22:00.306Z</lastmod>
   </url>
   <url>
-    <loc>https://fellennert.github.io/toolbox_css/8_selenium.html</loc>
-    <lastmod>2025-11-06T10:32:41.610Z</lastmod>
-  </url>
-  <url>
-    <loc>https://fellennert.github.io/toolbox_css/1_r_index.html</loc>
-    <lastmod>2025-10-22T14:16:37.024Z</lastmod>
-  </url>
-  <url>
-    <loc>https://fellennert.github.io/toolbox_css/syllabus/syllabus_toolboxCSS_winter2526.html</loc>
-    <lastmod>2025-10-30T07:49:42.908Z</lastmod>
-  </url>
-  <url>
-    <loc>https://fellennert.github.io/toolbox_css/13_dictionary-based-analysis.html</loc>
-    <lastmod>2025-11-18T15:33:31.637Z</lastmod>
-  </url>
-  <url>
-    <loc>https://fellennert.github.io/toolbox_css/5_pandas.html</loc>
-    <lastmod>2025-10-29T06:22:45.674Z</lastmod>
-  </url>
-  <url>
-    <loc>https://fellennert.github.io/toolbox_css/11_transcription.html</loc>
-    <lastmod>2025-11-06T15:27:37.578Z</lastmod>
-  </url>
-  <url>
-    <loc>https://fellennert.github.io/toolbox_css/17_BERT.html</loc>
-    <lastmod>2025-12-15T08:42:32.521Z</lastmod>
-  </url>
-  <url>
-    <loc>https://fellennert.github.io/toolbox_css/10_tesseract.html</loc>
-    <lastmod>2025-11-06T10:31:46.586Z</lastmod>
-  </url>
-  <url>
-    <loc>https://fellennert.github.io/toolbox_css/12_text-preprocessing.html</loc>
-    <lastmod>2025-11-18T15:33:36.667Z</lastmod>
-  </url>
-  <url>
-    <loc>https://fellennert.github.io/toolbox_css/lectures-week_9.html</loc>
-    <lastmod>2025-12-16T06:37:50.185Z</lastmod>
-  </url>
-  <url>
-    <loc>https://fellennert.github.io/toolbox_css/14_supervised_ml.html</loc>
-    <lastmod>2025-12-04T11:55:19.570Z</lastmod>
-  </url>
-  <url>
-    <loc>https://fellennert.github.io/toolbox_css/lectures-week_8.html</loc>
-    <lastmod>2025-12-16T06:38:22.706Z</lastmod>
-  </url>
-  <url>
-    <loc>https://fellennert.github.io/toolbox_css/19_BERTopic.html</loc>
-    <lastmod>2025-12-16T11:01:07.615Z</lastmod>
-  </url>
-  <url>
-    <loc>https://fellennert.github.io/toolbox_css/18_GPT.html</loc>
-    <lastmod>2025-12-11T15:38:48.942Z</lastmod>
-  </url>
-  <url>
-    <loc>https://fellennert.github.io/toolbox_css/3_reticulate.html</loc>
-    <lastmod>2025-10-21T12:36:56.403Z</lastmod>
-  </url>
-  <url>
-    <loc>https://fellennert.github.io/toolbox_css/index.html</loc>
-    <lastmod>2025-10-30T08:04:00.172Z</lastmod>
-  </url>
-  <url>
-    <loc>https://fellennert.github.io/toolbox_css/15_unsupervised_ml.html</loc>
-    <lastmod>2025-12-16T06:47:03.738Z</lastmod>
-  </url>
-  <url>
-    <loc>https://fellennert.github.io/toolbox_css/7_scraping.html</loc>
-    <lastmod>2025-11-06T10:32:42.864Z</lastmod>
+    <loc>https://fellennert.github.io/toolbox_css/2_r_catch-up.html</loc>
+    <lastmod>2025-10-16T14:45:21.542Z</lastmod>
   </url>
   <url>
     <loc>https://fellennert.github.io/toolbox_css/lectures-overview.html</loc>
     <lastmod>2025-11-27T13:27:50.673Z</lastmod>
   </url>
   <url>
-    <loc>https://fellennert.github.io/toolbox_css/2_r_catch-up.html</loc>
-    <lastmod>2025-10-16T14:45:21.542Z</lastmod>
+    <loc>https://fellennert.github.io/toolbox_css/7_scraping.html</loc>
+    <lastmod>2025-11-06T10:32:42.864Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fellennert.github.io/toolbox_css/15_unsupervised_ml.html</loc>
+    <lastmod>2025-12-16T06:47:03.738Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fellennert.github.io/toolbox_css/index.html</loc>
+    <lastmod>2025-12-16T12:22:02.242Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fellennert.github.io/toolbox_css/3_reticulate.html</loc>
+    <lastmod>2025-10-21T12:36:56.403Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fellennert.github.io/toolbox_css/18_GPT.html</loc>
+    <lastmod>2025-12-11T15:38:48.942Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fellennert.github.io/toolbox_css/19_BERTopic.html</loc>
+    <lastmod>2025-12-16T11:01:07.615Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fellennert.github.io/toolbox_css/lectures-week_8.html</loc>
+    <lastmod>2025-12-16T12:21:58.161Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fellennert.github.io/toolbox_css/14_supervised_ml.html</loc>
+    <lastmod>2025-12-04T11:55:19.570Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fellennert.github.io/toolbox_css/lectures-week_9.html</loc>
+    <lastmod>2025-12-16T12:21:59.412Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fellennert.github.io/toolbox_css/12_text-preprocessing.html</loc>
+    <lastmod>2025-11-18T15:33:36.667Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fellennert.github.io/toolbox_css/10_tesseract.html</loc>
+    <lastmod>2025-11-06T10:31:46.586Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fellennert.github.io/toolbox_css/17_BERT.html</loc>
+    <lastmod>2025-12-15T08:42:32.521Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fellennert.github.io/toolbox_css/11_transcription.html</loc>
+    <lastmod>2025-11-06T15:27:37.578Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fellennert.github.io/toolbox_css/5_pandas.html</loc>
+    <lastmod>2025-10-29T06:22:45.674Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fellennert.github.io/toolbox_css/13_dictionary-based-analysis.html</loc>
+    <lastmod>2025-11-18T15:33:31.637Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fellennert.github.io/toolbox_css/syllabus/syllabus_toolboxCSS_winter2526.html</loc>
+    <lastmod>2025-10-30T07:49:42.908Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fellennert.github.io/toolbox_css/1_r_index.html</loc>
+    <lastmod>2025-10-22T14:16:37.024Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fellennert.github.io/toolbox_css/8_selenium.html</loc>
+    <lastmod>2025-11-06T10:32:41.610Z</lastmod>
+  </url>
+  <url>
+    <loc>https://fellennert.github.io/toolbox_css/16_word_embeddings.html</loc>
+    <lastmod>2025-12-04T15:45:52.577Z</lastmod>
   </url>
   <url>
     <loc>https://fellennert.github.io/toolbox_css/4_python.html</loc>

@@ -1,6 +1,6 @@
 ---
 title: "Week 8: Word Embeddings"
-published-title: week_7
+published-title: week_8
 engine: knitr
 freeze: auto
 ---
