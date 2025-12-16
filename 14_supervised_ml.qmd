@@ -136,7 +136,15 @@ lr_spec <- logistic_reg() |>
 -   Logistic regression (penalized with Lasso):
 
 ```{r}
-lasso_spec <- logistic_reg(mixture = 1) |>
+lasso_spec <- logistic_reg(penalty = 0.01, mixture = 1) |>
+  set_engine("glm") |>
+  set_mode("classification") 
+```
+
+-   Logistic regression (penalized with Ridge):
+
+```{r}
+ridge_spec <- logistic_reg(penalty = 0.01, mixture = 0) |>
   set_engine("glm") |>
   set_mode("classification") 
 ```
@@ -144,8 +152,10 @@ lasso_spec <- logistic_reg(mixture = 1) |>
 -   SVM (here, `step_normalize(all_predictors())` needs to be the last step in the recipe)
 
 ```{r}
+needs(LiblineaR)
+
 svm_spec <- svm_linear() |>
-  set_mode("regression") |> # can also be "classification"
+  set_mode("classification") |> # can also be "regression"
   set_engine("LiblineaR")
 ```
 
@@ -160,9 +170,10 @@ rf_spec <- rand_forest(trees = 100) |>
 -   xgBoost (with 20 decision trees):
 
 ```{r}
-xg_spec <- boost_tree(trees = 20) |> 
+needs(xgboost)
+xg_spec <- boost_tree(trees = 50) |> 
   set_engine("xgboost") |>
-  set_mode("regression") # can also be classification
+  set_mode("classification") # can also be regression
 ```
 
 ### Model training -- `workflows`

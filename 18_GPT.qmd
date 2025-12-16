@@ -1,0 +1,452 @@
+---
+title: "Chapter 18: Supervised Classification using Local LLMs in R"
+published-title: supervised_llm_r
+engine: knitr
+freeze: auto
+bibliography: literature.bib
+csl: ASA.csl
+---
+
+In the previous chapter, we explored how to use BERT for text classification. While BERT is powerful, it requires Python, careful preprocessing, and training. In this chapter, we'll take a different approach: using large language models (LLMs) like GPT through Ollama directly in R. This method requires no training, works with minimal data, and can classify text through natural language instructions.
+
+## Why Local LLMs? Understanding the Paradigm Shift
+
+The BERT approach we covered previously is an example of **fine-tuning**: we take a pre-trained model and train it further on our specific task with labeled examples. This works well but has some limitations:
+
+- Requires hundreds or thousands of labeled examples
+- Needs GPU resources and hours of training time
+- Must be retrained for each new classification scheme
+- Requires Python and deep learning expertise
+
+The LLM approach is fundamentally different. Instead of training, we use **prompting**: we give the model instructions in natural language and ask it to classify text based on those instructions. This offers several advantages:
+
+**Advantages of the LLM Approach:**
+
+1. **Zero-shot or few-shot learning**: Can work with zero training examples, or improve with just a handful of examples in the prompt
+2. **Rapid iteration**: Change your classification scheme by editing the prompt, not retraining
+3. **Works entirely in R**: No Python environment needed
+4. **Handles complex nuances**: Can encode detailed coding instructions that would be hard to learn from examples alone
+5. **Runs locally**: With Ollama, models run on your machine -- no API costs or data privacy concerns
+
+**Trade-offs:**
+
+- Slower inference than fine-tuned models (seconds per text vs milliseconds)
+- Requires careful prompt engineering
+- Can be inconsistent if prompts aren't well-designed
+- Larger models need significant RAM (8GB+ for 7B parameter models)
+
+**When to use which approach:**
+
+- **Use BERT/fine-tuning when**: You have thousands of labeled examples, need very fast inference, have clear-cut categories, and the task is well-defined
+- **Use LLM prompting when**: You have few labeled examples, categories are nuanced or complex, you need to iterate quickly, or you're working with multiple languages
+
+## What is Ollama?
+
+Ollama is a tool that makes it easy to run large language models locally on your computer. Think of it as similar to Docker for containers, but for LLMs. It handles downloading models, managing memory, and providing a simple API to interact with models.
+
+**Key benefits of Ollama:**
+
+- **No API keys needed**: Models run entirely on your machine
+- **Data privacy**: Your data never leaves your computer
+- **No costs**: Free to use once you have the hardware
+- **Offline capable**: Works without internet access after initial model download
+- **Model variety**: Access to many open-source models (Llama, Qwen, Mistral, etc.)
+
+## Setup
+
+### Installing Ollama
+
+First, install Ollama on your system:
+
+**For macOS and Windows:**
+
+- Download from https://ollama.ai
+- Run the installer
+- Ollama runs as a background service
+
+### Downloading a Model
+
+Before we can classify text, we need to download a model. For this, you need the `ollamar` package. We'll use Qwen 2.5 7B, a capable multilingual model:
+
+```{r}
+needs(tidyverse, ellmer, ollamar, caret)
+ollamar::pull("qwen2.5:7b") # note that this masks the default pull() from dplyr
+```
+
+**Understanding Model Sizes:**
+
+The "7b" refers to 7 billion parameters. Larger models are generally more capable but require more resources:
+
+- **1-3B parameters**: Fast, basic understanding, requires ~4-8GB RAM
+- **7-8B parameters**: Good balance of capability and speed, requires ~12-16GB RAM
+- **13-70B parameters**: Very capable, slow, requires 32GB+ RAM
+
+**Alternative Models to Consider:**
+
+```{r}
+#| eval: false
+
+# For English-only, very fast
+ollamar::pull("llama3.2:3b")
+
+# For multilingual tasks with less RAM
+ollamar::pull("qwen2.5:3b")
+
+# For maximum capability (if you have the RAM)
+ollamar::pull("qwen2.5:14b")
+```
+
+You can list all downloaded models:
+
+```{r}
+ollamar::list_models()
+```
+
+## Introduction to `ellmer`
+
+Before we dive into classification, let's look at `ellmer`, the package that makes working with LLMs in R feel natural and "tidy."
+
+`ellmer` is a tidyverse-friendly interface for working with large language models. Think of it as the R equivalent of LangChain or similar LLM frameworks, but designed to integrate seamlessly with tidyverse workflows. It was developed by the tidyverse team to provide a consistent, pipe-friendly way to interact with various LLM providers.
+
+You could interact with Ollama directly using HTTP requests, but `ellmer` provides several advantages: it is consistent, meaning that it works the same whether you're using Ollama, OpenAI, Claude, or other providers and it is designed to work naturally with `dplyr`, `purrr`, and other tidyverse tools
+
+It provides structured output (more on this later), which ensures reliable, machine-readable responses. However, you can also use it as a chat bot if you want free-form text.
+
+### Core Concepts of `ellmer`
+
+**1. Chat Sessions**
+
+`ellmer` uses the concept of "chat" objects that maintain conversation state:
+
+```{r}
+# Create a chat session
+chat <- chat_ollama(
+  model = "qwen2.5:7b",
+  system_prompt = "You are a helpful assistant. Give brief responses. In English only."
+)
+
+# Have a conversation
+chat$chat("What is the capital of France?")
+# Response: "The capital of France is Paris."
+
+chat$chat("What is its population?")
+# (The model remembers we're talking about Paris)
+
+chat$chat("Including Banlieues?")
+```
+
+Each chat object maintains its own conversation history, system prompt, and settings. You can extract the full conversation history if needed:
+```{r}
+
+chat$get_turns() # conversation history
+```
+
+**2. Structured Outputs via Type Definitions**
+
+The most powerful feature of `ellmer` for classification is its type system. Instead of getting free-form text responses that you have to parse, you define the exact structure you want:
+
+```{r}
+# Define what you want to get back
+person_info <- type_object(
+  name = type_string("Person's full name"),
+  age = type_integer("Person's age in years"),
+  occupation = type_enum("Job category", 
+                        values = c("student", "teacher", "retired", "unemployed"))
+)
+
+# Ask the model to extract this structure
+john <- chat$chat_structured(
+  "John Smith is a 35-year-old teacher",
+  type = person_info
+)
+
+john |> bind_cols()
+```
+
+This is crucial for classification because it guarantees:
+- Valid categories (no hallucinated labels)
+- Consistent structure (always parseable)
+- Type safety (ages are integers, not strings)
+
+`ellmer` provides several type constructors for building structured outputs:
+
+```{r}
+#| eval: false
+
+# Basic types
+type_string("Description")      # Free text
+type_integer("Description")     # Whole numbers
+type_number("Description")      # Decimals allowed
+type_boolean("Description")     # TRUE/FALSE
+
+# Constrained types
+type_enum("Description", 
+         values = c("A", "B", "C"))  # Must be one of these
+
+
+# these can be combined into complex structures
+
+type_object(
+  field1 = type_string(),
+  field2 = type_integer()
+)
+```
+
+For text classification specifically, `ellmer`'s structured outputs are transformative. In the "old way" of working with LLMs, you might get responses like: "I would classify this as positive sentiment. The language used..."
+
+Then you'd need to write regex patterns or parsing logic to extract "positive" from that text. This is:
+- Fragile (models might phrase responses differently)
+- Error-prone (what if the model says "I'd say positive" vs "positive"?)
+- Slow (requires post-processing)
+
+With `ellmer`'s structured outputs, you define:
+
+```{r}
+#| eval: false
+
+classification_type <- type_object(
+  sentiment = type_enum("Sentiment", values = c("positive", "negative", "neutral"))
+)
+```
+
+**4. Multiple Backend Support**
+
+One `ellmer` script can work with different LLM providers by just changing the chat constructor:
+
+```{r}
+#| eval: false
+
+# Local with Ollama
+chat_ollama(model = "qwen2.5:7b")
+
+# OpenAI's GPT models
+chat_openai(model = "gpt-4o-mini", api_key = Sys.getenv("OPENAI_API_KEY"))
+
+# Anthropic's Claude models
+chat_claude(model = "claude-3-5-sonnet-20241022", api_key = Sys.getenv("ANTHROPIC_API_KEY"))
+
+# Google's Gemini models
+chat_google(model = "gemini-1.5-flash")
+```
+
+This makes it easy to:
+- Compare models on the same task
+- Switch providers if one is down
+- Use the best model for each subtask
+- Start with local models, scale to APIs if needed
+
+## Text Classification with Local LLMs in R
+
+Now that we understand the tools, let's see how to perform text classification using a local LLM with `ellmer` and Ollama.
+
+```{r}
+set.seed(1312) #all cats are beautiful
+imdb_sample <- read_csv("files/imdb_reviews.csv") |> 
+    slice_sample(n = 30)
+
+imdb_sample |> count(sentiment)
+```
+
+We have a small sample of 30 movie reviews labeled as positive or negative. Our goal is to build a classifier that can predict sentiment based on the review text.
+
+### Defining the Classification Type
+First, we define the structure of our classification output using `ellmer`'s type system:
+```{r}
+sentiment_type <- type_object(
+  sentiment = type_enum("Sentiment of the review", 
+                        values = c("positive", "negative")),
+  reasoning = type_string("Brief explanation for the sentiment classification"),
+  german_translation = type_string("German translation of the review")
+)
+```
+
+### Creating the Chat Session
+
+Next, we create a system prompt. This is equivalent to defining a coding scheme.
+
+The system prompt is where we encode all our classification rules. This is analogous to the "training data" in supervised learning, but expressed as instructions rather than examples.
+
+```{r}
+ref_prompt_sentiment <- "
+You are a German and English speaking movie expert tasked with classifying movie reviews.
+The question at hand is whether the review expresses a positive or negative sentiment towards the movie.
+
+CODING INSTRUCTIONS:
+
+- Code as 'positive' if the review clearly expresses enjoyment, praise, or recommendation of the movie.
+- Code as 'negative' if the review clearly expresses dislike, criticism, or a recommendation against watching the movie.
+
+SPECIAL INSTRUCTIONS:
+- If the review contains mixed sentiments, code based on the overall tone or conclusion.
+- Provide a brief explanation for your classification.
+- Provide a German translation of the review.
+
+Be consistent and follow these rules exactly.
+"
+```
+
+**Anatomy of an Effective System Prompt:**
+
+1. Role definition: "German and English speaking movie expert..." sets expectations for the model's behavior and expertise
+
+2. Context: "… tasked with classifying movie reviews" provides background needed to understand responses
+
+3. Clear categories: Definitions for each code; explicit, mutually exclusive categories that match the classification type
+
+4. Edge case handling: The "SPECIAL INSTRUCTIONS" section
+   - These rules come from pilot coding and address common ambiguities
+   - This is where you encode the nuanced judgment that makes human coding reliable
+
+5. Consistency reminder: "Be consistent and follow these rules exactly"
+   - Helps reduce random variation in borderline cases
+
+The best practices for writing system prompts are similar to writing good codebooks for human coders. Here are some tips:
+
+- Be explicit: Don't assume the model knows your conventions
+- Use examples: For complex cases, include few-shot examples (not shown here, but effective)
+- Iterate: Start simple, then add rules based on errors you observe
+- Test edge cases: Try ambiguous examples to see how the model handles them
+- Version control: Keep your prompts in version control as they evolve
+
+### Classifying Reviews
+
+Now we can classify our reviews using the `chat_structured` function to get structured outputs. To avoid memory effects, we reinitialize the chat session for each review:
+
+```{r}
+classified_reviews <- imdb_sample |>
+    dplyr::pull(text) |>
+    map(\(text) {
+    # Create a chat session with the model
+        classifier <- chat_ollama(
+            model = "qwen2.5:7b",
+            system_prompt = ref_prompt_sentiment,
+            params = params(
+                temperature = 0.1,
+                seed = 42
+                )
+        )
+    
+        classifier$chat_structured(text, type = sentiment_type)
+  },
+  .progress = TRUE) |>
+    bind_rows()
+```
+
+The model parameters I choose here are critical for classification performance:
+
+- `temperature = 0.1`: Controls randomness
+  - 0.0 = Deterministic, always picks most likely option
+  - 0.1 = Very low randomness (good for classification)
+  - 1.0 = More creative, more varied outputs
+  - For classification, use 0.0-0.3 for consistency
+  
+- `seed = 42`: Random seed for reproducibility
+  - With low temperature and a fixed seed, results should be identical across runs
+  - Important for replicable research
+
+### Evaluating the Classifier
+
+Now that we have our classified reviews, let's evaluate the performance against the true labels:
+```{r}
+results <- imdb_sample |>
+    select(true_sentiment = sentiment) |>
+    bind_cols(classified_reviews)
+results |> count(true_sentiment, predicted_sentiment = sentiment)
+```
+
+We can compute the confusion matrix to assess agreement:
+```{r}
+actual <- factor(results$sentiment, 
+                levels = c("positive", "negative"))
+predicted <- factor(results$true_sentiment,
+                   levels = c("positive", "negative"))
+
+# Get confusion matrix with statistics
+cm <- confusionMatrix(predicted, actual)
+
+# Print overall accuracy
+cat("Overall Accuracy:", round(cm$overall["Accuracy"], 3), "\n\n")
+
+# Print per-class F1 scores
+cm$byClass
+
+# Print full confusion matrix
+cat("\nConfusion Matrix:\n")
+print(cm$table)
+```
+
+This gives us a detailed breakdown of performance, including precision, recall, and F1 scores for each class.
+
+### Analyzing Disagreements
+
+It's valuable to examine cases where the model disagrees with humans. In this case, we don't have any disagreements.
+
+Common Patterns in disagreements:
+
+Some responses are boundary cases and just genuinely ambiguous. Here, researchers can either accept some disagreement or add these as examples to your prompt. However, sometimes there is a systematic bias and the model consistently miscodes a specific type. In this case, you should add explicit rules for this case in your prompt. This also helps in the case of language nuance, examples help. However, sometimes diagreements also reveal human coder inconsistencies.
+
+For prompt refinement, there are some strategies to improve classification accuracy:
+
+- Add explicit examples (few-shot learning):
+```{r}
+#| eval: false
+
+improved_prompt <- "
+EXAMPLE: This movie was fantastic! I loved every minute of it. -> positive
+"
+```
+
+- Ask the model to think step-by-step:
+
+```{r}
+#| eval: false
+
+cot_prompt <- "
+Before coding, consider:
+1. What is the main sentiment expressed?
+2. Is there a clear position or uncertainty?
+3. Are there contradictory elements?
+4. Which category best fits given the rules?
+
+Then provide your classification.
+"
+```
+
+- If you have the resources, larger models are more capable:
+
+```{r}
+#| eval: false
+
+# Instead of qwen2.5:7b
+ollamar::pull("qwen2.5:14b")
+
+# Or use Claude/GPT via API for highest quality
+classifier <- chat_openai(
+  model = "gpt-4o-mini",  # Cost-effective option
+  api_key = Sys.getenv("OPENAI_API_KEY")
+)
+```
+
+- Run multiple models and take the majority vote:
+
+```{r}
+#| eval: false
+models <- c("qwen2.5:7b", "llama3.1:8b", "mistral:7b")
+
+ensemble_results <- map(models, \(model_name) {
+  classifier <- chat_ollama(
+    model = model_name,
+    system_prompt = ref_prompt_sentiment,
+    params = params(temperature = 0.1)
+  )
+  
+  map(dependency_responses, \(text) {
+    classifier$chat_structured(text, type = response_classification)
+  })
+}) 
+```
+
+## Further links
+
+- [Ollama Documentation](https://ollama.ai/docs)
+- [ellmer](https://ellmer.tidyverse.org) is very capable of many different LLM tasks beyond classification, so check out the documentation and vignettes

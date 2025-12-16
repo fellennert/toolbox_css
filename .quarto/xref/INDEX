@@ -79,5 +79,26 @@
   },
   "lectures-week_7.qmd": {
     "lectures-week_7.html": "9343c799"
+  },
+  "15_unsupervised_ml.qmd": {
+    "15_unsupervised_ml.html": "85535255"
+  },
+  "lectures-week_8.qmd": {
+    "lectures-week_8.html": "2cb2c2c6"
+  },
+  "16_word_embeddings.qmd": {
+    "16_word_embeddings.html": "45293e91"
+  },
+  "lectures-week_9.qmd": {
+    "lectures-week_9.html": "83118f6e"
+  },
+  "18_GPT.qmd": {
+    "18_GPT.html": "14109e9b"
+  },
+  "17_BERT.qmd": {
+    "17_BERT.html": "2817dd96"
+  },
+  "19_BERTopic.qmd": {
+    "19_BERTopic.html": "ab802399"
   }
 }

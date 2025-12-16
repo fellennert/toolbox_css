@@ -17,38 +17,20 @@ Please click [here to download the slides for Tuesday, October 28, 2025](./slide
 
 Please click [here to download the slides for Thursday, October 30, 2025](./slides/20251030-scraping_ethics.pdf). 
 
-```{css echo=FALSE}
-
-.embed-container {
-    position: relative;
-    padding-bottom: 129%;
-    height: 0;
-    overflow: hidden;
-    max-width: 100%;
-}
-
-.embed-container iframe,
-.embed-container object,
-.embed-container embed {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-```
-
 Alternatively, read them here (probably not the best if you're visiting this page on a mobile device):
 
 ### Tuesday, Oct. 28, 2025
 
-<div class="embed-container">
-  <iframe src="./slides/20251028-crawling_web-novids.pdf" style="border: 0.5px"></iframe>
-</div>
+<iframe src="./slides/20251028-crawling_web-novids.pdf" 
+        width="100%" 
+        height="800px" 
+        style="border: 1px solid #ddd;">
+</iframe>
 
 ### Thursday, Oct. 30, 2025
 
-<div class="embed-container">
-  <iframe src="./slides/20251030-scraping_ethics.pdf" style="border: 0.5px"></iframe>
-</div>
+<iframe src="./slides/20251030-scraping_ethics.pdf" 
+        width="100%" 
+        height="800px" 
+        style="border: 1px solid #ddd;">
+</iframe>

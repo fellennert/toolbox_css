@@ -15,4 +15,12 @@ This week answers the following questions:
 
 There are no slides for Tuesday, just an R script. 
 
-Thursday's slides will be uploaded before class.
+Thursday's slides can be found [here](slides/20251127-tad-III.pdf).
+
+Alternatively, read them here (probably not the best if you're visiting this page on a mobile device):
+
+<iframe src="./slides/20251127-tad-III.pdf" 
+        width="100%" 
+        height="800px" 
+        style="border: 1px solid #ddd;">
+</iframe>

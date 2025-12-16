@@ -1,0 +1,375 @@
+---
+title: "Chapter 19: Unsupervised Text Classification with BERTopic"
+published-title: bertopic
+engine: knitr
+freeze: auto
+bibliography: literature.bib
+csl: ASA.csl
+---
+
+BERTopic is a topic modeling technique that leverages transformer-based embeddings and clustering algorithms to extract topics from text data. Unlike traditional methods like LDA (Latent Dirichlet Allocation), BERTopic:
+
+- Uses pre-trained language models for semantic "understanding"
+- Employs clustering rather than probabilistic modeling
+- Produces more coherent and interpretable topics
+- Works well with short texts
+
+The general workflow of BERTopic involves the following steps:
+ 
+First, documents are embedded into a high-dimensional space using a sentence transformer. Then, the dimensionality of this space is reduced with UMAP. The reason for this is that high-dimensional spaces can be sparse and noisy, making clustering less effective. UMAP helps to create a more compact representation that preserves the essential structure of the data. Next, HDBSCAN is used to cluster the documents based on their reduced embeddings. HDBSCAN is a density-based clustering algorithm that can identify clusters of varying shapes and sizes, as well as noise points that do not belong to any cluster. Finally, topic representations are generated using methods like c-TF-IDF, which helps to identify the most relevant words for each topic.
+
+The following script will replicate the analysis we performed in chapter 15 using BERTopic instead of LDA.
+
+In the first step, I prepare the Taylor Swift lyrics data for analysis. This time, rather than full songs, we focus on song components (i.e., verses, chorus, bridge, …). This is because, unlike LDA which assumes documents to be mixtures of topics, BERTopic assigns each document to a single topic. By using smaller text segments, we can capture more granular themes within the songs.
+
+```{r}
+#| eval: false
+
+needs(taylor, tidyverse)
+
+taylor_song_components <- taylor_album_songs |>
+    unnest(lyrics) |> 
+  group_by(album_name, track_name, element, album_release) |> 
+  summarize(lyrics = str_c(lyric, collapse = " ")) |> 
+  distinct(track_name, lyrics, .keep_all = TRUE) |>
+  mutate(year = lubridate::year(album_release))
+
+write_csv(taylor_song_components, "files/taylor_song_components.csv")
+```
+
+Next, we set up a dedicated Python environment for BERTopic and its dependencies. We need the `bertopic` package and its dependencies for the main topic modeling framework, `SentenceTransformer` to create semantic embeddings from text, and `pandas` for data manipulation and loading.
+
+```{r}
+#| eval: false
+
+needs(reticulate)
+
+conda_create(
+  envname = "bertopic_env",
+  python_version = "3.10"
+)
+
+conda_install(
+  envname = "bertopic_env",
+  packages = c("bertopic", "pandas", "sentence-transformers"),
+  pip = TRUE
+)
+```
+
+```{r}
+#| include: false
+
+reticulate::use_condaenv("bertopic_env", required = TRUE)
+```
+
+## BERTopic
+
+Now we can load the data and start with a basic BERTopic model.
+
+```{python}
+#| eval: false
+
+from bertopic import BERTopic
+from sentence_transformers import SentenceTransformer
+import pandas as pd
+
+taylor_lyrics = pd.read_csv("files/taylor_song_components.csv")
+```
+
+The most basic workflow is as follows: we create an embeddings model using `SentenceTransformer`, then we create a `BERTopic` model using that embedding model. Finally, we fit the model on the lyrics data.
+
+```{python}
+#| eval: false
+
+# Create embeddings model
+embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
+
+# Create BERTopic model
+topic_model = BERTopic(embedding_model=embedding_model)
+
+# Fit the model
+topics, probabilities = topic_model.fit_transform(taylor_lyrics["lyrics"])
+```
+
+By default, we don't need to set any parameters -- but this also means that we have little control over the modeling process. Let's inspect the results of this basic model. 
+
+```{python}
+#| eval: false
+
+
+# Get topic information
+topic_info = topic_model.get_topic_info()
+topic_info.head()
+```
+
+The output looks as follows: Topic -1 contains "noise", i.e., the topic model could not assign these documents to any proper topic. The other topics are numbered in ascending order, based on how many documents were assigned the respective document. We can inspect the top words for each topic using the `get_topic` method. These are the top words for topic 0, the numbers indicate their importance for the topic (as determined by the c-TF-IDF algorithm).
+
+We can visualize the topics using various built-in visualization methods. For example, we can create a bar chart of the top words for each topic. 
+
+```{python}
+#| eval: false
+
+
+topic_model.visualize_barchart(top_n_topics=10).show()
+```
+
+We can also extract the topic assignments for each document using the `get_document_info` method.
+
+```{python}
+#| eval: false
+
+
+doc_info = topic_model.get_document_info(taylor_lyrics["lyrics"])
+doc_info.head()
+```
+
+## Customizing BERTopic
+
+The results from above did not tell us much about the documents, they were filled with stopwords and other words that didn’t help us understand the topics. This is because we used the default parameters, which may not be optimal for our specific dataset. To improve the results, we can customize various components of the BERTopic model, such as UMAP, HDBSCAN, and the vectorizer. To this end, we first need to import the necessary libraries.
+
+```{python}
+#| eval: false
+
+from umap import UMAP
+from hdbscan import HDBSCAN
+from sklearn.feature_extraction.text import CountVectorizer
+from bertopic.representation import KeyBERTInspired
+```
+
+In the fine-tuning process, we can follow the bertopic order of operation and customize each step. For the first step, the embedding, we can choose a better model than the default one. The `all-MiniLM-L12-v2` model is a good balance between speed and performance. Generally, models that rank high on [this leaderboard](https://huggingface.co/spaces/mteb/leaderboard) perform better and are a good choice for topic modeling. You can also use multi-lingual or language-specific models. In this case, we use a model that is optimized for English text.
+
+```{python}
+#| eval: false
+
+embedding_model = SentenceTransformer("all-MiniLM-L12-v2")
+```
+
+Next, we can alter the UMAP parameters to create a more granular representation of the data. By reducing the number of neighbors and components, we can capture more local structures in the data. We also set the distance metric to cosine, which is often better for text data. Make sure to set a random seed for reproducibility (`random_state=42`).
+
+```{python}
+#| eval: false
+
+# More granular UMAP
+umap_model = UMAP(
+    n_neighbors=10,   
+    n_components=5,
+    min_dist=0.1,
+    metric='cosine',
+    random_state=42,
+    n_jobs=1,
+    low_memory=True
+)
+```
+
+Next, we can tweak the HDBSCAN parameters to create more balanced clusters. By reducing the minimum cluster size and samples, we can identify smaller topics in the data. You might want to play around with these parameters.
+
+```{python}
+#| eval: false
+
+# Moderate clustering
+hdbscan_model = HDBSCAN(
+    min_cluster_size=15,
+    min_samples=5,
+    core_dist_n_jobs=1
+)
+```
+
+Once the clustering has been performed, we need to specify how we want to have the documents represented. By default, it uses c-TF-IDF to find the words that are the most common in the documents in one cluster compared to the other clusters. We use an alternative called `KeyBERTInspired`, which builds on top of KeyBERT and uses a more balanced vectorization approach. KeyBERT focuses on finding keywords that are more representative of the topics by using embeddings to find words that are semantically similar to the topic representations.
+
+An important aspect of the algorithm is the vectorization of the documents. The `CountVectorizer` from `sklearn` is used to convert the text data into a matrix of token counts. Here, we can customize the vectorizer to improve the quality of the topic representations. Note that topics are still learned on the entire vocabulary, the vectorizer only removes them after the representations have been learned.
+
+In this case, we remove English stopwords, and we set a minimum and maximum document frequency to filter out very rare and very common words. You can also experiment with n-grams to capture phrases instead of single words.
+```{python}
+#| eval: false
+
+vectorizer_model = CountVectorizer(
+    #ngram_range=(1, 2),
+    stop_words="english",
+    min_df=2,
+    max_df=0.5 
+)
+
+# instead of c-tf-idf
+keybert_model = KeyBERTInspired()
+```
+
+Then, we can create the BERTopic model using the customized components. We also set a minimum topic size to filter out very small topics that may not be meaningful. Setting `verbose=True` allows us to see the progress of the model fitting.
+
+```{python}
+#| eval: false
+
+topic_model = BERTopic(
+    umap_model=umap_model,
+    hdbscan_model=hdbscan_model,
+    vectorizer_model=vectorizer_model,
+    representation_model=keybert_model,
+    min_topic_size=10,
+    verbose=True,
+    n_jobs=1
+)
+
+topics, probs = topic_model.fit_transform(taylor_lyrics["lyrics"])
+
+topic_info = topic_model.get_topic_info()
+
+
+doc_info = topic_model.get_document_info(taylor_lyrics["lyrics"])
+```
+
+```{python}
+#| eval: false
+
+topic_model.visualize_barchart(top_n_topics=12).show()
+```
+
+```{python}
+#| eval: false
+
+topic_model.visualize_topics().show()
+```
+
+We can also look at topics that commonly co-occur within the same documents. This can help us understand how different themes are related to each other.
+
+```{python}
+#| eval: false
+
+topic_model.visualize_heatmap().show()
+```
+
+And get a visualization of the document embeddings colored by topic.
+```{python}
+#| eval: false
+
+topic_model.visualize_documents(taylor_lyrics["lyrics"]).show()
+```
+
+Consequently, we can also get a score for each topic/document combination (similar to LDA's gamma scores). This can be useful to identify documents that are on the border between two topics.
+
+```{python}
+#| eval: false
+
+hdbscan_model = HDBSCAN(
+    min_cluster_size=15,
+    min_samples=5,
+    core_dist_n_jobs=1,
+    prediction_data=True #needs to be defined for probabilities
+)
+
+
+topic_model = BERTopic(
+    umap_model=umap_model,
+    hdbscan_model=hdbscan_model,
+    vectorizer_model=vectorizer_model,
+    representation_model=keybert_model,
+    min_topic_size=10,
+    verbose=True,
+    calculate_probabilities=True, #needs to be set to true
+    n_jobs=1
+)
+topics, probs = topic_model.fit_transform(taylor_lyrics["lyrics"])
+
+# add probabilities to data frame
+taylor_lyrics_with_probs = taylor_lyrics.copy()
+
+# Add assigned topic
+taylor_lyrics_with_probs['assigned_topic'] = topics
+
+# Add probability for each topic as separate columns
+for topic_num in range(probs.shape[1]):
+    taylor_lyrics_with_probs[f'topic_{topic_num}_prob'] = probs[:, topic_num]
+
+taylor_lyrics_with_probs.head()
+#taylor_lyrics_with_probs.to_csv("files/taylor_lyrics_with_topic_probs.csv", index=False)
+```
+
+
+Finally, if we want to make better sense of our topics, we can ask for the most representative documents for each topic (i.e., the ones that lie smack in the middle of the cluster).
+
+```{python}
+#| eval: false
+
+representative_docs = topic_model.get_representative_docs()
+
+# Show examples for topic 0
+print(f"Representative documents for Topic 0:")
+for doc in representative_docs[0][:3]:
+    print(f"- {doc[:150]}...")
+```
+
+### Topics over time
+
+We can also models the evolution of topics over time. To this end, we need to provide the lyrics and the corresponding years of release. We can then visualize how the prevalence of each topic has changed over time.
+
+```{python}
+#| eval: false
+
+topics_over_time = topic_model.topics_over_time(
+    taylor_lyrics['lyrics'].tolist(), 
+    taylor_lyrics['year'].tolist(),
+    nr_bins=10
+)
+
+topic_model.visualize_topics_over_time(topics_over_time).show()
+```
+
+### Seeded BERTopic
+
+Similar to how we used seeded topic models in the script on LDA, BERTopic offers a so-called "guided" option. Here, we can provide a list of seed topics, each defined by a set of keywords. The model will then try to align the learned topics with these seed topics. This is particularly useful when we have prior knowledge about the themes in the data and want to steer the model towards those themes.
+
+```{python}
+#| eval: false
+
+seed_topic_list = [
+    ["tears", "goodbye", "breakup", "cry", "hurt"],
+    ["love", "kiss", "boyfriend", "forever", "marry", "romantic"],
+    ["revenge", "burn", "reputation", "mad", "blame"],
+    ["remember", "back", "fifteen", "memories", "childhood"],
+    ["shake", "stand", "strong", "brave", "myself", "independent"],
+    ["small", "town", "truck", "porch", "high", "school", "hometown"],
+    ["dance", "party", "night", "champagne"],
+    ["friend", "girl", "squad", "together"],
+    ["winter", "fall", "autumn", "spring", "season"],
+    ["karma", "cat", "attack", "hunter", "purr"]
+]
+
+seeded_topic_model = BERTopic(
+    umap_model=umap_model,
+    hdbscan_model=hdbscan_model,
+    vectorizer_model=vectorizer_model,
+    representation_model=keybert_model,
+    seed_topic_list=seed_topic_list,
+    min_topic_size=5,
+    verbose=True
+)
+
+topics, probs = seeded_topic_model.fit_transform(taylor_lyrics['lyrics'])
+
+topic_info = seeded_topic_model.get_topic_info()
+
+seeded_topic_model.visualize_barchart(top_n_topics=12).show()
+```
+
+
+## Save model output
+
+Finally, if you want to save your model to use it on new data (e.g., once you have scraped the lyrics for "Life of a Show Girl"), you can use the following code:
+
+```{python}
+#| eval: false
+
+
+# Save the model
+topic_model.save("taylor_swift_topics")
+
+# Load later
+from bertopic import BERTopic
+loaded_model = BERTopic.load("taylor_swift_topics")
+
+# Use on new data
+new_topics, new_probs = loaded_model.transform(new_lyrics)
+```
+
+
+## Further links
+
+- [BERTopic documentation](https://maartengr.github.io/BERTopic/)

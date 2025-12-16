@@ -13,7 +13,7 @@ vembedr::embed_youtube("y9bI9qXi0xk")
 
 ## Latent Dirichlet Allocation (LDA)
 
-In a former section, I, first, explored how the sentiment in the SOTU addresses has evolved over the 20th century. Then, we looked at the decade-specific vocabulary. This, paired with previous knowledge of what happened throughout the 20th century, sufficed to gain some sort of insight. However, another approach to infer meaning from text is to search it for topics. This is also possible with the SOTU corpus which we have at hand.
+In a former section, I, first, explored how the sentiment in the SOTU addresses has evolved over the 20th century. Then, we looked at the decade-specific vocabulary. This, paired with previous knowledge of what happened throughout the 20th century, sufficed to gain some sort of insight. However, another approach to infer meaning from text is to search it for topics. 
 
 The two main assumptions of LDA are as follows:
 
@@ -71,16 +71,16 @@ taylor_sparse |> dim()
 
 ## Inferring the number of topics
 
-We need to tell the model in advance how many topics we assume to be present within the document. Since we have neither read all the SOTU addresses (if so, we would hardly need to use the topic model), we cannot make an educated guess on how many topics are in there.
+We need to tell the model in advance how many topics we assume to be present within the document. Since we have neither read all the taylor songs (if so, we would hardly need to use the topic model), we cannot make an educated guess on how many topics are in there.
 
 ### Making guesses
 
 One approach might be to just provide it with wild guesses on how many topics might be in there and then try to make sense of them afterward.
 
-```{r eval=FALSE}
-needs(topicmodels, broom)
+```{r}
+needs(broom)
 
-taylor_lda_k13 <- stm(taylor_dtm, K = 13, verbose = FALSE)
+taylor_lda_k13 <- stm(taylor_sparse, K = 13, verbose = FALSE)
 ```
 
 The `tidy()` function from the `broom` package [@robinson_broom_2020] brings the stm output back into a tidy format. It consists of three columns: the topic, the term, and `beta`, which is the probability that the term stems from this topic.
@@ -107,6 +107,8 @@ top_terms_k13 |>
   scale_x_reordered() +
   facet_wrap(~topic, scales = "free", ncol = 2) +
   coord_flip()
+
+ggsave("tylor_k13_beta.png", width = 7, height = 10, bg = "white")
 ```
 
 Raw betas won't get us anywhere. They just show us the most frequent words per topic. However, these words might also be frequent in other topics. Therefore, we need to use other metrics to make sense of the topics.
@@ -240,7 +242,7 @@ effects |> tidy() |> filter(p.value < 0.05)
 
 ## Seeded Topic Models
 
-Another flavor of topic models are seeded topic models. They give you more control over the topics that are actually "worth finding" since you can predetermine the words that make up a certain topic. We are here going to use the SOTU corpus from before. We need it to be in the format of a document-feature matrix.
+Another flavor of topic models are seeded topic models. They give you more control over the topics that are actually "worth finding" since you can predetermine the words that make up a certain topic. We are here going to use the Taylor Swift corpus from before. We need it to be in the format of a document-feature matrix.
 
 ```{r}
 needs(quanteda, seededlda)
@@ -254,17 +256,17 @@ Also, we needs to define our topics in a dictionary. I got some inspiration from
 ```{r}
 dict <- dictionary(
   list(
-    heartbreak = c("tears", "goodbye", "breakup", "crying", "hurt", "pain", "lonely", "miss", "sorry", "regret"),
+    heartbreak = c("tears", "goodbye", "breakup", "cry", "hurt", "pain", "lonely", "miss", "sorry", "regret"),
     romance = c("love", "kiss", "boyfriend", "forever", "marry", "romantic", "heart", "darling", "lover", "beautiful"),
     revenge = c("revenge", "burn", "reputation", "mad", "blame", "fight", "deserve", "payback", "worse"),
     nostalgia = c("remember", "back", "fifteen", "young", "memories", "childhood", "innocence", "time", "old"),
-    empowerment = c("shake", "stand", "strong", "fearless", "brave", "myself", "independent", "rise", "confidence", "unstoppable"),
-    fame = c("camera", "star", "spotlight", "stage", "dress", "red", "carpet", "crown", "audience", "performance"),
+    empowerment = c("shake", "stand", "strong", "brave", "myself", "independent", "rise", "confidence", "unstoppable"),
+    fame = c("camera", "star", "spotlight", "stage", "dress", "carpet", "crown", "audience", "performance"),
     small_town = c("small", "town", "truck", "porch", "summer", "seventeen", "high", "school", "hometown", "street"),
     celebration = c("dance", "party", "night", "champagne", "spark", "glitter", "magic", "celebrate", "midnight", "shine"),
     friendship = c("friend", "girl", "squad", "together", "best", "laugh", "call", "close", "trust", "loyal"),
     seasons = c("snow", "winter", "fall", "autumn", "spring", "cold", "rain", "december", "leaves", "season"),
-    cat = c("karma", "cat", "attack", "soldier", "hunter", "purr")
+    cat = c("karma", "cat", "attack", "hunter", "purr")
   )
 )
 ```

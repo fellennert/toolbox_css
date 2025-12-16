@@ -1,0 +1,24 @@
+---
+title: "Week 9: Transfer Learning and LLMs in the Social Sciences"
+published-title: week_7
+engine: knitr
+freeze: auto
+---
+
+This week answers the following questions:
+
+- What is transfer learning?
+- How are LLMs used in the social sciences?
+
+
+## Slides 
+
+Tuesday's slides can be found [here](slides/20251209-tad-V.pdf).
+
+Alternatively, read them here (probably not the best if you're visiting this page on a mobile device):
+
+<iframe src="./slides/20251209-tad-V.pdf" 
+        width="100%" 
+        height="800px" 
+        style="border: 1px solid #ddd;">
+</iframe>

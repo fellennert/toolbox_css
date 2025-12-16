@@ -18,8 +18,8 @@ website:
           - href: lectures-week_5.qmd
           - href: lectures-week_6.qmd
           - href: lectures-week_7.qmd
-         # - href: week_8.qmd
-         # - href: week_9.qmd
+          - href: lectures-week_8.qmd
+          - href: lectures-week_9.qmd
          # - href: week_10.qmd
          # - href: week_11.qmd
          # - href: week_12.qmd
@@ -39,9 +39,10 @@ website:
           - href: 12_text-preprocessing.qmd
           - href: 13_dictionary-based-analysis.qmd
           - href: 14_supervised_ml.qmd
-         # - href: 15_NLI.qmd
-         # - href: 17_spatial_I.qmd
-         # - href: 18_spatial_II.qmd
+          - href: 15_unsupervised_ml.qmd
+          - href: 16_word_embeddings.qmd
+          - href: 17_BERT.qmd
+          - href: 18_GPT.qmd
          # - href: 19_abm_I.qmd
          # - href: 20_abm_II.qmd
 format:

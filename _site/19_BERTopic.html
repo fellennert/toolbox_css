@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Chapter 19: Unsupervised Text Classification with BERTopic – Toolbox CSS</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b758ccaa5987ceb1b75504551e579abf.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-2ec1ecde4794cf0ca2676fdbadd3167b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Toolbox CSS</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lectures" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Lectures</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-lectures">    
+        <li>
+    <a class="dropdown-item" href="./lectures-overview.html">
+ <span class="dropdown-text">Overview – week by week</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_1.html">
+ <span class="dropdown-text">Week 1: What Is Computational Social Science (CSS)?</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_2.html">
+ <span class="dropdown-text">Week 1: What Is Computational Social Science (CSS)?</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_3.html">
+ <span class="dropdown-text">Week 3: Regexes &amp; Crawling the web</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_4.html">
+ <span class="dropdown-text">Week 4: <code>selenium</code> and APIs</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_5.html">
+ <span class="dropdown-text">Week 5: Introduction to Text as Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_6.html">
+ <span class="dropdown-text">Week 6: Supervised Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_7.html">
+ <span class="dropdown-text">Week 7: Supervised and Unsupervised Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_8.html">
+ <span class="dropdown-text">Week 8: Word Embeddings</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_9.html">
+ <span class="dropdown-text">Week 9: Transfer Learning and LLMs in the Social Sciences</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-r-script" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">R Script</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-r-script">    
+        <li>
+    <a class="dropdown-item" href="./1_r_index.html">
+ <span class="dropdown-text">Chapter 1: Preface</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./2_r_catch-up.html">
+ <span class="dropdown-text">Chapter 2: Brief R Recap</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./3_reticulate.html">
+ <span class="dropdown-text">Chapter 3: <code>reticulate</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./4_python.html">
+ <span class="dropdown-text">Chapter 4: Introduction to Python for R Users</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./5_pandas.html">
+ <span class="dropdown-text">Chapter 5: <code>pandas</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./6_stringr_regex.html">
+ <span class="dropdown-text">Chapter 6: <code>stringr</code> and RegExes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./7_scraping.html">
+ <span class="dropdown-text">Chapter 7: Scraping Static Pages with <code>rvest</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./8_selenium.html">
+ <span class="dropdown-text">Chapter 8: <code>selenium</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./9_apis.html">
+ <span class="dropdown-text">Chapter 9: APIs</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./10_tesseract.html">
+ <span class="dropdown-text">Chapter 10: OCR with <code>tesseract</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./11_transcription.html">
+ <span class="dropdown-text">Chapter 11: <code>OpenAI whisper</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./12_text-preprocessing.html">
+ <span class="dropdown-text">Chapter 12: Text Preprocessing and Featurization</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./13_dictionary-based-analysis.html">
+ <span class="dropdown-text">Chapter 13: Dictionary-based Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./14_supervised_ml.html">
+ <span class="dropdown-text">Chapter 14: Supervised Classification</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./15_unsupervised_ml.html">
+ <span class="dropdown-text">Chapter 15: Unsupervised Machine Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./16_word_embeddings.html">
+ <span class="dropdown-text">Chapter 16: Word Embeddings</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./17_BERT.html">
+ <span class="dropdown-text">Chapter 17: Supervised Classification using <code>BERT</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./18_GPT.html">
+ <span class="dropdown-text">Chapter 18: Supervised Classification using Local LLMs in R</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#bertopic" id="toc-bertopic" class="nav-link active" data-scroll-target="#bertopic">BERTopic</a></li>
+  <li><a href="#customizing-bertopic" id="toc-customizing-bertopic" class="nav-link" data-scroll-target="#customizing-bertopic">Customizing BERTopic</a>
+  <ul class="collapse">
+  <li><a href="#topics-over-time" id="toc-topics-over-time" class="nav-link" data-scroll-target="#topics-over-time">Topics over time</a></li>
+  <li><a href="#seeded-bertopic" id="toc-seeded-bertopic" class="nav-link" data-scroll-target="#seeded-bertopic">Seeded BERTopic</a></li>
+  </ul></li>
+  <li><a href="#save-model-output" id="toc-save-model-output" class="nav-link" data-scroll-target="#save-model-output">Save model output</a></li>
+  <li><a href="#further-links" id="toc-further-links" class="nav-link" data-scroll-target="#further-links">Further links</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Chapter 19: Unsupervised Text Classification with BERTopic</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>BERTopic is a topic modeling technique that leverages transformer-based embeddings and clustering algorithms to extract topics from text data. Unlike traditional methods like LDA (Latent Dirichlet Allocation), BERTopic:</p>
+<ul>
+<li>Uses pre-trained language models for semantic “understanding”</li>
+<li>Employs clustering rather than probabilistic modeling</li>
+<li>Produces more coherent and interpretable topics</li>
+<li>Works well with short texts</li>
+</ul>
+<p>The general workflow of BERTopic involves the following steps:</p>
+<p>First, documents are embedded into a high-dimensional space using a sentence transformer. Then, the dimensionality of this space is reduced with UMAP. The reason for this is that high-dimensional spaces can be sparse and noisy, making clustering less effective. UMAP helps to create a more compact representation that preserves the essential structure of the data. Next, HDBSCAN is used to cluster the documents based on their reduced embeddings. HDBSCAN is a density-based clustering algorithm that can identify clusters of varying shapes and sizes, as well as noise points that do not belong to any cluster. Finally, topic representations are generated using methods like c-TF-IDF, which helps to identify the most relevant words for each topic.</p>
+<p>The following script will replicate the analysis we performed in chapter 15 using BERTopic instead of LDA.</p>
+<p>In the first step, I prepare the Taylor Swift lyrics data for analysis. This time, rather than full songs, we focus on song components (i.e., verses, chorus, bridge, …). This is because, unlike LDA which assumes documents to be mixtures of topics, BERTopic assigns each document to a single topic. By using smaller text segments, we can capture more granular themes within the songs.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(taylor, tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>taylor_song_components <span class="ot">&lt;-</span> taylor_album_songs <span class="sc">|&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unnest</span>(lyrics) <span class="sc">|&gt;</span> </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(album_name, track_name, element, album_release) <span class="sc">|&gt;</span> </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">lyrics =</span> <span class="fu">str_c</span>(lyric, <span class="at">collapse =</span> <span class="st">" "</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(track_name, lyrics, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> lubridate<span class="sc">::</span><span class="fu">year</span>(album_release))</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(taylor_song_components, <span class="st">"files/taylor_song_components.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Next, we set up a dedicated Python environment for BERTopic and its dependencies. We need the <code>bertopic</code> package and its dependencies for the main topic modeling framework, <code>SentenceTransformer</code> to create semantic embeddings from text, and <code>pandas</code> for data manipulation and loading.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(reticulate)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">conda_create</span>(</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">envname =</span> <span class="st">"bertopic_env"</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">python_version =</span> <span class="st">"3.10"</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">conda_install</span>(</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">envname =</span> <span class="st">"bertopic_env"</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">packages =</span> <span class="fu">c</span>(<span class="st">"bertopic"</span>, <span class="st">"pandas"</span>, <span class="st">"sentence-transformers"</span>),</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">pip =</span> <span class="cn">TRUE</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="bertopic" class="level2">
+<h2 class="anchored" data-anchor-id="bertopic">BERTopic</h2>
+<p>Now we can load the data and start with a basic BERTopic model.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bertopic <span class="im">import</span> BERTopic</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sentence_transformers <span class="im">import</span> SentenceTransformer</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>taylor_lyrics <span class="op">=</span> pd.read_csv(<span class="st">"files/taylor_song_components.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The most basic workflow is as follows: we create an embeddings model using <code>SentenceTransformer</code>, then we create a <code>BERTopic</code> model using that embedding model. Finally, we fit the model on the lyrics data.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create embeddings model</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>embedding_model <span class="op">=</span> SentenceTransformer(<span class="st">"all-MiniLM-L6-v2"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create BERTopic model</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>topic_model <span class="op">=</span> BERTopic(embedding_model<span class="op">=</span>embedding_model)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>topics, probabilities <span class="op">=</span> topic_model.fit_transform(taylor_lyrics[<span class="st">"lyrics"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>By default, we don’t need to set any parameters – but this also means that we have little control over the modeling process. Let’s inspect the results of this basic model.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get topic information</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>topic_info <span class="op">=</span> topic_model.get_topic_info()</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>topic_info.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The output looks as follows: Topic -1 contains “noise”, i.e., the topic model could not assign these documents to any proper topic. The other topics are numbered in ascending order, based on how many documents were assigned the respective document. We can inspect the top words for each topic using the <code>get_topic</code> method. These are the top words for topic 0, the numbers indicate their importance for the topic (as determined by the c-TF-IDF algorithm).</p>
+<p>We can visualize the topics using various built-in visualization methods. For example, we can create a bar chart of the top words for each topic.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>topic_model.visualize_barchart(top_n_topics<span class="op">=</span><span class="dv">10</span>).show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>We can also extract the topic assignments for each document using the <code>get_document_info</code> method.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>doc_info <span class="op">=</span> topic_model.get_document_info(taylor_lyrics[<span class="st">"lyrics"</span>])</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>doc_info.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="customizing-bertopic" class="level2">
+<h2 class="anchored" data-anchor-id="customizing-bertopic">Customizing BERTopic</h2>
+<p>The results from above did not tell us much about the documents, they were filled with stopwords and other words that didn’t help us understand the topics. This is because we used the default parameters, which may not be optimal for our specific dataset. To improve the results, we can customize various components of the BERTopic model, such as UMAP, HDBSCAN, and the vectorizer. To this end, we first need to import the necessary libraries.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> umap <span class="im">import</span> UMAP</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> hdbscan <span class="im">import</span> HDBSCAN</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.feature_extraction.text <span class="im">import</span> CountVectorizer</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bertopic.representation <span class="im">import</span> KeyBERTInspired</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>In the fine-tuning process, we can follow the bertopic order of operation and customize each step. For the first step, the embedding, we can choose a better model than the default one. The <code>all-MiniLM-L12-v2</code> model is a good balance between speed and performance. Generally, models that rank high on <a href="https://huggingface.co/spaces/mteb/leaderboard">this leaderboard</a> perform better and are a good choice for topic modeling. You can also use multi-lingual or language-specific models. In this case, we use a model that is optimized for English text.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>embedding_model <span class="op">=</span> SentenceTransformer(<span class="st">"all-MiniLM-L12-v2"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Next, we can alter the UMAP parameters to create a more granular representation of the data. By reducing the number of neighbors and components, we can capture more local structures in the data. We also set the distance metric to cosine, which is often better for text data. Make sure to set a random seed for reproducibility (<code>random_state=42</code>).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># More granular UMAP</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>umap_model <span class="op">=</span> UMAP(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    n_neighbors<span class="op">=</span><span class="dv">10</span>,   </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    n_components<span class="op">=</span><span class="dv">5</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    min_dist<span class="op">=</span><span class="fl">0.1</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    metric<span class="op">=</span><span class="st">'cosine'</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">42</span>,</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    n_jobs<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    low_memory<span class="op">=</span><span class="va">True</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Next, we can tweak the HDBSCAN parameters to create more balanced clusters. By reducing the minimum cluster size and samples, we can identify smaller topics in the data. You might want to play around with these parameters.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Moderate clustering</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>hdbscan_model <span class="op">=</span> HDBSCAN(</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    min_cluster_size<span class="op">=</span><span class="dv">15</span>,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    min_samples<span class="op">=</span><span class="dv">5</span>,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    core_dist_n_jobs<span class="op">=</span><span class="dv">1</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Once the clustering has been performed, we need to specify how we want to have the documents represented. By default, it uses c-TF-IDF to find the words that are the most common in the documents in one cluster compared to the other clusters. We use an alternative called <code>KeyBERTInspired</code>, which builds on top of KeyBERT and uses a more balanced vectorization approach. KeyBERT focuses on finding keywords that are more representative of the topics by using embeddings to find words that are semantically similar to the topic representations.</p>
+<p>An important aspect of the algorithm is the vectorization of the documents. The <code>CountVectorizer</code> from <code>sklearn</code> is used to convert the text data into a matrix of token counts. Here, we can customize the vectorizer to improve the quality of the topic representations. Note that topics are still learned on the entire vocabulary, the vectorizer only removes them after the representations have been learned.</p>
+<p>In this case, we remove English stopwords, and we set a minimum and maximum document frequency to filter out very rare and very common words. You can also experiment with n-grams to capture phrases instead of single words.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>vectorizer_model <span class="op">=</span> CountVectorizer(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#ngram_range=(1, 2),</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    stop_words<span class="op">=</span><span class="st">"english"</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    min_df<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    max_df<span class="op">=</span><span class="fl">0.5</span> </span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co"># instead of c-tf-idf</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>keybert_model <span class="op">=</span> KeyBERTInspired()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Then, we can create the BERTopic model using the customized components. We also set a minimum topic size to filter out very small topics that may not be meaningful. Setting <code>verbose=True</code> allows us to see the progress of the model fitting.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>topic_model <span class="op">=</span> BERTopic(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    umap_model<span class="op">=</span>umap_model,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    hdbscan_model<span class="op">=</span>hdbscan_model,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    vectorizer_model<span class="op">=</span>vectorizer_model,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    representation_model<span class="op">=</span>keybert_model,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    min_topic_size<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    n_jobs<span class="op">=</span><span class="dv">1</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>topics, probs <span class="op">=</span> topic_model.fit_transform(taylor_lyrics[<span class="st">"lyrics"</span>])</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>topic_info <span class="op">=</span> topic_model.get_topic_info()</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>doc_info <span class="op">=</span> topic_model.get_document_info(taylor_lyrics[<span class="st">"lyrics"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>topic_model.visualize_barchart(top_n_topics<span class="op">=</span><span class="dv">12</span>).show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>topic_model.visualize_topics().show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>We can also look at topics that commonly co-occur within the same documents. This can help us understand how different themes are related to each other.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>topic_model.visualize_heatmap().show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>And get a visualization of the document embeddings colored by topic.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>topic_model.visualize_documents(taylor_lyrics[<span class="st">"lyrics"</span>]).show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Consequently, we can also get a score for each topic/document combination (similar to LDA’s gamma scores). This can be useful to identify documents that are on the border between two topics.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>hdbscan_model <span class="op">=</span> HDBSCAN(</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    min_cluster_size<span class="op">=</span><span class="dv">15</span>,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    min_samples<span class="op">=</span><span class="dv">5</span>,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    core_dist_n_jobs<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    prediction_data<span class="op">=</span><span class="va">True</span> <span class="co">#needs to be defined for probabilities</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>topic_model <span class="op">=</span> BERTopic(</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    umap_model<span class="op">=</span>umap_model,</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    hdbscan_model<span class="op">=</span>hdbscan_model,</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    vectorizer_model<span class="op">=</span>vectorizer_model,</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    representation_model<span class="op">=</span>keybert_model,</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    min_topic_size<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>    calculate_probabilities<span class="op">=</span><span class="va">True</span>, <span class="co">#needs to be set to true</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>    n_jobs<span class="op">=</span><span class="dv">1</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>topics, probs <span class="op">=</span> topic_model.fit_transform(taylor_lyrics[<span class="st">"lyrics"</span>])</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="co"># add probabilities to data frame</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>taylor_lyrics_with_probs <span class="op">=</span> taylor_lyrics.copy()</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Add assigned topic</span></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>taylor_lyrics_with_probs[<span class="st">'assigned_topic'</span>] <span class="op">=</span> topics</span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Add probability for each topic as separate columns</span></span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> topic_num <span class="kw">in</span> <span class="bu">range</span>(probs.shape[<span class="dv">1</span>]):</span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>    taylor_lyrics_with_probs[<span class="ss">f'topic_</span><span class="sc">{</span>topic_num<span class="sc">}</span><span class="ss">_prob'</span>] <span class="op">=</span> probs[:, topic_num]</span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>taylor_lyrics_with_probs.head()</span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a><span class="co">#taylor_lyrics_with_probs.to_csv("files/taylor_lyrics_with_topic_probs.csv", index=False)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Finally, if we want to make better sense of our topics, we can ask for the most representative documents for each topic (i.e., the ones that lie smack in the middle of the cluster).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>representative_docs <span class="op">=</span> topic_model.get_representative_docs()</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Show examples for topic 0</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Representative documents for Topic 0:"</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> doc <span class="kw">in</span> representative_docs[<span class="dv">0</span>][:<span class="dv">3</span>]:</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"- </span><span class="sc">{</span>doc[:<span class="dv">150</span>]<span class="sc">}</span><span class="ss">..."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="topics-over-time" class="level3">
+<h3 class="anchored" data-anchor-id="topics-over-time">Topics over time</h3>
+<p>We can also models the evolution of topics over time. To this end, we need to provide the lyrics and the corresponding years of release. We can then visualize how the prevalence of each topic has changed over time.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>topics_over_time <span class="op">=</span> topic_model.topics_over_time(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    taylor_lyrics[<span class="st">'lyrics'</span>].tolist(), </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    taylor_lyrics[<span class="st">'year'</span>].tolist(),</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    nr_bins<span class="op">=</span><span class="dv">10</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>topic_model.visualize_topics_over_time(topics_over_time).show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="seeded-bertopic" class="level3">
+<h3 class="anchored" data-anchor-id="seeded-bertopic">Seeded BERTopic</h3>
+<p>Similar to how we used seeded topic models in the script on LDA, BERTopic offers a so-called “guided” option. Here, we can provide a list of seed topics, each defined by a set of keywords. The model will then try to align the learned topics with these seed topics. This is particularly useful when we have prior knowledge about the themes in the data and want to steer the model towards those themes.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>seed_topic_list <span class="op">=</span> [</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"tears"</span>, <span class="st">"goodbye"</span>, <span class="st">"breakup"</span>, <span class="st">"cry"</span>, <span class="st">"hurt"</span>],</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"love"</span>, <span class="st">"kiss"</span>, <span class="st">"boyfriend"</span>, <span class="st">"forever"</span>, <span class="st">"marry"</span>, <span class="st">"romantic"</span>],</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"revenge"</span>, <span class="st">"burn"</span>, <span class="st">"reputation"</span>, <span class="st">"mad"</span>, <span class="st">"blame"</span>],</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"remember"</span>, <span class="st">"back"</span>, <span class="st">"fifteen"</span>, <span class="st">"memories"</span>, <span class="st">"childhood"</span>],</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"shake"</span>, <span class="st">"stand"</span>, <span class="st">"strong"</span>, <span class="st">"brave"</span>, <span class="st">"myself"</span>, <span class="st">"independent"</span>],</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"small"</span>, <span class="st">"town"</span>, <span class="st">"truck"</span>, <span class="st">"porch"</span>, <span class="st">"high"</span>, <span class="st">"school"</span>, <span class="st">"hometown"</span>],</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"dance"</span>, <span class="st">"party"</span>, <span class="st">"night"</span>, <span class="st">"champagne"</span>],</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"friend"</span>, <span class="st">"girl"</span>, <span class="st">"squad"</span>, <span class="st">"together"</span>],</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"winter"</span>, <span class="st">"fall"</span>, <span class="st">"autumn"</span>, <span class="st">"spring"</span>, <span class="st">"season"</span>],</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"karma"</span>, <span class="st">"cat"</span>, <span class="st">"attack"</span>, <span class="st">"hunter"</span>, <span class="st">"purr"</span>]</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>seeded_topic_model <span class="op">=</span> BERTopic(</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    umap_model<span class="op">=</span>umap_model,</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    hdbscan_model<span class="op">=</span>hdbscan_model,</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>    vectorizer_model<span class="op">=</span>vectorizer_model,</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>    representation_model<span class="op">=</span>keybert_model,</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>    seed_topic_list<span class="op">=</span>seed_topic_list,</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>    min_topic_size<span class="op">=</span><span class="dv">5</span>,</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="va">True</span></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>topics, probs <span class="op">=</span> seeded_topic_model.fit_transform(taylor_lyrics[<span class="st">'lyrics'</span>])</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>topic_info <span class="op">=</span> seeded_topic_model.get_topic_info()</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>seeded_topic_model.visualize_barchart(top_n_topics<span class="op">=</span><span class="dv">12</span>).show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="save-model-output" class="level2">
+<h2 class="anchored" data-anchor-id="save-model-output">Save model output</h2>
+<p>Finally, if you want to save your model to use it on new data (e.g., once you have scraped the lyrics for “Life of a Show Girl”), you can use the following code:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the model</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>topic_model.save(<span class="st">"taylor_swift_topics"</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Load later</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bertopic <span class="im">import</span> BERTopic</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>loaded_model <span class="op">=</span> BERTopic.load(<span class="st">"taylor_swift_topics"</span>)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Use on new data</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>new_topics, new_probs <span class="op">=</span> loaded_model.transform(new_lyrics)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="further-links" class="level2">
+<h2 class="anchored" data-anchor-id="further-links">Further links</h2>
+<ul>
+<li><a href="https://maartengr.github.io/BERTopic/">BERTopic documentation</a></li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/fellennert\.github\.io\/toolbox_css\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Copyright 2025, Felix Lennert (<a href="mailto:felix.lennert@uni-leipzig.de">felix.lennert@uni-leipzig.de</a>)</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
