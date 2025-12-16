@@ -168,11 +168,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_8.html">
- <span class="dropdown-text">Week 7: Supervised and Unsupervised Learning</span></a>
+ <span class="dropdown-text">Week 8: Word Embeddings</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_9.html">
- <span class="dropdown-text">Week 7: Supervised and Unsupervised Learning</span></a>
+ <span class="dropdown-text">Week 9: Transfer Learning and LLMs in the Social Sciences</span></a>
   </li>  
     </ul>
   </li>
@@ -333,7 +333,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Rapid iteration</strong>: Change your classification scheme by editing the prompt, not retraining</li>
 <li><strong>Works entirely in R</strong>: No Python environment needed</li>
 <li><strong>Handles complex nuances</strong>: Can encode detailed coding instructions that would be hard to learn from examples alone</li>
-<li><strong>Runs locally</strong>: With Ollama, models run on your machine - no API costs or data privacy concerns</li>
+<li><strong>Runs locally</strong>: With Ollama, models run on your machine – no API costs or data privacy concerns</li>
 </ol>
 <p><strong>Trade-offs:</strong></p>
 <ul>
@@ -376,7 +376,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="downloading-a-model">Downloading a Model</h3>
 <p>Before we can classify text, we need to download a model. For this, you need the <code>ollamar</code> package. We’ll use Qwen 2.5 7B, a capable multilingual model:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(tidyverse, ellmer, ollamar, caret, irr)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(tidyverse, ellmer, ollamar, caret)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>ollamar<span class="sc">::</span><span class="fu">pull</span>(<span class="st">"qwen2.5:7b"</span>) <span class="co"># note that this masks the default pull() from dplyr</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;httr2_response&gt;
@@ -410,7 +410,7 @@ Body: In memory (861 bytes)</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>        name   size parameter_size quantization_level            modified
 1 qwen2.5:3b 1.9 GB           3.1B             Q4_K_M 2025-12-11T12:32:59
-2 qwen2.5:7b 4.7 GB           7.6B             Q4_K_M 2025-12-11T13:41:52</code></pre>
+2 qwen2.5:7b 4.7 GB           7.6B             Q4_K_M 2025-12-16T12:01:23</code></pre>
 </div>
 </div>
 </section>
@@ -429,7 +429,7 @@ Body: In memory (861 bytes)</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a chat session</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>chat <span class="ot">&lt;-</span> <span class="fu">chat_ollama</span>(</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> <span class="st">"qwen2.5:7b"</span>,</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">system_prompt =</span> <span class="st">"You are a helpful assistant. Give brief responses."</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">system_prompt =</span> <span class="st">"You are a helpful assistant. Give brief responses. In English only."</span></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Have a conversation</span></span>
@@ -441,13 +441,13 @@ Body: In memory (861 bytes)</code></pre>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>chat<span class="sc">$</span><span class="fu">chat</span>(<span class="st">"What is its population?"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Approximately 2.2 million.</code></pre>
+<pre><code>About 2.2 million people live in Paris.</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># (The model remembers we're talking about Paris)</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>chat<span class="sc">$</span><span class="fu">chat</span>(<span class="st">"Including Banlieues?"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>The metropolitan area (including banlieues) has about 10.5 million people.</code></pre>
+<pre><code>The greater巴黎郊区人口大约为1000万。请注意，这里的回答是翻译自中文，正确表达应为：包括郊区在内，巴黎大都会区的人口大约为1000万。</code></pre>
 </div>
 </div>
 <p>Each chat object maintains its own conversation history, system prompt, and settings. You can extract the full conversation history if needed:</p>
@@ -468,7 +468,7 @@ What is its population?
 
 [[4]]
 &lt;Turn: assistant&gt;
-Approximately 2.2 million.
+About 2.2 million people live in Paris.
 
 [[5]]
 &lt;Turn: user&gt;
@@ -476,7 +476,7 @@ Including Banlieues?
 
 [[6]]
 &lt;Turn: assistant&gt;
-The metropolitan area (including banlieues) has about 10.5 million people.</code></pre>
+The greater巴黎郊区人口大约为1000万。请注意，这里的回答是翻译自中文，正确表达应为：包括郊区在内，巴黎大都会区的人口大约为1000万。</code></pre>
 </div>
 </div>
 <p><strong>2. Structured Outputs via Type Definitions</strong></p>
@@ -666,10 +666,10 @@ chr (2): text, sentiment
 <pre><code> ■■■■                              10% |  ETA: 10m</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code> ■■■■■                             13% |  ETA:  9m</code></pre>
+<pre><code> ■■■■■                             13% |  ETA:  8m</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code> ■■■■■■                            17% |  ETA:  9m</code></pre>
+<pre><code> ■■■■■■                            17% |  ETA:  8m</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code> ■■■■■■■                           20% |  ETA:  8m</code></pre>
@@ -684,10 +684,10 @@ chr (2): text, sentiment
 <pre><code> ■■■■■■■■■■                        30% |  ETA:  7m</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code> ■■■■■■■■■■■                       33% |  ETA:  7m</code></pre>
+<pre><code> ■■■■■■■■■■■                       33% |  ETA:  6m</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code> ■■■■■■■■■■■■                      37% |  ETA:  7m</code></pre>
+<pre><code> ■■■■■■■■■■■■                      37% |  ETA:  6m</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code> ■■■■■■■■■■■■■                     40% |  ETA:  6m</code></pre>
@@ -702,7 +702,7 @@ chr (2): text, sentiment
 <pre><code> ■■■■■■■■■■■■■■■■                  50% |  ETA:  5m</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code> ■■■■■■■■■■■■■■■■■                 53% |  ETA:  5m</code></pre>
+<pre><code> ■■■■■■■■■■■■■■■■■                 53% |  ETA:  4m</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code> ■■■■■■■■■■■■■■■■■■                57% |  ETA:  4m</code></pre>
@@ -738,10 +738,10 @@ chr (2): text, sentiment
 <pre><code> ■■■■■■■■■■■■■■■■■■■■■■■■■■■■      90% |  ETA:  1m</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code> ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■     93% |  ETA: 39s</code></pre>
+<pre><code> ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■     93% |  ETA: 37s</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code> ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■    97% |  ETA: 19s</code></pre>
+<pre><code> ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■    97% |  ETA: 18s</code></pre>
 </div>
 </div>
 <p>The model parameters I choose here are critical for classification performance:</p>
@@ -823,7 +823,7 @@ Prediction positive negative
 <h3 class="anchored" data-anchor-id="analyzing-disagreements">Analyzing Disagreements</h3>
 <p>It’s valuable to examine cases where the model disagrees with humans. In this case, we don’t have any disagreements.</p>
 <p>Common Patterns in disagreements:</p>
-<p>Some responses are boundary cases and just genuinely ambiguous. Here, researchers can either accept some disagreement or add these as examples to your prompt. However, sometimes there is a systematic bias and the ,odel consistently miscodes a specific type. In this case, you should add explicit rules for this case in your prompt. This also helps in the case of language nuance, examples help. However, sometimes diagreements also reveal human coder inconsistencies.</p>
+<p>Some responses are boundary cases and just genuinely ambiguous. Here, researchers can either accept some disagreement or add these as examples to your prompt. However, sometimes there is a systematic bias and the model consistently miscodes a specific type. In this case, you should add explicit rules for this case in your prompt. This also helps in the case of language nuance, examples help. However, sometimes diagreements also reveal human coder inconsistencies.</p>
 <p>For prompt refinement, there are some strategies to improve classification accuracy:</p>
 <ul>
 <li>Add explicit examples (few-shot learning):</li>

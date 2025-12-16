@@ -168,11 +168,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_8.html">
- <span class="dropdown-text">Week 7: Supervised and Unsupervised Learning</span></a>
+ <span class="dropdown-text">Week 8: Word Embeddings</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_9.html">
- <span class="dropdown-text">Week 7: Supervised and Unsupervised Learning</span></a>
+ <span class="dropdown-text">Week 9: Transfer Learning and LLMs in the Social Sciences</span></a>
   </li>  
     </ul>
   </li>
@@ -299,11 +299,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Supervised methods that are based on the Bag of Words hypothesis (see chapter 11) work well, but these days we can do better. In this script, I will run you through how to use BERT (Bidirectional Encoder Representations from Transformers) for text classification. We’ll be working with a sentiment analysis task using the IMDb movie reviews data set, where we’ll classify reviews as either positive or negative.</p>
+<p>Supervised methods that are based on the Bag of Words hypothesis (see chapter 14) work well, but these days we can do better. In this script, I will run you through how to use BERT (Bidirectional Encoder Representations from Transformers) for text classification. We’ll be working with a sentiment analysis task using the IMDb movie reviews data set, where we’ll classify reviews as either positive or negative.</p>
 <p>Unlike traditional bag-of-words approaches, BERT understands context and nuance in language by considering the full context of a word by looking at the words that come before and after it. This allows it to capture more complex patterns in text, leading to better classification performance.</p>
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
-<p>Here, we specifically use a virtual environment named <code>'transformer_env'</code> which needs to contain all necessary Python packages. We can activate Python and the environment from within R (obviously, you can skip this step when you work in Python, e.g., in JupyterLab)</p>
+<p>Here, we specifically use a virtual environment named <code>'bert-env'</code> which needs to contain all necessary Python packages. We can activate Python and the environment from within R (obviously, you can skip this step when you work in Python, e.g., in JupyterLab)</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">needs</span>(reticulate)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -537,7 +537,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># separate test set (95% of data)</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>train_val_df, test_df <span class="op">=</span> train_test_split(</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    imdb_reviews,</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    test_size<span class="op">=</span><span class="fl">0.95</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    test_size<span class="op">=</span><span class="fl">0.97</span>,</span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    stratify<span class="op">=</span>imdb_reviews[<span class="st">'sentiment'</span>],</span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">1312</span></span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>)</span>
@@ -586,274 +586,179 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>train_model(model, train_loader, val_loader)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-Training Epoch 1/3:   0%|          | 0/63 [00:00&lt;?, ?it/s]
-Training Epoch 1/3:   2%|1         | 1/63 [00:01&lt;01:26,  1.40s/it]
-Training Epoch 1/3:   3%|3         | 2/63 [00:02&lt;01:01,  1.01s/it]
-Training Epoch 1/3:   5%|4         | 3/63 [00:02&lt;00:50,  1.20it/s]
-Training Epoch 1/3:   6%|6         | 4/63 [00:03&lt;00:44,  1.33it/s]
-Training Epoch 1/3:   8%|7         | 5/63 [00:03&lt;00:40,  1.43it/s]
-Training Epoch 1/3:  10%|9         | 6/63 [00:04&lt;00:38,  1.50it/s]
-Training Epoch 1/3:  11%|#1        | 7/63 [00:05&lt;00:36,  1.55it/s]
-Training Epoch 1/3:  13%|#2        | 8/63 [00:05&lt;00:35,  1.57it/s]
-Training Epoch 1/3:  14%|#4        | 9/63 [00:06&lt;00:33,  1.60it/s]
-Training Epoch 1/3:  16%|#5        | 10/63 [00:07&lt;00:33,  1.60it/s]
-Training Epoch 1/3:  17%|#7        | 11/63 [00:07&lt;00:32,  1.61it/s]
-Training Epoch 1/3:  19%|#9        | 12/63 [00:08&lt;00:31,  1.60it/s]
-Training Epoch 1/3:  21%|##        | 13/63 [00:08&lt;00:31,  1.61it/s]
-Training Epoch 1/3:  22%|##2       | 14/63 [00:09&lt;00:30,  1.62it/s]
-Training Epoch 1/3:  24%|##3       | 15/63 [00:10&lt;00:29,  1.63it/s]
-Training Epoch 1/3:  25%|##5       | 16/63 [00:10&lt;00:28,  1.64it/s]
-Training Epoch 1/3:  27%|##6       | 17/63 [00:11&lt;00:27,  1.64it/s]
-Training Epoch 1/3:  29%|##8       | 18/63 [00:11&lt;00:27,  1.63it/s]
-Training Epoch 1/3:  30%|###       | 19/63 [00:12&lt;00:26,  1.64it/s]
-Training Epoch 1/3:  32%|###1      | 20/63 [00:13&lt;00:26,  1.64it/s]
-Training Epoch 1/3:  33%|###3      | 21/63 [00:13&lt;00:25,  1.64it/s]
-Training Epoch 1/3:  35%|###4      | 22/63 [00:14&lt;00:25,  1.64it/s]
-Training Epoch 1/3:  37%|###6      | 23/63 [00:14&lt;00:24,  1.63it/s]
-Training Epoch 1/3:  38%|###8      | 24/63 [00:15&lt;00:24,  1.62it/s]
-Training Epoch 1/3:  40%|###9      | 25/63 [00:16&lt;00:23,  1.63it/s]
-Training Epoch 1/3:  41%|####1     | 26/63 [00:16&lt;00:22,  1.63it/s]
-Training Epoch 1/3:  43%|####2     | 27/63 [00:17&lt;00:22,  1.62it/s]
-Training Epoch 1/3:  44%|####4     | 28/63 [00:18&lt;00:21,  1.62it/s]
-Training Epoch 1/3:  46%|####6     | 29/63 [00:18&lt;00:20,  1.63it/s]
-Training Epoch 1/3:  48%|####7     | 30/63 [00:19&lt;00:20,  1.63it/s]
-Training Epoch 1/3:  49%|####9     | 31/63 [00:19&lt;00:19,  1.63it/s]
-Training Epoch 1/3:  51%|#####     | 32/63 [00:20&lt;00:19,  1.63it/s]
-Training Epoch 1/3:  52%|#####2    | 33/63 [00:21&lt;00:18,  1.63it/s]
-Training Epoch 1/3:  54%|#####3    | 34/63 [00:21&lt;00:17,  1.64it/s]
-Training Epoch 1/3:  56%|#####5    | 35/63 [00:22&lt;00:17,  1.64it/s]
-Training Epoch 1/3:  57%|#####7    | 36/63 [00:22&lt;00:16,  1.64it/s]
-Training Epoch 1/3:  59%|#####8    | 37/63 [00:23&lt;00:15,  1.63it/s]
-Training Epoch 1/3:  60%|######    | 38/63 [00:24&lt;00:15,  1.63it/s]
-Training Epoch 1/3:  62%|######1   | 39/63 [00:24&lt;00:14,  1.64it/s]
-Training Epoch 1/3:  63%|######3   | 40/63 [00:25&lt;00:13,  1.65it/s]
-Training Epoch 1/3:  65%|######5   | 41/63 [00:25&lt;00:13,  1.65it/s]
-Training Epoch 1/3:  67%|######6   | 42/63 [00:26&lt;00:12,  1.65it/s]
-Training Epoch 1/3:  68%|######8   | 43/63 [00:27&lt;00:12,  1.64it/s]
-Training Epoch 1/3:  70%|######9   | 44/63 [00:27&lt;00:11,  1.64it/s]
-Training Epoch 1/3:  71%|#######1  | 45/63 [00:28&lt;00:10,  1.64it/s]
-Training Epoch 1/3:  73%|#######3  | 46/63 [00:29&lt;00:10,  1.63it/s]
-Training Epoch 1/3:  75%|#######4  | 47/63 [00:29&lt;00:09,  1.63it/s]
-Training Epoch 1/3:  76%|#######6  | 48/63 [00:30&lt;00:09,  1.64it/s]
-Training Epoch 1/3:  78%|#######7  | 49/63 [00:30&lt;00:08,  1.64it/s]
-Training Epoch 1/3:  79%|#######9  | 50/63 [00:31&lt;00:07,  1.64it/s]
-Training Epoch 1/3:  81%|########  | 51/63 [00:32&lt;00:07,  1.64it/s]
-Training Epoch 1/3:  83%|########2 | 52/63 [00:32&lt;00:06,  1.64it/s]
-Training Epoch 1/3:  84%|########4 | 53/63 [00:33&lt;00:06,  1.64it/s]
-Training Epoch 1/3:  86%|########5 | 54/63 [00:33&lt;00:05,  1.64it/s]
-Training Epoch 1/3:  87%|########7 | 55/63 [00:34&lt;00:04,  1.63it/s]
-Training Epoch 1/3:  89%|########8 | 56/63 [00:35&lt;00:04,  1.63it/s]
-Training Epoch 1/3:  90%|######### | 57/63 [00:35&lt;00:03,  1.62it/s]
-Training Epoch 1/3:  92%|#########2| 58/63 [00:36&lt;00:03,  1.64it/s]
-Training Epoch 1/3:  94%|#########3| 59/63 [00:37&lt;00:02,  1.62it/s]
-Training Epoch 1/3:  95%|#########5| 60/63 [00:37&lt;00:01,  1.63it/s]
-Training Epoch 1/3:  97%|#########6| 61/63 [00:38&lt;00:01,  1.61it/s]
-Training Epoch 1/3:  98%|#########8| 62/63 [00:38&lt;00:00,  1.62it/s]
-Training Epoch 1/3: 100%|##########| 63/63 [00:39&lt;00:00,  1.73it/s]
-Training Epoch 1/3: 100%|##########| 63/63 [00:39&lt;00:00,  1.60it/s]
+Training Epoch 1/3:   0%|          | 0/38 [00:00&lt;?, ?it/s]
+Training Epoch 1/3:   3%|2         | 1/38 [00:01&lt;00:54,  1.47s/it]
+Training Epoch 1/3:   5%|5         | 2/38 [00:02&lt;00:36,  1.03s/it]
+Training Epoch 1/3:   8%|7         | 3/38 [00:02&lt;00:28,  1.21it/s]
+Training Epoch 1/3:  11%|#         | 4/38 [00:03&lt;00:24,  1.37it/s]
+Training Epoch 1/3:  13%|#3        | 5/38 [00:03&lt;00:22,  1.46it/s]
+Training Epoch 1/3:  16%|#5        | 6/38 [00:04&lt;00:21,  1.51it/s]
+Training Epoch 1/3:  18%|#8        | 7/38 [00:05&lt;00:19,  1.58it/s]
+Training Epoch 1/3:  21%|##1       | 8/38 [00:05&lt;00:18,  1.61it/s]
+Training Epoch 1/3:  24%|##3       | 9/38 [00:06&lt;00:17,  1.63it/s]
+Training Epoch 1/3:  26%|##6       | 10/38 [00:06&lt;00:16,  1.66it/s]
+Training Epoch 1/3:  29%|##8       | 11/38 [00:07&lt;00:16,  1.67it/s]
+Training Epoch 1/3:  32%|###1      | 12/38 [00:08&lt;00:15,  1.68it/s]
+Training Epoch 1/3:  34%|###4      | 13/38 [00:08&lt;00:14,  1.69it/s]
+Training Epoch 1/3:  37%|###6      | 14/38 [00:09&lt;00:14,  1.69it/s]
+Training Epoch 1/3:  39%|###9      | 15/38 [00:09&lt;00:13,  1.71it/s]
+Training Epoch 1/3:  42%|####2     | 16/38 [00:10&lt;00:12,  1.71it/s]
+Training Epoch 1/3:  45%|####4     | 17/38 [00:10&lt;00:12,  1.73it/s]
+Training Epoch 1/3:  47%|####7     | 18/38 [00:11&lt;00:11,  1.72it/s]
+Training Epoch 1/3:  50%|#####     | 19/38 [00:12&lt;00:11,  1.72it/s]
+Training Epoch 1/3:  53%|#####2    | 20/38 [00:12&lt;00:10,  1.73it/s]
+Training Epoch 1/3:  55%|#####5    | 21/38 [00:13&lt;00:09,  1.74it/s]
+Training Epoch 1/3:  58%|#####7    | 22/38 [00:13&lt;00:09,  1.74it/s]
+Training Epoch 1/3:  61%|######    | 23/38 [00:14&lt;00:08,  1.74it/s]
+Training Epoch 1/3:  63%|######3   | 24/38 [00:15&lt;00:08,  1.73it/s]
+Training Epoch 1/3:  66%|######5   | 25/38 [00:15&lt;00:07,  1.73it/s]
+Training Epoch 1/3:  68%|######8   | 26/38 [00:16&lt;00:06,  1.73it/s]
+Training Epoch 1/3:  71%|#######1  | 27/38 [00:16&lt;00:06,  1.73it/s]
+Training Epoch 1/3:  74%|#######3  | 28/38 [00:17&lt;00:05,  1.73it/s]
+Training Epoch 1/3:  76%|#######6  | 29/38 [00:17&lt;00:05,  1.72it/s]
+Training Epoch 1/3:  79%|#######8  | 30/38 [00:18&lt;00:04,  1.73it/s]
+Training Epoch 1/3:  82%|########1 | 31/38 [00:19&lt;00:04,  1.72it/s]
+Training Epoch 1/3:  84%|########4 | 32/38 [00:19&lt;00:03,  1.74it/s]
+Training Epoch 1/3:  87%|########6 | 33/38 [00:20&lt;00:02,  1.72it/s]
+Training Epoch 1/3:  89%|########9 | 34/38 [00:20&lt;00:02,  1.72it/s]
+Training Epoch 1/3:  92%|#########2| 35/38 [00:21&lt;00:01,  1.73it/s]
+Training Epoch 1/3:  95%|#########4| 36/38 [00:21&lt;00:01,  1.73it/s]
+Training Epoch 1/3:  97%|#########7| 37/38 [00:22&lt;00:00,  1.74it/s]
+Training Epoch 1/3: 100%|##########| 38/38 [00:23&lt;00:00,  1.83it/s]
+Training Epoch 1/3: 100%|##########| 38/38 [00:23&lt;00:00,  1.65it/s]
 
-Validating Epoch 1/3:   0%|          | 0/16 [00:00&lt;?, ?it/s]
-Validating Epoch 1/3:   6%|6         | 1/16 [00:00&lt;00:03,  4.49it/s]
-Validating Epoch 1/3:  12%|#2        | 2/16 [00:00&lt;00:02,  4.81it/s]
-Validating Epoch 1/3:  19%|#8        | 3/16 [00:00&lt;00:02,  4.76it/s]
-Validating Epoch 1/3:  25%|##5       | 4/16 [00:00&lt;00:02,  4.91it/s]
-Validating Epoch 1/3:  31%|###1      | 5/16 [00:01&lt;00:02,  4.88it/s]
-Validating Epoch 1/3:  38%|###7      | 6/16 [00:01&lt;00:02,  4.90it/s]
-Validating Epoch 1/3:  44%|####3     | 7/16 [00:01&lt;00:01,  4.99it/s]
-Validating Epoch 1/3:  50%|#####     | 8/16 [00:01&lt;00:01,  4.93it/s]
-Validating Epoch 1/3:  56%|#####6    | 9/16 [00:01&lt;00:01,  4.98it/s]
-Validating Epoch 1/3:  62%|######2   | 10/16 [00:02&lt;00:01,  4.91it/s]
-Validating Epoch 1/3:  69%|######8   | 11/16 [00:02&lt;00:01,  4.85it/s]
-Validating Epoch 1/3:  75%|#######5  | 12/16 [00:02&lt;00:00,  4.93it/s]
-Validating Epoch 1/3:  81%|########1 | 13/16 [00:02&lt;00:00,  4.92it/s]
-Validating Epoch 1/3:  88%|########7 | 14/16 [00:02&lt;00:00,  4.94it/s]
-Validating Epoch 1/3:  94%|#########3| 15/16 [00:03&lt;00:00,  4.79it/s]
-Validating Epoch 1/3: 100%|##########| 16/16 [00:03&lt;00:00,  4.64it/s]
-Validating Epoch 1/3: 100%|##########| 16/16 [00:03&lt;00:00,  4.83it/s]
+Validating Epoch 1/3:   0%|          | 0/10 [00:00&lt;?, ?it/s]
+Validating Epoch 1/3:  10%|#         | 1/10 [00:00&lt;00:02,  4.49it/s]
+Validating Epoch 1/3:  20%|##        | 2/10 [00:00&lt;00:01,  4.89it/s]
+Validating Epoch 1/3:  30%|###       | 3/10 [00:00&lt;00:01,  5.08it/s]
+Validating Epoch 1/3:  40%|####      | 4/10 [00:00&lt;00:01,  5.12it/s]
+Validating Epoch 1/3:  50%|#####     | 5/10 [00:00&lt;00:00,  5.16it/s]
+Validating Epoch 1/3:  60%|######    | 6/10 [00:01&lt;00:00,  5.17it/s]
+Validating Epoch 1/3:  70%|#######   | 7/10 [00:01&lt;00:00,  5.25it/s]
+Validating Epoch 1/3:  80%|########  | 8/10 [00:01&lt;00:00,  5.24it/s]
+Validating Epoch 1/3:  90%|######### | 9/10 [00:01&lt;00:00,  5.23it/s]
+Validating Epoch 1/3: 100%|##########| 10/10 [00:02&lt;00:00,  3.30it/s]
+Validating Epoch 1/3: 100%|##########| 10/10 [00:02&lt;00:00,  4.35it/s]
 Epoch 1:
-Train Loss: 0.6698
-Val Loss: 0.5987
-Val Accuracy: 72.80%
+Train Loss: 0.6859
+Val Loss: 0.6518
+Val Accuracy: 65.33%
 
 
-Training Epoch 2/3:   0%|          | 0/63 [00:00&lt;?, ?it/s]
-Training Epoch 2/3:   2%|1         | 1/63 [00:00&lt;00:39,  1.56it/s]
-Training Epoch 2/3:   3%|3         | 2/63 [00:01&lt;00:38,  1.60it/s]
-Training Epoch 2/3:   5%|4         | 3/63 [00:01&lt;00:36,  1.63it/s]
-Training Epoch 2/3:   6%|6         | 4/63 [00:02&lt;00:35,  1.64it/s]
-Training Epoch 2/3:   8%|7         | 5/63 [00:03&lt;00:35,  1.63it/s]
-Training Epoch 2/3:  10%|9         | 6/63 [00:03&lt;00:34,  1.65it/s]
-Training Epoch 2/3:  11%|#1        | 7/63 [00:04&lt;00:34,  1.64it/s]
-Training Epoch 2/3:  13%|#2        | 8/63 [00:04&lt;00:33,  1.64it/s]
-Training Epoch 2/3:  14%|#4        | 9/63 [00:05&lt;00:33,  1.62it/s]
-Training Epoch 2/3:  16%|#5        | 10/63 [00:06&lt;00:32,  1.64it/s]
-Training Epoch 2/3:  17%|#7        | 11/63 [00:06&lt;00:31,  1.63it/s]
-Training Epoch 2/3:  19%|#9        | 12/63 [00:07&lt;00:31,  1.62it/s]
-Training Epoch 2/3:  21%|##        | 13/63 [00:07&lt;00:30,  1.63it/s]
-Training Epoch 2/3:  22%|##2       | 14/63 [00:08&lt;00:29,  1.64it/s]
-Training Epoch 2/3:  24%|##3       | 15/63 [00:09&lt;00:29,  1.64it/s]
-Training Epoch 2/3:  25%|##5       | 16/63 [00:09&lt;00:28,  1.65it/s]
-Training Epoch 2/3:  27%|##6       | 17/63 [00:10&lt;00:28,  1.64it/s]
-Training Epoch 2/3:  29%|##8       | 18/63 [00:11&lt;00:27,  1.63it/s]
-Training Epoch 2/3:  30%|###       | 19/63 [00:11&lt;00:26,  1.64it/s]
-Training Epoch 2/3:  32%|###1      | 20/63 [00:12&lt;00:26,  1.62it/s]
-Training Epoch 2/3:  33%|###3      | 21/63 [00:12&lt;00:25,  1.63it/s]
-Training Epoch 2/3:  35%|###4      | 22/63 [00:13&lt;00:25,  1.61it/s]
-Training Epoch 2/3:  37%|###6      | 23/63 [00:14&lt;00:24,  1.62it/s]
-Training Epoch 2/3:  38%|###8      | 24/63 [00:14&lt;00:24,  1.61it/s]
-Training Epoch 2/3:  40%|###9      | 25/63 [00:15&lt;00:23,  1.63it/s]
-Training Epoch 2/3:  41%|####1     | 26/63 [00:15&lt;00:22,  1.63it/s]
-Training Epoch 2/3:  43%|####2     | 27/63 [00:16&lt;00:22,  1.63it/s]
-Training Epoch 2/3:  44%|####4     | 28/63 [00:17&lt;00:21,  1.64it/s]
-Training Epoch 2/3:  46%|####6     | 29/63 [00:17&lt;00:20,  1.63it/s]
-Training Epoch 2/3:  48%|####7     | 30/63 [00:18&lt;00:20,  1.64it/s]
-Training Epoch 2/3:  49%|####9     | 31/63 [00:19&lt;00:19,  1.63it/s]
-Training Epoch 2/3:  51%|#####     | 32/63 [00:19&lt;00:18,  1.64it/s]
-Training Epoch 2/3:  52%|#####2    | 33/63 [00:20&lt;00:18,  1.65it/s]
-Training Epoch 2/3:  54%|#####3    | 34/63 [00:20&lt;00:17,  1.63it/s]
-Training Epoch 2/3:  56%|#####5    | 35/63 [00:21&lt;00:17,  1.64it/s]
-Training Epoch 2/3:  57%|#####7    | 36/63 [00:22&lt;00:16,  1.65it/s]
-Training Epoch 2/3:  59%|#####8    | 37/63 [00:22&lt;00:15,  1.64it/s]
-Training Epoch 2/3:  60%|######    | 38/63 [00:23&lt;00:15,  1.64it/s]
-Training Epoch 2/3:  62%|######1   | 39/63 [00:23&lt;00:14,  1.64it/s]
-Training Epoch 2/3:  63%|######3   | 40/63 [00:24&lt;00:13,  1.65it/s]
-Training Epoch 2/3:  65%|######5   | 41/63 [00:25&lt;00:13,  1.63it/s]
-Training Epoch 2/3:  67%|######6   | 42/63 [00:25&lt;00:12,  1.64it/s]
-Training Epoch 2/3:  68%|######8   | 43/63 [00:26&lt;00:12,  1.64it/s]
-Training Epoch 2/3:  70%|######9   | 44/63 [00:26&lt;00:11,  1.62it/s]
-Training Epoch 2/3:  71%|#######1  | 45/63 [00:27&lt;00:11,  1.62it/s]
-Training Epoch 2/3:  73%|#######3  | 46/63 [00:28&lt;00:10,  1.63it/s]
-Training Epoch 2/3:  75%|#######4  | 47/63 [00:28&lt;00:09,  1.63it/s]
-Training Epoch 2/3:  76%|#######6  | 48/63 [00:29&lt;00:09,  1.63it/s]
-Training Epoch 2/3:  78%|#######7  | 49/63 [00:30&lt;00:08,  1.62it/s]
-Training Epoch 2/3:  79%|#######9  | 50/63 [00:30&lt;00:07,  1.63it/s]
-Training Epoch 2/3:  81%|########  | 51/63 [00:31&lt;00:07,  1.65it/s]
-Training Epoch 2/3:  83%|########2 | 52/63 [00:31&lt;00:06,  1.64it/s]
-Training Epoch 2/3:  84%|########4 | 53/63 [00:32&lt;00:06,  1.63it/s]
-Training Epoch 2/3:  86%|########5 | 54/63 [00:33&lt;00:05,  1.63it/s]
-Training Epoch 2/3:  87%|########7 | 55/63 [00:33&lt;00:04,  1.63it/s]
-Training Epoch 2/3:  89%|########8 | 56/63 [00:34&lt;00:04,  1.64it/s]
-Training Epoch 2/3:  90%|######### | 57/63 [00:34&lt;00:03,  1.64it/s]
-Training Epoch 2/3:  92%|#########2| 58/63 [00:35&lt;00:03,  1.63it/s]
-Training Epoch 2/3:  94%|#########3| 59/63 [00:36&lt;00:02,  1.64it/s]
-Training Epoch 2/3:  95%|#########5| 60/63 [00:36&lt;00:01,  1.64it/s]
-Training Epoch 2/3:  97%|#########6| 61/63 [00:37&lt;00:01,  1.64it/s]
-Training Epoch 2/3:  98%|#########8| 62/63 [00:37&lt;00:00,  1.65it/s]
-Training Epoch 2/3: 100%|##########| 63/63 [00:38&lt;00:00,  1.89it/s]
-Training Epoch 2/3: 100%|##########| 63/63 [00:38&lt;00:00,  1.65it/s]
+Training Epoch 2/3:   0%|          | 0/38 [00:00&lt;?, ?it/s]
+Training Epoch 2/3:   3%|2         | 1/38 [00:00&lt;00:22,  1.61it/s]
+Training Epoch 2/3:   5%|5         | 2/38 [00:01&lt;00:21,  1.65it/s]
+Training Epoch 2/3:   8%|7         | 3/38 [00:01&lt;00:20,  1.67it/s]
+Training Epoch 2/3:  11%|#         | 4/38 [00:02&lt;00:19,  1.70it/s]
+Training Epoch 2/3:  13%|#3        | 5/38 [00:02&lt;00:19,  1.72it/s]
+Training Epoch 2/3:  16%|#5        | 6/38 [00:03&lt;00:18,  1.73it/s]
+Training Epoch 2/3:  18%|#8        | 7/38 [00:04&lt;00:17,  1.74it/s]
+Training Epoch 2/3:  21%|##1       | 8/38 [00:04&lt;00:17,  1.74it/s]
+Training Epoch 2/3:  24%|##3       | 9/38 [00:05&lt;00:16,  1.75it/s]
+Training Epoch 2/3:  26%|##6       | 10/38 [00:05&lt;00:15,  1.75it/s]
+Training Epoch 2/3:  29%|##8       | 11/38 [00:06&lt;00:15,  1.76it/s]
+Training Epoch 2/3:  32%|###1      | 12/38 [00:06&lt;00:14,  1.76it/s]
+Training Epoch 2/3:  34%|###4      | 13/38 [00:07&lt;00:14,  1.77it/s]
+Training Epoch 2/3:  37%|###6      | 14/38 [00:08&lt;00:13,  1.76it/s]
+Training Epoch 2/3:  39%|###9      | 15/38 [00:08&lt;00:13,  1.75it/s]
+Training Epoch 2/3:  42%|####2     | 16/38 [00:09&lt;00:12,  1.74it/s]
+Training Epoch 2/3:  45%|####4     | 17/38 [00:09&lt;00:12,  1.74it/s]
+Training Epoch 2/3:  47%|####7     | 18/38 [00:10&lt;00:11,  1.73it/s]
+Training Epoch 2/3:  50%|#####     | 19/38 [00:10&lt;00:10,  1.73it/s]
+Training Epoch 2/3:  53%|#####2    | 20/38 [00:11&lt;00:10,  1.74it/s]
+Training Epoch 2/3:  55%|#####5    | 21/38 [00:12&lt;00:09,  1.74it/s]
+Training Epoch 2/3:  58%|#####7    | 22/38 [00:12&lt;00:09,  1.75it/s]
+Training Epoch 2/3:  61%|######    | 23/38 [00:13&lt;00:08,  1.74it/s]
+Training Epoch 2/3:  63%|######3   | 24/38 [00:13&lt;00:08,  1.73it/s]
+Training Epoch 2/3:  66%|######5   | 25/38 [00:14&lt;00:07,  1.74it/s]
+Training Epoch 2/3:  68%|######8   | 26/38 [00:14&lt;00:06,  1.74it/s]
+Training Epoch 2/3:  71%|#######1  | 27/38 [00:15&lt;00:06,  1.74it/s]
+Training Epoch 2/3:  74%|#######3  | 28/38 [00:16&lt;00:05,  1.74it/s]
+Training Epoch 2/3:  76%|#######6  | 29/38 [00:16&lt;00:05,  1.74it/s]
+Training Epoch 2/3:  79%|#######8  | 30/38 [00:17&lt;00:04,  1.74it/s]
+Training Epoch 2/3:  82%|########1 | 31/38 [00:17&lt;00:04,  1.74it/s]
+Training Epoch 2/3:  84%|########4 | 32/38 [00:18&lt;00:03,  1.72it/s]
+Training Epoch 2/3:  87%|########6 | 33/38 [00:19&lt;00:02,  1.72it/s]
+Training Epoch 2/3:  89%|########9 | 34/38 [00:19&lt;00:02,  1.73it/s]
+Training Epoch 2/3:  92%|#########2| 35/38 [00:20&lt;00:01,  1.74it/s]
+Training Epoch 2/3:  95%|#########4| 36/38 [00:20&lt;00:01,  1.75it/s]
+Training Epoch 2/3:  97%|#########7| 37/38 [00:21&lt;00:00,  1.77it/s]
+Training Epoch 2/3: 100%|##########| 38/38 [00:21&lt;00:00,  2.01it/s]
+Training Epoch 2/3: 100%|##########| 38/38 [00:21&lt;00:00,  1.76it/s]
 
-Validating Epoch 2/3:   0%|          | 0/16 [00:00&lt;?, ?it/s]
-Validating Epoch 2/3:   6%|6         | 1/16 [00:00&lt;00:02,  5.13it/s]
-Validating Epoch 2/3:  12%|#2        | 2/16 [00:00&lt;00:02,  5.05it/s]
-Validating Epoch 2/3:  19%|#8        | 3/16 [00:00&lt;00:02,  4.92it/s]
-Validating Epoch 2/3:  25%|##5       | 4/16 [00:00&lt;00:02,  5.03it/s]
-Validating Epoch 2/3:  31%|###1      | 5/16 [00:01&lt;00:02,  4.96it/s]
-Validating Epoch 2/3:  38%|###7      | 6/16 [00:01&lt;00:02,  4.97it/s]
-Validating Epoch 2/3:  44%|####3     | 7/16 [00:01&lt;00:01,  5.04it/s]
-Validating Epoch 2/3:  50%|#####     | 8/16 [00:01&lt;00:01,  4.97it/s]
-Validating Epoch 2/3:  56%|#####6    | 9/16 [00:01&lt;00:01,  5.03it/s]
-Validating Epoch 2/3:  62%|######2   | 10/16 [00:02&lt;00:01,  4.92it/s]
-Validating Epoch 2/3:  69%|######8   | 11/16 [00:02&lt;00:01,  4.87it/s]
-Validating Epoch 2/3:  75%|#######5  | 12/16 [00:02&lt;00:00,  4.94it/s]
-Validating Epoch 2/3:  81%|########1 | 13/16 [00:02&lt;00:00,  4.93it/s]
-Validating Epoch 2/3:  88%|########7 | 14/16 [00:02&lt;00:00,  5.00it/s]
-Validating Epoch 2/3:  94%|#########3| 15/16 [00:03&lt;00:00,  4.86it/s]
-Validating Epoch 2/3: 100%|##########| 16/16 [00:03&lt;00:00,  5.46it/s]
-Validating Epoch 2/3: 100%|##########| 16/16 [00:03&lt;00:00,  5.06it/s]
+Validating Epoch 2/3:   0%|          | 0/10 [00:00&lt;?, ?it/s]
+Validating Epoch 2/3:  10%|#         | 1/10 [00:00&lt;00:01,  4.79it/s]
+Validating Epoch 2/3:  20%|##        | 2/10 [00:00&lt;00:01,  5.05it/s]
+Validating Epoch 2/3:  30%|###       | 3/10 [00:00&lt;00:01,  5.19it/s]
+Validating Epoch 2/3:  40%|####      | 4/10 [00:00&lt;00:01,  5.20it/s]
+Validating Epoch 2/3:  50%|#####     | 5/10 [00:00&lt;00:00,  5.24it/s]
+Validating Epoch 2/3:  60%|######    | 6/10 [00:01&lt;00:00,  5.23it/s]
+Validating Epoch 2/3:  70%|#######   | 7/10 [00:01&lt;00:00,  5.31it/s]
+Validating Epoch 2/3:  80%|########  | 8/10 [00:01&lt;00:00,  5.29it/s]
+Validating Epoch 2/3:  90%|######### | 9/10 [00:01&lt;00:00,  5.28it/s]
+Validating Epoch 2/3: 100%|##########| 10/10 [00:01&lt;00:00,  5.55it/s]
 Epoch 2:
-Train Loss: 0.3877
-Val Loss: 0.3549
-Val Accuracy: 86.00%
+Train Loss: 0.5448
+Val Loss: 0.5527
+Val Accuracy: 73.33%
 
 
-Training Epoch 3/3:   0%|          | 0/63 [00:00&lt;?, ?it/s]
-Training Epoch 3/3:   2%|1         | 1/63 [00:00&lt;00:38,  1.60it/s]
-Training Epoch 3/3:   3%|3         | 2/63 [00:01&lt;00:37,  1.62it/s]
-Training Epoch 3/3:   5%|4         | 3/63 [00:01&lt;00:37,  1.62it/s]
-Training Epoch 3/3:   6%|6         | 4/63 [00:02&lt;00:36,  1.63it/s]
-Training Epoch 3/3:   8%|7         | 5/63 [00:03&lt;00:35,  1.63it/s]
-Training Epoch 3/3:  10%|9         | 6/63 [00:03&lt;00:34,  1.65it/s]
-Training Epoch 3/3:  11%|#1        | 7/63 [00:04&lt;00:34,  1.65it/s]
-Training Epoch 3/3:  13%|#2        | 8/63 [00:04&lt;00:33,  1.63it/s]
-Training Epoch 3/3:  14%|#4        | 9/63 [00:05&lt;00:32,  1.65it/s]
-Training Epoch 3/3:  16%|#5        | 10/63 [00:06&lt;00:32,  1.65it/s]
-Training Epoch 3/3:  17%|#7        | 11/63 [00:06&lt;00:31,  1.64it/s]
-Training Epoch 3/3:  19%|#9        | 12/63 [00:07&lt;00:31,  1.63it/s]
-Training Epoch 3/3:  21%|##        | 13/63 [00:07&lt;00:30,  1.64it/s]
-Training Epoch 3/3:  22%|##2       | 14/63 [00:08&lt;00:29,  1.63it/s]
-Training Epoch 3/3:  24%|##3       | 15/63 [00:09&lt;00:29,  1.63it/s]
-Training Epoch 3/3:  25%|##5       | 16/63 [00:09&lt;00:28,  1.65it/s]
-Training Epoch 3/3:  27%|##6       | 17/63 [00:10&lt;00:27,  1.64it/s]
-Training Epoch 3/3:  29%|##8       | 18/63 [00:10&lt;00:27,  1.64it/s]
-Training Epoch 3/3:  30%|###       | 19/63 [00:11&lt;00:26,  1.65it/s]
-Training Epoch 3/3:  32%|###1      | 20/63 [00:12&lt;00:26,  1.64it/s]
-Training Epoch 3/3:  33%|###3      | 21/63 [00:12&lt;00:25,  1.65it/s]
-Training Epoch 3/3:  35%|###4      | 22/63 [00:13&lt;00:24,  1.64it/s]
-Training Epoch 3/3:  37%|###6      | 23/63 [00:14&lt;00:24,  1.65it/s]
-Training Epoch 3/3:  38%|###8      | 24/63 [00:14&lt;00:23,  1.65it/s]
-Training Epoch 3/3:  40%|###9      | 25/63 [00:15&lt;00:23,  1.63it/s]
-Training Epoch 3/3:  41%|####1     | 26/63 [00:15&lt;00:22,  1.64it/s]
-Training Epoch 3/3:  43%|####2     | 27/63 [00:16&lt;00:22,  1.62it/s]
-Training Epoch 3/3:  44%|####4     | 28/63 [00:17&lt;00:21,  1.61it/s]
-Training Epoch 3/3:  46%|####6     | 29/63 [00:17&lt;00:20,  1.62it/s]
-Training Epoch 3/3:  48%|####7     | 30/63 [00:18&lt;00:20,  1.64it/s]
-Training Epoch 3/3:  49%|####9     | 31/63 [00:18&lt;00:19,  1.64it/s]
-Training Epoch 3/3:  51%|#####     | 32/63 [00:19&lt;00:18,  1.65it/s]
-Training Epoch 3/3:  52%|#####2    | 33/63 [00:20&lt;00:18,  1.65it/s]
-Training Epoch 3/3:  54%|#####3    | 34/63 [00:20&lt;00:17,  1.64it/s]
-Training Epoch 3/3:  56%|#####5    | 35/63 [00:21&lt;00:16,  1.65it/s]
-Training Epoch 3/3:  57%|#####7    | 36/63 [00:21&lt;00:16,  1.64it/s]
-Training Epoch 3/3:  59%|#####8    | 37/63 [00:22&lt;00:15,  1.64it/s]
-Training Epoch 3/3:  60%|######    | 38/63 [00:23&lt;00:15,  1.62it/s]
-Training Epoch 3/3:  62%|######1   | 39/63 [00:23&lt;00:14,  1.63it/s]
-Training Epoch 3/3:  63%|######3   | 40/63 [00:24&lt;00:14,  1.62it/s]
-Training Epoch 3/3:  65%|######5   | 41/63 [00:25&lt;00:13,  1.63it/s]
-Training Epoch 3/3:  67%|######6   | 42/63 [00:25&lt;00:12,  1.63it/s]
-Training Epoch 3/3:  68%|######8   | 43/63 [00:26&lt;00:12,  1.63it/s]
-Training Epoch 3/3:  70%|######9   | 44/63 [00:26&lt;00:11,  1.62it/s]
-Training Epoch 3/3:  71%|#######1  | 45/63 [00:27&lt;00:11,  1.62it/s]
-Training Epoch 3/3:  73%|#######3  | 46/63 [00:28&lt;00:10,  1.63it/s]
-Training Epoch 3/3:  75%|#######4  | 47/63 [00:28&lt;00:09,  1.63it/s]
-Training Epoch 3/3:  76%|#######6  | 48/63 [00:29&lt;00:09,  1.63it/s]
-Training Epoch 3/3:  78%|#######7  | 49/63 [00:29&lt;00:08,  1.63it/s]
-Training Epoch 3/3:  79%|#######9  | 50/63 [00:30&lt;00:07,  1.63it/s]
-Training Epoch 3/3:  81%|########  | 51/63 [00:31&lt;00:07,  1.64it/s]
-Training Epoch 3/3:  83%|########2 | 52/63 [00:31&lt;00:06,  1.64it/s]
-Training Epoch 3/3:  84%|########4 | 53/63 [00:32&lt;00:06,  1.64it/s]
-Training Epoch 3/3:  86%|########5 | 54/63 [00:32&lt;00:05,  1.64it/s]
-Training Epoch 3/3:  87%|########7 | 55/63 [00:33&lt;00:04,  1.64it/s]
-Training Epoch 3/3:  89%|########8 | 56/63 [00:34&lt;00:04,  1.64it/s]
-Training Epoch 3/3:  90%|######### | 57/63 [00:34&lt;00:03,  1.64it/s]
-Training Epoch 3/3:  92%|#########2| 58/63 [00:35&lt;00:03,  1.63it/s]
-Training Epoch 3/3:  94%|#########3| 59/63 [00:36&lt;00:02,  1.64it/s]
-Training Epoch 3/3:  95%|#########5| 60/63 [00:36&lt;00:01,  1.63it/s]
-Training Epoch 3/3:  97%|#########6| 61/63 [00:37&lt;00:01,  1.63it/s]
-Training Epoch 3/3:  98%|#########8| 62/63 [00:37&lt;00:00,  1.62it/s]
-Training Epoch 3/3: 100%|##########| 63/63 [00:38&lt;00:00,  1.84it/s]
-Training Epoch 3/3: 100%|##########| 63/63 [00:38&lt;00:00,  1.65it/s]
+Training Epoch 3/3:   0%|          | 0/38 [00:00&lt;?, ?it/s]
+Training Epoch 3/3:   3%|2         | 1/38 [00:00&lt;00:21,  1.72it/s]
+Training Epoch 3/3:   5%|5         | 2/38 [00:01&lt;00:21,  1.71it/s]
+Training Epoch 3/3:   8%|7         | 3/38 [00:01&lt;00:20,  1.74it/s]
+Training Epoch 3/3:  11%|#         | 4/38 [00:02&lt;00:19,  1.74it/s]
+Training Epoch 3/3:  13%|#3        | 5/38 [00:02&lt;00:18,  1.74it/s]
+Training Epoch 3/3:  16%|#5        | 6/38 [00:03&lt;00:18,  1.74it/s]
+Training Epoch 3/3:  18%|#8        | 7/38 [00:04&lt;00:17,  1.72it/s]
+Training Epoch 3/3:  21%|##1       | 8/38 [00:04&lt;00:17,  1.73it/s]
+Training Epoch 3/3:  24%|##3       | 9/38 [00:05&lt;00:16,  1.73it/s]
+Training Epoch 3/3:  26%|##6       | 10/38 [00:05&lt;00:16,  1.73it/s]
+Training Epoch 3/3:  29%|##8       | 11/38 [00:06&lt;00:15,  1.73it/s]
+Training Epoch 3/3:  32%|###1      | 12/38 [00:06&lt;00:14,  1.74it/s]
+Training Epoch 3/3:  34%|###4      | 13/38 [00:07&lt;00:14,  1.74it/s]
+Training Epoch 3/3:  37%|###6      | 14/38 [00:08&lt;00:13,  1.74it/s]
+Training Epoch 3/3:  39%|###9      | 15/38 [00:08&lt;00:13,  1.74it/s]
+Training Epoch 3/3:  42%|####2     | 16/38 [00:09&lt;00:12,  1.75it/s]
+Training Epoch 3/3:  45%|####4     | 17/38 [00:09&lt;00:12,  1.74it/s]
+Training Epoch 3/3:  47%|####7     | 18/38 [00:10&lt;00:11,  1.74it/s]
+Training Epoch 3/3:  50%|#####     | 19/38 [00:10&lt;00:10,  1.75it/s]
+Training Epoch 3/3:  53%|#####2    | 20/38 [00:11&lt;00:10,  1.75it/s]
+Training Epoch 3/3:  55%|#####5    | 21/38 [00:12&lt;00:09,  1.76it/s]
+Training Epoch 3/3:  58%|#####7    | 22/38 [00:12&lt;00:09,  1.75it/s]
+Training Epoch 3/3:  61%|######    | 23/38 [00:13&lt;00:08,  1.76it/s]
+Training Epoch 3/3:  63%|######3   | 24/38 [00:13&lt;00:07,  1.76it/s]
+Training Epoch 3/3:  66%|######5   | 25/38 [00:14&lt;00:07,  1.76it/s]
+Training Epoch 3/3:  68%|######8   | 26/38 [00:14&lt;00:06,  1.76it/s]
+Training Epoch 3/3:  71%|#######1  | 27/38 [00:15&lt;00:06,  1.77it/s]
+Training Epoch 3/3:  74%|#######3  | 28/38 [00:16&lt;00:05,  1.77it/s]
+Training Epoch 3/3:  76%|#######6  | 29/38 [00:16&lt;00:05,  1.75it/s]
+Training Epoch 3/3:  79%|#######8  | 30/38 [00:17&lt;00:04,  1.75it/s]
+Training Epoch 3/3:  82%|########1 | 31/38 [00:17&lt;00:03,  1.76it/s]
+Training Epoch 3/3:  84%|########4 | 32/38 [00:18&lt;00:03,  1.77it/s]
+Training Epoch 3/3:  87%|########6 | 33/38 [00:18&lt;00:02,  1.76it/s]
+Training Epoch 3/3:  89%|########9 | 34/38 [00:19&lt;00:02,  1.75it/s]
+Training Epoch 3/3:  92%|#########2| 35/38 [00:20&lt;00:01,  1.74it/s]
+Training Epoch 3/3:  95%|#########4| 36/38 [00:20&lt;00:01,  1.74it/s]
+Training Epoch 3/3:  97%|#########7| 37/38 [00:21&lt;00:00,  1.74it/s]
+Training Epoch 3/3: 100%|##########| 38/38 [00:21&lt;00:00,  2.00it/s]
+Training Epoch 3/3: 100%|##########| 38/38 [00:21&lt;00:00,  1.77it/s]
 
-Validating Epoch 3/3:   0%|          | 0/16 [00:00&lt;?, ?it/s]
-Validating Epoch 3/3:   6%|6         | 1/16 [00:00&lt;00:02,  5.13it/s]
-Validating Epoch 3/3:  12%|#2        | 2/16 [00:00&lt;00:02,  5.01it/s]
-Validating Epoch 3/3:  19%|#8        | 3/16 [00:00&lt;00:02,  4.88it/s]
-Validating Epoch 3/3:  25%|##5       | 4/16 [00:00&lt;00:02,  4.98it/s]
-Validating Epoch 3/3:  31%|###1      | 5/16 [00:01&lt;00:02,  4.93it/s]
-Validating Epoch 3/3:  38%|###7      | 6/16 [00:01&lt;00:02,  4.84it/s]
-Validating Epoch 3/3:  44%|####3     | 7/16 [00:01&lt;00:01,  4.94it/s]
-Validating Epoch 3/3:  50%|#####     | 8/16 [00:01&lt;00:01,  4.88it/s]
-Validating Epoch 3/3:  56%|#####6    | 9/16 [00:01&lt;00:01,  4.94it/s]
-Validating Epoch 3/3:  62%|######2   | 10/16 [00:02&lt;00:01,  4.87it/s]
-Validating Epoch 3/3:  69%|######8   | 11/16 [00:02&lt;00:01,  4.82it/s]
-Validating Epoch 3/3:  75%|#######5  | 12/16 [00:02&lt;00:00,  4.89it/s]
-Validating Epoch 3/3:  81%|########1 | 13/16 [00:02&lt;00:00,  4.91it/s]
-Validating Epoch 3/3:  88%|########7 | 14/16 [00:02&lt;00:00,  4.97it/s]
-Validating Epoch 3/3:  94%|#########3| 15/16 [00:03&lt;00:00,  4.83it/s]
-Validating Epoch 3/3: 100%|##########| 16/16 [00:03&lt;00:00,  5.44it/s]
-Validating Epoch 3/3: 100%|##########| 16/16 [00:03&lt;00:00,  5.01it/s]
+Validating Epoch 3/3:   0%|          | 0/10 [00:00&lt;?, ?it/s]
+Validating Epoch 3/3:  10%|#         | 1/10 [00:00&lt;00:01,  5.15it/s]
+Validating Epoch 3/3:  20%|##        | 2/10 [00:00&lt;00:01,  5.16it/s]
+Validating Epoch 3/3:  30%|###       | 3/10 [00:00&lt;00:01,  5.25it/s]
+Validating Epoch 3/3:  40%|####      | 4/10 [00:00&lt;00:01,  5.24it/s]
+Validating Epoch 3/3:  50%|#####     | 5/10 [00:00&lt;00:00,  5.25it/s]
+Validating Epoch 3/3:  60%|######    | 6/10 [00:01&lt;00:00,  5.22it/s]
+Validating Epoch 3/3:  70%|#######   | 7/10 [00:01&lt;00:00,  5.29it/s]
+Validating Epoch 3/3:  80%|########  | 8/10 [00:01&lt;00:00,  5.27it/s]
+Validating Epoch 3/3:  90%|######### | 9/10 [00:01&lt;00:00,  5.27it/s]
+Validating Epoch 3/3: 100%|##########| 10/10 [00:01&lt;00:00,  5.57it/s]
 Epoch 3:
-Train Loss: 0.1697
-Val Loss: 0.4137
-Val Accuracy: 83.60%</code></pre>
+Train Loss: 0.2917
+Val Loss: 0.3171
+Val Accuracy: 85.33%</code></pre>
 </div>
 </div>
 <p>Losses decrease almost in unison and the validation accuracy improves, indicating that the model is learning useful patterns.</p>
@@ -890,22 +795,22 @@ Evaluation Metrics (training set size: 1250):</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> metric, value <span class="kw">in</span> metrics.items():</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>metric<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>value<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Accuracy: 0.860
-Precision: 0.861
-Recall: 0.860
-F1 Score: 0.860</code></pre>
+<pre><code>Accuracy: 0.790
+Precision: 0.794
+Recall: 0.790
+F1 Score: 0.790</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># or take a shortcut</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(df[<span class="st">'label'</span>], df[<span class="st">'prediction'</span>], target_names<span class="op">=</span>[<span class="st">'negative'</span>, <span class="st">'positive'</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              precision    recall  f1-score   support
 
-    negative       0.85      0.88      0.86        50
-    positive       0.88      0.84      0.86        50
+    negative       0.83      0.75      0.79        52
+    positive       0.75      0.83      0.79        48
 
-    accuracy                           0.86       100
-   macro avg       0.86      0.86      0.86       100
-weighted avg       0.86      0.86      0.86       100</code></pre>
+    accuracy                           0.79       100
+   macro avg       0.79      0.79      0.79       100
+weighted avg       0.79      0.79      0.79       100</code></pre>
 </div>
 </div>
 <p>Once we’re happy with this, we can save the model for later use:</p>
