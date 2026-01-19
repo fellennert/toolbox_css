@@ -409,10 +409,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    n_components<span class="op">=</span><span class="dv">5</span>,</span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    min_dist<span class="op">=</span><span class="fl">0.1</span>,</span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    metric<span class="op">=</span><span class="st">'cosine'</span>,</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">42</span>,</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    n_jobs<span class="op">=</span><span class="dv">1</span>,</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    low_memory<span class="op">=</span><span class="va">True</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">42</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Next, we can tweak the HDBSCAN parameters to create more balanced clusters. By reducing the minimum cluster size and samples, we can identify smaller topics in the data. You might want to play around with these parameters.</p>
 <div class="cell">
@@ -428,7 +426,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>In this case, we remove English stopwords, and we set a minimum and maximum document frequency to filter out very rare and very common words. You can also experiment with n-grams to capture phrases instead of single words.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>vectorizer_model <span class="op">=</span> CountVectorizer(</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#ngram_range=(1, 2),</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    ngram_range<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    stop_words<span class="op">=</span><span class="st">"english"</span>,</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    min_df<span class="op">=</span><span class="dv">2</span>,</span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    max_df<span class="op">=</span><span class="fl">0.5</span> </span>
@@ -440,13 +438,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Then, we can create the BERTopic model using the customized components. We also set a minimum topic size to filter out very small topics that may not be meaningful. Setting <code>verbose=True</code> allows us to see the progress of the model fitting.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>topic_model <span class="op">=</span> BERTopic(</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    umap_model<span class="op">=</span>umap_model,</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    hdbscan_model<span class="op">=</span>hdbscan_model,</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    vectorizer_model<span class="op">=</span>vectorizer_model,</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    representation_model<span class="op">=</span>keybert_model,</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    min_topic_size<span class="op">=</span><span class="dv">10</span>,</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    n_jobs<span class="op">=</span><span class="dv">1</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    embedding_model <span class="op">=</span> embedding_model,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    umap_model<span class="op">=</span>umap_model,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    hdbscan_model<span class="op">=</span>hdbscan_model,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    vectorizer_model<span class="op">=</span>vectorizer_model,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    representation_model<span class="op">=</span>keybert_model,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    min_topic_size<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="va">True</span></span>
 <span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>topics, probs <span class="op">=</span> topic_model.fit_transform(taylor_lyrics[<span class="st">"lyrics"</span>])</span>
@@ -475,35 +473,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>hdbscan_model <span class="op">=</span> HDBSCAN(</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    min_cluster_size<span class="op">=</span><span class="dv">15</span>,</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    min_samples<span class="op">=</span><span class="dv">5</span>,</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    core_dist_n_jobs<span class="op">=</span><span class="dv">1</span>,</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    prediction_data<span class="op">=</span><span class="va">True</span> <span class="co">#needs to be defined for probabilities</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    prediction_data<span class="op">=</span><span class="va">True</span> <span class="co">#needs to be defined for probabilities</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>topic_model <span class="op">=</span> BERTopic(</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    umap_model<span class="op">=</span>umap_model,</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    hdbscan_model<span class="op">=</span>hdbscan_model,</span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    vectorizer_model<span class="op">=</span>vectorizer_model,</span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    representation_model<span class="op">=</span>keybert_model,</span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    min_topic_size<span class="op">=</span><span class="dv">10</span>,</span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>    calculate_probabilities<span class="op">=</span><span class="va">True</span>, <span class="co">#needs to be set to true</span></span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>    n_jobs<span class="op">=</span><span class="dv">1</span></span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>topics, probs <span class="op">=</span> topic_model.fit_transform(taylor_lyrics[<span class="st">"lyrics"</span>])</span>
-<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="co"># add probabilities to data frame</span></span>
-<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>taylor_lyrics_with_probs <span class="op">=</span> taylor_lyrics.copy()</span>
-<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Add assigned topic</span></span>
-<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>taylor_lyrics_with_probs[<span class="st">'assigned_topic'</span>] <span class="op">=</span> topics</span>
-<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Add probability for each topic as separate columns</span></span>
-<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> topic_num <span class="kw">in</span> <span class="bu">range</span>(probs.shape[<span class="dv">1</span>]):</span>
-<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>    taylor_lyrics_with_probs[<span class="ss">f'topic_</span><span class="sc">{</span>topic_num<span class="sc">}</span><span class="ss">_prob'</span>] <span class="op">=</span> probs[:, topic_num]</span>
-<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>taylor_lyrics_with_probs.head()</span>
-<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a><span class="co">#taylor_lyrics_with_probs.to_csv("files/taylor_lyrics_with_topic_probs.csv", index=False)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>topic_model <span class="op">=</span> BERTopic(</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    umap_model<span class="op">=</span>umap_model,</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    hdbscan_model<span class="op">=</span>hdbscan_model,</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    vectorizer_model<span class="op">=</span>vectorizer_model,</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    representation_model<span class="op">=</span>keybert_model,</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    min_topic_size<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    calculate_probabilities<span class="op">=</span><span class="va">True</span>, <span class="co">#needs to be set to true</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>topics, probs <span class="op">=</span> topic_model.fit_transform(taylor_lyrics[<span class="st">"lyrics"</span>])</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="co"># add probabilities to data frame</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>taylor_lyrics_with_probs <span class="op">=</span> taylor_lyrics.copy()</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Add assigned topic</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>taylor_lyrics_with_probs[<span class="st">'assigned_topic'</span>] <span class="op">=</span> topics</span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Add probability for each topic as separate columns</span></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> topic_num <span class="kw">in</span> <span class="bu">range</span>(probs.shape[<span class="dv">1</span>]):</span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>    taylor_lyrics_with_probs[<span class="ss">f'topic_</span><span class="sc">{</span>topic_num<span class="sc">}</span><span class="ss">_prob'</span>] <span class="op">=</span> probs[:, topic_num]</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>taylor_lyrics_with_probs.head()</span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a><span class="co">#taylor_lyrics_with_probs.to_csv("files/taylor_lyrics_with_topic_probs.csv", index=False)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Finally, if we want to make better sense of our topics, we can ask for the most representative documents for each topic (i.e., the ones that lie smack in the middle of the cluster).</p>
 <div class="cell">
