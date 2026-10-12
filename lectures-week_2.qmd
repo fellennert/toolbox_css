@@ -1,6 +1,6 @@
 ---
-title: "Week 1: What Is Computational Social Science (CSS)?"
-published-title: week_1
+title: "Week 2: Refresher"
+published-title: week_2
 engine: knitr
 freeze: auto
 ---

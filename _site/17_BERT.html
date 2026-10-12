@@ -144,7 +144,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_2.html">
- <span class="dropdown-text">Week 1: What Is Computational Social Science (CSS)?</span></a>
+ <span class="dropdown-text">Week 2: Refresher</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_3.html">
@@ -173,6 +173,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li>
     <a class="dropdown-item" href="./lectures-week_9.html">
  <span class="dropdown-text">Week 9: Transfer Learning and LLMs in the Social Sciences</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_10.html">
+ <span class="dropdown-text">Week 10: BERTopic and Topic Modeling with Transformers</span></a>
   </li>  
     </ul>
   </li>
@@ -252,6 +256,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li>
     <a class="dropdown-item" href="./18_GPT.html">
  <span class="dropdown-text">Chapter 18: Supervised Classification using Local LLMs in R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./19_BERTopic.html">
+ <span class="dropdown-text">Chapter 19: Unsupervised Text Classification with BERTopic</span></a>
   </li>  
     </ul>
   </li>
@@ -957,7 +965,7 @@ weighted avg       0.79      0.79      0.79       100</code></pre>
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/fellennert\.github\.io\/toolbox_css\/");
+        var filterRegex = new RegExp('/' + window.location.host + '/');
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

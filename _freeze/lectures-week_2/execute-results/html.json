@@ -1,8 +1,8 @@
 {
-  "hash": "abcd377ff8077d6aed1b5153baf9b43f",
+  "hash": "763d2a3f3b7fadb4e1d8b25ef9c59114",
   "result": {
     "engine": "knitr",
-    "markdown": "---\ntitle: \"Week 1: What Is Computational Social Science (CSS)?\"\npublished-title: week_1\nengine: knitr\nfreeze: auto\n---\n\nThis week, you will learn the answers to the following questions:\n\n- What are Python basics and how do they compare to R?\n- How can I use pandas?\n- How do string manipulations in R work?\n\n## Slides \n\nThere are no slides, just code script.\n\n",
+    "markdown": "---\ntitle: \"Week 2: Refresher\"\npublished-title: week_2\nengine: knitr\nfreeze: auto\n---\n\nThis week, you will learn the answers to the following questions:\n\n- What are Python basics and how do they compare to R?\n- How can I use pandas?\n- How do string manipulations in R work?\n\n## Slides \n\nThere are no slides, just code script.\n\n",
     "supporting": [
       "lectures-week_2_files"
     ],

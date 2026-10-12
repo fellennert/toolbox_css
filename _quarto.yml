@@ -20,7 +20,7 @@ website:
           - href: lectures-week_7.qmd
           - href: lectures-week_8.qmd
           - href: lectures-week_9.qmd
-         # - href: week_10.qmd
+          - href: lectures-week_10.qmd
          # - href: week_11.qmd
          # - href: week_12.qmd
       - text: R Script
@@ -43,7 +43,7 @@ website:
           - href: 16_word_embeddings.qmd
           - href: 17_BERT.qmd
           - href: 18_GPT.qmd
-         # - href: 19_abm_I.qmd
+          - href: 19_BERTopic.qmd
          # - href: 20_abm_II.qmd
 format:
   html:

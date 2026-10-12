@@ -43,7 +43,7 @@ Here's an overview of the topics covered:
 
 ## Syllabus
 
-Please click [here to download the latest version of the syllabus](./syllabus/syllabus_toolboxCSS_winter2526.pdf).
+Please click [here to download the latest version of the syllabus](./syllabus/syllabus_toolboxCSS_winter2627.pdf).
 
 ```{css echo=FALSE}
 .embed-container {
@@ -68,5 +68,5 @@ Please click [here to download the latest version of the syllabus](./syllabus/sy
 Alternatively, read it here (probably not the best if you're visiting this page on a mobile device):
 
 <div class="embed-container">
-  <iframe src="./syllabus/syllabus_toolboxCSS_winter2526.pdf" style="border: 0.5px"></iframe>
+  <iframe src="./syllabus/syllabus_toolboxCSS_winter2627.pdf" style="border: 0.5px"></iframe>
 </div>
