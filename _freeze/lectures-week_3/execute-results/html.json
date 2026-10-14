@@ -3,9 +3,7 @@
   "result": {
     "engine": "knitr",
     "markdown": "---\ntitle: \"Week 3/4: Crawling the web\"\npublished-title: week_3\nengine: knitr\nfreeze: auto\n---\n\n## Lecture (Thursday): Crawling the web\n\nThis lecture answers the following questions:\n\n- Why will Regexes change your life? (not in slides, code script only.)\n- How do I harness how the web is written to scrape websites?\n- What do I have to bear in mind when scraping websites?\n\n### Slides \n\n<!---\n\nPlease click [here to download the slides for Tuesday, October 28, 2025](./slides/20251028-crawling_web-novids.pdf). Caveat: the original slides contain recordings of my screen demonstrating web scraping. These could not be included due to storage constraints.\n\nPlease click [here to download the slides](./slides/20251030-scraping_ethics.pdf). \n\nAlternatively, read them here (probably not the best if you're visiting this page on a mobile device):\n\n<iframe src=\"./slides/20251028-crawling_web-novids.pdf\" \n        width=\"100%\" \n        height=\"800px\" \n        style=\"border: 1px solid #ddd;\">\n</iframe>\n\n--->\n\n## Practical (Wednesday): Crawling the web\n\n* Toolbox CSS Website: _[Chapter 7](https://fellennert.github.io/toolbox_css/7_scraping.html)_",
-    "supporting": [
-      "lectures-week_3_files"
-    ],
+    "supporting": [],
     "filters": [
       "rmarkdown/pagebreak.lua"
     ],

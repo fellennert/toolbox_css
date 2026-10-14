@@ -3,9 +3,7 @@
   "result": {
     "engine": "knitr",
     "markdown": "---\ntitle: \"Week 2/3: Refresher & RegEx\"\npublished-title: week_2\nengine: knitr\nfreeze: auto\n---\n\n## Lecture (Thursday): Refresher & RegEx\n\nThis week, we will deal with the following questions:\n\n- What are regular expressions (RegEx) and how can I use them in R?\n- How do string manipulations in R work?\n- What is the tidyverse style of programming and why should I care about it?\n- Why are functional programming and loops important in R?\n \n## Practical (Wednesday): RegExe\n\n* Finish the exercises from last week (if you haven't already done so).\n* Toolbox CSS Website: _[Chapter 6](https://fellennert.github.io/toolbox_css/6_stringr_regex.html)_",
-    "supporting": [
-      "lectures-week_2_files"
-    ],
+    "supporting": [],
     "filters": [
       "rmarkdown/pagebreak.lua"
     ],

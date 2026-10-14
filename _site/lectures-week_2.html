@@ -108,7 +108,7 @@ ul.task-list li input[type="checkbox"] {
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_2.html">
- <span class="dropdown-text">Week 2: Refresher</span></a>
+ <span class="dropdown-text">Week 2/3: Refresher &amp; RegEx</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_3.html">
@@ -128,7 +128,7 @@ ul.task-list li input[type="checkbox"] {
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_7.html">
- <span class="dropdown-text">Week 7/8: Introduction to Text as Data: Bag of Words</span></a>
+ <span class="dropdown-text">Week 7(8): Introduction to Text as Data: Bag of Words</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_8.html">
@@ -406,7 +406,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/fellennert\.github\.io\/toolbox_css\/");
+        var filterRegex = new RegExp('/' + window.location.host + '/');
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
