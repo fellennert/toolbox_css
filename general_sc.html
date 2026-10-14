@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2025-03-21">
+
+<title>Scientific Computing – Toolbox CSS</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-2fef5ea3f8957b3e4ecc936fc74692ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-3c9ac521c2a953a57bf052f7667e1b0d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Toolbox CSS</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-weeks" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Weeks</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-weeks">    
+        <li>
+    <a class="dropdown-item" href="./lectures-overview.html">
+ <span class="dropdown-text">Overview – week by week</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_1.html">
+ <span class="dropdown-text">Week 1: Kick-off</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_2.html">
+ <span class="dropdown-text">Week 2: Refresher</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_3.html">
+ <span class="dropdown-text">Week 3: Regexes &amp; Crawling the web</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_4.html">
+ <span class="dropdown-text">Week 4: <code>selenium</code> and APIs</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_5.html">
+ <span class="dropdown-text">Week 5: Introduction to Text as Data</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_6.html">
+ <span class="dropdown-text">Week 6: Supervised Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_7.html">
+ <span class="dropdown-text">Week 7: Supervised and Unsupervised Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_8.html">
+ <span class="dropdown-text">Week 8: Word Embeddings</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_9.html">
+ <span class="dropdown-text">Week 9: Transfer Learning and LLMs in the Social Sciences</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_10.html">
+ <span class="dropdown-text">Week 10: BERTopic and Topic Modeling with Transformers</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_11.html">
+ <span class="dropdown-text">Week 11:</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_12.html">
+ <span class="dropdown-text">Week 12:</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_13.html">
+ <span class="dropdown-text">Week 13:</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_14.html">
+ <span class="dropdown-text">Week 14: Presentation Preparation Week</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_15.html">
+ <span class="dropdown-text">Week 15: Presentation &amp; Wrap Up Week</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-css-handbook-(r-scripts--videos" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">CSS Handbook (R Scripts &amp; Videos)</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-css-handbook-(r-scripts--videos">    
+        <li>
+    <a class="dropdown-item" href="./1_r_index.html">
+ <span class="dropdown-text">Chapter 1: Preface</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./2_r_catch-up.html">
+ <span class="dropdown-text">Chapter 2: Brief R Recap</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./3_reticulate.html">
+ <span class="dropdown-text">Chapter 3: <code>reticulate</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./4_python.html">
+ <span class="dropdown-text">Chapter 4: Introduction to Python for R Users</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./5_pandas.html">
+ <span class="dropdown-text">Chapter 5: <code>pandas</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./6_stringr_regex.html">
+ <span class="dropdown-text">Chapter 6: <code>stringr</code> and RegExes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./7_scraping.html">
+ <span class="dropdown-text">Chapter 7: Scraping Static Pages with <code>rvest</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./8_selenium.html">
+ <span class="dropdown-text">Chapter 8: <code>selenium</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./9_apis.html">
+ <span class="dropdown-text">Chapter 9: APIs</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./10_tesseract.html">
+ <span class="dropdown-text">Chapter 10: OCR with <code>tesseract</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./11_transcription.html">
+ <span class="dropdown-text">Chapter 11: <code>OpenAI whisper</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./12_text-preprocessing.html">
+ <span class="dropdown-text">Chapter 12: Text Preprocessing and Featurization</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./13_dictionary-based-analysis.html">
+ <span class="dropdown-text">Chapter 13: Dictionary-based Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./14_supervised_ml.html">
+ <span class="dropdown-text">Chapter 14: Supervised Classification</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./15_unsupervised_ml.html">
+ <span class="dropdown-text">Chapter 15: Unsupervised Machine Learning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./16_word_embeddings.html">
+ <span class="dropdown-text">Chapter 16: Word Embeddings</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./17_BERT.html">
+ <span class="dropdown-text">Chapter 17: Supervised Classification using <code>BERT</code></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./18_GPT.html">
+ <span class="dropdown-text">Chapter 18: Supervised Classification using Local LLMs in R</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./19_BERTopic.html">
+ <span class="dropdown-text">Chapter 19: Unsupervised Text Classification with BERTopic</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-general-information" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">General Information</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-general-information">    
+        <li>
+    <a class="dropdown-item" href="./general_sc.html">
+ <span class="dropdown-text">Scientific Computing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./general_data.html">
+ <span class="dropdown-text">A Nice List of Data Sources</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./general_ai_usage.html">
+ <span class="dropdown-text">Guidelines on AI-Usage</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./general_exam.html">
+ <span class="dropdown-text">Course Assessment</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./general_anti_dis.html">
+ <span class="dropdown-text">Anti-Discrimination Policy</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#why-should-i-use-scientific-computing" id="toc-why-should-i-use-scientific-computing" class="nav-link" data-scroll-target="#why-should-i-use-scientific-computing">Why Should I Use Scientific Computing?</a></li>
+  </ul></li>
+  <li><a href="#registration-and-access-setup" id="toc-registration-and-access-setup" class="nav-link" data-scroll-target="#registration-and-access-setup">Registration and Access Setup</a>
+  <ul class="collapse">
+  <li><a href="#request-sc-infrastructure-access" id="toc-request-sc-infrastructure-access" class="nav-link" data-scroll-target="#request-sc-infrastructure-access"><strong>Request SC Infrastructure Access:</strong></a></li>
+  <li><a href="#accessing-the-cluster" id="toc-accessing-the-cluster" class="nav-link" data-scroll-target="#accessing-the-cluster"><strong>Accessing the Cluster:</strong></a></li>
+  </ul></li>
+  <li><a href="#workflow" id="toc-workflow" class="nav-link" data-scroll-target="#workflow">Workflow</a>
+  <ul class="collapse">
+  <li><a href="#python" id="toc-python" class="nav-link" data-scroll-target="#python">Python</a>
+  <ul class="collapse">
+  <li><a href="#basic-terminal-commands" id="toc-basic-terminal-commands" class="nav-link" data-scroll-target="#basic-terminal-commands">Basic Terminal Commands</a></li>
+  <li><a href="#module-selection" id="toc-module-selection" class="nav-link" data-scroll-target="#module-selection">Module Selection</a></li>
+  <li><a href="#creating-a-project-specific-virtual-environment" id="toc-creating-a-project-specific-virtual-environment" class="nav-link" data-scroll-target="#creating-a-project-specific-virtual-environment">Creating a Project-specific Virtual Environment</a></li>
+  <li><a href="#setting-up-kernels" id="toc-setting-up-kernels" class="nav-link" data-scroll-target="#setting-up-kernels">Setting up Kernels</a></li>
+  </ul></li>
+  <li><a href="#slurm" id="toc-slurm" class="nav-link" data-scroll-target="#slurm">Slurm</a>
+  <ul class="collapse">
+  <li><a href="#basic-slurm-commands" id="toc-basic-slurm-commands" class="nav-link" data-scroll-target="#basic-slurm-commands">Basic Slurm Commands</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#additional-topics" id="toc-additional-topics" class="nav-link" data-scroll-target="#additional-topics">Additional Topics</a>
+  <ul class="collapse">
+  <li><a href="#parallelization" id="toc-parallelization" class="nav-link" data-scroll-target="#parallelization">Parallelization</a>
+  <ul class="collapse">
+  <li><a href="#using-multiple-cores-in-r" id="toc-using-multiple-cores-in-r" class="nav-link" data-scroll-target="#using-multiple-cores-in-r">Using Multiple Cores in R</a></li>
+  <li><a href="#reproducibility" id="toc-reproducibility" class="nav-link" data-scroll-target="#reproducibility">Reproducibility</a></li>
+  <li><a href="#using-multiple-nodes" id="toc-using-multiple-nodes" class="nav-link" data-scroll-target="#using-multiple-nodes">Using Multiple Nodes</a></li>
+  <li><a href="#efficient-resource-management" id="toc-efficient-resource-management" class="nav-link" data-scroll-target="#efficient-resource-management">Efficient Resource Management</a></li>
+  </ul></li>
+  <li><a href="#github" id="toc-github" class="nav-link" data-scroll-target="#github">GitHub</a>
+  <ul class="collapse">
+  <li><a href="#connect-github-with-rstudio" id="toc-connect-github-with-rstudio" class="nav-link" data-scroll-target="#connect-github-with-rstudio">Connect GitHub With RStudio</a></li>
+  </ul></li>
+  <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting">Troubleshooting</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Scientific Computing</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 21, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This document is an updated and extended version of original work by <a href="https://felix-lennert.netlify.app/">Felix Lennert</a>, who has kindly granted us permission to adapt and share it with you.</p>
+</div>
+</div>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>This document serves as an introduction to working with the Leipzig University Computer cluster. The cluster is available for students and members of Leipzig University. You have to register first and ask for access to different resources, and then once it’s set up, you can use it for your own research purposes. It comes with a large amount of storage for your data. You can work on these using RStudio via a web app (<a href="https://rstudio01.sc.uni-leipzig.de" class="uri">https://rstudio01.sc.uni-leipzig.de</a>) and it also provides access to Python via JupyterLab (<a href="https://lab.sc.uni-leipzig.de/" class="uri">https://lab.sc.uni-leipzig.de/</a>). Furthermore, you can send jobs using Slurm.</p>
+<section id="why-should-i-use-scientific-computing" class="level2">
+<h2 class="anchored" data-anchor-id="why-should-i-use-scientific-computing">Why Should I Use Scientific Computing?</h2>
+<p>Using the computational cluster provides numerous advantages, especially when your programs can run independently without supervision and aren’t feasible to execute on your local machine. Typical scenarios include:</p>
+<ul>
+<li><p>Your script requires a significant amount of time to finish (several hours or even days).</p></li>
+<li><p>Your task demands more RAM than your local computer can provide.</p></li>
+<li><p>Your computation generates a large volume of temporary data that exceeds your local storage capabilities.</p></li>
+<li><p>You need to repeatedly execute the same code across multiple datasets or parameter combinations—especially when the number of runs is very large.</p></li>
+<li><p>You prefer to let your calculations run smoothly in the background, allowing you to enjoy downtime at the park while maintaining the satisfying feeling of productivity!</p></li>
+</ul>
+</section>
+</section>
+<section id="registration-and-access-setup" class="level1">
+<h1>Registration and Access Setup</h1>
+<p>Before utilizing the cluster, you need to register and request access to the necessary resources.</p>
+<section id="request-sc-infrastructure-access" class="level2">
+<h2 class="anchored" data-anchor-id="request-sc-infrastructure-access"><strong>Request SC Infrastructure Access:</strong></h2>
+<p>To use the SC cluster, first request access:</p>
+<ul>
+<li><p>Visit the <a href="https://www.sc.uni-leipzig.de/">Scientific Computing Knowledge Base</a>.</p></li>
+<li><p>Go to <strong>Request SC infrastructure</strong>.</p></li>
+<li><p>Complete the form with your university credentials.. A good start is to ask for <em>paula, clara, paul, jupyter, rstudio</em></p></li>
+</ul>
+<p>Approval typically takes a few hours to days.</p>
+</section>
+<section id="accessing-the-cluster" class="level2">
+<h2 class="anchored" data-anchor-id="accessing-the-cluster"><strong>Accessing the Cluster:</strong></h2>
+<p>When accessing the cluster, make sure that you are connected to the university’s internal network (i.e., you are physically in a university building and connected to the local wifi network) or use a VPN (<a href="https://www.urz.uni-leipzig.de/en/servicedesk-und-hilfe/hilfe-zu-unseren-services/netz-und-zugang/hilfe-vpn-zugang-zum-uni-netz-vpn-webvpn">instructions</a>).</p>
+<p>If this is the case, you can access the services through your web browser:</p>
+<ul>
+<li><p><strong>JupyterLab:</strong> <a href="https://lab.sc.uni-leipzig.de">lab.sc.uni-leipzig.de</a></p></li>
+<li><p><strong>RStudio:</strong> <a href="https://rstudio01.sc.uni-leipzig.de">rstudio01</a>, <a href="https://rstudio02.sc.uni-leipzig.de">rstudio02</a></p></li>
+</ul>
+<p>For submitting jobs, you need to connect to the cluster from your terminal. To do this, the most convenient way is to authenticate via SSH. SSH gives you the possibility to connect safely to another computer (the server, in our case). Then, once connected, you can control the remote machine via terminal commands. This is good for submitting jobs. Everything else (i.e., interactive coding, code testing, etc.) should be done using the web interface in JupyterLab or RStudio.</p>
+<p>Before you can authenticate using SSH, you need to create a key pair on your own machine and upload the public key to the cluster. You can find an extensive tutorial <a href="https://www.sc.uni-leipzig.de/03_System_access/Cluster/">online</a>.</p>
+<p>Once you have access, you can connect using your terminal with your SC username.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> <span class="op">&lt;</span>your_sc_username<span class="op">&gt;</span>@login01.sc.uni-leipzig.de</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="workflow" class="level1">
+<h1>Workflow</h1>
+<p>Since the RStudio web app is very similar to the IDE you can run on your own machine, the majority of this chapter will rather focus on the yet unknown – i.e., Python, the terminal, and Slurm jobs. I will first describe where and how you can register for access, then delve into daily Python workflows (i.e., basic terminal commands, authentication, choosing modules, creating project-specific environments, and setting up dedicated kernels), and then finally introduce Slurm which allows you to send “jobs” for more resource-intensive computations that you couldn’t run in a classic Jupyter Notebook.</p>
+<section id="python" class="level2">
+<h2 class="anchored" data-anchor-id="python">Python</h2>
+<p>Once you have access, you can set up your Python environment and workflows.</p>
+<p>When you access <a href="https://lab.sc.uni-leipzig.de">JupyterLab</a>, you first need to choose your server and the resources you need. <em>paul</em> has CPUs only, while <em>clara</em> and <em>paula</em> also have GPUs available.</p>
+<div id="fig-sc-landing-page" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sc-landing-page-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/clipboard-3297827436.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sc-landing-page-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: lab.sc.uni-leipzig.de landing page
+</figcaption>
+</figure>
+</div>
+<p>Once you have launched the server, you reach the “Launcher.” While you can do most of these things in the JupyterLab GUI, we recommend using terminal commands since it’s fast and – once you’ve got the hang of it – easier. In the Launcher, you can open a Terminal window by clicking “Other &gt; Terminal” (see screenshot below).</p>
+<div id="fig-launcher" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-launcher-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/clipboard-2591558725.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-launcher-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Launcher
+</figcaption>
+</figure>
+</div>
+<section id="basic-terminal-commands" class="level3">
+<h3 class="anchored" data-anchor-id="basic-terminal-commands">Basic Terminal Commands</h3>
+<p>Familiarity with basic terminal commands is essential for navigating and managing files on the cluster. Here are some common commands:</p>
+<ul>
+<li><p><code>ls</code>: List directory contents.</p></li>
+<li><p><code>cd</code>: Change the current directory, e.g., cd my_folder</p></li>
+<li><p><code>pwd</code>: Display the current directory path.</p></li>
+<li><p><code>mkdir</code>: Create a new directory (make sure you have navigated to the right folder first).</p></li>
+<li><p><code>rm</code>: Remove files or directories, e.g., rm my_file</p></li>
+</ul>
+<p>For a comprehensive list, consult the <a href="https://community.linuxmint.com/tutorial/view/244">Linux Command Reference</a>.</p>
+</section>
+<section id="module-selection" class="level3">
+<h3 class="anchored" data-anchor-id="module-selection">Module Selection</h3>
+<p>The cluster uses environment modules to manage software. To see available modules, type:</p>
+<p><code>module avail</code></p>
+<p>Then you have to choose one <em>first thing</em>. I usually go for <code>Python/3.10.8-GCCcore-12.2.0.</code> You can activate this module using <code>module load Python/3.10.8-GCCcore-12.2.0</code>. The module essentially provides the environment needed to run your code.</p>
+</section>
+<section id="creating-a-project-specific-virtual-environment" class="level3">
+<h3 class="anchored" data-anchor-id="creating-a-project-specific-virtual-environment">Creating a Project-specific Virtual Environment</h3>
+<p>Then you will want to create a virtual environment for your dedicated project. The virtual environment allows you to install the relevant Python packages that you will need, keeping your Python distribution clean and ensuring that you will not run into compatibility issues between packages.</p>
+<p>For creating a virtual environment, you can use the terminal. First, navigate to your project’s folder (make sure to create it first), then create the environment using <code>venv</code>, and finally activate it.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> project_folder </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> project_folder </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> venvmy_project_env </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> my_project_env/bin/activate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Once it is activated, you can start installing the packages you require using <code>pip</code> (e.g., <code>pip install pandas</code>).</p>
+</section>
+<section id="setting-up-kernels" class="level3">
+<h3 class="anchored" data-anchor-id="setting-up-kernels">Setting up Kernels</h3>
+<p>To make your life easier in the JupyterLab, you should set up a dedicated kernel in your JupyterLab. The kernel runs in the background of your notebook, takes your code, processes it, and finally returns the results. Each notebook is connected to one kernel and the kernel defines the language and environment the notebook runs in.</p>
+<p>You can set up a dedicated kernel as follows: first, activate your environment, second, install <code>ipykernel</code>, third, create the Jupyter kernel containing your environment, you can change the name in the final argument after <code>display-name</code>.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> my_project_env/bin/activate </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install ipykernel </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> ipykernel install <span class="at">--user</span> <span class="at">--name</span><span class="op">=</span>my_project_env <span class="at">--display-name</span> <span class="st">"Python 3.9 (my_project_env)"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Once this is done, in the future, you will have to choose your module first – matching the Python version of your kernel (e.g., load a Python 3.9 module if your kernel uses Python 3.9). Then you can click one of the buttons (see screenshot) – depending on the environment you want to work with – and start coding.</p>
+<div id="fig-jupyter-launcher" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-jupyter-launcher-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/clipboard-3917215611.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-jupyter-launcher-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Laucher with loaded modules
+</figcaption>
+</figure>
+</div>
+<p>Find <a href="https://www.sc.uni-leipzig.de/05_Instructions/Jupyter/">more information here.</a></p>
+</section>
+</section>
+<section id="slurm" class="level2">
+<h2 class="anchored" data-anchor-id="slurm">Slurm</h2>
+<p>Slurm (Simple Linux Utility for Resource Management) is a powerful job scheduling system used on HPC (High-Performance Computing) clusters to manage and allocate resources among users. Job here means that if you have a script that needs to run for longer, e.g., classifying large amounts of text or comparable things, you can set this up <em>as a job</em>. This allows the server to manage its resources better by distributing the different jobs all over the cluster.</p>
+<p>Here’s a quick guide on the basic Slurm commands to help you submit, monitor, and manage jobs.</p>
+<p><strong>The Script</strong></p>
+<p>A Slurm job script is a shell script with Slurm-specific options defined at the beginning. Here’s an example template:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash eval=FALSE </span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=02:30:00                       # allocated time (check max. time limit!)</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=128G                            # required memory </span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks=1                            # number of tasks </span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=myJob                      # job name </span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=clara                     # the server partition you want to work on </span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --gpus=v100:1                         # the gpu you need, ":1" stands for one gpu required </span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mail-type=</span><span class="re">END</span><span class="co">                       # sending you an email once it's done </span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mail-user=[username]@uni-leipzig.de # your email </span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=$HOME/jobfiles/log/%x.out-%j # where you want your log file</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># load modules </span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> purge </span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load Python/3.11.5-GCCcore-13.2.0 </span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load CUDA/12.1.1 </span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Activate the virtual environment </span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> /home/sc.uni-leipzig.de/<span class="pp">[</span><span class="ss">username</span><span class="pp">]</span>/venv/bertopic_env/bin/activate </span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Confirm the Python version and environment being used </span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">--version</span> </span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span> python </span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the Python </span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="ex">script</span> python /home/sc.uni-leipzig.de/<span class="pp">[</span><span class="ss">username</span><span class="pp">]</span>/bertopic_scripts/script_1.py </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="basic-slurm-commands" class="level3">
+<h3 class="anchored" data-anchor-id="basic-slurm-commands">Basic Slurm Commands</h3>
+<p>To submit a job, first connect to the server via ssh. Then you can use the following commands:</p>
+<ul>
+<li><p><strong>Submitting a Job:</strong> To submit a job, use the sbatch command.</p>
+<p><code>batch job_script.sh</code></p>
+<p>This command sends the job script to Slurm, which then schedules the job to run on available resources.</p></li>
+<li><p><strong>Checking Job Status:</strong> To check the status of your submitted jobs, use:</p>
+<p><code>squeue -u [your_username]</code></p>
+<p>Replace <code>[your_username]</code> with your actual username. This will display all jobs you have running or queued on the cluster.</p></li>
+<li><p><strong>Cancelling a Job:</strong> To cancel a job, use:</p>
+<p><code>scancel [job_id]</code></p>
+<p>Replace <code>[job_id]</code> with the actual ID of the job that you defined in the script. You can also find the job ID <code>using squeue</code> .</p></li>
+<li><p><strong>Monitoring Resource Usage:</strong> You can monitor resource usage and efficiency with commands like:</p>
+<p><code>sacct -j [job_id]</code></p>
+<p>This command provides detailed information about your job, including CPU and memory usage. Replace <code>[job_id]</code> with your job’s ID.</p></li>
+</ul>
+<p>So, in practice:</p>
+<p>First, write your Python script and test it with a small sample of your data in “interactive coding mode” in the JupyterLab. This will also give you an idea of how much time your job will require. Then, refine the script so that it takes the full data and build the Slurm script in your text editor (needs to be an .sh file)</p>
+<p>Once you’ve created your Slurm job script, you can log in via SSH and submit the script using:</p>
+<p><code>sbatch job_script.sh</code></p>
+<p>After submitting, you can use <code>squeue</code> to check its status or <code>scancel</code> if you need to stop it. Monitoring with <code>sacct</code> will help you optimize resource requests for future jobs, making your submissions more efficient and improving queue times.</p>
+<p>Happy coding.</p>
+</section>
+</section>
+</section>
+<section id="additional-topics" class="level1">
+<h1>Additional Topics</h1>
+<section id="parallelization" class="level2">
+<h2 class="anchored" data-anchor-id="parallelization">Parallelization</h2>
+<p>A major advantage of using the scientific cluster instead of your local machine is its powerful hardware resources. Tasks that might take hours or even days on your computer can often be greatly accelerated through parallelization. Parallelization typically involves two main strategies:</p>
+<ul>
+<li><p><strong>Using multiple CPU cores:</strong> Splitting computations across several cores to perform tasks simultaneously.</p></li>
+<li><p><strong>Using multiple nodes:</strong> Each node is essentially a separate virtual computer. If your task can be divided into completely independent parts (e.g., running the same script multiple times with different parameters), distributing the tasks across multiple nodes can significantly enhance efficiency.</p></li>
+</ul>
+<p>Keep in mind, however, that the SC cluster’s resources (cores, nodes, RAM, and execution time) are limited. Always check current resource constraints before running large-scale parallel tasks.</p>
+<section id="using-multiple-cores-in-r" class="level3">
+<h3 class="anchored" data-anchor-id="using-multiple-cores-in-r">Using Multiple Cores in R</h3>
+<p>Basically there are two ways how to distribute your work on several cores:</p>
+<ul>
+<li><p><strong>Multicore:</strong></p>
+<ul>
+<li><p>Uses the Unix <strong>fork()</strong> system call to create child processes.</p></li>
+<li><p>Child processes share the same memory space initially (copy-on-write), which can make it more memory‑efficient and slightly lower in overhead.</p></li>
+<li><p>It’s very fast for CPU-bound tasks that are fork‐safe.</p></li>
+<li><p>However, not all packages or code are fork‑safe (side effects or open connections may be problematic).</p></li>
+<li><p>Not available on Windows.</p></li>
+</ul></li>
+</ul>
+<!-- -->
+<ul>
+<li><p><strong>Multisession:</strong></p>
+<ul>
+<li><p>Starts <strong>separate R sessions</strong> as workers (via PSOCK clusters).</p></li>
+<li><p>Each session is completely independent (does not share memory with the main session), so data must be copied to each worker.</p></li>
+<li><p>This can incur a bit more overhead compared to multicore, but it tends to be more robust with packages that aren’t fork‑safe.</p></li>
+<li><p>It works consistently across platforms (including Windows).</p></li>
+</ul></li>
+</ul>
+<p>In the following we take a look at both approaches.</p>
+<section id="the-parallel-package" class="level4">
+<h4 class="anchored" data-anchor-id="the-parallel-package">The <code>parallel</code> Package</h4>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>These functions rely on forking, which is not supported on Windows. However, if you’d like to use them, the web-based R system runs on Linux, where forking is fully supported.</p>
+</div>
+</div>
+<p>The simplest method for parallelization in R is the <code>parallel</code> library that comes with base R, specifically the function <code>mclapply</code>, which automatically distributes tasks across multiple cores:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parallel)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># generate 32 tasks </span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>tasks <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">32</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># assinge a maximum of 16 cores</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>cores_max <span class="ot">=</span> <span class="dv">16</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># mclapply generates a list. </span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">mclapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(tasks), <span class="cf">function</span>(i) {</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  tasks[i]<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>}, <span class="at">mc.cores =</span> cores_max)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>mclapply</code> returns a sorted list with each task’s result. If there are more tasks than cores, it automatically assigns new tasks to cores as they become available.</p>
+<p>When using parallel processing, variables created or modified inside the parallel function are independent copies. For example:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parallel)  </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># generate 32 tasks  </span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>tasks  <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">32</span> </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>number <span class="ot">=</span> <span class="dv">2</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># assinge a maximum of 16 cores </span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>cores_max <span class="ot">=</span> <span class="dv">16</span>  </span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># mclapply generates a list.  </span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">mclapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(tasks), <span class="cf">function</span>(i) {</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  number <span class="ot">&lt;-</span> number <span class="sc">*</span> <span class="dv">2</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  number</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>}, <span class="at">mc.cores =</span> cores_max)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>number</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">unlist</span>(results))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In this case, the original number remains unchanged because, when you call <code>number &lt;- number * 2</code>, a local copy of <code>number</code> is created. Keep this in mind if your calculations involve a large dataset.</p>
+<p>For example, if you have a 5 GB dataset, everything is fine as long as you don’t modify it. However, the moment a process running on a core makes changes, it will create its own copy of the data, which can significantly increase memory usage.</p>
+</section>
+<section id="the-future.apply-package" class="level4">
+<h4 class="anchored" data-anchor-id="the-future.apply-package">The <code>future.apply</code> Package</h4>
+<p>Another simple method for parallelization in R without the Windows restriction is the <code>future.apply</code> library that must be installed manually.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future.apply)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># generate 32 tasks  </span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>tasks  <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">32</span> </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>number <span class="ot">=</span> <span class="dv">2</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># assinge a maximum of 16 cores </span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>cores_max <span class="ot">=</span> <span class="dv">16</span>  </span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># mclapply generates a list.  </span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Set up parallel plan</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> cores_max)  <span class="co"># Use "multicore" for Unix/macOS</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">future_lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(tasks), <span class="cf">function</span>(i) {</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  number <span class="ot">&lt;-</span> number <span class="sc">*</span> <span class="dv">2</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  number</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>number</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">unlist</span>(results))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="reproducibility" class="level3">
+<h3 class="anchored" data-anchor-id="reproducibility">Reproducibility</h3>
+<p>Reproducibility is crucial in computational social science. When using parallel processing, managing random seeds properly ensures consistent and reproducible results. The example below demonstrates how different seed-setting approaches affect the reproducibility of parallel computations using the <code>parallel</code> package in R.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parallel)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define seed and tasks</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>seed  <span class="ot">=</span> <span class="dv">1234</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>tasks <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">32</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign a maximum of 16 cores</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>cores_max <span class="ot">=</span> <span class="dv">16</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Case 1: Setting seed before `mclapply` with `mc.set.seed = TRUE` (default)</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co"># A new seed is generated for each core, resulting in different outputs across runs</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(seed)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>results1 <span class="ot">&lt;-</span> <span class="fu">mclapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(tasks), <span class="cf">function</span>(i) {</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rpois</span>(<span class="dv">1</span>, <span class="at">lambda =</span> <span class="dv">5</span>) <span class="co"># Poisson-distributed random integer</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>}, <span class="at">mc.cores =</span> cores_max, <span class="at">mc.set.seed =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Case 2: Setting seed before `mclapply` with `mc.set.seed = FALSE`</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co"># The seed from the current R session is used for each core, leading to consistent but non-identical results</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(seed)</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>results2 <span class="ot">&lt;-</span> <span class="fu">mclapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(tasks), <span class="cf">function</span>(i) {</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rpois</span>(<span class="dv">1</span>, <span class="at">lambda =</span> <span class="dv">5</span>) <span class="co"># Poisson-distributed random integer</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>}, <span class="at">mc.cores =</span> cores_max, <span class="at">mc.set.seed =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Case 3: Setting the seed within `mclapply`</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensures consistent and reproducible results across runs</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>results3 <span class="ot">&lt;-</span> <span class="fu">mclapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(tasks), <span class="cf">function</span>(i) {</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(seed)</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rpois</span>(<span class="dv">1</span>, <span class="at">lambda =</span> <span class="dv">5</span>) <span class="co"># Poisson-distributed random integer</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>}, <span class="at">mc.cores =</span> cores_max)</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the results</span></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">unlist</span>(results1))</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">unlist</span>(results2))</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">unlist</span>(results3))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If we run this code some times we can make the following observations:</p>
+<p><strong>Results 1:</strong></p>
+<ul>
+<li><p>The random values in <code>results1</code> differ not only from each other but also between runs.</p></li>
+<li><p>This is because <code>mc.set.seed = TRUE</code> generates a new seed for each core at runtime, leading to non-reproducible outcomes.</p></li>
+</ul>
+<p><strong>Results 2:</strong></p>
+<ul>
+<li><p>The random values in <code>results2</code> are stable within a session but vary between tasks.</p></li>
+<li><p>This happens because the initial session seed is used, but since there are more tasks than cores, each core generates different values across runs.</p></li>
+<li><p>In more complex simulations, this could lead to inconsistencies.</p></li>
+</ul>
+<p><strong>Results 3:</strong></p>
+<ul>
+<li><p>The values in <code>results3</code> are identical across tasks and consistent between runs.</p></li>
+<li><p>Setting the seed explicitly within <code>mclapply</code> ensures full reproducibility.</p></li>
+</ul>
+<p>To guarantee reproducible results, set the seed explicitly within the <code>mclapply</code> function (as in <code>results3</code>). This approach ensures that each core uses the same seed consistently across runs, leading to stable and reliable outputs. If you want reproducible results but also variation, you can do something like <code>set.seed(seed+1)</code>.</p>
+</section>
+<section id="using-multiple-nodes" class="level3">
+<h3 class="anchored" data-anchor-id="using-multiple-nodes">Using Multiple Nodes</h3>
+<p>Parallelization across multiple nodes involves specialized setups, typically managed by Slurm. Below is an example of how to perform parallel computations across multiple nodes using an R script and Slurm. For detailed guidance, refer to the <a href="https://www.sc.uni-leipzig.de/05_Instructions/Slurm/">Slurm documentation</a>.</p>
+<p>First, create an R script (<code>script_run_sim.R</code>) that can handle task-specific input arguments:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>args     <span class="ot">&lt;-</span> <span class="fu">commandArgs</span>(<span class="at">trailingOnly =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>task_id  <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(args[<span class="dv">1</span>]) </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">my_calculation_function</span>(task_id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Next, set up your Slurm job script (<code>run_script.job</code>) to manage parallel tasks efficiently:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=logs/%x_%A_%a.out   # Standard output (includes job name and ID)</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --error=logs/%x_%A_%a.err    # Standard error</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=24:00:00</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=64G</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks=1                    </span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --array=1-10                 # We will run 10 tasks</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=16           # choose here how many cpus you need</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=my_job</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=paul</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">OMP_NUM_THREADS</span><span class="op">=</span><span class="va">$SLURM_CPUS_PER_TASK</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load R</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> script_run_sim.R <span class="va">$SLURM_ARRAY_TASK_ID</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In the terminal we enter now</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> run_script.job</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="efficient-resource-management" class="level3">
+<h3 class="anchored" data-anchor-id="efficient-resource-management">Efficient Resource Management</h3>
+<p>Efficient management of computational resources is crucial. As of 2025-03-20, the “paul” server consists of 32 nodes, each equipped with 2 CPUs containing 64 cores each (128 cores per node), and a total of 512 GB RAM per node. Each core can be allocated a maximum of 8 GB of memory. Thus, you could theoretically run your script on 128 cores with 4 GB RAM each, or on 64 cores with the full 8 GB RAM. However, requesting large amounts of resources, such as an entire node, typically results in extended waiting periods, since your job would need to wait until the full node becomes available. To enhance scheduling efficiency, it is often better to request fewer resources (e.g., 16 or 24 cores), as partial nodes become available more frequently. Finding a balance between resource requests and acceptable wait times is essential for optimizing the efficiency of your computations.</p>
+</section>
+</section>
+<section id="github" class="level2">
+<h2 class="anchored" data-anchor-id="github">GitHub</h2>
+<p>GitHub is an excellent tool for enhancing your workflow with SC. It also serves as a crucial safety net in case you accidentally overwrite or delete a file, or if the SC cluster crashes and files are permanently lost (which has happened recently!).</p>
+<p>Having a secure backup for your valuable scripts (and possibly your results) is essential. We strongly expect you to store your scripts with at least one layer of redundancy — this is not optional. Make sure your work is protected so you’re never in a position where you have to explain why it’s missing.</p>
+<section id="connect-github-with-rstudio" class="level3">
+<h3 class="anchored" data-anchor-id="connect-github-with-rstudio">Connect GitHub With RStudio</h3>
+<p>Git should already be installed on RStudio Server. Therefore, first we tell RStudio to use git. Open <strong>Tools ▸ Global Options ▸ Git/SVN</strong>, tick <strong>Enable version control interface</strong>, and make sure the <em>Git executable</em> path is filled in.</p>
+<p>Now open the terminal (Alt + Shift + R) and identify yourself.</p>
+<pre><code>git config --global user.name  "Jane&nbsp;Doe" 
+git config --global user.email "jane@example.com"</code></pre>
+<p>Replace <em>Jane&nbsp;Doe</em> with the exact name and e‑mail associated with your GitHub account.</p>
+<p>Now we have to switch to the console and create a <strong>Personal Access Token (PAT).</strong></p>
+<pre><code>install.packages(c("usethis", "gitcreds")) 
+usethis::create_github_token()   # opens the PAT page in your browser</code></pre>
+<p>In the browser choose the <strong>repo, user, workflow</strong> scopes, click <strong>Generate token</strong>, and copy the 40‑character token.</p>
+<p>Then back in RStudio Server and type:</p>
+<pre><code>gitcreds::gitcreds_set()         # paste the token when prompted</code></pre>
+<p>RStudio/Git will now will have the token stored. And you are good to go!</p>
+</section>
+</section>
+<section id="troubleshooting" class="level2">
+<h2 class="anchored" data-anchor-id="troubleshooting">Troubleshooting</h2>
+<p>If your code suddenly stops working even though it was running fine before, and you’re not sure why, check the <a href="https://www.sc.uni-leipzig.de/00_Status/status/">status of the services</a> or the <a href="https://portal.sc.uni-leipzig.de/node-information">specific nodes</a> involved. Sometimes the issue is simply due to cluster problems.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/fellennert\.github\.io\/toolbox_css\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Original materials © 2025 Felix Lennert (<a href="https://felix-lennert.netlify.app/">website</a>). Adapted and maintained by (Sascha Grehl)[sascha.grehl@uni-leipzig.de], 2026.</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
