@@ -9,7 +9,7 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - text: Lectures
+      - text: Weeks
         menu:
           - href: lectures-overview.qmd
           - href: lectures-week_1.qmd
@@ -27,7 +27,7 @@ website:
           - href: lectures-week_13.qmd
           - href: lectures-week_14.qmd
           - href: lectures-week_15.qmd                                        
-      - text: CSS Handbook (R Script)
+      - text: CSS Handbook (R Scripts & Videos)
         menu: 
           - href: 1_r_index.qmd
           - href: 2_r_catch-up.qmd

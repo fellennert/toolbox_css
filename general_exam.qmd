@@ -1,0 +1,34 @@
+---
+title: "Course Assessment"
+date: "2026-10-21"
+---
+
+# Course assessment (Prüfungsleistung)
+
+At the end of the semester, you are expected to write a term paper (*Hausarbeit*), which will determine your final grade. Your paper will be evaluated as if it were a manuscript submitted to a scientific journal.
+
+## General Information
+
+-   **Length:** 5000 words (± 10%, approximately 15 pages, excluding the title page, references, and tables)
+-   **Formatting:**
+    -   12 pt font size
+    -   1.5 line spacing
+    -   Justified text alignment
+-   **Language:** German or English (American or British)
+-   **Structure:** Write it like a scientific paper. Include an abstract, but [no table of contents]{.underline}. Ensure that your figures are informative and that tables are compact and free from redundancies.
+-   **Tone:** Use precise and professional scientific language. Clearly motivate your work and place it within the context of existing literature.
+-   **Deadline: March 19th**
+
+## Topic
+
+You are essentially free to choose any topic that connects to one of our courses. However, keep in mind that different types of projects will naturally require different levels of effort for different parts of the term paper.
+
+-   The more complex your **data acquisition** is, the less complex your **data analysis** can be. In theory, there could even be extreme cases where a very complex data acquisition process means that no data analysis is required (e.g., if the script runs for months scraping data that cannot be used before the end of the semester).
+
+-   On the other hand, if you use an existing dataset (where data preparation is straightforward), we will expect a more in-depth and sophisticated statistical analysis.
+
+In general: **talk to us** — we will help you determine whether your project is too ambitious or too simple, where to focus your effort, and how to balance the workload. Also, keep in mind that your term paper can be the foundation for a larger, more complex project (e.g., your master’s thesis).
+
+# Use of AI for the problem sets and the term paper
+
+If you chose to use AI-Applications for assignments that you hand in in this course, please document what and for what tasks you applied help. You can either do this by writing a statement of your own or you could also use AI-documentation tools like the [**AI-Usage-Cards**](https://ai-cards.org/) by the University of Göttingen.

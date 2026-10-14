@@ -1,0 +1,15 @@
+{
+  "hash": "66f7f36d8ba8bfdedd8052591c3ad438",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Week 15: Presentation & Wrap Up Week\"\npublished-title: week_15\nengine: knitr\nfreeze: auto\n---\n\nThis week on both sessions, we will have the final presentations of your projects. Depending on the number of groups, each group will have between 8 or 15 minutes to present their project and findings, followed by a 4-minute Q&A session. Please ensure that your presentation is clear, concise, and well-structured.\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

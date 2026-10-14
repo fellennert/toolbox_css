@@ -1,0 +1,15 @@
+{
+  "hash": "3182aa397ae26065c8ff728df6a7f4b6",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Week 12: \"\npublished-title: week_12\nengine: knitr\nfreeze: auto\n---\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

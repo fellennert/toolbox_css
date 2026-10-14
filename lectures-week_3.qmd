@@ -5,6 +5,12 @@ engine: knitr
 freeze: auto
 ---
 
+## Practiacal (Wednesday)
+
+
+## Lecture (Thursday)
+
+
 This lecture answers the following questions:
 
 - Why will Regexes change your life? (not in slides, code script only.)

@@ -1,9 +1,15 @@
 ---
-title: "Week 1: What Is Computational Social Science (CSS)?"
+title: "Week 1: Kick-off"
 published-title: week_1
 engine: knitr
 freeze: auto
 ---
+
+## Practiacal (Wednesday)
+
+Kick-off session: lets get to know each other and the course.
+
+## Lecture (Thursday)
 
 This lecture answers the following questions:
 
@@ -11,7 +17,7 @@ This lecture answers the following questions:
 - Which principles underly a new CSS?
 - Which methods does CSS encompass?
 
-## Slides 
+### Slides 
 
 Please click [here to download the latest version of the slides](./slides/20251014-intro.pdf).
 

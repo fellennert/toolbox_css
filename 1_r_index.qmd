@@ -9,13 +9,15 @@ csl: ASA.csl
 
 Dear student,
 
-if you read this script, you are either participating in one of my courses on digital methods for the social sciences, or at least interested in this topic. If you have any questions or remarks regarding this script, hit me up at [felix.lennert\@uni-leipzig.de](mailto:felix.lennert@uni-leipzig.de).
+If you are reading this script, you are either participating in our course on digital methods for the social sciences or interested in the topic. This script was originally developed by Felix Lennert, and I am grateful to him for generously sharing his materials and making it possible for me to take over the course at short notice. You can learn more about Felix and his work on [his website](https://felix-lennert.netlify.app/). I now maintain and adapt these materials for the course. If you have any questions or suggestions, please contact me at [sascha.grehl\@uni-leipzig.de](mailto:sascha.grehl@uni-leipzig.de).[^1]
 
-This script will introduce you to techniques I regard as elementary for any aspiring (computational) social scientist: the collection of digital trace data via either scraping the web or acquiring data from application programming interfaces (APIs), the analysis of text in an automated fashion (text mining), the analysis and visualization of spatial data, and the modeling of human behavior *in silico* (agent-based modeling).
+[^1]: Since I (Sascha) took over the course at short notice, I have updated the materials as thoroughly as possible. However, some first-person references (“I,” “my,” etc.) may still refer to Felix, who originally developed them. Please bear this in mind if you come across anything that seems inconsistent.
+
+This script will introduce you to techniques We regard as elementary for any aspiring (computational) social scientist: the collection of digital trace data via either scraping the web or acquiring data from application programming interfaces (APIs) and the analysis of text in an automated fashion (text mining). <!-- , the analysis and visualization of spatial data, and the modeling of human behavior *in silico* (agent-based modeling). --->
 
 The following chapters draw heavily on packages from the `tidyverse` [@wickham_welcome_2019] and related packages. If you have not acquired sufficient familiarity yet, you can have a look at the excellent book [R for Data Science](https://r4ds.hadley.nz) [@wickham_data_2023].
 
-I have added brief videos to each section. In these, I will briefly go through the code of the respective section and show a bit of what's going on in there. I sometimes spontaneously elaborate a bit more on the examples at hand or show things in the data, so they may add some value. However, the script should be sufficient to provide you an understanding the concepts I introduce.
+Felix has added brief videos to each section. In these, he will briefly go through the code of the respective section and show a bit of what's going on in there. He sometimes spontaneously elaborate a bit more on the examples at hand or show things in the data, so they may add some value. However, the script should be sufficient to provide you an understanding the concepts we introduce.
 
 ## Outline
 
@@ -27,7 +29,7 @@ Chapter 3, 4, and 5 introduce Python and the `reticulate` package, which allows 
 
 Chapter 6, "`stringr` and RegExes," deals with string manipulation using, you guessed it, `stringr` and RegExes.
 
-Chapters 7 and 8, "Crawling the Web and Extracting Data" and "APIs," introduce the reader to the basics of `rvest`, HTML, and CSS selectors and how these can be used to acquire data from the web. Moreover, I introduce the `httr` package and explain how you can use it to make requests to APIs.
+Chapters 7 and 8, "Crawling the Web and Extracting Data" and "APIs," introduce the reader to the basics of `rvest`, HTML, and CSS selectors and how these can be used to acquire data from the web. Moreover, we introduce the `httr` package and explain how you can use it to make requests to APIs.
 
 Chapter 9, "`selenium`," introduces `selenium`, a Python package that allows you to control a "headless browser" -- this is invaluable if you want to scrape dynamic web sites. It will also feature an introduction to `reticulate`, an R package that allows you to use Python code in an R environment.
 
@@ -49,4 +51,4 @@ Chapter 17, "BERT" demonstrates how you can use BERT for supervised classificati
 
 Chapter 18, "Local LLMs," introduces local large language models (LLMs) and showcases how you can use them for information extraction.
 
-All chapters try to deal with social scientific examples. Data sets will be provided via Dropbox, therefore the script shall run more or less out of the box. I tried to include "Further links" for the avid readers or the ones that are dissatisfied with my coverage of the content. Exercises are included, the respective solutions will be added as the course unfolds (except for the R recap, please contact me in case you are interested).
+All chapters try to deal with social scientific examples. Data sets will be provided via Dropbox, therefore the script shall run more or less out of the box. We tried to include "Further links" for the avid readers or the ones that are dissatisfied with my coverage of the content. Exercises are included, the respective solutions will be added as the course unfolds (except for the R recap, please contact me in case you are interested).

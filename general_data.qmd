@@ -1,0 +1,8 @@
+---
+title: "A Nice List of Data Sources"
+date: "2025-03-21"
+---
+
+Data is truly the bread and butter of Computational Social Sciences—without it, we'd be cooking up theories with empty pans! To keep your research kitchen well-stocked, we've curated a list of data sources to fuel your computational explorations. We encourage you to adding your own favorite data sources. After all, science thrives best when everyone brings something to the table.
+
+You can find (and contribute to!) the complete list in the following [Docs document](https://docs.numerique.gouv.fr/docs/e9d02d65-0de2-468d-8592-7d4f5365ae87/).

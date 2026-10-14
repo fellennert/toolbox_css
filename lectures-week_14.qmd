@@ -1,0 +1,8 @@
+---
+title: "Week 14: Presentation Preparation Week"
+published-title: week_14
+engine: knitr
+freeze: auto
+---
+
+Each group works on their presentation! Attendance in both sessions is optional. We will be available for questions and guidance.
