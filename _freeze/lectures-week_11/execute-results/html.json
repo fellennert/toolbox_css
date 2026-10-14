@@ -1,9 +1,11 @@
 {
-  "hash": "9ddccf4f0c8d951ed2abd82e66211ba8",
+  "hash": "fecff0e17760177140a8d24b2c70d618",
   "result": {
     "engine": "knitr",
-    "markdown": "---\ntitle: \"Week 11: \"\npublished-title: week_11\nengine: knitr\nfreeze: auto\n---\n\n",
-    "supporting": [],
+    "markdown": "---\ntitle: \"Week 11/12: Supervised Learning with BERT\"\npublished-title: week_11\nengine: knitr\nfreeze: auto\n---\n\n## Lecture (Thursday): Supervised Learning on Steroids: BERT\n\n### Slides \n\n\n## Practical (Wednesday): Active Learning with BERT\n\n* Time to fine-tune a BERT model for your own classification task. Please follow the instructions in the [CSS Handbook Chapter 17](https://fellennert.github.io/toolbox_css/17_BERT.html).",
+    "supporting": [
+      "lectures-week_11_files"
+    ],
     "filters": [
       "rmarkdown/pagebreak.lua"
     ],

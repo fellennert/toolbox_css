@@ -7,9 +7,9 @@
     "text": "Kick-off session: lets get to know each other and the course."
   },
   {
-    "objectID": "lectures-week_1.html#practiacal-wednesday",
-    "href": "lectures-week_1.html#practiacal-wednesday",
-    "title": "Week 1: Kick-off",
+    "objectID": "lectures-week_1.html#practical-wednesday",
+    "href": "lectures-week_1.html#practical-wednesday",
+    "title": "Week 1/2: Kick-off",
     "section": "",
     "text": "Kick-off session: lets get to know each other and the course."
   },
@@ -21,18 +21,32 @@
     "text": "Lecture (Thursday)\nCancelled. Take some time for introspection, meditate, and reflect on your research question."
   },
   {
-    "objectID": "lectures-week_10.html",
-    "href": "lectures-week_10.html",
-    "title": "Week 10: BERTopic and Topic Modeling with Transformers",
-    "section": "",
-    "text": "This week answers the following questions:"
+    "objectID": "lectures-week_1.html#practical-wednesday-setting-up-your-workstation",
+    "href": "lectures-week_1.html#practical-wednesday-setting-up-your-workstation",
+    "title": "Week 1/2: Kick-off",
+    "section": "Practical (Wednesday): Setting up your workstation",
+    "text": "Practical (Wednesday): Setting up your workstation\n\nPreparing everything for Scientific Computing\n\nAcquire access to sc.uni-leipzig.de\nGet a Github account if you don’t have one yet\nConnect your PC and the SC Account with your Github account\n\nR recap (the corresponding chapters can be found in the R4DS book – _online)\n\nRMarkdown/Quarto – chapters 28 & 29\ndplyr – chapter 4\ntidyr – chapter 6\nggplot2 – chapters 2 & 10 & 11 & 12\npurrr & loops in different flavors – chapter 27\nfunctional programming – chapter 26\nset up reticulate in RStudio – online"
   },
   {
-    "objectID": "lectures-week_10.html#slides",
-    "href": "lectures-week_10.html#slides",
-    "title": "Week 10: BERTopic and Topic Modeling with Transformers",
-    "section": "Slides",
-    "text": "Slides\nThere are no slides, just the coding script."
+    "objectID": "lectures-week_10.html",
+    "href": "lectures-week_10.html",
+    "title": "Week 10/11: Word Embeddings",
+    "section": "",
+    "text": "This week answers the following questions:\n\nWhat are word embeddings?\nHow do they lend themselves to sociological inquiry?\n\n\n\nSlides can be found here.\nAlternatively, read them here (probably not the best if you’re visiting this page on a mobile device):"
+  },
+  {
+    "objectID": "lectures-week_10.html#lecture-thursday-word-embeddings",
+    "href": "lectures-week_10.html#lecture-thursday-word-embeddings",
+    "title": "Week 10/11: Word Embeddings",
+    "section": "",
+    "text": "This week answers the following questions:\n\nWhat are word embeddings?\nHow do they lend themselves to sociological inquiry?\n\n\n\nSlides can be found here.\nAlternatively, read them here (probably not the best if you’re visiting this page on a mobile device):"
+  },
+  {
+    "objectID": "lectures-week_10.html#practical-wednesday-word-embeddings",
+    "href": "lectures-week_10.html#practical-wednesday-word-embeddings",
+    "title": "Week 10/11: Word Embeddings",
+    "section": "Practical (Wednesday): Word Embeddings",
+    "text": "Practical (Wednesday): Word Embeddings\n\nCSS Handbook Chapter 16."
   },
   {
     "objectID": "9_apis.html",
@@ -107,51 +121,65 @@
   {
     "objectID": "lectures-week_9.html",
     "href": "lectures-week_9.html",
-    "title": "Week 9: Transfer Learning and LLMs in the Social Sciences",
+    "title": "Week 9/10: Unsupervised Machine Learning",
     "section": "",
-    "text": "This week answers the following questions:"
+    "text": "This week answers the following questions:\n\nWhat are word embeddings?\nHow do they lend themselves to sociological inquiry?\n\n\n\nSlides can be found here.\nAlternatively, read them here (probably not the best if you’re visiting this page on a mobile device):"
   },
   {
-    "objectID": "lectures-week_9.html#slides",
-    "href": "lectures-week_9.html#slides",
-    "title": "Week 9: Transfer Learning and LLMs in the Social Sciences",
-    "section": "Slides",
-    "text": "Slides\nTuesday’s slides can be found here.\nAlternatively, read them here (probably not the best if you’re visiting this page on a mobile device):"
+    "objectID": "lectures-week_9.html#lecture-thursday-unsupervised-machine-learning",
+    "href": "lectures-week_9.html#lecture-thursday-unsupervised-machine-learning",
+    "title": "Week 9/10: Unsupervised Machine Learning",
+    "section": "",
+    "text": "This week answers the following questions:\n\nWhat are word embeddings?\nHow do they lend themselves to sociological inquiry?\n\n\n\nSlides can be found here.\nAlternatively, read them here (probably not the best if you’re visiting this page on a mobile device):"
+  },
+  {
+    "objectID": "lectures-week_9.html#practical-wednesday-unsupervised-ml-in-practice",
+    "href": "lectures-week_9.html#practical-wednesday-unsupervised-ml-in-practice",
+    "title": "Week 9/10: Unsupervised Machine Learning",
+    "section": "Practical (Wednesday): Unsupervised ML in Practice",
+    "text": "Practical (Wednesday): Unsupervised ML in Practice\n\nCSS Handbook Chapter 15."
   },
   {
     "objectID": "lectures-week_2.html",
     "href": "lectures-week_2.html",
-    "title": "Week 2: Refresher",
+    "title": "Week 2/3: Refresher & RegEx",
     "section": "",
-    "text": "Preparing everything for Scientific Computing\n\nAcquire access to sc.uni-leipzig.de\nGet a Github account if you don’t have one yet\nConnect your PC and the SC Account with your Github account\n\nR recap (the corresponding chapters can be found in the R4DS book – _online)\n\nRMarkdown/Quarto – chapters 28 & 29\ndplyr – chapter 4\ntidyr – chapter 6\nggplot2 – chapters 2 & 10 & 11 & 12\npurrr & loops in different flavors – chapter 27\nfunctional programming – chapter 26\nset up reticulate in RStudio – online"
+    "text": "This week, we will deal with the following questions:\n\nWhat are regular expressions (RegEx) and how can I use them in R?\nHow do string manipulations in R work?\nWhat is the tidyverse style of programming and why should I care about it?\nWhy are functional programming and loops important in R?"
   },
   {
-    "objectID": "lectures-week_2.html#practiacal-wednesday",
-    "href": "lectures-week_2.html#practiacal-wednesday",
-    "title": "Week 2: Refresher",
+    "objectID": "lectures-week_2.html#lecture-thursday-refresher-regex",
+    "href": "lectures-week_2.html#lecture-thursday-refresher-regex",
+    "title": "Week 2/3: Refresher & RegEx",
     "section": "",
-    "text": "Kick-off session: lets get to know each other and the course."
+    "text": "This week, we will deal with the following questions:\n\nWhat are regular expressions (RegEx) and how can I use them in R?\nHow do string manipulations in R work?\nWhat is the tidyverse style of programming and why should I care about it?\nWhy are functional programming and loops important in R?"
   },
   {
-    "objectID": "lectures-week_2.html#lecture-thursday",
-    "href": "lectures-week_2.html#lecture-thursday",
-    "title": "Week 2: Refresher",
-    "section": "Lecture (Thursday):",
-    "text": "Lecture (Thursday):\nThis week, you will learn the answers to the following questions:\n\nWhat are Python basics and how do they compare to R?\nHow can I use pandas?\nHow do string manipulations in R work?"
+    "objectID": "lectures-week_2.html#practical-wednesday-regexe",
+    "href": "lectures-week_2.html#practical-wednesday-regexe",
+    "title": "Week 2/3: Refresher & RegEx",
+    "section": "Practical (Wednesday): RegExe",
+    "text": "Practical (Wednesday): RegExe\n\nFinish the exercises from last week (if you haven’t already done so).\nToolbox CSS Website: Chapter 6"
   },
   {
-    "objectID": "lectures-week_3.html#lecture-thursday",
-    "href": "lectures-week_3.html#lecture-thursday",
-    "title": "Week 3: Regexes & Crawling the web",
-    "section": "Lecture (Thursday)",
-    "text": "Lecture (Thursday)\nThis lecture answers the following questions:\n\nWhy will Regexes change your life? (not in slides, code script only.)\nHow do I harness how the web is written to scrape websites? (Tuesday)\nWhat do I have to bear in mind when scraping websites? (Thursday)"
+    "objectID": "lectures-week_3.html",
+    "href": "lectures-week_3.html",
+    "title": "Week 3/4: Crawling the web",
+    "section": "",
+    "text": "This lecture answers the following questions:\n\nWhy will Regexes change your life? (not in slides, code script only.)\nHow do I harness how the web is written to scrape websites?\nWhat do I have to bear in mind when scraping websites?"
   },
   {
-    "objectID": "lectures-week_3.html#slides",
-    "href": "lectures-week_3.html#slides",
-    "title": "Week 3: Regexes & Crawling the web",
-    "section": "Slides",
-    "text": "Slides\nPlease click here to download the slides for Tuesday, October 28, 2025. Caveat: the original slides contain recordings of my screen demonstrating web scraping. These could not be included due to storage constraints.\nPlease click here to download the slides for Thursday, October 30, 2025.\nAlternatively, read them here (probably not the best if you’re visiting this page on a mobile device):\n\nTuesday, Oct. 28, 2025\n\n\n\n\nThursday, Oct. 30, 2025"
+    "objectID": "lectures-week_3.html#lecture-thursday-crawling-the-web",
+    "href": "lectures-week_3.html#lecture-thursday-crawling-the-web",
+    "title": "Week 3/4: Crawling the web",
+    "section": "",
+    "text": "This lecture answers the following questions:\n\nWhy will Regexes change your life? (not in slides, code script only.)\nHow do I harness how the web is written to scrape websites?\nWhat do I have to bear in mind when scraping websites?"
+  },
+  {
+    "objectID": "lectures-week_3.html#practical-wednesday-crawling-the-web",
+    "href": "lectures-week_3.html#practical-wednesday-crawling-the-web",
+    "title": "Week 3/4: Crawling the web",
+    "section": "Practical (Wednesday): Crawling the web",
+    "text": "Practical (Wednesday): Crawling the web\n\nToolbox CSS Website: Chapter 7"
   },
   {
     "objectID": "15_unsupervised_ml.html#latent-dirichlet-allocation-lda",
@@ -371,6 +399,13 @@
     "text": "Each group works on their presentation! Attendance in both sessions is optional. We will be available for questions and guidance."
   },
   {
+    "objectID": "lectures-week_11.html#practical-wednesday-active-learning-with-bert",
+    "href": "lectures-week_11.html#practical-wednesday-active-learning-with-bert",
+    "title": "Week 11/12: Supervised Learning with BERT",
+    "section": "Practical (Wednesday): Active Learning with BERT",
+    "text": "Practical (Wednesday): Active Learning with BERT\n\nTime to fine-tune a BERT model for your own classification task. Please follow the instructions in the CSS Handbook Chapter 17."
+  },
+  {
     "objectID": "4_python.html",
     "href": "4_python.html",
     "title": "Chapter 4: Introduction to Python for R Users",
@@ -462,32 +497,32 @@
     "text": "Further Resources\n\nOfficial Python Tutorial\nLearn Python the Hard Way\nAutomate the Boring Stuff with Python\nReal Python"
   },
   {
-    "objectID": "lectures-week_6.html",
-    "href": "lectures-week_6.html",
-    "title": "Week 6: Supervised Learning",
-    "section": "",
-    "text": "This week answers the following questions:"
-  },
-  {
-    "objectID": "lectures-week_6.html#slides",
-    "href": "lectures-week_6.html#slides",
-    "title": "Week 6: Supervised Learning",
-    "section": "Slides",
-    "text": "Slides\nThere are no slides for Tuesday, just an R script.\nThursday’s slides can be found here.\nAlternatively, read them here (probably not the best if you’re visiting this page on a mobile device):"
+    "objectID": "lectures-week_6.html#practical-wednesday-text-preprocessing-and-featurization",
+    "href": "lectures-week_6.html#practical-wednesday-text-preprocessing-and-featurization",
+    "title": "Week 6/7: Text Preprocessing and Featurization",
+    "section": "Practical (Wednesday): Text Preprocessing and Featurization",
+    "text": "Practical (Wednesday): Text Preprocessing and Featurization\n\nCSS Handbook Chapter 12"
   },
   {
     "objectID": "lectures-week_8.html",
     "href": "lectures-week_8.html",
-    "title": "Week 8: Word Embeddings",
+    "title": "Week 8/9: Supervised Machine Learning",
     "section": "",
-    "text": "This week answers the following questions:"
+    "text": "This week answers the following questions:\n\nWhat are word embeddings?\nHow do they lend themselves to sociological inquiry?\n\n\n\nSlides can be found here.\nAlternatively, read them here (probably not the best if you’re visiting this page on a mobile device):"
   },
   {
-    "objectID": "lectures-week_8.html#slides",
-    "href": "lectures-week_8.html#slides",
-    "title": "Week 8: Word Embeddings",
-    "section": "Slides",
-    "text": "Slides\nNo class on Tuesday.\nThursday’s slides can be found here.\nAlternatively, read them here (probably not the best if you’re visiting this page on a mobile device):"
+    "objectID": "lectures-week_8.html#lecture-thursday-supervised-machine-learning",
+    "href": "lectures-week_8.html#lecture-thursday-supervised-machine-learning",
+    "title": "Week 8/9: Supervised Machine Learning",
+    "section": "",
+    "text": "This week answers the following questions:\n\nWhat are word embeddings?\nHow do they lend themselves to sociological inquiry?\n\n\n\nSlides can be found here.\nAlternatively, read them here (probably not the best if you’re visiting this page on a mobile device):"
+  },
+  {
+    "objectID": "lectures-week_8.html#practical-wednesday-supervised-machine-learning-in-practice",
+    "href": "lectures-week_8.html#practical-wednesday-supervised-machine-learning-in-practice",
+    "title": "Week 8/9: Supervised Machine Learning",
+    "section": "Practical (Wednesday): Supervised Machine Learning in Practice",
+    "text": "Practical (Wednesday): Supervised Machine Learning in Practice\n\nCSS Handbook Chapter 14."
   },
   {
     "objectID": "index.html",
@@ -564,7 +599,7 @@
     "href": "syllabus/syllabus_toolboxCSS_winter2627.html#week-4",
     "title": "06-002-107-3: Forschungsseminar B – Experimentelle Soziologie und Computational Social Science",
     "section": "Week 4",
-    "text": "Week 4\n\nPractical (Wed, 04 November 2026): rvest\n\nToolbox CSS Website: Chapter 7\nrvest Web scraping 101 – online\n\n\n\nLecture (Thu, 05 November 2026): Dynamic Pages and Forms"
+    "text": "Week 4\n\nPractical (Wed, 04 November 2026): rvest\n\nToolbox CSS Website: Chapter 7\nrvest Web scraping 101 – online\n\n\n\nLecture (Thu, 05 November 2026): Dynamic Pages and Forms\n\nTBA"
   },
   {
     "objectID": "syllabus/syllabus_toolboxCSS_winter2627.html#week-5",
@@ -578,21 +613,21 @@
     "href": "syllabus/syllabus_toolboxCSS_winter2627.html#week-6",
     "title": "06-002-107-3: Forschungsseminar B – Experimentelle Soziologie und Computational Social Science",
     "section": "Week 6",
-    "text": "Week 6\n\nPractical (Wed, 18 November 2026): Audio Transcription in Practice\n\nStoltz and Taylor (2024) – chapter 5\nOpenAI Whisper Python package documentation – online\n\n\n\nLecture (Thu, 19 November 2026): Project Work Session\n\nWork on your project"
+    "text": "Week 6\n\nPractical (Wed, 18 November 2026): Audio Transcription in Practice\n\nStoltz and Taylor (2024) – chapter 5\nOpenAI Whisper Python package documentation – online\n\n\n\nLecture (Thu, 19 November 2026): Text Preprocessing and Featurization\n\nTBA"
   },
   {
-    "objectID": "syllabus/syllabus_toolboxCSS_winter2627.html#week-7",
-    "href": "syllabus/syllabus_toolboxCSS_winter2627.html#week-7",
+    "objectID": "syllabus/syllabus_toolboxCSS_winter2627.html#week-7-introduction-to-text-as-data",
+    "href": "syllabus/syllabus_toolboxCSS_winter2627.html#week-7-introduction-to-text-as-data",
     "title": "06-002-107-3: Forschungsseminar B – Experimentelle Soziologie und Computational Social Science",
-    "section": "Week 7",
-    "text": "Week 7\n\nPractical (Wed, 25 November 2026): Project Work Session\n\nWork on your project\n\n\n\nLecture (Thu, 26 November 2026): Bag of Words\n\nEvans and Aceves (2016)\nGrimmer, Roberts, and Stewart (2022), chapters 3–5, 11, & 15\nStoltz and Taylor (2024), chapters 4–9"
+    "section": "Week 7: Introduction to Text as Data",
+    "text": "Week 7: Introduction to Text as Data\n\nPractical (Wed, 25 November 2026): Text Preprocessing and Featurization\n\nCSS Handbook Chapter 12\n\n\n\nLecture (Thu, 26 November 2026): Bag of Words\n\nEvans and Aceves (2016)\nGrimmer, Roberts, and Stewart (2022), chapters 3–5, 11, & 15\nStoltz and Taylor (2024), chapters 4–9"
   },
   {
     "objectID": "syllabus/syllabus_toolboxCSS_winter2627.html#week-8",
     "href": "syllabus/syllabus_toolboxCSS_winter2627.html#week-8",
     "title": "06-002-107-3: Forschungsseminar B – Experimentelle Soziologie und Computational Social Science",
     "section": "Week 8",
-    "text": "Week 8\n\nPractical (Wed, 02 December 2026): Sentiment Analysis, TF-IDF, and NER/POS\n\nGrimmer et al. (2022), chapter 11\nJurafsky and Martin (n.d.), chapter 21 – online\nSilge and Robinson (2017) – online, chapters 2 & 3\n\n\n\nLecture (Thu, 03 December 2026): Supervised Machine Learning\n\nBarberá et al. (2021)\nGrimmer et al. (2022), chapters 17–20\nStoltz and Taylor (2024), chapters 9 & 12"
+    "text": "Week 8\n\nPractical (Wed, 02 December 2026): Sentiment Analysis, TF-IDF, and NER/POS\n\nCSS Handbook Chapter 1e\nGrimmer et al. (2022), chapter 11\nJurafsky and Martin (n.d.), chapter 21 – online\nSilge and Robinson (2017) – online, chapters 2 & 3\n\n\n\nLecture (Thu, 03 December 2026): Supervised Machine Learning\n\nBarberá et al. (2021)\nGrimmer et al. (2022), chapters 17–20\nStoltz and Taylor (2024), chapters 9 & 12"
   },
   {
     "objectID": "syllabus/syllabus_toolboxCSS_winter2627.html#week-9",
@@ -606,7 +641,7 @@
     "href": "syllabus/syllabus_toolboxCSS_winter2627.html#week-10",
     "title": "06-002-107-3: Forschungsseminar B – Experimentelle Soziologie und Computational Social Science",
     "section": "Week 10",
-    "text": "Week 10\n\nPractical (Wed, 16 December 2026): Unsupervised ML in Practice\n\nToolBox CSS Website: Chapter 15\n\n\n\nLecture (Thu, 17 December 2026): Measuring Similarity and the Distributional Hypothesis\n\nJurafsky and Martin (n.d.), chapter 6 – online\nStoltz and Taylor (2021)"
+    "text": "Week 10\n\nPractical (Wed, 16 December 2026): Unsupervised ML in Practice\n\nToolBox CSS Website: Chapter 15\n\n\n\nLecture (Thu, 17 December 2026): Word Embeddings\n\nJurafsky and Martin (n.d.), chapter 6 – online\nStoltz and Taylor (2021)"
   },
   {
     "objectID": "syllabus/syllabus_toolboxCSS_winter2627.html#christmas-break",
@@ -620,7 +655,7 @@
     "href": "syllabus/syllabus_toolboxCSS_winter2627.html#week-11",
     "title": "06-002-107-3: Forschungsseminar B – Experimentelle Soziologie und Computational Social Science",
     "section": "Week 11",
-    "text": "Week 11\n\nPractical (Wed, 06 January 2027): Word Embeddings\n\nHvitfeldt and Silge (2022) – online, chapter 5\nStoltz and Taylor (2024), chapter 11\ntext2map: R Tools for Text Matrices – online\n\n\n\nLecture (Thu, 07 January 2027): Supervised Learning on Steroids: BERT\n\nDo, Ollion, and Shen (2022)\nLaurer et al. (2024)\nTörnberg (2023)\nWankmüller (2022)"
+    "text": "Week 11\n\nPractical (Wed, 06 January 2027): Word Embeddings in Practice\n\nHvitfeldt and Silge (2022) – online, chapter 5\nStoltz and Taylor (2024), chapter 11\ntext2map: R Tools for Text Matrices – online\n\n\n\nLecture (Thu, 07 January 2027): Supervised Learning on Steroids: BERT\n\nDo, Ollion, and Shen (2022)\nLaurer et al. (2024)\nTörnberg (2023)\nWankmüller (2022)"
   },
   {
     "objectID": "syllabus/syllabus_toolboxCSS_winter2627.html#week-12",
@@ -653,13 +688,6 @@
   {
     "objectID": "syllabus/syllabus_toolboxCSS_winter2627.html#deadline-forschungsbericht",
     "href": "syllabus/syllabus_toolboxCSS_winter2627.html#deadline-forschungsbericht",
-    "title": "06-002-107-3: Forschungsseminar B – Experimentelle Soziologie und Computational Social Science",
-    "section": "Deadline Forschungsbericht",
-    "text": "Deadline Forschungsbericht\nMarch 19, 2027 (tentative)."
-  },
-  {
-    "objectID": "syllabus/syllabus_toolboxCSS_winter2627.html#deadline-forschungsbericht-1",
-    "href": "syllabus/syllabus_toolboxCSS_winter2627.html#deadline-forschungsbericht-1",
     "title": "06-002-107-3: Forschungsseminar B – Experimentelle Soziologie und Computational Social Science",
     "section": "Deadline Forschungsbericht",
     "text": "Deadline Forschungsbericht\nMarch 19, 2027 (tentative)."
@@ -749,6 +777,27 @@
     "text": "Footnotes\n\n\ncomment from Felix: “honestly, I was quite overwhelmed when I encountered them first”↩︎"
   },
   {
+    "objectID": "lectures-week_12.html",
+    "href": "lectures-week_12.html",
+    "title": "Week 12/13: Transfer Learning and LLMs in the Social Sciences",
+    "section": "",
+    "text": "This week answers the following questions:\n\nWhat is transfer learning?\nHow are LLMs used in the social sciences?\n\n\n\nSlides can be found here.\nAlternatively, read them here (probably not the best if you’re visiting this page on a mobile device):"
+  },
+  {
+    "objectID": "lectures-week_12.html#lecture-thursday-large-language-models-for-information-extraction",
+    "href": "lectures-week_12.html#lecture-thursday-large-language-models-for-information-extraction",
+    "title": "Week 12/13: Transfer Learning and LLMs in the Social Sciences",
+    "section": "",
+    "text": "This week answers the following questions:\n\nWhat is transfer learning?\nHow are LLMs used in the social sciences?\n\n\n\nSlides can be found here.\nAlternatively, read them here (probably not the best if you’re visiting this page on a mobile device):"
+  },
+  {
+    "objectID": "lectures-week_12.html#practical-wednesday-local-llms",
+    "href": "lectures-week_12.html#practical-wednesday-local-llms",
+    "title": "Week 12/13: Transfer Learning and LLMs in the Social Sciences",
+    "section": "Practical (Wednesday): Local LLMs",
+    "text": "Practical (Wednesday): Local LLMs\n\nCSS Handbook Chapter 18"
+  },
+  {
     "objectID": "syllabus/video-links.html",
     "href": "syllabus/video-links.html",
     "title": "Videos",
@@ -793,16 +842,23 @@
   {
     "objectID": "lectures-week_7.html",
     "href": "lectures-week_7.html",
-    "title": "Week 7: Supervised and Unsupervised Learning",
+    "title": "Week 7/8: Introduction to Text as Data: Bag of Words",
     "section": "",
-    "text": "This week answers the following questions:"
+    "text": "This week answers the following questions:\n\nWhat are approaches for doing research with text?\n\n\n\nSlides can be found here.\nAlternatively, read them here (probably not the best if you’re visiting this page on a mobile device):"
   },
   {
-    "objectID": "lectures-week_7.html#slides",
-    "href": "lectures-week_7.html#slides",
-    "title": "Week 7: Supervised and Unsupervised Learning",
-    "section": "Slides",
-    "text": "Slides\nThere are no slides for Tuesday, just an R script.\nThursday’s slides can be found here.\nAlternatively, read them here (probably not the best if you’re visiting this page on a mobile device):"
+    "objectID": "lectures-week_7.html#lecture-thursday-bag-of-words",
+    "href": "lectures-week_7.html#lecture-thursday-bag-of-words",
+    "title": "Week 7/8: Introduction to Text as Data: Bag of Words",
+    "section": "",
+    "text": "This week answers the following questions:\n\nWhat are approaches for doing research with text?\n\n\n\nSlides can be found here.\nAlternatively, read them here (probably not the best if you’re visiting this page on a mobile device):"
+  },
+  {
+    "objectID": "lectures-week_7.html#practical-wednesday-sentiment-analysis-tf-idf-and-nerpos",
+    "href": "lectures-week_7.html#practical-wednesday-sentiment-analysis-tf-idf-and-nerpos",
+    "title": "Week 7/8: Introduction to Text as Data: Bag of Words",
+    "section": "Practical (Wednesday): Sentiment Analysis, TF-IDF, and NER/POS",
+    "text": "Practical (Wednesday): Sentiment Analysis, TF-IDF, and NER/POS\n\nCSS Handbook Chapter 13."
   },
   {
     "objectID": "12_text-preprocessing.html",
@@ -1143,16 +1199,23 @@
   {
     "objectID": "lectures-week_5.html",
     "href": "lectures-week_5.html",
-    "title": "Week 5: Introduction to Text as Data",
+    "title": "Week 5/6: OCR and Audio Transcription",
     "section": "",
-    "text": "This week answers the following questions:"
+    "text": "Slides can be found here.\nAlternatively, read them here (probably not the best if you’re visiting this page on a mobile device):"
   },
   {
-    "objectID": "lectures-week_5.html#slides",
-    "href": "lectures-week_5.html#slides",
-    "title": "Week 5: Introduction to Text as Data",
-    "section": "Slides",
-    "text": "Slides\nThursday’s slides can be found here.\nAlternatively, read them here (probably not the best if you’re visiting this page on a mobile device):"
+    "objectID": "lectures-week_5.html#lecture-thursday-ocr-and-audio-transcription",
+    "href": "lectures-week_5.html#lecture-thursday-ocr-and-audio-transcription",
+    "title": "Week 5/6: OCR and Audio Transcription",
+    "section": "",
+    "text": "Slides can be found here.\nAlternatively, read them here (probably not the best if you’re visiting this page on a mobile device):"
+  },
+  {
+    "objectID": "lectures-week_5.html#practical-wednesday-image-audio-transcription-in-practice",
+    "href": "lectures-week_5.html#practical-wednesday-image-audio-transcription-in-practice",
+    "title": "Week 5/6: OCR and Audio Transcription",
+    "section": "Practical (Wednesday): Image & Audio Transcription in Practice",
+    "text": "Practical (Wednesday): Image & Audio Transcription in Practice\n\nHow can I read in text from images or PDFs?\nHow can I transcribe text?\nImage: CSS Handbook Chapter 10.\nAudio: CSS Handbook Chapter 11."
   },
   {
     "objectID": "general_anti_dis.html",
@@ -1227,23 +1290,30 @@
   {
     "objectID": "lectures-week_4.html",
     "href": "lectures-week_4.html",
-    "title": "Week 4: selenium and APIs",
+    "title": "Week 4/5: Dynamic Pages, Forms and APIs",
     "section": "",
-    "text": "This week answers the following questions:"
+    "text": "This week answers the following questions:\n\nHow do I control a (virtual) browser?\nHow can I communicate with an API?"
   },
   {
-    "objectID": "lectures-week_4.html#slides",
-    "href": "lectures-week_4.html#slides",
-    "title": "Week 4: selenium and APIs",
-    "section": "Slides",
-    "text": "Slides\nThere are no slides for Tuesday, you can look at the ones from the week before, just the R script.\nThursday’s slides can be found here.\nAlternatively, read them here (probably not the best if you’re visiting this page on a mobile device):"
+    "objectID": "lectures-week_4.html#lecture-thursday-dynamic-pages-forms-and-apis",
+    "href": "lectures-week_4.html#lecture-thursday-dynamic-pages-forms-and-apis",
+    "title": "Week 4/5: Dynamic Pages, Forms and APIs",
+    "section": "",
+    "text": "This week answers the following questions:\n\nHow do I control a (virtual) browser?\nHow can I communicate with an API?"
+  },
+  {
+    "objectID": "lectures-week_4.html#practical-wednesday-selenium-apis",
+    "href": "lectures-week_4.html#practical-wednesday-selenium-apis",
+    "title": "Week 4/5: Dynamic Pages, Forms and APIs",
+    "section": "Practical (Wednesday): Selenium & APIs",
+    "text": "Practical (Wednesday): Selenium & APIs\n\nToolbox CSS Website: Chapter 8\n\nselenium documentation – online\n\nToolbox CSS Website: Chapter 9\n\nhttr2 documentation – online"
   },
   {
     "objectID": "lectures-week_15.html",
     "href": "lectures-week_15.html",
     "title": "Week 15: Presentation & Wrap Up Week",
     "section": "",
-    "text": "This week on both sessions, we will have the final presentations of your projects. Depending on the number of groups, each group will have between 8 or 15 minutes to present their project and findings, followed by a 4-minute Q&A session. Please ensure that your presentation is clear, concise, and well-structured."
+    "text": "This week on both sessions, we will have the final presentations of your projects. Depending on the number of groups, each group will have between 8 or 15 minutes to present their project and findings, followed by a 5-minute Q&A session. Please ensure that your presentation is clear, concise, and well-structured."
   },
   {
     "objectID": "lectures-overview.html",
@@ -1295,11 +1365,11 @@
     "text": "Week 6: Data Acquisition IV\nThis week answers the following questions:\n\nHow do we digitize text using Tesseract?\nHow do we digitize speech using OpenAI Whisper?\nWhat are best practices for data acquisition projects?\nHow do we plan our research projects?"
   },
   {
-    "objectID": "lectures-overview.html#week-7-student-project-week",
-    "href": "lectures-overview.html#week-7-student-project-week",
+    "objectID": "lectures-overview.html#week-7-data-curation",
+    "href": "lectures-overview.html#week-7-data-curation",
     "title": "Overview – week by week",
-    "section": "Week 7: Student Project Week",
-    "text": "Week 7: Student Project Week\nThis week is dedicated to working on your research projects in class.\n\nDiscuss your project ideas with peers and the instructor\nBegin data acquisition for your research\nTroubleshoot technical challenges\nForm study groups with matching research interests"
+    "section": "Week 7: Data Curation",
+    "text": "Week 7: Data Curation\nThis week is dedicated to data curation and preparation. We will answer the following questions:\n\nHow do we clean and prepare our data for analysis?\nHow do we handle missing values and outliers?\nHow do we transform and reshape our data for analysis?"
   },
   {
     "objectID": "lectures-overview.html#week-8-text-as-data-i",
@@ -1356,89 +1426,5 @@
     "title": "Overview – week by week",
     "section": "Week 15: Presentations & Wrap Up",
     "text": "Week 15: Presentations & Wrap Up\nThis week features peer-reviewed presentations of your research projects.\n\nPresent your research (10 minutes)\nReceive feedback from assigned peer reviewers (5 minutes)\nDiscuss next steps for your final paper\nReflect on what we’ve learned throughout the semester"
-  },
-  {
-    "objectID": "lectures-week_2.html#practical-wednesday-setting-up-your-workstation",
-    "href": "lectures-week_2.html#practical-wednesday-setting-up-your-workstation",
-    "title": "Week 2: Refresher",
-    "section": "",
-    "text": "Preparing everything for Scientific Computing\n\nAcquire access to sc.uni-leipzig.de\nGet a Github account if you don’t have one yet\nConnect your PC and the SC Account with your Github account\n\nR recap (the corresponding chapters can be found in the R4DS book – _online)\n\nRMarkdown/Quarto – chapters 28 & 29\ndplyr – chapter 4\ntidyr – chapter 6\nggplot2 – chapters 2 & 10 & 11 & 12\npurrr & loops in different flavors – chapter 27\nfunctional programming – chapter 26\nset up reticulate in RStudio – online"
-  },
-  {
-    "objectID": "lectures-week_13.html",
-    "href": "lectures-week_13.html",
-    "title": "Week 13:",
-    "section": "",
-    "text": "CSS Handbook Chapter 18"
-  },
-  {
-    "objectID": "lectures-week_13.html#practical-wednesday-local-llms",
-    "href": "lectures-week_13.html#practical-wednesday-local-llms",
-    "title": "Week 13:",
-    "section": "",
-    "text": "CSS Handbook Chapter 18"
-  },
-  {
-    "objectID": "lectures-week_13.html#lecture-thursday",
-    "href": "lectures-week_13.html#lecture-thursday",
-    "title": "Week 13:",
-    "section": "Lecture (Thursday)",
-    "text": "Lecture (Thursday)\n\nWe are done with new stuff, so this session is reserved for project work and questions. Please use the time to work on your projects and ask me any questions you have."
-  },
-  {
-    "objectID": "lectures-week_12.html",
-    "href": "lectures-week_12.html",
-    "title": "Week 12: Transfer Learning and LLMs in the Social Sciences",
-    "section": "",
-    "text": "Time to fine-tune a BERT model for your own classification task. Please follow the instructions in the CSS Handbook Chapter 17."
-  },
-  {
-    "objectID": "lectures-week_12.html#practical-wednesday",
-    "href": "lectures-week_12.html#practical-wednesday",
-    "title": "Week 12: Transfer Learning and LLMs in the Social Sciences",
-    "section": "",
-    "text": "CSS Handbook Chapter 17"
-  },
-  {
-    "objectID": "lectures-week_12.html#lecture-thursday-large-language-models-for-information-extraction",
-    "href": "lectures-week_12.html#lecture-thursday-large-language-models-for-information-extraction",
-    "title": "Week 12: Transfer Learning and LLMs in the Social Sciences",
-    "section": "Lecture (Thursday): Large Language Models for information extraction",
-    "text": "Lecture (Thursday): Large Language Models for information extraction\nThis week answers the following questions:\n\nWhat is transfer learning?\nHow are LLMs used in the social sciences?\n\n\nSlides\nSlides can be found here.\nAlternatively, read them here (probably not the best if you’re visiting this page on a mobile device):"
-  },
-  {
-    "objectID": "lectures-week_12.html#practical-wednesday-active-learning-with-bert",
-    "href": "lectures-week_12.html#practical-wednesday-active-learning-with-bert",
-    "title": "Week 12: Transfer Learning and LLMs in the Social Sciences",
-    "section": "",
-    "text": "Time to fine-tune a BERT model for your own classification task. Please follow the instructions in the CSS Handbook Chapter 17."
-  },
-  {
-    "objectID": "lectures-week_5.html#practical-wednesday-image-audio-transcription-in-practice",
-    "href": "lectures-week_5.html#practical-wednesday-image-audio-transcription-in-practice",
-    "title": "Week 5/6: OCR and Audio Transcription",
-    "section": "Practical (Wednesday): Image & Audio Transcription in Practice",
-    "text": "Practical (Wednesday): Image & Audio Transcription in Practice\n\nImage: CSS Handbook Chapter 10.\nAudio: CSS Handbook Chapter 11."
-  },
-  {
-    "objectID": "lectures-week_1.html#practical-wednesday",
-    "href": "lectures-week_1.html#practical-wednesday",
-    "title": "Week 1/2: Kick-off",
-    "section": "",
-    "text": "Kick-off session: lets get to know each other and the course."
-  },
-  {
-    "objectID": "lectures-week_1.html#practical-wednesday-setting-up-your-workstation",
-    "href": "lectures-week_1.html#practical-wednesday-setting-up-your-workstation",
-    "title": "Week 1/2: Kick-off",
-    "section": "Practical (Wednesday): Setting up your workstation",
-    "text": "Practical (Wednesday): Setting up your workstation\n\nPreparing everything for Scientific Computing\n\nAcquire access to sc.uni-leipzig.de\nGet a Github account if you don’t have one yet\nConnect your PC and the SC Account with your Github account\n\nR recap (the corresponding chapters can be found in the R4DS book – _online)\n\nRMarkdown/Quarto – chapters 28 & 29\ndplyr – chapter 4\ntidyr – chapter 6\nggplot2 – chapters 2 & 10 & 11 & 12\npurrr & loops in different flavors – chapter 27\nfunctional programming – chapter 26\nset up reticulate in RStudio – online"
-  },
-  {
-    "objectID": "lectures-week_1.html#practical-wednesday-hello",
-    "href": "lectures-week_1.html#practical-wednesday-hello",
-    "title": "Week 1/2: Kick-off",
-    "section": "",
-    "text": "Kick-off session: lets get to know each other and the course."
   }
 ]

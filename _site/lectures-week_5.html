@@ -104,7 +104,7 @@ ul.task-list li input[type="checkbox"] {
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_1.html">
- <span class="dropdown-text">Week 1: Kick-off</span></a>
+ <span class="dropdown-text">Week 1/2: Kick-off</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_2.html">
@@ -116,7 +116,7 @@ ul.task-list li input[type="checkbox"] {
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_4.html">
- <span class="dropdown-text">Week 4: <code>selenium</code> and APIs</span></a>
+ <span class="dropdown-text">Week 4/5: Dynamic Pages and Forms</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_5.html">
@@ -128,7 +128,7 @@ ul.task-list li input[type="checkbox"] {
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_7.html">
- <span class="dropdown-text">Week 7(8): Introduction to Text as Data: Bag of Words</span></a>
+ <span class="dropdown-text">Week 7/8: Introduction to Text as Data: Bag of Words</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_8.html">
@@ -149,10 +149,6 @@ ul.task-list li input[type="checkbox"] {
         <li>
     <a class="dropdown-item" href="./lectures-week_12.html">
  <span class="dropdown-text">Week 12/13: Transfer Learning and LLMs in the Social Sciences</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./lectures-week_13.html">
- <span class="dropdown-text">Week 13:</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_14.html">
@@ -324,13 +320,19 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="lecture-thursday-ocr-and-audio-transcription">Lecture (Thursday): OCR and Audio Transcription</h2>
 <section id="slides" class="level3">
 <h3 class="anchored" data-anchor-id="slides">Slides</h3>
+<p>Slides can be found <a href="slides/20251106-ocr_whisper.pdf">here</a>.</p>
+<p>Alternatively, read them here (probably not the best if you’re visiting this page on a mobile device):</p>
+<iframe src="./slides/20251106-ocr_whisper.pdf" width="100%" height="800px" style="border: 1px solid #ddd;">
+</iframe>
 </section>
 </section>
 <section id="practical-wednesday-image-audio-transcription-in-practice" class="level2">
 <h2 class="anchored" data-anchor-id="practical-wednesday-image-audio-transcription-in-practice">Practical (Wednesday): Image &amp; Audio Transcription in Practice</h2>
 <ul>
-<li>Image: <a href="https://fellennert.github.io/toolbox_css/10_tesseract.html">CSS Handbook Chapter 10</a>.</li>
-<li>Audio: <a href="https://fellennert.github.io/toolbox_css/11_transcription.html">CSS Handbook Chapter 11</a>.</li>
+<li><p>How can I read in text from images or PDFs?</p></li>
+<li><p>How can I transcribe text?</p></li>
+<li><p>Image: <a href="https://fellennert.github.io/toolbox_css/10_tesseract.html">CSS Handbook Chapter 10</a>.</p></li>
+<li><p>Audio: <a href="https://fellennert.github.io/toolbox_css/11_transcription.html">CSS Handbook Chapter 11</a>.</p></li>
 </ul>
 
 
@@ -409,7 +411,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/fellennert\.github\.io\/toolbox_css\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

@@ -24,7 +24,7 @@ website:
           - href: lectures-week_10.qmd
           - href: lectures-week_11.qmd
           - href: lectures-week_12.qmd
-          - href: lectures-week_13.qmd
+          #- href: lectures-week_13.qmd
           - href: lectures-week_14.qmd
           - href: lectures-week_15.qmd                                        
       - text: CSS Handbook (R Scripts & Videos)

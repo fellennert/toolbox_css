@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Week 2: Refresher – Toolbox CSS</title>
+<title>Week 2/3: Refresher &amp; RegEx – Toolbox CSS</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -104,7 +104,7 @@ ul.task-list li input[type="checkbox"] {
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_1.html">
- <span class="dropdown-text">Week 1: Kick-off</span></a>
+ <span class="dropdown-text">Week 1/2: Kick-off</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_2.html">
@@ -116,43 +116,39 @@ ul.task-list li input[type="checkbox"] {
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_4.html">
- <span class="dropdown-text">Week 4: <code>selenium</code> and APIs</span></a>
+ <span class="dropdown-text">Week 4/5: Dynamic Pages and Forms</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_5.html">
- <span class="dropdown-text">Week 5: Introduction to Text as Data</span></a>
+ <span class="dropdown-text">Week 5/6: OCR and Audio Transcription</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_6.html">
- <span class="dropdown-text">Week 6: Supervised Learning</span></a>
+ <span class="dropdown-text">Week 6/7: Text Preprocessing and Featurization</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_7.html">
- <span class="dropdown-text">Week 7: Supervised and Unsupervised Learning</span></a>
+ <span class="dropdown-text">Week 7/8: Introduction to Text as Data: Bag of Words</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_8.html">
- <span class="dropdown-text">Week 8: Supervised Machine Learning</span></a>
+ <span class="dropdown-text">Week 8/9: Supervised Machine Learning</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_9.html">
- <span class="dropdown-text">Week 9: Unsupervised Machine Learning</span></a>
+ <span class="dropdown-text">Week 9/10: Unsupervised Machine Learning</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_10.html">
- <span class="dropdown-text">Week 10: Word Embeddings</span></a>
+ <span class="dropdown-text">Week 10/11: Word Embeddings</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_11.html">
- <span class="dropdown-text">Week 11: Supervised Learning with BERT</span></a>
+ <span class="dropdown-text">Week 11/12: Supervised Learning with BERT</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_12.html">
- <span class="dropdown-text">Week 12: Transfer Learning and LLMs in the Social Sciences</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./lectures-week_13.html">
- <span class="dropdown-text">Week 13:</span></a>
+ <span class="dropdown-text">Week 12/13: Transfer Learning and LLMs in the Social Sciences</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_14.html">
@@ -290,8 +286,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#practical-wednesday-setting-up-your-workstation" id="toc-practical-wednesday-setting-up-your-workstation" class="nav-link active" data-scroll-target="#practical-wednesday-setting-up-your-workstation">Practical (Wednesday): Setting up your workstation</a></li>
-  <li><a href="#lecture-thursday" id="toc-lecture-thursday" class="nav-link" data-scroll-target="#lecture-thursday">Lecture (Thursday):</a></li>
+  <li><a href="#lecture-thursday-refresher-regex" id="toc-lecture-thursday-refresher-regex" class="nav-link active" data-scroll-target="#lecture-thursday-refresher-regex">Lecture (Thursday): Refresher &amp; RegEx</a></li>
+  <li><a href="#practical-wednesday-regexe" id="toc-practical-wednesday-regexe" class="nav-link" data-scroll-target="#practical-wednesday-regexe">Practical (Wednesday): RegExe</a></li>
   </ul>
 </nav>
     </div>
@@ -300,7 +296,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Week 2: Refresher</h1>
+<h1 class="title">Week 2/3: Refresher &amp; RegEx</h1>
 </div>
 
 
@@ -317,34 +313,21 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="practical-wednesday-setting-up-your-workstation" class="level2">
-<h2 class="anchored" data-anchor-id="practical-wednesday-setting-up-your-workstation">Practical (Wednesday): Setting up your workstation</h2>
+<section id="lecture-thursday-refresher-regex" class="level2">
+<h2 class="anchored" data-anchor-id="lecture-thursday-refresher-regex">Lecture (Thursday): Refresher &amp; RegEx</h2>
+<p>This week, we will deal with the following questions:</p>
 <ul>
-<li>Preparing everything for <a href="https://fellennert.github.io/toolbox_css/general_sc.html">Scientific Computing</a>
-<ul>
-<li>Acquire access to <em><a href="www.sc.uni-leipzig.de">sc.uni-leipzig.de</a></em></li>
-<li>Get a Github account if you don’t have one yet</li>
-<li>Connect your PC and the SC Account with your Github account</li>
-</ul></li>
-<li>R recap (the corresponding chapters can be found in the R4DS book – _<a href="https://r4ds.hadley.nz">online</a>)
-<ul>
-<li><code>RMarkdown</code>/<code>Quarto</code> – chapters 28 &amp; 29</li>
-<li><code>dplyr</code> – chapter 4</li>
-<li><code>tidyr</code> – chapter 6</li>
-<li><code>ggplot2</code> – chapters 2 &amp; 10 &amp; 11 &amp; 12</li>
-<li><code>purrr</code> &amp; loops in different flavors – chapter 27</li>
-<li>functional programming – chapter 26</li>
-<li>set up <code>reticulate</code> in RStudio – <em><a href="https://rstudio.github.io/reticulate/">online</a></em></li>
-</ul></li>
+<li>What are regular expressions (RegEx) and how can I use them in R?</li>
+<li>How do string manipulations in R work?</li>
+<li>What is the tidyverse style of programming and why should I care about it?</li>
+<li>Why are functional programming and loops important in R?</li>
 </ul>
 </section>
-<section id="lecture-thursday" class="level2">
-<h2 class="anchored" data-anchor-id="lecture-thursday">Lecture (Thursday):</h2>
-<p>This week, you will learn the answers to the following questions:</p>
+<section id="practical-wednesday-regexe" class="level2">
+<h2 class="anchored" data-anchor-id="practical-wednesday-regexe">Practical (Wednesday): RegExe</h2>
 <ul>
-<li>What are Python basics and how do they compare to R?</li>
-<li>How can I use pandas?</li>
-<li>How do string manipulations in R work?</li>
+<li>Finish the exercises from last week (if you haven’t already done so).</li>
+<li>Toolbox CSS Website: <em><a href="https://fellennert.github.io/toolbox_css/6_stringr_regex.html">Chapter 6</a></em></li>
 </ul>
 
 
@@ -423,7 +406,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/fellennert\.github\.io\/toolbox_css\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

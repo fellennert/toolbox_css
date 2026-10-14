@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Week 12: Transfer Learning and LLMs in the Social Sciences – Toolbox CSS</title>
+<title>Week 12/13: Transfer Learning and LLMs in the Social Sciences – Toolbox CSS</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -94,17 +94,17 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-topics" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Topics</span>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-weeks" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Weeks</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-topics">    
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-weeks">    
         <li>
     <a class="dropdown-item" href="./lectures-overview.html">
  <span class="dropdown-text">Overview – week by week</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_1.html">
- <span class="dropdown-text">Week 1: Kick-off</span></a>
+ <span class="dropdown-text">Week 1/2: Kick-off</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_2.html">
@@ -116,43 +116,39 @@ ul.task-list li input[type="checkbox"] {
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_4.html">
- <span class="dropdown-text">Week 4: <code>selenium</code> and APIs</span></a>
+ <span class="dropdown-text">Week 4/5: Dynamic Pages and Forms</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_5.html">
- <span class="dropdown-text">Week 5: Introduction to Text as Data</span></a>
+ <span class="dropdown-text">Week 5/6: OCR and Audio Transcription</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_6.html">
- <span class="dropdown-text">Week 6: Supervised Learning</span></a>
+ <span class="dropdown-text">Week 6/7: Text Preprocessing and Featurization</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_7.html">
- <span class="dropdown-text">Week 7: Supervised and Unsupervised Learning</span></a>
+ <span class="dropdown-text">Week 7/8: Introduction to Text as Data: Bag of Words</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_8.html">
- <span class="dropdown-text">Week 8: Supervised Machine Learning</span></a>
+ <span class="dropdown-text">Week 8/9: Supervised Machine Learning</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_9.html">
- <span class="dropdown-text">Week 9: Unsupervised Machine Learning</span></a>
+ <span class="dropdown-text">Week 9/10: Unsupervised Machine Learning</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_10.html">
- <span class="dropdown-text">Week 10: Word Embeddings</span></a>
+ <span class="dropdown-text">Week 10/11: Word Embeddings</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_11.html">
- <span class="dropdown-text">Week 11: Supervised Learning with BERT</span></a>
+ <span class="dropdown-text">Week 11/12: Supervised Learning with BERT</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_12.html">
- <span class="dropdown-text">Week 12: Transfer Learning and LLMs in the Social Sciences</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./lectures-week_13.html">
- <span class="dropdown-text">Week 13:</span></a>
+ <span class="dropdown-text">Week 12/13: Transfer Learning and LLMs in the Social Sciences</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_14.html">
@@ -290,11 +286,11 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#practical-wednesday-active-learning-with-bert" id="toc-practical-wednesday-active-learning-with-bert" class="nav-link active" data-scroll-target="#practical-wednesday-active-learning-with-bert">Practical (Wednesday): Active Learning with BERT</a></li>
-  <li><a href="#lecture-thursday-large-language-models-for-information-extraction" id="toc-lecture-thursday-large-language-models-for-information-extraction" class="nav-link" data-scroll-target="#lecture-thursday-large-language-models-for-information-extraction">Lecture (Thursday): Large Language Models for information extraction</a>
+  <li><a href="#lecture-thursday-large-language-models-for-information-extraction" id="toc-lecture-thursday-large-language-models-for-information-extraction" class="nav-link active" data-scroll-target="#lecture-thursday-large-language-models-for-information-extraction">Lecture (Thursday): Large Language Models for information extraction</a>
   <ul class="collapse">
   <li><a href="#slides" id="toc-slides" class="nav-link" data-scroll-target="#slides">Slides</a></li>
   </ul></li>
+  <li><a href="#practical-wednesday-local-llms" id="toc-practical-wednesday-local-llms" class="nav-link" data-scroll-target="#practical-wednesday-local-llms">Practical (Wednesday): Local LLMs</a></li>
   </ul>
 </nav>
     </div>
@@ -303,7 +299,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Week 12: Transfer Learning and LLMs in the Social Sciences</h1>
+<h1 class="title">Week 12/13: Transfer Learning and LLMs in the Social Sciences</h1>
 </div>
 
 
@@ -320,12 +316,6 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="practical-wednesday-active-learning-with-bert" class="level2">
-<h2 class="anchored" data-anchor-id="practical-wednesday-active-learning-with-bert">Practical (Wednesday): Active Learning with BERT</h2>
-<ul>
-<li>Time to fine-tune a BERT model for your own classification task. Please follow the instructions in the <a href="https://fellennert.github.io/toolbox_css/17_BERT.html">CSS Handbook Chapter 17</a>.</li>
-</ul>
-</section>
 <section id="lecture-thursday-large-language-models-for-information-extraction" class="level2">
 <h2 class="anchored" data-anchor-id="lecture-thursday-large-language-models-for-information-extraction">Lecture (Thursday): Large Language Models for information extraction</h2>
 <p>This week answers the following questions:</p>
@@ -339,9 +329,15 @@ ul.task-list li input[type="checkbox"] {
 <p>Alternatively, read them here (probably not the best if you’re visiting this page on a mobile device):</p>
 <iframe src="./slides/20251209-tad-V.pdf" width="100%" height="800px" style="border: 1px solid #ddd;">
 </iframe>
-
-
 </section>
+</section>
+<section id="practical-wednesday-local-llms" class="level2">
+<h2 class="anchored" data-anchor-id="practical-wednesday-local-llms">Practical (Wednesday): Local LLMs</h2>
+<ul>
+<li><a href="https://fellennert.github.io/toolbox_css/18_GPT.html">CSS Handbook Chapter 18</a></li>
+</ul>
+
+
 </section>
 
 </main> <!-- /main -->
@@ -417,7 +413,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/fellennert\.github\.io\/toolbox_css\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

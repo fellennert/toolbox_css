@@ -1,9 +1,11 @@
 {
-  "hash": "92ca5ad6ea85249308e8e303195eb94b",
+  "hash": "a895dcb325c24b9045fe74e4e02471a2",
   "result": {
     "engine": "knitr",
-    "markdown": "---\ntitle: \"Week 13: \"\npublished-title: week_13\nengine: knitr\nfreeze: auto\n---\n\n## Practical (Wednesday): Local LLMs\n\n* [CSS Handbook Chapter 18](https://fellennert.github.io/toolbox_css/18_GPT.html)\n\n## Lecture (Thursday)\n\n* We are done with new stuff, so this session is reserved for project work and questions. Please use the time to work on your projects and ask me any questions you have.",
-    "supporting": [],
+    "markdown": "---\ntitle: \"Week 13: \"\npublished-title: week_13\nengine: knitr\nfreeze: auto\n---\n\n",
+    "supporting": [
+      "lectures-week_13_files"
+    ],
     "filters": [
       "rmarkdown/pagebreak.lua"
     ],

@@ -1,9 +1,11 @@
 {
-  "hash": "5023c4900689736a16ce2f703058624b",
+  "hash": "68917d8ab39088a26ecda55b743cab45",
   "result": {
     "engine": "knitr",
-    "markdown": "---\ntitle: \"Week 10: BERTopic and Topic Modeling with Transformers\"\npublished-title: week_10\nengine: knitr\nfreeze: auto\n---\n\nThis week answers the following questions:\n\n- How can we use contextualized word embeddings for text analysis?\n\n\n## Slides \n\nThere are no slides, just the coding script.",
-    "supporting": [],
+    "markdown": "---\ntitle: \"Week 10/11: Word Embeddings\"\npublished-title: week_10\nengine: knitr\nfreeze: auto\n---\n\n## Lecture (Thursday): Word Embeddings\n\nThis week answers the following questions:\n\n- What are word embeddings?\n- How do they lend themselves to sociological inquiry?\n\n### Slides \n\nSlides can be found [here](slides/20251204-tad-IV.pdf).\n\nAlternatively, read them here (probably not the best if you're visiting this page on a mobile device):\n\n<iframe src=\"./slides/20251204-tad-IV.pdf\" \n        width=\"100%\" \n        height=\"800px\" \n        style=\"border: 1px solid #ddd;\">\n</iframe>\n\n## Practical (Wednesday): Word Embeddings\n\n* [CSS Handbook Chapter 16](https://fellennert.github.io/toolbox_css/16_word_embeddings.html).",
+    "supporting": [
+      "lectures-week_10_files"
+    ],
     "filters": [
       "rmarkdown/pagebreak.lua"
     ],

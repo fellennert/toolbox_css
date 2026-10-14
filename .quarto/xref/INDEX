@@ -109,5 +109,35 @@
   },
   "syllabus/video-links.qmd": {
     "video-links.html": "7b8b4922"
+  },
+  "lectures-week_12.qmd": {
+    "lectures-week_12.html": "d8db9b44"
+  },
+  "lectures-week_11.qmd": {
+    "lectures-week_11.html": "1e23be24"
+  },
+  "general_data.qmd": {
+    "general_data.html": "08929aed"
+  },
+  "lectures-week_14.qmd": {
+    "lectures-week_14.html": "a380b90e"
+  },
+  "general_ai_usage.qmd": {
+    "general_ai_usage.html": "1ba23c09"
+  },
+  "general_anti_dis.qmd": {
+    "general_anti_dis.html": "d674b0e4"
+  },
+  "general_sc.qmd": {
+    "general_sc.html": "f014fd53"
+  },
+  "general_exam.qmd": {
+    "general_exam.html": "dd0a9a6f"
+  },
+  "lectures-week_15.qmd": {
+    "lectures-week_15.html": "1082f533"
+  },
+  "lectures-week_13.qmd": {
+    "lectures-week_13.html": "f5346b51"
   }
 }
