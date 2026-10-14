@@ -1,26 +1,29 @@
 ---
-title: "Week 8: Word Embeddings"
+title: "Week 8/9: Supervised Machine Learning"
 published-title: week_8
 engine: knitr
 freeze: auto
 ---
+
+## Lecture (Thursday): Supervised Machine Learning
 
 This week answers the following questions:
 
 - What are word embeddings?
 - How do they lend themselves to sociological inquiry?
 
+### Slides 
 
-## Slides 
-
-No class on Tuesday.
-
-Thursday's slides can be found [here](slides/20251204-tad-IV.pdf).
+Slides can be found [here](slides/20251127-tad-III.pdf).
 
 Alternatively, read them here (probably not the best if you're visiting this page on a mobile device):
 
-<iframe src="./slides/20251204-tad-IV.pdf" 
+<iframe src="./slides/20251127-tad-III.pdf" 
         width="100%" 
         height="800px" 
         style="border: 1px solid #ddd;">
 </iframe>
+
+## Practical (Wednesday): Supervised Machine Learning in Practice 
+
+* [CSS Handbook Chapter 14](https://fellennert.github.io/toolbox_css/14_supervised_ml.html).

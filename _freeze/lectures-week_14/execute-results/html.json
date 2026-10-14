@@ -1,9 +1,11 @@
 {
-  "hash": "6e71c68c59852846746f466ca0bd5415",
+  "hash": "b986f9ce404948e69c511919bafdba1f",
   "result": {
     "engine": "knitr",
-    "markdown": "---\ntitle: \"Week 14: \"\npublished-title: week_14\nengine: knitr\nfreeze: auto\n---\n\n",
-    "supporting": [],
+    "markdown": "---\ntitle: \"Week 14: Presentation Preparation Week\"\npublished-title: week_14\nengine: knitr\nfreeze: auto\n---\n\nEach group works on their presentation! Attendance in both sessions is optional. We will be available for questions and guidance.",
+    "supporting": [
+      "lectures-week_14_files"
+    ],
     "filters": [
       "rmarkdown/pagebreak.lua"
     ],

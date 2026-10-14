@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Week 12: – Toolbox CSS</title>
+<title>Week 12: Transfer Learning and LLMs in the Social Sciences – Toolbox CSS</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -94,17 +94,17 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lectures" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Lectures</span>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-topics" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Topics</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-lectures">    
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-topics">    
         <li>
     <a class="dropdown-item" href="./lectures-overview.html">
  <span class="dropdown-text">Overview – week by week</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_1.html">
- <span class="dropdown-text">Week 1: What Is Computational Social Science (CSS)?</span></a>
+ <span class="dropdown-text">Week 1: Kick-off</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_2.html">
@@ -132,23 +132,23 @@ ul.task-list li input[type="checkbox"] {
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_8.html">
- <span class="dropdown-text">Week 8: Word Embeddings</span></a>
+ <span class="dropdown-text">Week 8: Supervised Machine Learning</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_9.html">
- <span class="dropdown-text">Week 9: Transfer Learning and LLMs in the Social Sciences</span></a>
+ <span class="dropdown-text">Week 9: Unsupervised Machine Learning</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_10.html">
- <span class="dropdown-text">Week 10: BERTopic and Topic Modeling with Transformers</span></a>
+ <span class="dropdown-text">Week 10: Word Embeddings</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_11.html">
- <span class="dropdown-text">Week 11:</span></a>
+ <span class="dropdown-text">Week 11: Supervised Learning with BERT</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_12.html">
- <span class="dropdown-text">Week 12:</span></a>
+ <span class="dropdown-text">Week 12: Transfer Learning and LLMs in the Social Sciences</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_13.html">
@@ -156,7 +156,7 @@ ul.task-list li input[type="checkbox"] {
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_14.html">
- <span class="dropdown-text">Week 14:</span></a>
+ <span class="dropdown-text">Week 14: Presentation Preparation Week</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_15.html">
@@ -165,10 +165,10 @@ ul.task-list li input[type="checkbox"] {
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-css-handbook-(r-script" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">CSS Handbook (R Script)</span>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-css-handbook-(r-scripts--videos" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">CSS Handbook (R Scripts &amp; Videos)</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-css-handbook-(r-script">    
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-css-handbook-(r-scripts--videos">    
         <li>
     <a class="dropdown-item" href="./1_r_index.html">
  <span class="dropdown-text">Chapter 1: Preface</span></a>
@@ -285,15 +285,25 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#practical-wednesday-active-learning-with-bert" id="toc-practical-wednesday-active-learning-with-bert" class="nav-link active" data-scroll-target="#practical-wednesday-active-learning-with-bert">Practical (Wednesday): Active Learning with BERT</a></li>
+  <li><a href="#lecture-thursday-large-language-models-for-information-extraction" id="toc-lecture-thursday-large-language-models-for-information-extraction" class="nav-link" data-scroll-target="#lecture-thursday-large-language-models-for-information-extraction">Lecture (Thursday): Large Language Models for information extraction</a>
+  <ul class="collapse">
+  <li><a href="#slides" id="toc-slides" class="nav-link" data-scroll-target="#slides">Slides</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Week 12:</h1>
+<h1 class="title">Week 12: Transfer Learning and LLMs in the Social Sciences</h1>
 </div>
 
 
@@ -310,8 +320,29 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="practical-wednesday-active-learning-with-bert" class="level2">
+<h2 class="anchored" data-anchor-id="practical-wednesday-active-learning-with-bert">Practical (Wednesday): Active Learning with BERT</h2>
+<ul>
+<li>Time to fine-tune a BERT model for your own classification task. Please follow the instructions in the <a href="https://fellennert.github.io/toolbox_css/17_BERT.html">CSS Handbook Chapter 17</a>.</li>
+</ul>
+</section>
+<section id="lecture-thursday-large-language-models-for-information-extraction" class="level2">
+<h2 class="anchored" data-anchor-id="lecture-thursday-large-language-models-for-information-extraction">Lecture (Thursday): Large Language Models for information extraction</h2>
+<p>This week answers the following questions:</p>
+<ul>
+<li>What is transfer learning?</li>
+<li>How are LLMs used in the social sciences?</li>
+</ul>
+<section id="slides" class="level3">
+<h3 class="anchored" data-anchor-id="slides">Slides</h3>
+<p>Slides can be found <a href="slides/20251209-tad-V.pdf">here</a>.</p>
+<p>Alternatively, read them here (probably not the best if you’re visiting this page on a mobile device):</p>
+<iframe src="./slides/20251209-tad-V.pdf" width="100%" height="800px" style="border: 1px solid #ddd;">
+</iframe>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -1,28 +1,23 @@
 ---
-title: "Week 4: `selenium` and APIs"
+title: "Week 4/5: Dynamic Pages, Forms and APIs"
 published-title: week_4
 engine: knitr
 freeze: auto
 ---
 
+## Lecture (Thursday): Dynamic Pages, Forms and APIs
+
 This week answers the following questions:
 
-- How do I control a browser? (Tuesday)
-- How can I communicate with an API? (Tuesday)
-- How can I read in text from images or PDFs? (Thursday)
-- How can I transcribe text? (Thursday)
+- How do I control a (virtual) browser?
+- How can I communicate with an API?
 
-## Slides 
-
-There are no slides for Tuesday, you can look at the ones from the week before, just the R script. 
-
-Thursday's slides can be found [here](slides/20251106-ocr_whisper.pdf).
-
-Alternatively, read them here (probably not the best if you're visiting this page on a mobile device):
+### Slides 
 
 
-<iframe src="./slides/20251106-ocr_whisper.pdf" 
-        width="100%" 
-        height="800px" 
-        style="border: 1px solid #ddd;">
-</iframe>
+## Practical (Wednesday): Selenium & APIs
+
+* Toolbox CSS Website: _[Chapter 8](https://fellennert.github.io/toolbox_css/8_selenium.html)_
+  + `selenium` documentation -- _[online](https://www.selenium.dev/documentation/webdriver/)_
+* Toolbox CSS Website: _[Chapter 9](https://fellennert.github.io/toolbox_css/9_apis.html)_
+  + `httr2` documentation -- _[online](https://httr2.r-lib.org/articles/httr2.html)_

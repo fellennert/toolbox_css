@@ -1,11 +1,9 @@
 {
-  "hash": "b62fa74333cc1a3ce1d47bb529f1875d",
+  "hash": "6d52bd5d41e9591517d0630d06327988",
   "result": {
     "engine": "knitr",
-    "markdown": "---\ntitle: \"Week 5: Introduction to Text as Data\"\npublished-title: week_5\nengine: knitr\nfreeze: auto\n---\n\nThis week answers the following questions:\n\n- What are approaches for doing research with text? (Thursday)\n- What is the bag of words model? (Thursday)\n\n\n## Slides \n\nThursday's slides can be found [here](slides/20251113-tad-I.pdf).\n\nAlternatively, read them here (probably not the best if you're visiting this page on a mobile device):\n\n<iframe src=\"./slides/20251113-tad-I.pdf\" \n        width=\"100%\" \n        height=\"800px\" \n        style=\"border: 1px solid #ddd;\">\n</iframe>",
-    "supporting": [
-      "lectures-week_5_files"
-    ],
+    "markdown": "---\ntitle: \"Week 5/6: OCR and Audio Transcription\"\npublished-title: week_5\nengine: knitr\nfreeze: auto\n---\n\n## Lecture (Thursday): OCR and Audio Transcription\n\n\n### Slides \n\n## Practical (Wednesday): Image & Audio Transcription in Practice\n\n* Image: [CSS Handbook Chapter 10](https://fellennert.github.io/toolbox_css/10_tesseract.html).\n* Audio: [CSS Handbook Chapter 11](https://fellennert.github.io/toolbox_css/11_transcription.html).\n",
+    "supporting": [],
     "filters": [
       "rmarkdown/pagebreak.lua"
     ],

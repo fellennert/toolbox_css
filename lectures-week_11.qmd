@@ -1,7 +1,15 @@
 ---
-title: "Week 11: "
+title: "Week 11/12: Supervised Learning with BERT"
 published-title: week_11
 engine: knitr
 freeze: auto
 ---
 
+## Lecture (Thursday): Supervised Learning on Steroids: BERT
+
+### Slides 
+
+
+## Practical (Wednesday): Active Learning with BERT
+
+* Time to fine-tune a BERT model for your own classification task. Please follow the instructions in the [CSS Handbook Chapter 17](https://fellennert.github.io/toolbox_css/17_BERT.html).

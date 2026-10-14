@@ -1,24 +1,29 @@
 ---
-title: "Week 9: Transfer Learning and LLMs in the Social Sciences"
+title: "Week 9/10: Unsupervised Machine Learning"
 published-title: week_9
 engine: knitr
 freeze: auto
 ---
 
+## Lecture (Thursday): Unsupervised Machine Learning
+
 This week answers the following questions:
 
-- What is transfer learning?
-- How are LLMs used in the social sciences?
+- What are word embeddings?
+- How do they lend themselves to sociological inquiry?
 
+### Slides 
 
-## Slides 
-
-Tuesday's slides can be found [here](slides/20251209-tad-V.pdf).
+Slides can be found [here](slides/20251127-tad-III.pdf).
 
 Alternatively, read them here (probably not the best if you're visiting this page on a mobile device):
 
-<iframe src="./slides/20251209-tad-V.pdf" 
+<iframe src="./slides/20251127-tad-III.pdf" 
         width="100%" 
         height="800px" 
         style="border: 1px solid #ddd;">
 </iframe>
+
+## Practical (Wednesday): Unsupervised ML in Practice 
+
+* [CSS Handbook Chapter 15](https://fellennert.github.io/toolbox_css/15_unsupervised_ml.html).

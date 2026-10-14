@@ -1,24 +1,29 @@
 ---
-title: "Week 5: Introduction to Text as Data"
+title: "Week 5/6: OCR and Audio Transcription"
 published-title: week_5
 engine: knitr
 freeze: auto
 ---
 
-This week answers the following questions:
-
-- What are approaches for doing research with text? (Thursday)
-- What is the bag of words model? (Thursday)
+## Lecture (Thursday): OCR and Audio Transcription
 
 
-## Slides 
+### Slides 
 
-Thursday's slides can be found [here](slides/20251113-tad-I.pdf).
+Slides can be found [here](slides/20251106-ocr_whisper.pdf).
 
 Alternatively, read them here (probably not the best if you're visiting this page on a mobile device):
 
-<iframe src="./slides/20251113-tad-I.pdf" 
+<iframe src="./slides/20251106-ocr_whisper.pdf" 
         width="100%" 
         height="800px" 
         style="border: 1px solid #ddd;">
 </iframe>
+
+## Practical (Wednesday): Image & Audio Transcription in Practice
+
+- How can I read in text from images or PDFs?
+- How can I transcribe text?
+
+* Image: [CSS Handbook Chapter 10](https://fellennert.github.io/toolbox_css/10_tesseract.html).
+* Audio: [CSS Handbook Chapter 11](https://fellennert.github.io/toolbox_css/11_transcription.html).

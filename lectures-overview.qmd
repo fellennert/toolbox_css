@@ -56,14 +56,13 @@ This week answers the following questions:
 - What are best practices for data acquisition projects?
 - How do we plan our research projects?
 
-## Week 7: Student Project Week
+## Week 7: Data Curation
 
-This week is dedicated to working on your research projects in class.
+This week is dedicated to data curation and preparation. We will answer the following questions:
 
-- Discuss your project ideas with peers and the instructor
-- Begin data acquisition for your research
-- Troubleshoot technical challenges
-- Form study groups with matching research interests
+- How do we clean and prepare our data for analysis?
+- How do we handle missing values and outliers?
+- How do we transform and reshape our data for analysis?
 
 ## Week 8: Text as Data I
 

@@ -1,26 +1,15 @@
 ---
-title: "Week 6: Supervised Learning"
+title: "Week 6/7: Text Preprocessing and Featurization"
 published-title: week_6
 engine: knitr
 freeze: auto
 ---
 
-This week answers the following questions:
-
-- How can we prepare text data for analysis? (Tuesday)
-- What are supervised machine learning approaches for doing research with text? (Thursday)
+## Lecture (Thursday): Text Preprocessing and Featurization
 
 
-## Slides 
+### Slides 
 
-There are no slides for Tuesday, just an R script. 
+## Practical (Wednesday): Text Preprocessing and Featurization
 
-Thursday's slides can be found [here](slides/20251120-tad-II.pdf).
-
-Alternatively, read them here (probably not the best if you're visiting this page on a mobile device):
-
-<iframe src="./slides/20251120-tad-II.pdf)" 
-        width="100%" 
-        height="800px" 
-        style="border: 1px solid #ddd;">
-</iframe>
+* [CSS Handbook Chapter 12](https://fellennert.github.io/toolbox_css/12_text-preprocessing.html)

@@ -1,7 +1,30 @@
 ---
-title: "Week 12: "
+title: "Week 12/13: Transfer Learning and LLMs in the Social Sciences"
 published-title: week_12
 engine: knitr
 freeze: auto
 ---
 
+## Lecture (Thursday): Large Language Models for information extraction
+
+This week answers the following questions:
+
+- What is transfer learning?
+- How are LLMs used in the social sciences?
+
+### Slides 
+
+Slides can be found [here](slides/20251209-tad-V.pdf).
+
+Alternatively, read them here (probably not the best if you're visiting this page on a mobile device):
+
+<iframe src="./slides/20251209-tad-V.pdf" 
+        width="100%" 
+        height="800px" 
+        style="border: 1px solid #ddd;">
+</iframe>
+
+
+## Practical (Wednesday): Local LLMs
+
+* [CSS Handbook Chapter 18](https://fellennert.github.io/toolbox_css/18_GPT.html)

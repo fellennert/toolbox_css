@@ -1,0 +1,175 @@
+## Week 1: Kick Off
+
+### Welcome & Housekeeping (`r return_course_date(1, day = 'wednesday')`)
+
+No readings.
+
+### Setting up your workstation (`r return_course_date(1, day = 'thursday')`)
+
+* Acquire access to _[sc.uni-leipzig.de](www.sc.uni-leipzig.de)_
+* R recap (the corresponding chapters can be found in the R4DS book -- _[online](https://r4ds.hadley.nz))
+  + `RMarkdown`/`Quarto` -- chapters 28 & 29
+  + `dplyr` -- chapter 4
+  + `tidyr` -- chapter 6
+  + `ggplot2` -- chapters 2 & 10 & 11 & 12
+  + `purrr` & loops in different flavors -- chapter 27
+  + functional programming -- chapter 26
+  + set up `reticulate` in RStudio -- _[online](https://rstudio.github.io/reticulate/)_
+
+## Week 2: Brief Intro to Python & Regexes
+
+### Python & Regexes(`r return_course_date(2, day = 'wednesday')`)
+
+* Brief intro to Python
+  + _reticulate_ -- how to run Python in R studio
+  + data types
+  + loops
+  + functions
+  + `pandas`
+
+### Regular Expressions (`r return_course_date(2, day = 'thursday')`)
+
+* `stringr` & Regular Expressions -- R4DS book, _[online](https://r4ds.hadley.nz)_, chapters 15 & 16
+
+## Week 3: Data Acquisition I
+
+### How the Web is Written and Ethics (`r return_course_date(3, day = 'wednesday')`)
+
+* @stoltz_mapping_2024 -- chapter 5
+* Blog post on CSS selectors -- _[online](https://css-tricks.com/css-selectors/)_
+* Blog posts on API calls --  _[online](https://www.cloudflare.com/learning/security/api/what-is-api-call/)_
+
+### `rvest` (`r return_course_date(3, day = 'thursday')`)
+
+* `rvest` Web scraping 101 -- _[online](https://rvest.tidyverse.org/articles/rvest.html)_
+
+## Week 4: Data Acquisition II
+### Dynamic Pages and Forms (`r return_course_date(4, day = 'wednesday')`)
+
+* `selenium` documentation -- _[online](https://www.selenium.dev/documentation/webdriver/)_
+
+### APIs (`r return_course_date(4, day = 'thursday')`)
+
+* `httr2` documentation -- _[online](https://httr2.r-lib.org/articles/httr2.html)_
+
+## Week 5: Data Acquisition III
+### Intro to OCR  (`r return_course_date(5, day = 'wednesday')`)
+
+* @stoltz_mapping_2024 -- chapter 5
+* `Tesseract` documentation -- _[online](https://tesseract-ocr.github.io)_
+
+### Intro to Audio Transcription  (`r return_course_date(5, day = 'thursday')`)
+
+* @stoltz_mapping_2024 -- chapter 5
+* OpenAI Whisper Python package documentation -- _[online](https://github.com/openai/whisper)_
+
+## Week 6: Data Acquisition IV
+
+Optional buffer sessions.
+
+## Week 7: Student Project Week
+
+Students are expected to show up to class and work on their projects.
+
+## Week 8: Text as Data I
+
+### Bag of Words(`r return_course_date(8, day = 'wednesday')`)
+
+* @evans_machine_2016
+* @grimmer_text_2022, chapters 3--5, 11, & 15
+* @stoltz_mapping_2024, chapters 4--9
+
+### Sentiment Analysis, TF-IDF, and NER/POS (`r return_course_date(8, day = 'thursday')`)
+
+* @grimmer_text_2022, chapter 11
+* @jurafsky_speech, chapter 21 -- _[online](https://web.stanford.edu/~jurafsky/slp3/21.pdf)_
+* @silge_text_2017 -- _[online](https://www.tidytextmining.com/)_, chapters 2 & 3
+
+## Week 9: Text as Data II
+
+### Supervised Machine Learning in Theory (`r return_course_date(9, day = 'wednesday')`)
+
+#### Supervised ML
+
+* @barbera_automated_2021
+* @grimmer_text_2022, chapters 17--20
+* @stoltz_mapping_2024, chapters 9 & 12
+
+### Supervised Machine Learning in Practice (`r return_course_date(9, day = 'thursday')`)
+
+* @hvitfeldt_supervised_2022 -- _[online](https://smltar.com/)_, chapters 6 & 7
+* @silge_predictive_2019 -- _[online](https://emilhvitfeldt.github.io/useR2020-text-modeling-tutorial/#4)_
+
+
+## Week 10: Text as Data III
+
+### Unsupervised ML in Theory and Practice (`r return_course_date(10, day = 'wednesday')`)
+
+* @blei_probabilistic_2012
+* @dimaggio_exploiting_2013
+* @grimmer_text_2022, chapters 10, 12--3
+* @stoltz_mapping_2024, chapters 10 & 11
+* @silge_text_2017 -- _[online](https://www.tidytextmining.com/topicmodeling.html)_, chapter 6
+
+### Remote Counseling pre-Christmas Break (`r return_course_date(10, day = 'thursday')`)
+
+1-on-1 project counseling available on Zoom.
+
+---- CHRISTMAS BREAK ----
+
+## Week 11: Text as Data IV
+
+### Measuring Similarity and the Distributional Hypothesis (`r return_course_date(13, day = 'wednesday')`)
+
+* @jurafsky_speech, chapter 6 -- _[online](https://web.stanford.edu/~jurafsky/slp3/6.pdf)_
+* @stoltz_cultural_2021
+
+### Word Embeddings (`r return_course_date(13, day = 'thursday')`)
+
+* @hvitfeldt_supervised_2022 -- _[online](https://smltar.com)_, chapter 5
+* @stoltz_mapping_2024, chapter 11
+* `text2map`: R Tools for Text Matrices -- _[online](https://culturalcartography.gitlab.io/text2map/)_
+
+## Week 12: Text as Data V
+
+### Supervised Learning on Steroids: BERT (`r return_course_date(14, day = 'wednesday')`)
+
+* @do_augmented_2022
+* @laurer_less_2024
+* @tornberg_how_2023
+* @wankmuller_introduction_2022
+
+### Active Learning with BERT (`r return_course_date(14, day = 'thursday')`)
+
+* set up environments
+* Augmented Social Scientist tutorial --  _[online](https://colab.research.google.com/drive/132_oDik-SOWve31tZ8D1VOx1Sj_Cyzn7?usp=sharing)_
+* BERTopic -- _[online](https://maartengr.github.io/BERTopic/index.html)_
+
+## Week 13: Text as Data VI
+
+### LLMs for information extraction (`r return_course_date(15, day = 'wednesday')`)
+
+* @stuhler_codebooks_2025
+
+### Local LLMs -- a primer (`r return_course_date(15, day = 'thursday')`)
+
+* `ellmer` documentation -- _[online](https://ellmer.tidyverse.org)_
+* Tutorial from IC2S2 by Etienne Ollion, Emilien Schultz, Julien Boelaert -- _[online](https://www.css.cnrs.fr/llm-power-to-the-people/)_
+
+## Week 14: Presentation Preparation Week
+
+No classes. Deadline for sending presentations: January 30, 6PM.
+
+## Week 15: Presentation & Wrap Up Week
+
+### Presentations (`r return_course_date(17, day = 'wednesday')`)
+
+No readings.
+
+### Presentations & Wrap-up (`r return_course_date(17, day = 'thursday')`)
+
+No readings.
+
+## Deadline Forschungsbericht
+
+March 19, 2026 (tentative).

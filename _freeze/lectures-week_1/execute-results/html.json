@@ -1,9 +1,11 @@
 {
-  "hash": "9f3a44c4c4fe83e64e47886a06f6bb11",
+  "hash": "fe0bf22b58b97d73da4b5c64afc1e960",
   "result": {
     "engine": "knitr",
-    "markdown": "---\ntitle: \"Week 1: What Is Computational Social Science (CSS)?\"\npublished-title: week_1\nengine: knitr\nfreeze: auto\n---\n\n## Practiacal (Wendsday)\n\nKick-off session: lets get to know each other and the course.\n\n## Lecture (Thursday)\n\nThis lecture answers the following questions:\n\n- What does the term CSS mean?\n- Which principles underly a new CSS?\n- Which methods does CSS encompass?\n\n### Slides \n\nPlease click [here to download the latest version of the slides](./slides/20251014-intro.pdf).\n\nAlternatively, read them here (probably not the best if you're visiting this page on a mobile device):\n\n<iframe src=\"./slides/20251014-intro.pdf\"\n        width=\"100%\" \n        height=\"800px\" \n        style=\"border: 1px solid #ddd;\">\n</iframe>",
-    "supporting": [],
+    "markdown": "---\ntitle: \"Week 1/2: Kick-off\"\npublished-title: week_1\nengine: knitr\nfreeze: auto\n---\n\n## Practical (Wednesday)\n\nKick-off session: lets get to know each other and the course.\n\n## Lecture (Thursday)\n\nCancelled. Take some time for introspection, meditate, and reflect on your research question.\n\n## Practical (Wednesday): Setting up your workstation\n\n* Preparing everything for [Scientific Computing](https://fellennert.github.io/toolbox_css/general_sc.html)\n  + Acquire access to _[sc.uni-leipzig.de](www.sc.uni-leipzig.de)_\n  + Get a Github account if you don't have one yet\n  + Connect your PC and the SC Account with your Github account\n* R recap (the corresponding chapters can be found in the R4DS book -- _[online](https://r4ds.hadley.nz))\n  + `RMarkdown`/`Quarto` -- chapters 28 & 29\n  + `dplyr` -- chapter 4\n  + `tidyr` -- chapter 6\n  + `ggplot2` -- chapters 2 & 10 & 11 & 12\n  + `purrr` & loops in different flavors -- chapter 27\n  + functional programming -- chapter 26\n  + set up `reticulate` in RStudio -- _[online](https://rstudio.github.io/reticulate/)_",
+    "supporting": [
+      "lectures-week_1_files"
+    ],
     "filters": [
       "rmarkdown/pagebreak.lua"
     ],

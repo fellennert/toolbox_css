@@ -1,31 +1,27 @@
 ---
-title: "Week 3: Regexes & Crawling the web"
+title: "Week 3/4: Crawling the web"
 published-title: week_3
 engine: knitr
 freeze: auto
 ---
 
-## Practiacal (Wednesday)
-
-
-## Lecture (Thursday)
-
+## Lecture (Thursday): Crawling the web
 
 This lecture answers the following questions:
 
 - Why will Regexes change your life? (not in slides, code script only.)
-- How do I harness how the web is written to scrape websites? (Tuesday)
-- What do I have to bear in mind when scraping websites? (Thursday)
+- How do I harness how the web is written to scrape websites?
+- What do I have to bear in mind when scraping websites?
 
-## Slides 
+### Slides 
+
+<!---
 
 Please click [here to download the slides for Tuesday, October 28, 2025](./slides/20251028-crawling_web-novids.pdf). Caveat: the original slides contain recordings of my screen demonstrating web scraping. These could not be included due to storage constraints.
 
-Please click [here to download the slides for Thursday, October 30, 2025](./slides/20251030-scraping_ethics.pdf). 
+Please click [here to download the slides](./slides/20251030-scraping_ethics.pdf). 
 
 Alternatively, read them here (probably not the best if you're visiting this page on a mobile device):
-
-### Tuesday, Oct. 28, 2025
 
 <iframe src="./slides/20251028-crawling_web-novids.pdf" 
         width="100%" 
@@ -33,10 +29,8 @@ Alternatively, read them here (probably not the best if you're visiting this pag
         style="border: 1px solid #ddd;">
 </iframe>
 
-### Thursday, Oct. 30, 2025
+--->
 
-<iframe src="./slides/20251030-scraping_ethics.pdf" 
-        width="100%" 
-        height="800px" 
-        style="border: 1px solid #ddd;">
-</iframe>
+## Practical (Wednesday): Crawling the web
+
+* Toolbox CSS Website: _[Chapter 7](https://fellennert.github.io/toolbox_css/7_scraping.html)_

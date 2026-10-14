@@ -132,7 +132,10 @@ We do not expect you to read the literature and will do the theoretical sessions
 
 ### `r return_course_date(2, day = 'wednesday')` Setting up your workstation
 
-* Acquire access to _[sc.uni-leipzig.de](www.sc.uni-leipzig.de)_
+* Preparing everything for [Scientific Computing](https://fellennert.github.io/toolbox_css/general_sc.html)
+  + Acquire access to _[sc.uni-leipzig.de](www.sc.uni-leipzig.de)_
+  + Get a Github account if you don't have one yet
+  + Connect your PC and the SC Account with your Github account
 * R recap (the corresponding chapters can be found in the R4DS book -- _[online](https://r4ds.hadley.nz))
   + `RMarkdown`/`Quarto` -- chapters 28 & 29
   + `dplyr` -- chapter 4
@@ -178,8 +181,7 @@ We do not expect you to read the literature and will do the theoretical sessions
 
 ### `r return_course_date(4, day = 'thursday')` Dynamic Pages and Forms
 
-
-
+* TBA
 
 
 
@@ -193,7 +195,7 @@ We do not expect you to read the literature and will do the theoretical sessions
   + `httr2` documentation -- _[online](https://httr2.r-lib.org/articles/httr2.html)_
 
 
-### `r return_course_date(5, day = 'wednesday')` OCR and Audio Transcription
+### `r return_course_date(5, day = 'thursday')` OCR and Audio Transcription
 
 * @stoltz_mapping_2024 -- chapter 5
 * `Tesseract` documentation -- _[online](https://tesseract-ocr.github.io)_
@@ -206,17 +208,17 @@ We do not expect you to read the literature and will do the theoretical sessions
 * @stoltz_mapping_2024 -- chapter 5
 * OpenAI Whisper Python package documentation -- _[online](https://github.com/openai/whisper)_
 
-### `r return_course_date(6, day  = 'thursday')` Project Work Session
+### `r return_course_date(6, day  = 'thursday')` Text Preprocessing and Featurization
 
-* Work on your project 
+* TBA
 
 
 
-## Week 7
+## Week 7: Introduction to Text as Data
 
-### `r return_course_date(7, day = 'wednesday')` Project Work Session
+### `r return_course_date(7, day = 'wednesday')` Text Preprocessing and Featurization
 
-* Work on your project
+* [CSS Handbook Chapter 12](https://fellennert.github.io/toolbox_css/12_text-preprocessing.html)
 
 ### `r return_course_date(7, day = 'thursday')` Bag of Words
 
@@ -229,6 +231,7 @@ We do not expect you to read the literature and will do the theoretical sessions
 
 ### `r return_course_date(8, day = 'wednesday')` Sentiment Analysis, TF-IDF, and NER/POS 
 
+* [CSS Handbook Chapter 1e](https://fellennert.github.io/toolbox_css/12_text-preprocessing.html)
 * @grimmer_text_2022, chapter 11
 * @jurafsky_speech, chapter 21 -- _[online](https://web.stanford.edu/~jurafsky/slp3/21.pdf)_
 * @silge_text_2017 -- _[online](https://www.tidytextmining.com/)_, chapters 2 & 3
@@ -264,7 +267,7 @@ We do not expect you to read the literature and will do the theoretical sessions
 * ToolBox CSS Website: _[Chapter 15](hhttps://fellennert.github.io/toolbox_css/15_unsupervised_ml.html)_
 
 
-### `r return_course_date(10, day = 'thursday')` Measuring Similarity and the Distributional Hypothesis
+### `r return_course_date(10, day = 'thursday')` Word Embeddings
 
 * @jurafsky_speech, chapter 6 -- _[online](https://web.stanford.edu/~jurafsky/slp3/6.pdf)_
 * @stoltz_cultural_2021
@@ -278,7 +281,7 @@ We do not expect you to read the literature and will do the theoretical sessions
 
 ## Week 11
 
-### `r return_course_date(13, day = 'wednesday')` Word Embeddings
+### `r return_course_date(13, day = 'wednesday')` Word Embeddings in Practice
 
 * @hvitfeldt_supervised_2022 -- _[online](https://smltar.com)_, chapter 5
 * @stoltz_mapping_2024, chapter 11
@@ -317,17 +320,18 @@ We do not expect you to read the literature and will do the theoretical sessions
 
 ### `r return_course_date(15, day = 'thursday')` Project Work Session
 
-* Work on your projects
+* Attendance is optional. Work on your presentations and projects. We will be available for questions and guidance.
+
 
 
 
 ## Week 14: Presentation Preparation Week
 
-### `r return_course_date(16, day = 'wednesday')` Free Project Work Session 
+### `r return_course_date(16, day = 'wednesday')` Project Work Session 
 
 * Attendance is optional. Work on your presentations and projects. We will be available for questions and guidance.
 
-### `r return_course_date(16, day = 'thursday')` Free Project Work Session
+### `r return_course_date(16, day = 'thursday')` Project Work Session
 
 * Attendance is optional. Work on your presentations and projects. We will be available for questions and guidance.
 
@@ -344,10 +348,6 @@ We do not expect you to read the literature and will do the theoretical sessions
 ### `r return_course_date(17, day = 'thursday')` Presentation Day II
 
 * More Presentations & Wrap-up
-
-## Deadline Forschungsbericht
-
-March 19, 2026 (tentative).
 
 ## Deadline Forschungsbericht
 

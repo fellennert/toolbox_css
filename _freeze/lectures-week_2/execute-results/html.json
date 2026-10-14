@@ -1,8 +1,8 @@
 {
-  "hash": "763d2a3f3b7fadb4e1d8b25ef9c59114",
+  "hash": "67dbc3b11858e9a3d655f7cf7cba106d",
   "result": {
     "engine": "knitr",
-    "markdown": "---\ntitle: \"Week 2: Refresher\"\npublished-title: week_2\nengine: knitr\nfreeze: auto\n---\n\nThis week, you will learn the answers to the following questions:\n\n- What are Python basics and how do they compare to R?\n- How can I use pandas?\n- How do string manipulations in R work?\n\n## Slides \n\nThere are no slides, just code script.\n\n",
+    "markdown": "---\ntitle: \"Week 2: Refresher\"\npublished-title: week_2\nengine: knitr\nfreeze: auto\n---\n\n## Practical (Wednesday): Setting up your workstation\n\n* Preparing everything for [Scientific Computing](https://fellennert.github.io/toolbox_css/general_sc.html)\n  + Acquire access to _[sc.uni-leipzig.de](www.sc.uni-leipzig.de)_\n  + Get a Github account if you don't have one yet\n  + Connect your PC and the SC Account with your Github account\n* R recap (the corresponding chapters can be found in the R4DS book -- _[online](https://r4ds.hadley.nz))\n  + `RMarkdown`/`Quarto` -- chapters 28 & 29\n  + `dplyr` -- chapter 4\n  + `tidyr` -- chapter 6\n  + `ggplot2` -- chapters 2 & 10 & 11 & 12\n  + `purrr` & loops in different flavors -- chapter 27\n  + functional programming -- chapter 26\n  + set up `reticulate` in RStudio -- _[online](https://rstudio.github.io/reticulate/)_\n\n## Lecture (Thursday): \n\nThis week, you will learn the answers to the following questions:\n\n- What are Python basics and how do they compare to R?\n- How can I use pandas?\n- How do string manipulations in R work?\n",
     "supporting": [
       "lectures-week_2_files"
     ],

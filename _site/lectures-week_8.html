@@ -94,17 +94,17 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-lectures" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Lectures</span>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-weeks" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Weeks</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-lectures">    
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-weeks">    
         <li>
     <a class="dropdown-item" href="./lectures-overview.html">
  <span class="dropdown-text">Overview – week by week</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_1.html">
- <span class="dropdown-text">Week 1: What Is Computational Social Science (CSS)?</span></a>
+ <span class="dropdown-text">Week 1: Kick-off</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_2.html">
@@ -142,13 +142,33 @@ ul.task-list li input[type="checkbox"] {
     <a class="dropdown-item" href="./lectures-week_10.html">
  <span class="dropdown-text">Week 10: BERTopic and Topic Modeling with Transformers</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_11.html">
+ <span class="dropdown-text">Week 11:</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_12.html">
+ <span class="dropdown-text">Week 12:</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_13.html">
+ <span class="dropdown-text">Week 13:</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_14.html">
+ <span class="dropdown-text">Week 14: Presentation Preparation Week</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./lectures-week_15.html">
+ <span class="dropdown-text">Week 15: Presentation &amp; Wrap Up Week</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-r-script" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">R Script</span>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-css-handbook-(r-scripts--videos" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">CSS Handbook (R Scripts &amp; Videos)</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-r-script">    
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-css-handbook-(r-scripts--videos">    
         <li>
     <a class="dropdown-item" href="./1_r_index.html">
  <span class="dropdown-text">Chapter 1: Preface</span></a>
@@ -224,6 +244,33 @@ ul.task-list li input[type="checkbox"] {
         <li>
     <a class="dropdown-item" href="./19_BERTopic.html">
  <span class="dropdown-text">Chapter 19: Unsupervised Text Classification with BERTopic</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-general-information" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">General Information</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-general-information">    
+        <li>
+    <a class="dropdown-item" href="./general_sc.html">
+ <span class="dropdown-text">Scientific Computing</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./general_data.html">
+ <span class="dropdown-text">A Nice List of Data Sources</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./general_ai_usage.html">
+ <span class="dropdown-text">Guidelines on AI-Usage</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./general_exam.html">
+ <span class="dropdown-text">Course Assessment</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./general_anti_dis.html">
+ <span class="dropdown-text">Anti-Discrimination Policy</span></a>
   </li>  
     </ul>
   </li>
@@ -358,7 +405,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/fellennert\.github\.io\/toolbox_css\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -692,7 +739,7 @@ ul.task-list li input[type="checkbox"] {
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>Copyright 2025, Felix Lennert (<a href="mailto:felix.lennert@uni-leipzig.de">felix.lennert@uni-leipzig.de</a>)</p>
+<p>Original materials © 2025 Felix Lennert (<a href="https://felix-lennert.netlify.app/">website</a>). Adapted and maintained by (Sascha Grehl)[sascha.grehl@uni-leipzig.de], 2026.</p>
 </div>
     <div class="nav-footer-right">
       &nbsp;

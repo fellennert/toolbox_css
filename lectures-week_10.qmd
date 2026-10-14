@@ -1,15 +1,29 @@
 ---
-title: "Week 10: BERTopic and Topic Modeling with Transformers"
+title: "Week 10/11: Word Embeddings"
 published-title: week_10
 engine: knitr
 freeze: auto
 ---
 
+## Lecture (Thursday): Word Embeddings
+
 This week answers the following questions:
 
-- How can we use contextualized word embeddings for text analysis?
+- What are word embeddings?
+- How do they lend themselves to sociological inquiry?
 
+### Slides 
 
-## Slides 
+Slides can be found [here](slides/20251204-tad-IV.pdf).
 
-There are no slides, just the coding script.
+Alternatively, read them here (probably not the best if you're visiting this page on a mobile device):
+
+<iframe src="./slides/20251204-tad-IV.pdf" 
+        width="100%" 
+        height="800px" 
+        style="border: 1px solid #ddd;">
+</iframe>
+
+## Practical (Wednesday): Word Embeddings
+
+* [CSS Handbook Chapter 16](https://fellennert.github.io/toolbox_css/16_word_embeddings.html).

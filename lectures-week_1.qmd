@@ -1,30 +1,33 @@
 ---
-title: "Week 1: Kick-off"
+title: "Week 1/2: Kick-off & Setup"
 published-title: week_1
 engine: knitr
 freeze: auto
 ---
 
-## Practiacal (Wednesday)
+## Practical (Wednesday): Hello
 
 Kick-off session: lets get to know each other and the course.
 
 ## Lecture (Thursday)
 
-This lecture answers the following questions:
+Cancelled. Take some time for introspection, meditate, and reflect on your research question.
 
-- What does the term CSS mean?
-- Which principles underly a new CSS?
-- Which methods does CSS encompass?
+## Practical (Wednesday): Setting up your workstation
 
-### Slides 
-
-Please click [here to download the latest version of the slides](./slides/20251014-intro.pdf).
-
-Alternatively, read them here (probably not the best if you're visiting this page on a mobile device):
-
-<iframe src="./slides/20251014-intro.pdf"
-        width="100%" 
-        height="800px" 
-        style="border: 1px solid #ddd;">
-</iframe>
+* Preparing everything for [Scientific Computing](https://fellennert.github.io/toolbox_css/general_sc.html)
+  + Acquire access to _[sc.uni-leipzig.de](www.sc.uni-leipzig.de)_
+  + Get a Github account if you don't have one yet
+  + Connect your PC and the SC Account with your Github account
+* R recap (the corresponding chapters can be found in the R4DS book -- _[online](https://r4ds.hadley.nz))
+  + `RMarkdown`/`Quarto` -- chapters 28 & 29
+  + `dplyr` -- chapter 4
+  + `tidyr` -- chapter 6
+  + `ggplot2` -- chapters 2 & 10 & 11 & 12
+  + `purrr` & loops in different flavors -- chapter 27
+  + functional programming -- chapter 26
+  + set up `reticulate` in RStudio -- _[online](https://rstudio.github.io/reticulate/)_
+* Get Python runnning under R
+  + Toolbox CSS Website: _[Chapter 3](https://fellennert.github.io/toolbox_css/3_reticulate.html)_
+  + Toolbox CSS Website: _[Chapter 4](https://fellennert.github.io/toolbox_css/4_python.html)_
+  + Toolbox CSS Website: _[Chapter 5](https://fellennert.github.io/toolbox_css/5_pandas.html)_
