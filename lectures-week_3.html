@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Week 3: Regexes &amp; Crawling the web – Toolbox CSS</title>
+<title>Week 3/4: Crawling the web – Toolbox CSS</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -104,7 +104,7 @@ ul.task-list li input[type="checkbox"] {
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_1.html">
- <span class="dropdown-text">Week 1: Kick-off</span></a>
+ <span class="dropdown-text">Week 1/2: Kick-off</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_2.html">
@@ -116,39 +116,39 @@ ul.task-list li input[type="checkbox"] {
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_4.html">
- <span class="dropdown-text">Week 4: <code>selenium</code> and APIs</span></a>
+ <span class="dropdown-text">Week 4/5: Dynamic Pages and Forms</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_5.html">
- <span class="dropdown-text">Week 5: Introduction to Text as Data</span></a>
+ <span class="dropdown-text">Week 5/6: OCR and Audio Transcription</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_6.html">
- <span class="dropdown-text">Week 6: Supervised Learning</span></a>
+ <span class="dropdown-text">Week 6/7: Text Preprocessing and Featurization</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_7.html">
- <span class="dropdown-text">Week 7: Supervised and Unsupervised Learning</span></a>
+ <span class="dropdown-text">Week 7(8): Introduction to Text as Data: Bag of Words</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_8.html">
- <span class="dropdown-text">Week 8: Word Embeddings</span></a>
+ <span class="dropdown-text">Week 8/9: Supervised Machine Learning</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_9.html">
- <span class="dropdown-text">Week 9: Transfer Learning and LLMs in the Social Sciences</span></a>
+ <span class="dropdown-text">Week 9/10: Unsupervised Machine Learning</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_10.html">
- <span class="dropdown-text">Week 10: BERTopic and Topic Modeling with Transformers</span></a>
+ <span class="dropdown-text">Week 10/11: Word Embeddings</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_11.html">
- <span class="dropdown-text">Week 11:</span></a>
+ <span class="dropdown-text">Week 11/12: Supervised Learning with BERT</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_12.html">
- <span class="dropdown-text">Week 12:</span></a>
+ <span class="dropdown-text">Week 12/13: Transfer Learning and LLMs in the Social Sciences</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./lectures-week_13.html">
@@ -290,13 +290,11 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#practiacal-wednesday" id="toc-practiacal-wednesday" class="nav-link active" data-scroll-target="#practiacal-wednesday">Practiacal (Wednesday)</a></li>
-  <li><a href="#lecture-thursday" id="toc-lecture-thursday" class="nav-link" data-scroll-target="#lecture-thursday">Lecture (Thursday)</a></li>
-  <li><a href="#slides" id="toc-slides" class="nav-link" data-scroll-target="#slides">Slides</a>
+  <li><a href="#lecture-thursday-crawling-the-web" id="toc-lecture-thursday-crawling-the-web" class="nav-link active" data-scroll-target="#lecture-thursday-crawling-the-web">Lecture (Thursday): Crawling the web</a>
   <ul class="collapse">
-  <li><a href="#tuesday-oct.-28-2025" id="toc-tuesday-oct.-28-2025" class="nav-link" data-scroll-target="#tuesday-oct.-28-2025">Tuesday, Oct.&nbsp;28, 2025</a></li>
-  <li><a href="#thursday-oct.-30-2025" id="toc-thursday-oct.-30-2025" class="nav-link" data-scroll-target="#thursday-oct.-30-2025">Thursday, Oct.&nbsp;30, 2025</a></li>
+  <li><a href="#slides" id="toc-slides" class="nav-link" data-scroll-target="#slides">Slides</a></li>
   </ul></li>
+  <li><a href="#practical-wednesday-crawling-the-web" id="toc-practical-wednesday-crawling-the-web" class="nav-link" data-scroll-target="#practical-wednesday-crawling-the-web">Practical (Wednesday): Crawling the web</a></li>
   </ul>
 </nav>
     </div>
@@ -305,7 +303,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Week 3: Regexes &amp; Crawling the web</h1>
+<h1 class="title">Week 3/4: Crawling the web</h1>
 </div>
 
 
@@ -322,35 +320,40 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="practiacal-wednesday" class="level2">
-<h2 class="anchored" data-anchor-id="practiacal-wednesday">Practiacal (Wednesday)</h2>
-</section>
-<section id="lecture-thursday" class="level2">
-<h2 class="anchored" data-anchor-id="lecture-thursday">Lecture (Thursday)</h2>
+<section id="lecture-thursday-crawling-the-web" class="level2">
+<h2 class="anchored" data-anchor-id="lecture-thursday-crawling-the-web">Lecture (Thursday): Crawling the web</h2>
 <p>This lecture answers the following questions:</p>
 <ul>
 <li>Why will Regexes change your life? (not in slides, code script only.)</li>
-<li>How do I harness how the web is written to scrape websites? (Tuesday)</li>
-<li>What do I have to bear in mind when scraping websites? (Thursday)</li>
+<li>How do I harness how the web is written to scrape websites?</li>
+<li>What do I have to bear in mind when scraping websites?</li>
 </ul>
-</section>
-<section id="slides" class="level2">
-<h2 class="anchored" data-anchor-id="slides">Slides</h2>
-<p>Please click <a href="./slides/20251028-crawling_web-novids.pdf">here to download the slides for Tuesday, October 28, 2025</a>. Caveat: the original slides contain recordings of my screen demonstrating web scraping. These could not be included due to storage constraints.</p>
-<p>Please click <a href="./slides/20251030-scraping_ethics.pdf">here to download the slides for Thursday, October 30, 2025</a>.</p>
-<p>Alternatively, read them here (probably not the best if you’re visiting this page on a mobile device):</p>
-<section id="tuesday-oct.-28-2025" class="level3">
-<h3 class="anchored" data-anchor-id="tuesday-oct.-28-2025">Tuesday, Oct.&nbsp;28, 2025</h3>
-<iframe src="./slides/20251028-crawling_web-novids.pdf" width="100%" height="800px" style="border: 1px solid #ddd;">
-</iframe>
-</section>
-<section id="thursday-oct.-30-2025" class="level3">
-<h3 class="anchored" data-anchor-id="thursday-oct.-30-2025">Thursday, Oct.&nbsp;30, 2025</h3>
-<iframe src="./slides/20251030-scraping_ethics.pdf" width="100%" height="800px" style="border: 1px solid #ddd;">
+<section id="slides" class="level3">
+<h3 class="anchored" data-anchor-id="slides">Slides</h3>
+<!---
+
+Please click [here to download the slides for Tuesday, October 28, 2025](./slides/20251028-crawling_web-novids.pdf). Caveat: the original slides contain recordings of my screen demonstrating web scraping. These could not be included due to storage constraints.
+
+Please click [here to download the slides](./slides/20251030-scraping_ethics.pdf). 
+
+Alternatively, read them here (probably not the best if you're visiting this page on a mobile device):
+
+<iframe src="./slides/20251028-crawling_web-novids.pdf" 
+        width="100%" 
+        height="800px" 
+        style="border: 1px solid #ddd;">
 </iframe>
 
-
+--->
 </section>
+</section>
+<section id="practical-wednesday-crawling-the-web" class="level2">
+<h2 class="anchored" data-anchor-id="practical-wednesday-crawling-the-web">Practical (Wednesday): Crawling the web</h2>
+<ul>
+<li>Toolbox CSS Website: <em><a href="https://fellennert.github.io/toolbox_css/7_scraping.html">Chapter 7</a></em></li>
+</ul>
+
+
 </section>
 
 </main> <!-- /main -->
