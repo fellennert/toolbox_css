@@ -672,15 +672,16 @@ With reframe(), we can for instance calculate the rating quantiles per director:
 imdb_selected |> 
   group_by(director) |> 
   reframe(
-    rating_quantiles = quantile(rating, probs = c(0.25, 0.5, 0.75)),
-    quantile = rep(c(0.25, 0.5, 0.75))
+    talent_threshold = c(7, 8, 9),
+    is_talented = case_when(mean(rating) > talent_threshold ~ 1,
+                            TRUE ~ 0)
   ) |> 
     ungroup()
 ```
 
-This example calculates the 25th, 50th, and 75th percentiles of ratings. Each director will have one row with their average rating and a list of quantiles.
+This example the mean rating of the director is calculated, depending on the threshold the director is then classified either as talented or not. Each director will have three rows with the our talent threshold and the information if we classified them as talented or not. 
 
-When to use reframe() vs summarize():
+#### When to use reframe() vs summarize():
 
 Use `summarize()` when you want:
 
@@ -921,7 +922,7 @@ election_data12 |> bind_cols(election_data16)
 
 -   [Chapter in R4DS](https://r4ds.had.co.nz/transform.html)
 -   More on window functions in the vignette: `vignette("window-functions")`
--   Again, [the cheatsheet](https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf)
+-   Again, [the dplyr cheatsheet](https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf)
 -   A [tutorial on YouTube](https://www.youtube.com/watch?v=jWjqLW-u3hc)
 -   Another introduction can be found [here](https://stat545.com/join-cheatsheet.html).
 -   The [chapter in R4DS](https://r4ds.had.co.nz/relational-data.html) has some nice diagrams.
@@ -1349,7 +1350,7 @@ Try to think about how you could answer the following questions graphically. If 
     b.  Interpret the plot.
     c.  Add a nice title and labels.
 
-## Iteration
+## Lists
 
 We also will work with lists. Lists can contain elements of different lengths (which distinguishes them from tibbles). This makes them especially suitable for web scraping. Other than (atomic) vectors they are not just vectorized since they can contain elements of all different kinds of format.
 
@@ -1669,8 +1670,11 @@ mtcars |> my_summary(cyl)
 If the variable names are supplied in a character vector, you need `all_of()`:
 
 ```{r}
-summarize_mean <- function(data, vars) {
-  data |> summarize(n = n(), across({{ vars }}, mean))
+summarize_mean <- function(tbl, vars) {
+  tbl |> summarize(
+    n = n(),
+    across({{ vars }}, mean)
+  )
 }
 
 mtcars |> 
@@ -1836,7 +1840,7 @@ The basic structure of `while loops` is as follows:
 ```{r}
 #| eval: false
 
-while (condition) {
+while (condition == TRUE) {
   code
 }
 ```
@@ -1845,50 +1849,24 @@ What could an example look like?[^catch-up-4] The following loop keeps running u
 
 [^catch-up-4]: I have taken this example from the R for Data Science book. I hardly ever work with `while loops`. The only use case from my day-to-day work is web-scraping, where I want to loop over pages until a certain threshold is reached. Therefore, I could not really come up with an example myself.
 
-Please note that both vectors which are to be modified within the loop -- `indicator` and `head` -- need to be created beforehand. If I had not created `head` beforehand, the loop would not have started because there would not have been any vector to assess the length.
+Please note that the vector `coin_flip` which is to be modified within the loop needs to be created beforehand. If I had not created `coin_flips` beforehand, the loop would not have started because there would not have been any vector to assess the length.
 
 ```{r}
-indicator <- 0
-head <- c()
-while (length(head) < 3) {
-  if (sample(2, 1) == 1) {
-    x <- "head"
-  } else {
-    x <- "tail"
-  }
-  if (x == "head") {
-    head <- c(head, 1)
-  } else {
-    length(head) <- 0
-  }
-  indicator <- indicator + 1
-}
-```
+set.seed(1)
+# initialize the vector
+coin_flips  <- c()
 
-In this case, you still want to pre-allocate space. Hence, you could also use a list here. You can just do a very long list and afterwards cut it down to size using `purrr::compact()`.
-
-```{r}
-indicator <- 0
-values <- vector(mode = "list", length = 1000)
-head <- c()
-while (length(head) < 3) {
+while (!identical(tail(coin_flips, 3), rep("head", 3))) {
+  # determine the coin flip and add it to the coin_flips vector
   if (sample(2, 1) == 1) {
-    x <- "head"
+    coin_flips <- c(coin_flips, "head")
   } else {
-    x <- "tail"
+    coin_flips <- c(coin_flips, "tails")
   }
-  if (x == "head") {
-    head <- c(head, 1)
-  } else {
-    length(head) <- 0
-  }
-  values[[indicator + 1]] <- x
-  indicator <- indicator + 1
 }
 
-length(values)
-values |> tail(5) #last 5 values
-values |> compact() #removes all NULL elements
+print(paste0("It took ", length(coin_flips), " flips to get three heads in a row."))
+print(coin_flips)
 ```
 
 #### purrr::map()
