@@ -12,7 +12,7 @@ I assume your familiarity with R. However, I am fully aware that nobody can have
 You can find the files for this chapter in the [GitHub repository](https://github.com/fellennert/toolbox_css/tree/main/data).
 
 ```{r}
-needs(tidyverse, lubridate, fs, socviz)
+needs::needs(needs, tidyverse, lubridate, fs, socviz)
 ```
 
 One quick thing upfront: AI coding helpers have become increasingly popular. You can, for instance, use GitHub Copilot in RStudio (if you have access to it) or ChatGPT/Claude (the free versions are already pretty good). However, please note that those tools are not perfect and can produce wrong code. Hence, you need to understand what they do and check the code they provide you with. If you do not understand what a piece of code does, do not use it. If you want to learn R properly, I strongly recommend you to try to write the code yourself first and only use those tools if you get stuck.
@@ -1077,9 +1077,7 @@ In the majority of cases, you will want to display the relationship between two 
 ##### Both continuous
 
 ```{r}
-county_data_midwest <- socviz::county_data |> 
-  filter(census_region == "Midwest") |> 
-  drop_na()
+county_data_midwest <- read_csv("data/socviz_us/midwest.csv")
 ```
 
 If both variables are continuous, the easiest option is to use a scatter plot.
@@ -1156,7 +1154,7 @@ Scales can be used to take control of how the data's values are mapped to the ae
 
 -   `scale_*_continuous` -- for dealing with continuous values. (you can find an exhaustive list of colors in R [here](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf))
 
-```{r}
+```{r scales}
 ggplot(data = county_data_midwest) +
   geom_point(aes(x = per_dem_2016, y = per_gop_2016, color = white)) +
   scale_x_continuous(limits = c(0, 1)) +
@@ -1169,7 +1167,7 @@ ggplot(data = county_data_midwest) +
 -   `scale_*_manual` -- manually mapping discrete values to visual values
 
 ```{r}
-socviz::county_data |> 
+county_data_midwest |> 
   filter(state %in% c("IA", "IL", "IN", "KS")) |> 
   ggplot() +
     geom_point(aes(x = per_dem_2016, y = per_gop_2016, color = state)) +
@@ -1186,7 +1184,7 @@ socviz::county_data |>
 Now you have modified the scales and colors -- there is a lot more to be modified if you want to -- but you have not added a meaningful title, a nice caption (where were the data obtained?), and the axes do not have proper names, too. This can be achieved using `labs()` (which is the abbreviation for labels).
 
 ```{r}
-socviz::county_data |> 
+county_data_midwest |> 
   filter(state %in% c("IA", "IL", "IN", "KS")) |> 
   ggplot() +
     geom_point(aes(x = per_dem_2016, y = per_gop_2016, color = state)) +
@@ -1207,7 +1205,7 @@ socviz::county_data |>
 Well, that doesn't look good, the title is too long. Inserting `\n` -- for new line -- will do the trick.
 
 ```{r}
-socviz::county_data |> 
+county_data_midwest |> 
   filter(state %in% c("IA", "IL", "IN", "KS")) |> 
   ggplot() +
     geom_point(aes(x = per_dem_2016, y = per_gop_2016, color = state)) +
@@ -1225,7 +1223,7 @@ socviz::county_data |>
 However, providing it with three different layers just for labeling is pretty tedious. This is where `labs()` comes in handy.
 
 ```{r}
-socviz::county_data |> 
+county_data_midwest |> 
   filter(state %in% c("IA", "IL", "IN", "KS")) |> 
   ggplot() +
     geom_point(aes(x = per_dem_2016, y = per_gop_2016, color = state)) +
@@ -1246,7 +1244,7 @@ socviz::county_data |>
 The original data set consists of four different census regions. If I were to compare them, I could color them accordingly.
 
 ```{r}
-socviz::county_data |> 
+county_data_midwest |> 
   drop_na() |> 
   ggplot() +
     geom_point(aes(x = per_dem_2016, y = per_gop_2016, color = census_region)) +
@@ -1258,7 +1256,7 @@ socviz::county_data |>
 Despite the coloring according to the different states, it is still hard to assess whether there really are differences. Apart from that, I would like to assess the impact the percentage of white people in the population has. This would be easier if I put them into individual graphs. I can achieve this using so-called facets. Facets enable me to divide the plot into subplots based on categorical variables. `facet_wrap()` puts them into a rectangular layout. The categorical variable needs to be provided prefixed with a tilde `~`, `nrow` determines the number of rows.
 
 ```{r}
-socviz::county_data |> 
+county_data_midwest |> 
   drop_na() |> 
   ggplot() +
     geom_point(aes(x = per_dem_2016, y = per_gop_2016, color = white)) +
@@ -1273,7 +1271,7 @@ socviz::county_data |>
 Apart from that, I can also spread it out using two different variables. Here, I will look at differences in the distribution of whites in the counties split up by who won in 2016 and 2012. This can be achieved using `facet_grid(categorical_variable_1~categorical_variable_2)`. The former one will be put into rows, the latter into columns.
 
 ```{r}
-socviz::county_data |> 
+county_data_midwest |> 
   drop_na() |> 
   ggplot() +
     geom_point(aes(x = per_dem_2016, y = per_gop_2016, color = white)) +
@@ -1287,7 +1285,7 @@ socviz::county_data |>
 If you want to facet using only one variable, put a dot at where the other variable would stand otherwise...
 
 ```{r}
-socviz::county_data |> 
+county_data_midwest |> 
   drop_na() |> 
   ggplot() +
     geom_point(aes(x = per_dem_2016, y = per_gop_2016, color = white)) +
@@ -1584,7 +1582,7 @@ In the following, I will guide you through a quick example on how you could use 
 
 So what does the function need to do? First, it needs to draw a number between 0 and 36. Second, it needs to compare the bet and its corresponding number. Third, it needs to return the respective result.
 
-```{r}
+```{r roulette}
 play_roulette <- function(bet, number) {
   draw <- sample(0:36, 1)
   tibble(
@@ -1612,7 +1610,7 @@ bind_rows(outcome) |>
 
 But how to make sure that I do not bet on a number which I cannot bet on (i.e., numbers greater than 36)? Or, put differently, how to forbid values? Use `stop()`. Besides, how to set default values for the arguments? Just use `argument = default`.
 
-```{r}
+```{r, error=TRUE}
 play_roulette_restricted <- function(bet = 1, number) {
   if (number > 36) stop("You can only bet on numbers between 0 and 36.")
   draw <- sample(0:36, 1)
@@ -1628,6 +1626,7 @@ play_roulette_restricted <- function(bet = 1, number) {
   )
   #return(tbl_return)
 }
+
 play_roulette_restricted(number = 37)
 ```
 
@@ -1917,7 +1916,7 @@ map(example_dbl, add_10)
 map_dbl(example_dbl, add_10)
 ```
 
-```{r}
+```{r, error = TRUE}
 map_chr(example_dbl, add_10) # does not make sense though
 ```
 
