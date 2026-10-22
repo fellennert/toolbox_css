@@ -13,6 +13,18 @@ This week, we will deal with the following questions:
 - How do string manipulations in R work?
 - What is the tidyverse style of programming and why should I care about it?
 - Why are functional programming and loops important in R?
+
+
+Please click [here to download the slides](./slides/session_01_foundation.pdf). 
+
+Alternatively, read them here (probably not the best if you're visiting this page on a mobile device):
+
+<iframe src="./slides/session_01_foundation.pdf" 
+        width="100%" 
+        height="800px" 
+        style="border: 1px solid #ddd;">
+</iframe>
+
  
 ## Practical (Wednesday): RegExe
 
