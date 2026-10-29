@@ -15,21 +15,19 @@ This lecture answers the following questions:
 
 ### Slides 
 
-<!---
 
 Please click [here to download the slides for Tuesday, October 28, 2025](./slides/20251028-crawling_web-novids.pdf). Caveat: the original slides contain recordings of my screen demonstrating web scraping. These could not be included due to storage constraints.
 
-Please click [here to download the slides](./slides/20251030-scraping_ethics.pdf). 
+Please click [here to download the slides](./slides/session_02_crawling_the_web.pdf). 
 
 Alternatively, read them here (probably not the best if you're visiting this page on a mobile device):
 
-<iframe src="./slides/20251028-crawling_web-novids.pdf" 
+<iframe src="./slides/session_02_crawling_the_web.pdf" 
         width="100%" 
         height="800px" 
         style="border: 1px solid #ddd;">
 </iframe>
 
---->
 
 ## Practical (Wednesday): Crawling the web
 
