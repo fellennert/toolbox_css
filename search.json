@@ -165,14 +165,14 @@
     "href": "lectures-week_3.html",
     "title": "Week 3/4: Crawling the web",
     "section": "",
-    "text": "This lecture answers the following questions:\n\nWhy will Regexes change your life? (not in slides, code script only.)\nHow do I harness how the web is written to scrape websites?\nWhat do I have to bear in mind when scraping websites?"
+    "text": "This lecture answers the following questions:\n\nWhy will Regexes change your life? (not in slides, code script only.)\nHow do I harness how the web is written to scrape websites?\nWhat do I have to bear in mind when scraping websites?\n\n\n\nPlease click here to download the slides for Tuesday, October 28, 2025. Caveat: the original slides contain recordings of my screen demonstrating web scraping. These could not be included due to storage constraints.\nPlease click here to download the slides.\nAlternatively, read them here (probably not the best if you’re visiting this page on a mobile device):"
   },
   {
     "objectID": "lectures-week_3.html#lecture-thursday-crawling-the-web",
     "href": "lectures-week_3.html#lecture-thursday-crawling-the-web",
     "title": "Week 3/4: Crawling the web",
     "section": "",
-    "text": "This lecture answers the following questions:\n\nWhy will Regexes change your life? (not in slides, code script only.)\nHow do I harness how the web is written to scrape websites?\nWhat do I have to bear in mind when scraping websites?"
+    "text": "This lecture answers the following questions:\n\nWhy will Regexes change your life? (not in slides, code script only.)\nHow do I harness how the web is written to scrape websites?\nWhat do I have to bear in mind when scraping websites?\n\n\n\nPlease click here to download the slides for Tuesday, October 28, 2025. Caveat: the original slides contain recordings of my screen demonstrating web scraping. These could not be included due to storage constraints.\nPlease click here to download the slides.\nAlternatively, read them here (probably not the best if you’re visiting this page on a mobile device):"
   },
   {
     "objectID": "lectures-week_3.html#practical-wednesday-crawling-the-web",
@@ -536,7 +536,7 @@
     "href": "index.html#the-course",
     "title": "Welcome",
     "section": "The Course",
-    "text": "The Course\nHere’s the official description:\n\nThe Forschungsseminar in Computational Social Science (CSS) equips you with the tools to analyze human behavior, predict social trends, and tackle complex societal issues using cutting-edge data science techniques. From web scraping to AI-powered text analysis, you’ll learn to use your computer in new ways to gain insights into social phenomena.\n\nHörsaal 21\nThe curriculum covers a range of topics including data management, web scraping, speech-to-text, and computational text analysis. Students will hone their R and develop skills in Python, applying these languages to real-world social science problems. The course progresses from fundamental concepts to advanced techniques, including the use of state-of-the-art AI models for text analysis.\nThe course structure consists of one lecture and one lab session per week, providing a balance of theoretical knowledge and practical application. Throughout the semester, students will benefit from hands-on coding exercises, one-on-one mentoring, and collaborative projects. The course culminates in a research paper, allowing students to apply their new skills to a topic of their choice."
+    "text": "The Course\nHere’s the official description:\n\nThe Forschungsseminar in Computational Social Science (CSS) equips you with the tools to analyze human behavior, predict social trends, and tackle complex societal issues using cutting-edge data science techniques. From web scraping to AI-powered text analysis, you’ll learn to use your computer in new ways to gain insights into social phenomena.\n\nThe curriculum covers a range of topics including data management, web scraping, speech-to-text, and computational text analysis. Students will hone their R and develop skills in Python, applying these languages to real-world social science problems. The course progresses from fundamental concepts to advanced techniques, including the use of state-of-the-art AI models for text analysis.\nThe course structure consists of one lecture and one lab session per week, providing a balance of theoretical knowledge and practical application. Throughout the semester, students will benefit from hands-on coding exercises, one-on-one mentoring, and collaborative projects. The course culminates in a research paper, allowing students to apply their new skills to a topic of their choice."
   },
   {
     "objectID": "index.html#course-structure",
