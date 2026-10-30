@@ -10,6 +10,7 @@ csl: ASA.csl
 ## Intro 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
+needs::needs(needs, vembedr)
 vembedr::embed_youtube("Yg0wUkHjigs")
 ```
 
@@ -257,7 +258,7 @@ Before we start to extract data from the web, we will briefly touch upon how the
 
 ```{r}
 #install.packages("needs")
-needs::needs(janitor, polite, rvest, tidyverse)
+needs::needs(janitor, rvest, tidyverse)
 ```
 
 ## HTML 101
@@ -475,7 +476,7 @@ You can see that the tibble contains "dirty" names and that the party column app
 
 You can also extract attributes such as links using `html_attrs()`. An example would be to extract the headlines and their corresponding links from r-bloggers.com.
 
-```{r}
+```{r read_rbloggers}
 rbloggers <- read_html("https://www.r-bloggers.com")
 ```
 
@@ -496,7 +497,14 @@ tibble(
 )
 ```
 
-Another approach for this would be using the `polite` package and its function `html_attrs_dfr()` which binds together all the different attributes column-wise and the different elements row-wise.
+An alternative approach is to use the `polite` package. Unfortunately, `polite` is no longer available on CRAN but can still be installed directly from GitHub:
+```{r install_polite}
+#install.packages("remotes")
+#remotes::install_github("dmi3kno/polite")
+library(polite)
+```
+
+Once installed, we can use the `html_attrs_dfr()` function to combine the attributes of multiple HTML elements into a single data frame. The attributes are arranged column-wise, while the individual HTML elements are arranged row-wise.
 
 ```{r message=FALSE, warning=FALSE}
 rbloggers |> 
@@ -509,39 +517,33 @@ rbloggers |>
 
 ### Exercise
 
-3.  Download the links and names of the [top 250 IMDb movies](https://www.imdb.com/chart/top/). Put them in a tibble with the columns `rank` -- in numeric format (you know regexes already), `title`, `url` to IMDb entry, `rating` -- in numeric format, `number_votes` -- the number of votes a movie has received, in numeric format. Also, what do you notice?
+3.  Download the text, authors and tags of the [Quotes to Scrape](https://quotes.toscrape.com/). Put them in a tibble with the columns `id` -- in numeric format, `text` (remove the quotation marks -- you know about regex already!), `author`, `about_link`, and  `tags` (seperated by comma). *BONUS*: Try to scrape page 1 and 2 automatically.
 
 <details>
   <summary>Solution. Click to expand!</summary>
 
 ```{r}
-imdb_top250 <- read_html("https://www.imdb.com/chart/top/?ref_=nv_mv_250")
+quotes_html <- read_html("https://quotes.toscrape.com/")
 
-movies <- tibble(
-  rank = imdb_top250 |> 
-    html_elements(".cli-title .ipc-title__text") |> 
+quotes_df <- tibble(
+  text = quotes_html |> 
+    html_elements(".text") |> 
     html_text2() |> 
-    str_extract("^[0-9]+(?=\\.)") |> 
-    parse_integer(),
-  title = imdb_top250 |> 
-    html_elements(".cli-title .ipc-title__text") |> 
+    str_remove_all('^[“”]|[“”]$'),
+  author = quotes_html |> 
+    html_elements(".author") |> 
+    html_text2(),
+  about_link = quotes_html |> 
+    html_elements(".quote span a") |> 
+    html_attr("href"),
+  tags = quotes_html |> 
+    html_elements(".tags") |> 
     html_text2() |> 
-    str_remove("^[0-9]+\\. "),
-  url = imdb_top250 |> 
-    html_elements(".cli-title a") |> 
-    html_attr("href") |> 
-    str_c("https://www.imdb.com", x = _),
-  rating = imdb_top250 |> 
-    html_elements(".ratingGroup--imdb-rating") |> 
-    html_text() |> 
-    str_extract("[0-9]\\.[0-9]") |> 
-    parse_double(),
-  no_votes = imdb_top250 |> 
-    html_elements(".ratingGroup--imdb-rating") |> 
-    html_text() |> 
-    str_remove("^[0-9]\\.[0-9]") |> 
-    str_remove_all("[() ]")
-)
+    str_remove("^Tags:\\s*") |>
+    str_replace_all("\\s+", ",")
+) |> 
+  mutate(id = row_number()) |> 
+  relocate(id, .before = 1)
 ```
 
 </details>
