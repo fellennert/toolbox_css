@@ -14,6 +14,15 @@ This week answers the following questions:
 
 ### Slides 
 
+Please click [here to download the slides](./slides/session_03_ethics_and_dynamics.pdf). 
+
+Alternatively, read them here (probably not the best if you're visiting this page on a mobile device):
+
+<iframe src="./slides/session_03_ethics_and_dynamics.pdf" 
+        width="100%" 
+        height="800px" 
+        style="border: 1px solid #ddd;">
+</iframe>
 
 ## Practical (Wednesday): Selenium & APIs
 
