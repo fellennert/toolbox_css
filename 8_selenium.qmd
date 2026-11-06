@@ -7,7 +7,11 @@ bibliography: literature.bib
 csl: ASA.csl
 ---
 
-Sometimes you will run into the problem of a website being not as "scrape-able" as you might have wanted it to. This might be due to Javascript, them blocking you for not being a "real" person, captchas, login forms, you name it. To avoid this, you can use a package called `selenium`. What it basically does is controlling a web browser. Its original purpose is to automate testing of web-based applications. However, it's also perfectly suited for helping you with your scraping endeavors.
+::: {.callout-important}
+The videos in this chapter sometimes refer to IMDb (Internet Movie Database), yet, they are not legally accessible for scraping anymore. Therefore, I will provide you with a different example in the exercises section.
+:::
+
+Sometimes you will run into the problem of a website being not as "scrape-able" as you might have wanted it to. This might be due to Javascript, them blocking you for not being a "real" person, captchas, login forms, you name it. To avoid this, you can use a package called `selenium`. What it basically does is control a web browser. Its original purpose is to automate testing of web-based applications. However, it's also perfectly suited for helping you with your scraping endeavors.
 
 `selenium` is a Python application. An R wrapper (`RSelenium`) exists, yet its rather tedious to use, since you would likely have to run your browser out of a Docker container. And if you're on a recent Mac with a Silicon processor, these containers might not even exist yet. Therefore, in this script you will use the original Python version and run Python in this `quarto` document from your R session. For this, you can use `reticulate`, which allows you to switch between the R and the Python world. Hence, you can do your scraping in Python and your data manipulations in R and store all of this in one notebook.
 
@@ -19,6 +23,14 @@ vembedr::embed_youtube("8DDEGESRfn8")
 
 To get started with `selenium`, you first need to activate your Python environment. Then, you need to install the `selenium` package.
 
+```{r}
+#| echo: false
+needs::needs(needs) 
+
+dir.create( path.expand("~/selenium-tmp"), showWarnings = FALSE )
+
+Sys.setenv( TMPDIR = path.expand("~/selenium-tmp"))
+```
 ```{r}
 #| include: false
 reticulate::use_condaenv("toolbox_env", required = TRUE)
@@ -36,15 +48,33 @@ reticulate::conda_install("toolbox_env", "selenium")
 vembedr::embed_youtube("-Hc1hejWqqQ")
 ```
 
-Now we're good to go and can start working with `selenium`. In this tutorial, you will also learn about some basics of coding in Python. Even more so than in R, we will rely on custom-made functions that we need to `def`ine as well as `for` loops. They are different in so far as we do not need to preallocate space to objects -- such as lists -- but rather can grow them iteratively (similar to `dplyr::bind_rows()`/base R's `rbind()`). What's more is that proper indentation of code is key here. In this tutorial, though, we will focus on navigating around websites and then, once we are done, grabbing their raw `html` code, which we can then read in using `xml2::read_html()` and wrangle using `rvest` functions. If you want to go full Python, you can get into `BeautifulSoup`, Python's `rvest` equivalent.
+Now we're good to go and can start working with `selenium`. In this tutorial, you will also learn about some basics of coding in Python. Even more so than in R, we will rely on custom-made functions that we need to `def`ine as well as `for` loops. They are different insofar as we do not need to preallocate space to objects -- such as lists -- but rather can grow them iteratively (similar to `dplyr::bind_rows()`/base R's `rbind()`). What's more is that proper indentation of code is key here. In this tutorial, though, we will focus on navigating around websites and then, once we are done, grabbing their raw `html` code, which we can then read in using `xml2::read_html()` and wrangle using `rvest` functions. If you want to go full Python, you can get into `BeautifulSoup`, Python's `rvest` equivalent.
 
 ### Open a browser and navigate around
 
 First of all, we need to open a browser. For this, we need to have one installed, I will use Firefox in this example which you can download [here](https://www.mozilla.org/en-US/firefox/new/). For a basic example, we `import` the required packages and open a website containing books that we can scrape. 
 
+```{python echo=FALSE}
+from selenium import webdriver # load packages
+from selenium.webdriver.firefox.service import Service
+from selenium.webdriver.firefox.options import Options
+
+# Use my installed geckodriver
+service = Service("/home/sgrehl/miniconda3/envs/toolbox_env/bin/geckodriver")
+
+# Tell the browser to run in headless mode (no GUI)
+options = Options()
+options.add_argument("-headless")
+
+driver = webdriver.Firefox( # Start Firefox
+    service=service,
+    options=options
+)
+
+driver.get("https://books.toscrape.com/")
+```
 ```{python eval=FALSE}
 from selenium import webdriver
-from selenium.webdriver.common.by import By
 
 # opens a Firefox window
 driver = webdriver.Firefox()
@@ -55,7 +85,7 @@ driver.get("https://books.toscrape.com/")
 
 Note that we do not have to assign anything to the `driver` object, it will adapt as we run the code. To grab the entire page, we just extract `page_source` from the driver (`driver.page_source`). Then we can write this html file into a directory by supplying the output_path. 
 
-```{python eval=FALSE}
+```{python book_axample}
 html = driver.page_source
 
 output_path = "temp/book_example.html"
@@ -65,13 +95,13 @@ with open(output_path, "w", encoding="utf-8") as f:
 
 You can also take a screenshot of the page:
 
-```{python eval=FALSE}
+```{python screenshot}
 driver.save_screenshot("screenshot.png")
 ```
 
 Then we can continue with R's `rvest`, read in the document and perform our manipulations in R:
 
-```{r}
+```{r R_extraction}
 needs(rvest)
 books <- read_html("temp/book_example.html") |> 
   html_elements("h3 a") |> 
@@ -82,11 +112,12 @@ head(books)
 
 This is all fun and games, but we would probably want to navigate around the website and systematically scrape the pages. In this case, we would like to click the button to get to the next page. For this, we can use the `click()` function. The button to be clicked can be identified in multiple ways, here I will show you two ways to locate it: by text (i.e., which text is on the button) and by CSS selector (i.e., the thing SelectorGadget will give you).
 
-```{python eval=FALSE}
-button = driver.find_element(By.LINK_TEXT, "next")
-button.click()
+```{python}
+from selenium.webdriver.common.by import By
 
+button = driver.find_element(By.LINK_TEXT, "next")
 button = driver.find_element(By.CSS_SELECTOR, ".next a")
+
 button.click()
 ```
 
@@ -94,7 +125,7 @@ Et voilà, we're on the next page.
 
 So this now gives us the tools to automate the scraping here and we can write our first loop which navigates through the first 5 pages, grabs the html content on the go and stores it in the respective paths. To make our code clean, we define the saving function before. We also import `time` and `random` so that we can add random delays between requests:
 
-```{python eval=FALSE}
+```{python loop}
 import time
 import random
 
@@ -139,7 +170,7 @@ head(books)
 
 If we want to go back and forth -- similar to an `rvest::session()` -- we can use different functions:
 
-```{python eval=FALSE}
+```{python}
 driver.back() # Go back
 time.sleep(1) # Brief pause for demonstration
 driver.forward() # Go forward
@@ -149,15 +180,15 @@ driver.refresh() #refresh page
 
 Finally, part of navigating a page is also scrolling around. This is particularly helpful if we want to (a) appear human, and (b), when we have dynamic content that unfolds as we move. Remember the IMDb example? 
 
-Scrolling is not straightforward, especially since it's relying on JavaScript in the background, and you will want to consider the following points: Always add waits after scrolling to allow content to load -- and check for this new content after scrolling, so that the browser stops scrolling once the limit has been reached. Also use random scolling delays to appear more human-like. We will use a [training page](https://www.scrapingcourse.com/infinite-scrolling) to illustrate how this can be achieved.
+Scrolling is not straightforward, especially since it's relying on JavaScript in the background, and you will want to consider the following points: Always add waits after scrolling to allow content to load -- and check for this new content after scrolling, so that the browser stops scrolling once the limit has been reached. Also use random scrolling delays to appear more human-like. We will use a [training page](https://www.scrapingcourse.com/infinite-scrolling) to illustrate how this can be achieved.
 
-```{python eval=FALSE}
+```{python scrolling_start}
 driver.get("https://www.scrapingcourse.com/infinite-scrolling")
 ```
 
 Let's check, without the scrolling, how many different products we see:
 
-```{python eval=FALSE}
+```{python scrolling_check}
 elements = driver.find_elements(By.CSS_SELECTOR, ".product-name")
 len(elements)
 driver.refresh()
@@ -165,7 +196,7 @@ driver.refresh()
 
 There are 12 elements. let's do one scroll to the bottom.
 
-```{python eval=FALSE}
+```{python scrolling_down}
 driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
    
 time.sleep(1)
@@ -176,7 +207,7 @@ len(elements)
 
 We can do this over and over again, until there are no new elements, in a `while` loop. In the end, we store the full page's html.
 
-```{python eval=FALSE}
+```{python scrolling_loop}
 driver.get("https://www.scrapingcourse.com/infinite-scrolling")
 elements = driver.find_elements(By.CSS_SELECTOR, ".product-name")
 start_length = len(elements)
@@ -194,8 +225,8 @@ site_html = driver.page_source
 
 Sometimes you also need to scroll down to see a particular button. This can be achieved using the following command:
 
-```{python eval=FALSE}
-button = driver.find_element(CSS_SELECTOR, "[CSS selector]") # find button
+```{python scrolling_to_button_fake, eval=FALSE}
+button = driver.find_element(By.CSS_SELECTOR, "[CSS selector]") # find button
 
 # Scroll to the button
 driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", button)
@@ -203,16 +234,21 @@ driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", button)
 
 Or you need to handle some problems on a page, like in this example you need to wait for a bit for the page to refresh. It will sometimes fail on first click but work on second. For this we can define an exception. 
 
-```{python eval=FALSE}
-driver.get("https://www.imdb.com/search/title/?title_type=feature,tv_movie,tv_special,video,tv_series,tv_miniseries&interests=in0000073")
+```{python webscraper.io}
+driver.get("https://webscraper.io/test-sites/load-more")
 
+elements = driver.find_elements(By.CSS_SELECTOR, ".card-title")
+len(elements)
+```
+
+```{python webscraper.io_more}
 def click_button_with_retry(driver):
    try:
-       button = driver.find_element(By.CLASS_NAME, "ipc-see-more__button")
+       button = driver.find_element(By.CLASS_NAME, "ecommerce-items-scroll-more")
        button.click()
    except:
        time.sleep(10)
-       button = driver.find_element(By.CLASS_NAME, "ipc-see-more__button") 
+       button = driver.find_element(By.CLASS_NAME, "ecommerce-items-scroll-more") 
        button.click()
        
 i = 1
@@ -220,6 +256,9 @@ while i < 4:
   wait_random(1, 3)
   click_button_with_retry(driver)
   i += 1
+
+elements = driver.find_elements(By.CSS_SELECTOR, ".card-title")
+len(elements)
 ```
 
 
@@ -229,66 +268,74 @@ while i < 4:
 vembedr::embed_youtube("yflsu3Q3stU")
 ```
 
-With `selenium` we can also send input to web forms in an automated manner by using `send_keys()`. Let's look at IMDb for this.
+With `selenium` we can also send input to web forms in an automated manner by using `send_keys()`. Let's look at Rotten Tomatoes for this.
 
-Imagine we have a list of movies we are interested in.
+Imagine we are interested in films with `top gun` in the title.
 
-```{python eval=FALSE}
-movie_list = ["top gun", "pirates of the carribean", "fear and loathing in las vegas", "batman"]
+```{python rottentomatoes}
+driver.get("https://www.rottentomatoes.com/")
+```
 
-driver.get("https://imdb.com")
+Unfortunately, a cookie banner immediately appears, obscuring our view. It's important to dismiss it, as it could otherwise interfere with our interactions with the website. Luckily, we can easily get rid of it by clicking the accept button:
+
+```{python rottentomatoes_cookie}
+# wait for the cookie banner to appear
+time.sleep(5)
+# click the button
+driver.find_element(By.CSS_SELECTOR, '#onetrust-accept-btn-handler').click()
 ```
 
 First, we need to find the search box, for instance using the CSS selector. We also need to locate the button. And finally we can send our input text and click the button.
 
-```{python eval=FALSE}
-search_box = driver.find_element(By.CSS_SELECTOR, "#suggestion-search")
-search_button = driver.find_element(By.CSS_SELECTOR, "#suggestion-search-button")
+```{python rottentomatoes_search}
+search_box = driver.find_element(By.CSS_SELECTOR, 'input[data-qa="search-input"]')
+search_button = driver.find_element(By.CSS_SELECTOR, '[data-qa="search-submit"]')
 
 search_box.send_keys("top gun")
+time.sleep(2)
 search_button.click()
 ```
 
 If you want to do this in a loop, make sure to clear the search box in between searches:
 
-```{python eval=FALSE}
+```{python rottentomatoes_clear, eval=FALSE}
 search_box.clear() 
 ```
 
 ### Captcha and Error handling
 
-Another common problem you might encounter when scraping the web is that you need to solve captchas to prove that you are human. Since `selenium` is simulating a browser, you can just intervene whenever and solve them yourselves. For this, we need to write a function that detects when human input is required, rings a little bell, and then, once you have solved the little riddle, allows you to continue. 
+Another common problem you might encounter when scraping the web is that you need to solve captchas to prove that you are human. Since `selenium` is simulating a browser, you can just intervene whenever and solve them yourself. For this, we need to write a function that detects when human input is required, rings a little bell, and then, once you have solved the little riddle, allows you to continue. 
 
-```{python eval=FALSE}
+```{python alerts}
 def play_alert_windows():
-    import winsound
-    winsound.Beep(1000, 500)  # 1000 Hz for 500ms
+  import winsound
+  winsound.Beep(1000, 500)  # 1000 Hz for 500ms
 
 def play_alert_mac():
   import subprocess
   subprocess.run(["afplay", "/System/Library/Sounds/Ping.aiff"])
-
-play_alert_mac()
   
 def play_alert_linux():
-  print("\a") # ascii bell
-        
+  import subprocess
+  subprocess.run(["paplay", "/usr/share/sounds/freedesktop/stereo/complete.oga"])
+
 def captcha_detected(driver):
-    page_source = driver.page_source.lower()
-    captcha_keywords = ["captcha", "recaptcha", "verify you're human", "roboter"]
-    return any(keyword in page_source for keyword in captcha_keywords)
+  page_source = driver.page_source.lower()
+  captcha_keywords = ["captcha", "recaptcha", "verify you're human", "roboter"]
+  return any(keyword in page_source for keyword in captcha_keywords)
 
 def solve_captcha_manually():
-    play_alert_mac() # or play_alert_windows() if you're using a Windows machine
-    print("CAPTCHA detected! Please solve it manually.")
-    input("Press Enter when you've solved the CAPTCHA...")
-    print("Resuming scrape...")
-    time.sleep(2)
+  import time
+  play_alert_linux() # or play_alert_windows() if you're using a Windows machine
+  print("CAPTCHA detected! Please solve it manually.")
+  input("Press Enter when you've solved the CAPTCHA...")
+  print("Resuming scrape...")
+  time.sleep(2)
 ```
 
 So let's see how this works in real life using a [demo website](https://www.google.com/recaptcha/api2/demo).
 
-```{python eval=FALSE}
+```{python captcha_demo, eval=FALSE}
 driver.get("https://www.google.com/recaptcha/api2/demo")
 
 if captcha_detected(driver):
@@ -299,11 +346,100 @@ submit_button.click()
 
 This is it for this brief introduction to `selenium`. Now that we're done, we can just close the browser using
 
-```{python eval=FALSE}
+```{python, eval=FALSE}
 driver.quit()
 ```
 
 Of course, there is a lot more than this tutorial does cover. Find more information -- including a 12 hour YouTube tutorial under the following links.
+
+## Cookie banners & Shadow DOM
+
+Remember the Rotten Tomatoes example? Many websites have cookie banners that pop up when you first visit the site. These banners can interfere with your scraping, so it's important to handle them properly. We could deal with the Rotten Tomatoes cookie banner simply `driver.find_element(By.CSS_SELECTOR, '#onetrust-accept-btn-handler').click()`. Yet, some cookie banners are implemented using Shadow DOMs. Shadow DOM is a web standard that allows developers to encapsulate their HTML, CSS, and JavaScript code in a separate "shadow" tree. This means that the elements inside the shadow tree are not accessible from the main document's DOM, making it more challenging to interact with them using traditional web scraping techniques.
+
+Luckily, `selenium` provides a way to access Shadow DOM elements. Here's how you can handle cookie banners that are implemented using Shadow DOM:
+
+```{python}
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import TimeoutException
+
+driver.get("https://www.bahn.de/")
+
+def click_bahn_cookie(driver, timeout=5):
+    """
+    Accept cookies on bahn.de if the cookie banner appears.
+
+    If no cookie banner appears within the specified timeout,
+    we assume that cookies have already been accepted.
+    """
+
+    wait = WebDriverWait(driver, timeout)
+
+    try:
+        # STEP 1: Find the Shadow DOM
+        # The cookie banner is hidden inside a Shadow DOM.
+        # Selenium cannot access its elements using the usual
+        # driver.find_element() method.
+        #
+        # We therefore look for a <div> that contains a shadowRoot.
+        # wait.until() repeatedly checks until such an element
+        # is found or the timeout is reached.
+
+        shadow_host = wait.until(
+            lambda d: next(
+                (
+                    element
+                    for element in d.find_elements(By.CSS_SELECTOR, "body > div")
+                    if d.execute_script(
+                        "return arguments[0].shadowRoot !== null",
+                        element
+                    )
+                ),
+                None
+            )
+        )
+
+        # STEP 2: Enter the Shadow DOM
+        # Once we have found the element containing the Shadow DOM,
+        # we can access its contents using .shadow_root.
+
+        shadow_root = shadow_host.shadow_root
+
+        # STEP 3: Find the "Accept All Cookies" button
+        # Again, we use wait.until() because the button
+        # might take a moment to appear.
+
+        cookie_btn = WebDriverWait(shadow_root, timeout).until(
+            lambda root: root.find_element(
+                By.CSS_SELECTOR,
+                "button.js-accept-all-cookies"
+            )
+        )
+
+        # STEP 4: Click the button
+        cookie_btn.click()
+        print("Cookies accepted.")
+
+    except TimeoutException:
+        # If either the Shadow DOM or the cookie button
+        # cannot be found within the timeout, Selenium
+        # raises a TimeoutException.
+        #
+        # Instead of stopping our script, we catch this
+        # exception and simply continue.
+
+        print("No cookie banner found. Cookies may already be accepted.")
+
+
+# Run the function
+click_bahn_cookie(driver)
+```
+
+::: {.callout-note}
+The code above was generated via LLM. I encourage you to always try yourself to handle problems. But if you get stuck don't hesitate to use LLM. Yet, make sure that you also ask 
+
+Prompt: I'm trying to locate and click the "Accept All Cookies" button using the following code: driver.find_element(By.CSS_SELECTOR, ".js-accept-all-cookies").click(). However, Selenium fails to locate or interact with the element. Please investigate the possible reasons why this selector doesn't work.
+:::
 
 ## Further links
 
@@ -315,204 +451,406 @@ Of course, there is a lot more than this tutorial does cover. Find more informat
 
 In general, you could try all the `rvest` exercises with `selenium` to see how these things differ. Also every page is different, therefore it will probably be best if you just start with your own things. However, here is a quite tricky example.
 
-1. Driving home for Christmas. I want to visit my family over the holidays, please give me an overview of trains ("https://bahn.de") that go from Leipzig to Regensburg on December 20 in a `tibble` format. The tibble should contain: Date and time, number of changes, price. 
+1. I want to visit my family over the Christmas holidays and need to travel by train from Leipzig Hbf to Regensburg Hbf. My travel dates are flexible: I can depart anytime between December 20 and December 22, 2026 (inclusive). Please use the Deutsche Bahn website (bahn.de) to find all available train connections within this period. Put everything in a `tibble` format, containing date and time, number of transfers, as well as price. 
 
-Hint: Provide the initial search request using user input, then save the html, scroll down, and click "spätere Verbindungen," save the html, etc.
+**Hint:** Before you start, think about how to approach this task efficiently and elegantly. Clicking buttons and filling out forms isn't always necessary—there may be a simpler way!
 
-Bonus (very tricky): do it for Dec 20 through 23 and make a visualization of the price (y-axis) over time (x-axis).
+**Bonus:** Make a visualization of the price (y-axis) over time (x-axis). What kind of patterns do you see?
 
 <details>
   <summary>Solution. Click to expand!</summary>
-  
-```{python eval=FALSE}
-driver.get("https://bahn.de")
-## enter search things manually
 
-output_paths = []
-for i in range(1, 20):
-    output_path = f"temp/bahn_page_{i}.html"
-    output_paths.append(output_path)
-    
-for path in output_paths:
-  driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-  wait_random(1, 3)
-  html = driver.page_source
-  save_html(html, path)
-  later_connections = driver.find_element(By.XPATH, '//button[normalize-space()="Spätere Verbindungen"]')
-  later_connections.click()
-  wait_random(1, 3)
-```
+Let's start with the search. Rather than filling out the form on the website (which can be quite cumbersome, as the code at the very end demonstrates), we'll construct a direct search URL. This allows us to specify our search parameters directly in the URL, somewhat similar to making an API request.
 
-```{r eval=FALSE}
-file_names <- dir_ls("temp") %>% 
-  .[str_detect(., "bahn")] |> 
-  enframe(name = NULL, value = "file_name") |> 
-  mutate(number = str_extract(file_name, "[0-9]{1,2}") |> as.numeric()) |> 
-  arrange(number)
-
-bahn_list <- dir_ls("temp") %>% 
-  .[str_detect(., "bahn")] |> 
-  map(read_html) |> 
-  set_names(dir_ls("temp") %>% 
-  .[str_detect(., "bahn")]) %>% 
-  .[file_names$file_name]
-
-raw_info <- bahn_list |> 
-  map(\(x) x |> 
-        html_elements("div.reiseplan__infos") |>
-        html_text2())
-
-raw_price <- bahn_list |> 
-  map(\(x) x |> 
-        html_elements("span.reise-preis__preis") |>
-        html_text2())
-
-output_tbl <- tibble(
-  start = raw_info |> 
-    reduce(c) |> 
-    str_extract("geplante Abfahrt[0-9]{2}\\:[0-9]{2}") |> 
-    str_remove("geplante Abfahrt"),
-  end = raw_info |> 
-    reduce(c) |> 
-    str_extract("Ankunft[0-9]{2}\\:[0-9]{2}") |> 
-    str_remove("Ankunft"),
-  changes = raw_info |> 
-    reduce(c) |> 
-    str_extract("Umstieg[e]?[0-9]") |> 
-    str_remove("Umstieg[e]?") |> 
-    as.numeric(),
-  price = raw_price |> 
-    reduce(c) |> 
-    str_extract("[0-9,]*") |> 
-    str_replace(",", "\\.")) |> 
-  replace_na(list(changes = 0)) |> 
-  #mutate(est_time_min = as.numeric((end - start))/60) |> 
-  mutate(former_value = lag(start) |> 
-           str_extract("[0-9]{2}") |> 
-           as.numeric(),
-         start_hour = str_extract(start, "[0-9]{2}") |> 
-           as.numeric(),
-         diff_start_next = start_hour - former_value,
-         day_break = case_when(
-           diff_start_next < -18 ~ "break",
-           TRUE ~ NA)) |> 
-  fill(day_break, .direction = "down") |> 
-  filter(is.na(day_break)) |> 
-  distinct(start, end, changes, price)
-
-## BONUS
-
-dates <- bahn_list |> 
-  map(\(x) x |> 
-        html_elements("div.reiseloesung-heading") |>
-        html_text2()) |> 
-  map(\(x) if(length(x) == 0) "Fr. 20. Dez. 2024" else x) |> 
-  map(\(x) str_c(x, collapse = ";"))
-
-output_tbl <- bind_cols(
-  start = raw_info |> 
-    map(\(x) x |> 
-          str_extract("geplante Abfahrt[0-9]{2}\\:[0-9]{2}") |> 
-          str_remove("geplante Abfahrt")) |> 
-    map2(dates, \(x, y) x |> 
-           enframe(name = NULL, value = "start") |> 
-           mutate(date = y)) |> 
-    list_rbind(),
-  end = raw_info |> 
-    map(\(x) x |> 
-          str_extract("Ankunft[0-9]{2}\\:[0-9]{2}") |> 
-          str_remove("Ankunft") |> 
-          enframe(name = NULL, value = "end")) |>
-    list_rbind(),
-  raw_info |> 
-    map(\(x) x |> 
-          str_extract("Umstieg[e]?[0-9]") |> 
-          str_remove("Umstieg[e]?") |> 
-          enframe(name = NULL, value = "changes")) |> 
-    list_rbind() |> 
-    replace_na(list(changes = "0")),
-  raw_price |>
-    map(\(x) x |> 
-          str_extract("[0-9,]*") |> 
-          str_replace(",", "\\.") |> 
-          enframe(name = NULL, value = "price")) |> 
-    list_rbind()
+```{python bahn_search_smart}
+driver.get(
+    "https://www.bahn.de/buchung/start"                 # website
+    "#sts=true&so=Leipzig%20Hbf&zo=Regensburg%20Hbf"    # start and end
+    "&kl=2&sot=ST&zot=ST"                               # second class 
+    "&soei=8010205&zoei=8000309"                        # start and end as numbers (8010205 == Hbf Leipzig)
+    "&hd=2026-12-20T08:00:00"                           # earliest departure date & time
 )
-  
-  
-lengths <- raw_info |> 
-    map(\(x) x |> 
-          str_extract("geplante Abfahrt[0-9]{2}\\:[0-9]{2}") |> 
-          str_remove("geplante Abfahrt")) |> 
-  map(length) |> 
-  reduce(c) |> 
-  map2(1:19, \(x, y) rep(y, x)) |> 
-  reduce(c)
 
+time.sleep(5)
 
-dec_20 <- output_tbl |> 
-  mutate(page = lengths) |> 
-  slice(1:66) |> 
-  mutate(date = "Fr. 20. Dez. 2024") |> 
-  distinct(date, start, end, changes, price)
-
-dec_21 <- output_tbl |> 
-  mutate(page = lengths) |> 
-  filter(page > 5, str_detect(date, "21\\.")) |> 
-  slice(21:69) |> 
-  mutate(date = "Sa. 21. Dez. 2024") |> 
-  distinct(date, start, end, changes, price)
-
-dec_22 <- output_tbl |> 
-  mutate(page = lengths) |> 
-  filter(str_detect(date, "22\\.")) |> 
-  slice(32:78) |> 
-  mutate(date = "So. 22. Dez. 2024") |> 
-  distinct(date, start, end, changes, price)
-
-dec_23 <- output_tbl |> 
-  mutate(page = lengths) |> 
-  filter(str_detect(date, "23\\.")) |> 
-  slice(35:100) |> 
-  mutate(date = "Mo. 23. Dez. 2024") |> 
-  distinct(date, start, end, changes, price)
-
-bind_rows(dec_20, dec_21, dec_22, dec_23) |> 
-  mutate(date = str_replace(date, " Dez\\. ", "12.") |> 
-           str_remove("^[A-Za-z]{2}\\. "),
-         date_time = str_c(date, " ", start, ":00") |> 
-           parse_date_time(orders = "%d.%m.%Y %H:%M:%S"),
-         price = as.numeric(price)) |> 
-  ungroup() |> 
-  ggplot() +
-  geom_line(aes(date_time, price))
+click_bahn_cookie(driver)
 ```
+
+And there we go! Often you need to try a lot. It took me probably 20 tries before the latter search query worked as intended. 
+
+We now have a list of train connections departing between approximately 8 a.m. and 10 a.m. To retrieve more connections, we have two options:
+
+**Option A:** Click the "Spätere Verbindungen" (Later Connections) button to load additional results. However, be aware that earlier connections may eventually disappear from the page as new ones are loaded.
+
+**Option B:** Take a more systematic approach. Instead of clicking through the results, we'll identify the latest departure time on the current page and use it to construct a new search URL.
+
+We'll go with Option B, allowing us to retrieve connections step by step without relying on the website's navigation buttons:
+
+```{python bahn_search_complete, eval=FALSE}
+import time
+from datetime import datetime, timedelta
+from pathlib import Path
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+Path("temp").mkdir(exist_ok=True)
+
+departure = datetime(2026, 12, 20, 8, 0)
+end_time = datetime(2026, 12, 22, 22, 0)
+
+wait = WebDriverWait(driver, 15)
+
+while departure < end_time:
+
+    # Build search URL
+    url = (
+        "https://www.bahn.de/buchung/start"
+        "#sts=true&so=Leipzig%20Hbf&zo=Regensburg%20Hbf"
+        "&kl=2&sot=ST&zot=ST"
+        "&soei=8010205&zoei=8000309"
+        f"&hd={departure:%Y-%m-%dT%H:%M:00}"
+    )
+
+    driver.get(url)
+
+    # Wait for connections to appear
+    wait.until(EC.presence_of_element_located(
+        (By.CSS_SELECTOR, ".reiseplan__uebersicht-uhrzeit-von time")
+    ))
+
+    # Save HTML
+    filename = f"temp/bahn_page_{departure:%Y-%m-%d_%H-%M}.html"
+    Path(filename).write_text(driver.page_source, encoding="utf-8")
+
+    # Get all departure times
+    elements = driver.find_elements(
+        By.CSS_SELECTOR,
+        ".reiseplan__uebersicht-uhrzeit-von time"
+    )
+
+    times = [
+        datetime.strptime(el.get_attribute("datetime"), "%H:%M").time()
+        for el in elements
+    ]
+
+    # Get the latest departure
+    latest = times[-1] 
+
+    print(f"Saved {filename} | Latest departure: {latest:%H:%M}")
+
+    # Calculate next search time
+    next_departure = datetime.combine(departure.date(), latest)
+
+    # Handle midnight crossing
+    if next_departure < departure:
+      next_departure += timedelta(days=1)
+
+    departure = next_departure + timedelta(minutes=1)
+
+    # give the server a pause
+    time.sleep(1)
+
+print("Finished.")
+```
+
+Now that we have all the data we need, we can extract the relevant information. Back to R!
+
+```{r bahn_trains}
+needs(tidyverse, rvest)
+
+# load files
+files <- list.files(
+  "temp",
+  pattern = "^bahn_page_.*\\.html$", # As you can see beautiful RegEx can be used everywhere! 
+  full.names = TRUE
+)
+
+# at the bahn.de site months are abbreviated in German, so we have to fix that (later)
+months <- c(
+  "Jan." = "01", "Feb." = "02", "Mär." = "03",
+  "Apr." = "04", "Mai" = "05", "Jun." = "06",
+  "Jul." = "07", "Aug." = "08", "Sep." = "09",
+  "Okt." = "10", "Nov." = "11", "Dez." = "12"
+)
+
+# Define an extraction function
+get_connections <- function(file) {
+
+  page <- read_html(file)
+
+  # get the current date
+  search_date <- page |>
+    html_element("#SearchZeitauswahlButton ._dateFormat") |>
+    html_text() |>
+    stringr::str_remove("^[^.]+\\.\\s*") |>
+    stringr::str_replace_all(months) |>
+    as.Date(format = "%d. %m %Y")
+
+  # First lets see how many connections there are
+  connections <- page |>
+    html_elements("li.verbindung-list__result-item")
+
+  # If we cross midnight, there will be a new date here
+  headings <- connections |>
+    html_element(".reiseloesung-heading") |>
+    html_text2()
+
+  # We will use this information to calculate the departure date
+  departure_date <- as.Date(search_date) + cumsum(!is.na(headings))
+
+  # Extract departures
+  departure_time <- connections |>
+    html_element(".reiseplan__uebersicht-uhrzeit-von time") |>
+    html_attr("datetime")
+
+  departure <- as.POSIXct(
+    paste(departure_date, departure_time),
+    format = "%Y-%m-%d %H:%M",
+    tz = "Europe/Berlin"
+  )
+  
+  # Extract Arrivals
+  arrival_time <- connections |>
+    html_element(".reiseplan__uebersicht-uhrzeit-nach time") |>
+    html_attr("datetime")
+
+  arrival <- as.POSIXct(
+    paste(departure_date, arrival_time),
+    format = "%Y-%m-%d %H:%M",
+    tz = "Europe/Berlin"
+  )
+
+  # Fix arrival after midnight (by adding a day in seconds = 86400)
+  arrival <- arrival + (arrival < departure) * 86400
+
+  # Calculate durations
+  duration <- as.numeric(difftime(arrival, departure, units = "mins"))
+
+  # Extract number of transfers
+  # My initial, naive approach: This works as long as at least one transfer is required. For direct connections (0 transfers), however, the HTML element is missing, so this approach fails to capture connections with 0 transfers.
+  # transfers <- page |>
+  #   html_elements(".dauer-umstieg__umstiege--desktop") |>
+  #   html_text() |>
+  #   parse_number()
+
+  transfers <- page |>
+    html_elements(".dauer-umstieg") |> # dauer-umstieg are still there even no transfer is necessary 
+    map_int(\(x) {
+      value <- x |>
+        html_element(".dauer-umstieg__umstiege--desktop") |> # if no transfer is necessary this will give us a NA
+        html_text()
+        if (is.na(value)) 0 else as.integer(parse_number(value))
+    })
+
+  price <- page |>
+    html_elements("._preis span") |>
+    html_text() |>
+    parse_number(locale = locale(decimal_mark = ",")) 
+
+  tibble(
+    file = basename(file),
+    departure = departure,
+    arrival = arrival,
+    duration = duration,
+    transfers = transfers,
+    price = price
+  )
+}
+
+trains <- map_dfr(files, get_connections) |>
+  distinct(departure, arrival, duration, transfers, price, .keep_all = TRUE) # remove identical entries
+
+trains
+```
+
+### Bonus 
+
+Here's a simple plot: 
+
+```{r}
+ggplot(trains, aes(x = departure, y = price)) +
+  geom_line(size = 2) +
+  scale_x_continuous(
+    breaks = seq(8, 32, 2),
+    labels = \(x) sprintf("%02d:00", x %% 24)
+  ) +
+  labs(
+    title = "Train prices by departure time",
+    x = "Departure time",
+    y = "Price (€)"
+  ) +
+  theme_minimal()
+```
+
+Yet, we can do better:
+
+```{r}
+library(ggplot2)
+
+# I fix a starting date
+start <- as.POSIXct("2026-12-20 06:00", tz = "Europe/Berlin")
+
+# I will use these to mark midnight 
+midnights <- seq(
+  as.POSIXct("2026-12-21 00:00", tz = "Europe/Berlin"),
+  max(trains$departure),
+  by = "day"
+)
+
+ggplot(trains, aes(x = departure, y = price)) +
+  geom_line(color = "#2563EB", linewidth = 1) +
+  geom_point(color = "#F97316", size = 2.5) +
+
+  # Midnight lines
+  geom_vline(
+    xintercept = midnights,
+    linetype = "dashed",
+    color = "#DC2626",
+    linewidth = 0.8
+  ) +
+
+  # Date labels at the top, just right of midnight
+  annotate(
+    "text",
+    x = midnights + 1800,
+    y = Inf,
+    label = format(midnights, "%d %b"),
+    hjust = 0,
+    vjust = 1.5,
+    color = "#DC2626",
+    fontface = "bold",
+    size = 3.5
+  ) +
+
+  scale_x_datetime(
+    breaks = seq(start, max(trains$departure), by = "3 hours"),
+    date_labels = "%H:%M",
+    limits = c(start, NA)
+  ) +
+
+  labs(
+    title = "Train prices by departure time",
+    x = "Departure time",
+    y = "Price (€)"
+  ) +
+
+  theme_minimal(base_size = 13) +
+  theme(
+    panel.grid.minor = element_blank(),
+    axis.text.x = element_text(size = 10)
+  )
+```
+
+Finally, I'd like to share my first attempt at automating searches on bahn.de using Selenium. It works, but I suspect it's still quite error-prone!
+
+```{python bahn_search_old, eval=FALSE}
+import time
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+
+driver.get("https://www.bahn.de/")
+
+click_bahn_cookie(driver)
+
+time.sleep(5)
+
+wait = WebDriverWait(driver, 15)
+
+# Departure
+start = wait.until(EC.element_to_be_clickable(
+    (By.CSS_SELECTOR, '[name="quickFinderBasic-von"]')
+))
+start.send_keys("Leipzig Hbf")
+start.send_keys(Keys.ARROW_DOWN, Keys.ENTER)
+
+# Destination
+destination = wait.until(EC.element_to_be_clickable(
+    (By.CSS_SELECTOR, '[name="quickFinderBasic-nach"]')
+))
+destination.send_keys("Regensburg Hbf")
+destination.send_keys(Keys.ARROW_DOWN, Keys.ENTER)
+
+# Open date picker
+date_button = driver.find_element(
+    By.CSS_SELECTOR, ".quick-finder-options__hinfahrt"
+)
+date_button.click()
+time.sleep(2)
+
+# enter date
+day = driver.find_element(By.CSS_SELECTOR, "input._dayInput")
+month = driver.find_element(By.CSS_SELECTOR, "input._monthInput")
+year = driver.find_element(By.CSS_SELECTOR, "input._yearInput")
+
+day.send_keys(Keys.CONTROL + "a")
+time.sleep(0.5)
+day.send_keys("20")
+time.sleep(0.5)
+month.send_keys("12")
+time.sleep(0.5)
+year.send_keys("2026")
+time.sleep(0.5)
+
+# Set departure time to 08:00
+hours = driver.find_element(By.CSS_SELECTOR, ".test-hours-input")
+minutes = driver.find_element(By.CSS_SELECTOR, ".test-minutes-input")
+
+hours.send_keys(Keys.CONTROL + "a")
+time.sleep(0.5)
+hours.send_keys("8")
+time.sleep(0.5)
+minutes.send_keys("00")
+time.sleep(0.5)
+
+# Confirm date selection
+apply_button = wait.until(EC.element_to_be_clickable(
+    (By.CSS_SELECTOR, "button._button--commit")
+))
+apply_button.click()
+
+# Submit search
+search_button = wait.until(EC.element_to_be_clickable(
+    (By.CSS_SELECTOR, "button.quick-finder-basic__search-btn--desktop")
+))
+search_button.click()
+```
+
 </details>
 
 
-2. Check out all the movies' pages using a loop and adequate waiting times. 
+2. Check out all the movies' pages using a loop and adequate waiting times. We want all movies with "top gun", "pirates of the caribbean", "fear and loathing in las vegas", and "batman" in the title.
 
-```{python eval=FALSE}
-driver.get("https://imdb.com")
 
-movie_list = ["top gun", "pirates of the carribean", "fear and loathing in las vegas", "batman"] #this is how you create a list to loop over in python
+First, we need to find the search box, for instance using the CSS selector. We also need to locate the button. And finally we can send our input text and click the button.
 
-# for replacing spaces with underscores
-text = "fear and loathing"
-new_text = text.replace(" ", "_")
-new_text
+```{python rottentomatoes_exercise_setup}
+from selenium.common.exceptions import NoSuchElementException
+
+driver.get("https://rottentomatoes.com")
+# wait for the cookie banner to appear
+time.sleep(5)
+# click the button
+try:
+    # Accept cookies if the button exists
+    driver.find_element(By.CSS_SELECTOR, '#onetrust-accept-btn-handler').click()
+except NoSuchElementException:
+    # No button found: cookies may already have been accepted
+    print("No cookie banner found. Continuing...")
+
+movie_list = ["top gun", "pirates of the caribbean", "fear and loathing in las vegas", "batman"] #this is how you create a list to loop over in python
 ```
 
   a. Store the results in HTML files. 
 
 <details>
   <summary>Solution. Click to expand!</summary>
-```{python eval=FALSE}
+```{python rottentomatoes_exercise}
 for movie in movie_list:
     # Find elements inside the loop (good practice)
-    search_box = driver.find_element(By.CSS_SELECTOR, "#suggestion-search")
-    search_button = driver.find_element(By.CSS_SELECTOR, "#suggestion-search-button")
-    
+    search_box = driver.find_element(By.CSS_SELECTOR, 'input[data-qa="search-input"]')
+    search_button = driver.find_element(By.CSS_SELECTOR, '[data-qa="search-submit"]')
+        
     # Clear previous search
     search_box.clear()  # Clear previous text
     
@@ -523,44 +861,40 @@ for movie in movie_list:
     
     # Save results
     movie_file = movie.replace(" ", "_")
-    output_path = f"temp/{movie_file}.html"
+    output_path = f"temp/movie_{movie_file}.html"
     html = driver.page_source
     save_html(html, output_path)
     wait_random(1, 3)
 ```
+
+Again, this could have been done more easily via `https://www.rottentomatoes.com/search?search=SEARCHTERM`. However, it is good to practice! 
+
 </details>
 
   b. Use `rvest` to extract the exact years and titles of the results.
-  Note: if you want to store your data in a nice tibble, the vectors need to be of the same length. use this function to replace missing elements (`NULL`) in a list: `replace_null <- function(list){modify(list, \(x) if(is.null(x)) NA else x)}`
 
 <details>
   <summary>Solution. Click to expand!</summary>
-```{r eval=FALSE}
-htmls <- dir_ls("temp") %>%
-  .[!str_detect(., "books")] |> 
-  map(read_html)
+```{r}
+movies <- list.files(
+  "temp",
+  pattern = "^movie_.*\\.html$",
+  full.names = TRUE
+) |>
+  map_dfr(\(file) {
+    rows <- read_html(file) |>
+      html_elements('search-page-media-row[data-qa="data-row"]')
 
-replace_null <- function(list){
-  modify(list, \(x) if(is.null(x)) NA else x)
-}
+    tibble(
+      title = rows |>
+        html_element('[data-qa="info-name"]') |>
+        html_text2(),
 
-extract_data <- function(html){
-  raw <- html |> 
-    html_elements(".find-title-result .ipc-metadata-list-summary-item__c") |> 
-    html_text2()
-  tibble(
-    title = map(str_split(raw, "\\n"), \(x) pluck(x, 1)) |>
-      replace_null() |> 
-      reduce(c),
-    year = map(str_split(raw, "\\n"), \(x) pluck(x, 2)) |> 
-      replace_null() |> 
-      reduce(c)
-  )
-}
-
-movie_tibble <- htmls |> 
-  map(extract_data) |> 
-  list_rbind()
+      year = rows |>
+        html_attr("release-year") |>
+        as.integer()
+    )
+  })
 ```
 </details>
 
