@@ -10,11 +10,11 @@ freeze: auto
 
 ### Slides 
 
-Slides can be found [here](slides/20251106-ocr_whisper.pdf).
+Slides can be found [here](slides/session_04_ocr_transcription.pdf).
 
 Alternatively, read them here (probably not the best if you're visiting this page on a mobile device):
 
-<iframe src="./slides/20251106-ocr_whisper.pdf" 
+<iframe src="./slides/session_04_ocr_transcription.pdf" 
         width="100%" 
         height="800px" 
         style="border: 1px solid #ddd;">
