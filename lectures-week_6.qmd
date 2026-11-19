@@ -7,8 +7,17 @@ freeze: auto
 
 ## Lecture (Thursday): Text Preprocessing and Featurization
 
-
 ### Slides 
+
+Slides can be found [here](slides/session_05_text_preprocessing.pdf).
+
+Alternatively, read them here (probably not the best if you're visiting this page on a mobile device):
+
+<iframe src="./slides/session_05_text_preprocessing.pdf" 
+        width="100%" 
+        height="800px" 
+        style="border: 1px solid #ddd;">
+</iframe>
 
 ## Practical (Wednesday): Text Preprocessing and Featurization
 
